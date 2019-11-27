@@ -1,0 +1,12 @@
+{
+  "logging": {
+    "level": "info"
+  },
+  "mysql": {
+    "host": "example.org",
+    "user": "bob",
+    "password": "secret",
+    "database": "jambones",
+    "connectionLimit": 10
+  }
+}

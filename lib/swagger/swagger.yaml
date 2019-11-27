@@ -1,0 +1,895 @@
+openapi: 3.0.0
+info:
+  title: Jambones REST API
+  description: Jambones REST API
+  contact:
+    email: daveh@drachtio.org
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 1.0.0
+servers:
+  - url: /v1
+    description: development server
+paths:
+  /ServiceProviders:
+    post:
+      summary: create service provider
+      operationId: createServiceProvider
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: service provider name
+                description:
+                  type: string
+              required: 
+                - name
+      responses:
+        201:
+          description: service provider successfully created
+          content:
+            application/json:
+              schema:
+                required:
+                  - serviceProviderSid
+                properties:
+                  serviceProviderSid:
+                    type: string
+                    format: uuid
+                    example: 2531329f-fb09-4ef7-887e-84e648214436
+        400:
+          description: bad request
+        409:
+          description: an existing service provider already exists with this name
+    get:
+      summary: list service providers
+      operationId: listServiceProviders
+      responses:
+        200:
+          description: list of service providers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceProvider'
+  /ServiceProviders/{ServiceProviderSid}:
+    parameters:
+    - name: ServiceProviderSid
+      in: path
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+    delete:
+      summary: delete a service provider
+      operationId: deleteServiceProvider
+      responses:
+        200:
+          description: service provider successfully deleted
+        404:
+          description: service provider not found
+        409:
+          description: service provider with active accounts can not be deleted
+    get:
+      summary: retrieve service provider
+      operationId: getServiceProvider
+      responses:
+        200:
+          description: service provider found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceProvider'
+        404:
+          description: service provider not found
+    put:
+      summary: update service provider
+      operationId: updateServiceProvider
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceProvider'
+      responses:
+        200:
+          description: service provider updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceProvider'
+        404:
+          description: service provider not found
+  /ServiceProviders/{ServiceProviderSid}/Accounts:
+    parameters:
+    - name: ServiceProviderSid
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    post:
+      summary: create an account
+      operationId: createAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: account name
+                  example: foobar
+                sipRealm:
+                  type: string
+                  description: sip realm for registration
+                  example: sip.mycompany.com
+                registrationUrl:
+                  type: string
+                  format: url
+                  description: authentication webhook for registration
+                  example: https://mycompany.com
+              required: 
+                - name
+      responses:
+        201:
+          description: account successfully created
+          content:
+            application/json:
+              schema:
+                required:
+                  - accountSid
+                properties:
+                  accountSid:
+                    type: string
+                    format: uuid
+                    example: 2531329f-fb09-4ef7-887e-84e648214436
+        400:
+          description: bad request
+        409:
+          description: account with this name already exists
+      callbacks:
+        onRegistrationAttempt:
+          '{$request.body#/registrationUrl}/auth':
+            post:
+              requestBody:
+                description: |
+                  provides details of the authentication request.  The receiving server is responsible for authenticating the 
+                  request as per [RFC 2617](https://tools.ietf.org/html/rfc2617)
+                content:
+                  application/json:
+                    schema:
+                      required:
+                        - method
+                        - realm
+                        - username
+                        - expires
+                        - nonce
+                        - uri
+                        - response
+                      type: object
+                      properties:
+                        method:
+                          type: string
+                          description: sip request method
+                          example: REGISTER
+                        realm:
+                          type: string
+                          description: sip realm
+                          example: mycompany.com
+                        username:
+                          type: string
+                          description: sip username provided
+                          example: daveh
+                        expires:
+                          type: number
+                          description: expiration requested, in seconds
+                          example: 3600
+                        nonce:
+                          type: string
+                          description: nonce value
+                          example: InFriVGWVoKeCckYrTx7wg=="
+                        uri:
+                          type: string
+                          format: uri
+                          description: sip uri in request
+                          example: sip:mycompany.com
+                        algorithm:
+                          type: string
+                          description: encryption algorithm used, default to MD5 if not provided
+                          example: MD5
+                        qop:
+                          type: string
+                          description: qop value
+                          example: auth 
+                        cnonce:
+                          type: string
+                          description: cnonce value
+                          example: 03d8d2aafd5a975f2b07dc90fe5f4100
+                        nc:
+                          type: string
+                          description: nc value
+                          example: 00000001
+                        response:
+                          type: string
+                          description: digest value calculated by the client
+                          example: db7b7dbec7edc0c427c1708031f67cc6
+              responses:
+                '200':
+                  description: |
+                    Your callback should return this HTTP status code in all cases.
+                    if the request was authenticated and you wish to admit 
+                    the client to the network, this is indicated by setting the 'response' 
+                    attribute in the body to 'ok'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        required:
+                          - response
+                        properties:
+                          response:
+                            type: string
+                            description: indicates whether the request was successfully authenticated
+                            enum:
+                              - ok
+                              - failed
+                            example: ok
+                          message:
+                            type: string
+                            description: a human-readable message
+                            example: authentication granted
+                          expires:
+                            type: number
+                            description: |
+                              The expires value to grant to the requesting user.
+                              If not provided, the expires value in the request is observed.
+                              If provided, must be less than the requested expires value.
+                          exileDuration:
+                            type: number
+                            description: |
+                              If provided, represents a period in seconds during which the source IP 
+                              address will be blacklisted by the platform.
+
+    get:
+      summary: list accounts for a service provider
+      operationId: listAccounts
+      responses:
+        200:
+          description: list of accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+  /ServiceProviders/{ServiceProviderSid}/Accounts/{AccountSid}:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    delete:
+      summary: delete an account
+      operationId: deleteAccount
+      responses:
+        200:
+          description: account successfully deleted
+        404:
+          description: account not found
+        409:
+          description: account with applications or phone numbers can not be deleted
+
+  /VoipCarriers:
+    post:
+      summary: create voip carrier
+      operationId: createVoipCarrier
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: voip carrier name
+                description:
+                  type: string
+              required: 
+                - name
+      responses:
+        201:
+          description: voip carrier successfully created
+          content:
+            application/json:
+              schema:
+                required:
+                  - voipCarrierSid
+                properties:
+                  accountSid:
+                    type: string
+                    format: uuid
+                    example: 2531329f-fb09-4ef7-887e-84e648214436
+        400:
+          description: bad request
+        409:
+          description: an existing voip carrier already exists with this name
+    get:
+      summary: list voip carriers
+      operationId: listVoipCarriers
+      responses:
+        200:
+          description: list of voip carriers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VoipCarrier'
+  /VoipCarriers/{VoipCarrierSid}:
+    parameters:
+      - name: VoipCarrierSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    delete:
+      summary: delete a voip carrier
+      operationId: deleteVoipCarrier
+      responses:
+        200:
+          description: voip carrier successfully deleted
+        404:
+          description: voip carrier not found
+        409:
+          description: voip carrier with active phone numbers can not be deleted
+    get:
+      summary: retrieve voip carrier
+      operationId: getVoipCarrier
+      responses:
+        200:
+          description: voip carrier found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoipCarrier'
+        404:
+          description: voip carrier not found
+    put:
+      summary: update voip carrier
+      operationId: updateVoipCarrier
+      parameters:
+      - name: VoipCarrierSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoipCarrier'
+      responses:
+        200:
+          description: voip carrier updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoipCarrier'
+        404:
+          description: voip carrier not found
+  /VoipCarriers/{VoipCarrierSid}/PhoneNumbers:
+    parameters:
+      - name: VoipCarrierSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    post:
+      summary: provision a phone number into inventory from a Voip Carrier
+      operationId: provisionPhoneNumber
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                number:
+                  type: string
+                  description: telephone number
+                description:
+                  type: string
+              required: 
+                - number
+      responses:
+        201:
+          description: phone number successfully provisioned into inventory
+          content:
+            application/json:
+              schema:
+                required:
+                  - phoneNumberSid
+                properties:
+                  phoneNumberSid:
+                    type: string
+                    format: uuid
+                    example: 2531329f-fb09-4ef7-887e-84e648214436
+        400:
+          description: bad request
+        409:
+          description: the specified phone number already exists in inventory
+    get:
+      summary: list phone numbers for a carrier
+      operationId: listProvisionedPhoneNumbers
+      responses:
+        200:
+          description: list of phone numbers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PhoneNumber'
+
+  /Accounts/{AccountSid}/Applications:
+    post:
+      summary: create application
+      operationId: createApplication
+      parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: application name
+                description:
+                  type: string
+                statusUrl:
+                  type: string
+                  format: url
+                  description: webhook to pass call status updates to
+                voiceUrl:
+                  type: string
+                  format: url
+                  description: webhook to call when call is received
+                voiceFallbackUrl:
+                  type: string
+                  format: url
+                  description: fallback webook url
+              required: 
+                - name
+                - statusUrl
+                - voiceUrl
+      responses:
+        201:
+          description: application successfully created
+          content:
+            application/json:
+              schema:
+                required:
+                  - ApplicationSid
+                properties:
+                  accountSid:
+                    type: string
+                    format: uuid
+                    example: 2531329f-fb09-4ef7-887e-84e648214436
+        400:
+          description: bad request
+        409:
+          description: an existing application already exists with this name
+    get:
+      summary: list applications for an account
+      operationId: listApplications
+      parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: retrieve applications for the account
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Application'
+  /Accounts/{AccountSid}/Applications/{ApplicationSid}:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: ApplicationSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    delete:
+      summary: delete an application
+      operationId: deleteApplication
+      responses:
+        200:
+          description: application successfully deleted
+        404:
+          description: application not found
+    get:
+      summary: retrieve application
+      operationId: getApplication
+      responses:
+        200:
+          description: application found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+        404:
+          description: application not found
+    put:
+      summary: update application
+      operationId: updateApplication
+      parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: ApplicationSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Application'
+      responses:
+        200:
+          description: application updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+        404:
+          description: application not found
+  /Accounts/{AccountSid}/Applications/{ApplicationSid}/PhoneNumbers/{PhoneNumberSid}:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: ApplicationSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: PhoneNumberSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    delete:
+      summary: remove a phone number from an application
+      operationId: removePhoneNumberFromApplication
+      responses:
+        200:
+          description: phone number removed from this application
+        404:
+          description: phone number not found or was not assigned to this application
+    put:
+      summary: provision a phone number for an Application
+      operationId: assignPhoneNumberToApplication
+      responses:
+        200:
+          description: phone number successfully assigned to application
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumber'
+        400:
+          description: bad request
+        409:
+          description: the specified phone number is already assigned to another application or account
+
+  /Accounts/{AccountSid}/Apikeys:
+    post:
+      summary: create api key
+      operationId: createApikey
+      parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        201:
+          description: api key successfully created
+          content:
+            application/json:
+              schema:
+                required:
+                  - apiKey
+                  - apiKeySid
+                properties:
+                  apiKeySid:
+                    type: string
+                    description: system identifier for api key that was created
+                    format: uuid
+                    example: 7531328e-eb08-4eff-887e-84e648214872
+                  apiKey:
+                    type: string
+                    description: api key
+                    format: uuid
+                    example: 2531329f-fb09-4ef7-887e-84e648214436
+        404:
+          description: Account not found
+  /Accounts/{AccountSid}/Apikeys/{ApiKeySid}:
+    delete:
+      summary: delete api key
+      operationId: deleteApiKey
+      parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: ApiKeySid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: api key deleted
+        404:
+          description: api key or account not found
+  
+  /Accounts/{AccountSid}/Applications/{ApplicationSid}/Calls:
+    post:
+      summary: create a call
+      operationId: createCall
+      parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: ApplicationSid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - from
+                - to
+              type: object
+              properties:
+                url:
+                  type: string
+                  description: |
+                    The url of the web application to control this call.
+                    If not provided, the url specified in the application will be used
+                  example: https://mycompany.com/deliver-message.json
+                from:
+                  type: string
+                  description: The calling party number
+                  example: 16172375089
+                to:
+                  type: string
+                  description: The telephone number or sip endpoint to call
+                  example: 16172228000
+                recordingUrl:
+                  type: string
+                  format: url
+                  description: A websocket url to stream the call audio to
+                  example: wss://myserver.com
+                recordingMix:
+                  type: string
+                  description: whether to record either or both parties
+                  enum:
+                    - caller
+                    - callee
+                    - stereo
+                    - mixed
+                  example: stereo
+                statusCallback:
+                  type: string
+                  format: url
+                  description: The url to send call status change events to
+                  example: https://company.com/status
+      responses:
+        201:
+          description: call successfully created
+          content:
+            application/json:
+              schema:
+                required:
+                  - callSid
+                properties:
+                  callSid:
+                    type: string
+                    format: uuid
+                    example: 2531329f-fb09-4ef7-887e-84e648214436
+        400:
+          description: bad request
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token
+  schemas:
+    ServiceProvider:
+      type: object
+      properties:
+        id:
+          type: integer
+        uuid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+    VoipCarrier:
+      type: object
+      properties:
+        id:
+          type: integer
+        uuid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+    Account:
+      type: object
+      properties:
+        id:
+          type: integer
+        uuid:
+          type: string
+          format: uuid
+        sipRealm:
+          type: string
+        registrationHook:
+          type: string
+          format: url
+        serviceProvider:
+          $ref: '#/components/schemas/ServiceProvider'
+    Application:
+      type: object
+      properties:
+        id:
+          type: integer
+        uuid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        account:
+          $ref: '#/components/schemas/Account'
+        callHook:
+          type: string
+          format: url
+        callBackupHook:
+          type: string
+          format: url
+        callStatusChangeHook:
+          type: string
+          format: url
+    PhoneNumber:
+      type: object
+      properties:
+        id:
+          type: integer
+        uuid:
+          type: string
+          format: uuid
+        number:
+          type: string
+        voipCarrier:
+          $ref: '#/components/schemas/VoipCarrier'
+        account:
+          $ref: '#/components/schemas/Account'
+        application:
+          $ref: '#/components/schemas/Application'
+    RegisteredUser:
+      type: object
+      properties:
+        id:
+          type: integer
+        uuid:
+          type: string
+          format: uuid
+        username:
+          type: string
+        domain:
+          type: string
+    Call:
+      type: object
+      properties:
+        id:
+          type: integer
+        uuid:
+          type: string
+          format: uuid
+        application:
+          $ref: '#/components/schemas/Application'
+        parentCall:
+          $ref: '#/components/schemas/Call'
+        direction:
+          type: string
+          enum:
+          - inbound
+          - outbound
+        phoneNumber:
+          $ref: '#/components/schemas/PhoneNumber'
+        inboundUser:
+          $ref: '#/components/schemas/RegisteredUser'
+        outboundUser:
+          $ref: '#/components/schemas/RegisteredUser'
+        callingNumber:
+          type: string
+        calledNumber:
+          type: string
+
+security:
+  - bearerAuth: []
