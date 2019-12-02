@@ -12,6 +12,58 @@ servers:
   - url: /v1
     description: development server
 paths:
+  /Apikeys:
+    post:
+      summary: create an api key
+      operationId: createApikey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                service_provider_sid:
+                  type: string
+                  description: service provider scope for the generated api key
+                account_sid:
+                  type: string
+                  description: account scope for the generated api key
+      responses:
+        201:
+          description: api key successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulApiKeyAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+        500:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /Apikeys/{ApiKeySid}:
+      parameters:
+      - name: ApiKeySid
+        in: path
+        required: true
+        schema:
+          type: string
+      delete:
+        summary: delete api key
+        operationId: deleteApiKey          
+        responses:
+          200:
+            description: api key deleted
+          404:
+            description: api key or account not found
+
   /ServiceProviders:
     post:
       summary: create service provider
@@ -35,17 +87,14 @@ paths:
           content:
             application/json:
               schema:
-                required:
-                  - serviceProviderSid
-                properties:
-                  serviceProviderSid:
-                    type: string
-                    format: uuid
-                    example: 2531329f-fb09-4ef7-887e-84e648214436
-        400:
-          description: bad request
-        409:
-          description: an existing service provider already exists with this name
+                $ref: '#/components/schemas/SuccessfulAdd'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
     get:
       summary: list service providers
       operationId: listServiceProviders
@@ -71,12 +120,16 @@ paths:
       summary: delete a service provider
       operationId: deleteServiceProvider
       responses:
-        200:
+        204:
           description: service provider successfully deleted
         404:
           description: service provider not found
-        409:
-          description: service provider with active accounts can not be deleted
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
     get:
       summary: retrieve service provider
       operationId: getServiceProvider
@@ -98,14 +151,16 @@ paths:
             schema:
               $ref: '#/components/schemas/ServiceProvider'
       responses:
-        200:
+        204:
           description: service provider updated
+        404:
+          description: service provider not found
+        422:
+          description: unprocessable entity
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServiceProvider'
-        404:
-          description: service provider not found
+                $ref: '#/components/schemas/GeneralError'
   /ServiceProviders/{ServiceProviderSid}/Accounts:
     parameters:
     - name: ServiceProviderSid
@@ -640,8 +695,8 @@ paths:
 
   /Accounts/{AccountSid}/Apikeys:
     post:
-      summary: create api key
-      operationId: createApikey
+      summary: create an account level api key
+      operationId: createAccountApikey
       parameters:
       - name: AccountSid
         in: path
@@ -660,22 +715,22 @@ paths:
                   - apiKey
                   - apiKeySid
                 properties:
-                  apiKeySid:
+                  api_key_sid:
                     type: string
                     description: system identifier for api key that was created
                     format: uuid
                     example: 7531328e-eb08-4eff-887e-84e648214872
-                  apiKey:
+                  token:
                     type: string
-                    description: api key
+                    description: api key authorization token 
                     format: uuid
                     example: 2531329f-fb09-4ef7-887e-84e648214436
         404:
           description: Account not found
   /Accounts/{AccountSid}/Apikeys/{ApiKeySid}:
     delete:
-      summary: delete api key
-      operationId: deleteApiKey
+      summary: delete account-level api key
+      operationId: deleteAccountApiKey
       parameters:
       - name: AccountSid
         in: path
@@ -775,121 +830,171 @@ components:
       scheme: bearer
       bearerFormat: token
   schemas:
+    SuccessfulApiKeyAdd:
+      type: object
+      required:
+        - sid
+        - token
+      properties:
+        sid:
+          type: string
+        token:
+          type: string
+      example:
+        sid: 9d26a637-1679-471f-8da8-7150266e1254
+        token: 589cead6-de24-4689-8ac3-08ffaf102811
+    SuccessfulAdd:
+      type: object
+      required:
+        - sid
+      properties:
+        sid:
+          type: string
+      example:
+        sid: 9d26a637-1679-471f-8da8-7150266e1254
+    GeneralError:
+      type: object
+      required:
+        - msg
+      properties:
+        msg:
+          type: string
+      example:
+        msg: cannot delete service provider with active accounts
     ServiceProvider:
       type: object
       properties:
-        id:
-          type: integer
-        uuid:
+        service_provider_sid:
           type: string
           format: uuid
         name:
           type: string
         description:
           type: string
+      required:
+        - service_provider_sid
+        - name
     VoipCarrier:
       type: object
       properties:
-        id:
-          type: integer
-        uuid:
+        voip_carrier_sid:
           type: string
           format: uuid
         name:
           type: string
         description:
           type: string
+      required:
+        - voip_carrier_sid
+        - name
     Account:
       type: object
       properties:
-        id:
-          type: integer
-        uuid:
+        account_sid:
           type: string
           format: uuid
-        sipRealm:
+        name:
           type: string
-        registrationHook:
+        sip_realm:
+          type: string
+        registration_hook:
           type: string
           format: url
-        serviceProvider:
+        service_provider:
           $ref: '#/components/schemas/ServiceProvider'
+      required:
+        - account_sid
+        - name
+        - service_provider
     Application:
       type: object
       properties:
-        id:
-          type: integer
-        uuid:
+        application_sid:
           type: string
           format: uuid
         name:
           type: string
         account:
           $ref: '#/components/schemas/Account'
-        callHook:
+        call_hook:
           type: string
           format: url
-        callBackupHook:
+        call_status_hook:
           type: string
           format: url
-        callStatusChangeHook:
-          type: string
-          format: url
+      required:
+        - application_sid
+        - name
+        - account
+        - call_hook
+        - call_status_hook
     PhoneNumber:
       type: object
       properties:
-        id:
-          type: integer
-        uuid:
+        phone_number_sid:
           type: string
           format: uuid
         number:
           type: string
-        voipCarrier:
+        voip_carrier:
           $ref: '#/components/schemas/VoipCarrier'
         account:
           $ref: '#/components/schemas/Account'
         application:
           $ref: '#/components/schemas/Application'
-    RegisteredUser:
+      required:
+        - phone_number_sid
+        - number
+        - voip_carrier
+        - account
+    Registration:
       type: object
       properties:
-        id:
-          type: integer
-        uuid:
+        registration_sid:
           type: string
           format: uuid
         username:
           type: string
         domain:
           type: string
+        sip_contact:
+          type: string
+        sip_user_agent:
+          type: string
+      required:
+        - registration_sid
+        - username
+        - domain
+        - sip_contact
     Call:
       type: object
       properties:
-        id:
-          type: integer
-        uuid:
+        call_sid:
           type: string
           format: uuid
         application:
           $ref: '#/components/schemas/Application'
-        parentCall:
+        parent_call:
           $ref: '#/components/schemas/Call'
         direction:
           type: string
           enum:
           - inbound
           - outbound
-        phoneNumber:
+        phone_number:
           $ref: '#/components/schemas/PhoneNumber'
-        inboundUser:
+        inbound_user:
           $ref: '#/components/schemas/RegisteredUser'
-        outboundUser:
+        outbound_user:
           $ref: '#/components/schemas/RegisteredUser'
-        callingNumber:
+        calling_number:
           type: string
-        calledNumber:
+        called_number:
           type: string
+      required:
+        - call_sid
+        - application
+        - direction
 
 security:
   - bearerAuth: []

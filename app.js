@@ -19,5 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/v1', passport.authenticate('bearer', { session: false }));
 app.use('/', routes);
-
+app.use((err, req, res, next) => {
+  req.status(500).json({msg: err.message});
+});
 app.listen(PORT);
