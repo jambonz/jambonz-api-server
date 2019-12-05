@@ -222,9 +222,75 @@ test('authentication tests', async(t) => {
       }
     });
      //console.log(`result: ${JSON.stringify(result)}`);
-     t.ok(result.statusCode === 400 && result.body.msg === 'an account level token may not be used to create a token for a different account',
+     t.ok(result.statusCode === 400 && result.body.msg === 'an account level token can only be used to create account level tokens for the same account',
       'an account level token may not be used to create a token for a different account');
 
+    /* account level token can not create service provider token */
+    result = await request.post('/ApiKeys', {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: {bearer: accA1_token},
+      json: true,
+      body: {
+        service_provider_sid: spA_sid
+      }
+    });
+     t.ok(result.statusCode === 400 && result.body.msg === 'an account level token can only be used to create account level tokens for the same account',
+      'account level token can not create service provider token');
+
+    /* account level token can not create admin token */
+    result = await request.post('/ApiKeys', {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: {bearer: accA1_token},
+      json: true,
+      body: {
+      }
+    });
+     t.ok(result.statusCode === 400 && result.body.msg === 'an account level token can only be used to create account level tokens for the same account',
+      'account level token can not create admin token');
+
+    /* service provider token can not create admin token */
+    result = await request.post('/ApiKeys', {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: {bearer: spA_token},
+      json: true,
+      body: {
+      }
+    });
+    //console.log(`result: ${JSON.stringify(result)}`);
+    t.ok(result.statusCode === 400 && result.body.msg === 'service provider token may not be used to create admin token',
+      'service provider token can not create admin token');
+
+    /* service provider token can not create token for different service provider */
+    result = await request.post('/ApiKeys', {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: {bearer: spA_token},
+      json: true,
+      body: {
+        service_provider_sid: spB_sid
+      }
+    });
+    //console.log(`result: ${JSON.stringify(result)}`);
+    t.ok(result.statusCode === 400 && result.body.msg === 'a service provider token can only be used to create tokens for the same service provider',
+      'service provider token can not create token for different service provider');
+  
+    /* service provider token can not create token for account under different service provider */
+    result = await request.post('/ApiKeys', {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: {bearer: spA_token},
+      json: true,
+      body: {
+        account_sid: accB1
+      }
+    });
+    //console.log(`result: ${JSON.stringify(result)}`);
+    t.ok(result.statusCode === 400 && result.body.msg === 'a service provider token can only be used to create tokens for the same service provider',
+      'service provider token can not create token for account under a different service provider');
+  
     /* account level token can create token for the same account */
     result = await request.post('/ApiKeys', {
       resolveWithFullResponse: true,
