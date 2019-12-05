@@ -1,7 +1,8 @@
-os: windows
+sudo: required
+dist: bionic
 language: node_js
 node_js:
-  - "lts/*"
+  - "lts/10"
 services:
   - docker
 script:
