@@ -5,8 +5,11 @@ node_js:
 services:
   - mysql
 env:
-  - MYSQL_ROOT_PASSWORD=
+  - MYSQL_ROOT_PASSWORD=root
 before_install:
   - cat ~travis/.my.cnf
+  - sed -i -r -e 's/password =/password = root/g' ~travis/.my.cnf
+  - cat ~travis/.my.cnf
+  - sudo systemctl restart mysql
 script:
   - npm test
