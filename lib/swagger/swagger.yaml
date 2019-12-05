@@ -64,6 +64,300 @@ paths:
           404:
             description: api key or account not found
 
+  /VoipCarriers:
+    post:
+      summary: create voip carrier
+      operationId: createVoipCarrier
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: voip carrier name
+                description:
+                  type: string
+              required: 
+                - name
+      responses:
+        201:
+          description: voip carrier successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      summary: list voip carriers
+      operationId: listVoipCarriers
+      responses:
+        200:
+          description: list of voip carriers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VoipCarrier'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /VoipCarriers/{VoipCarrierSid}:
+    parameters:
+      - name: VoipCarrierSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    delete:
+      summary: delete a voip carrier
+      operationId: deleteVoipCarrier
+      responses:
+        204:
+          description: voip carrier successfully deleted
+        404:
+          description: voip carrier not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+                example:
+                  msg: a service provider with active accounts can not be deleted
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      summary: retrieve voip carrier
+      operationId: getVoipCarrier
+      responses:
+        200:
+          description: voip carrier found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoipCarrier'
+        404:
+          description: voip carrier not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    put:
+      summary: update voip carrier
+      operationId: updateVoipCarrier
+      parameters:
+      - name: VoipCarrierSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoipCarrier'
+      responses:
+        204:
+          description: voip carrier updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoipCarrier'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        404:
+          description: voip carrier not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  
+  /PhoneNumbers:
+    post:
+      summary: provision a phone number into inventory from a Voip Carrier
+      operationId: provisionPhoneNumber
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                number:
+                  type: string
+                  description: telephone number
+                voip_carrier_sid:
+                  type: string
+                  format: uuid
+              required: 
+                - number
+                - voip_carrier_sid
+      responses:
+        201:
+          description: phone number successfully provisioned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+              example:
+                msg: invalid telephone number format
+        404:
+          description: voip carrier not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+                example:
+                  msg: the phone number provided already exists in inventory
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      summary: list phone numbers
+      operationId: listProvisionedPhoneNumbers
+      responses:
+        200:
+          description: list of phone numbers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PhoneNumber'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /PhoneNumbers/{PhoneNumberSid}:
+    parameters:
+      - name: PhoneNumberSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    delete:
+      summary: delete a phone number
+      operationId: deletePhoneNumber
+      responses:
+        204:
+          description: phone number successfully deleted
+        404:
+          description: phone number not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+                example:
+                  msg: phone number that is assigned to an account may not be deleted
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      summary: retrieve phone number
+      operationId: getPhoneNumber
+      responses:
+        200:
+          description: phone number found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumber'
+        404:
+          description: phone number not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    put:
+      summary: update phone number
+      operationId: updatePhoneNumber
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhoneNumber'
+      responses:
+        204:
+          description: phone number updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoipCarrier'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        404:
+          description: phone number not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  
   /ServiceProviders:
     post:
       summary: create service provider
@@ -107,6 +401,13 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ServiceProvider'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
   /ServiceProviders/{ServiceProviderSid}:
     parameters:
     - name: ServiceProviderSid
@@ -130,6 +431,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
     get:
       summary: retrieve service provider
       operationId: getServiceProvider
@@ -142,6 +450,13 @@ paths:
                 $ref: '#/components/schemas/ServiceProvider'
         404:
           description: service provider not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
     put:
       summary: update service provider
       operationId: updateServiceProvider
@@ -161,14 +476,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-  /ServiceProviders/{ServiceProviderSid}/Accounts:
-    parameters:
-    - name: ServiceProviderSid
-      in: path
-      required: true
-      schema:
-        type: string
-        format: uuid
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+  /Accounts:
     post:
       summary: create an account
       operationId: createAccount
@@ -182,34 +497,48 @@ paths:
                   type: string
                   description: account name
                   example: foobar
-                sipRealm:
+                sip_realm:
                   type: string
                   description: sip realm for registration
                   example: sip.mycompany.com
-                registrationUrl:
+                registration_hook:
                   type: string
                   format: url
                   description: authentication webhook for registration
                   example: https://mycompany.com
+                service_provider_sid:
+                  type: string
+                  format: uuid
+                  example: 85f9c036-ba61-4f28-b2f5-617c23fa68ff
               required: 
                 - name
+                - service_provider_sid
       responses:
         201:
           description: account successfully created
           content:
             application/json:
               schema:
-                required:
-                  - accountSid
-                properties:
-                  accountSid:
-                    type: string
-                    format: uuid
-                    example: 2531329f-fb09-4ef7-887e-84e648214436
+                $ref: '#/components/schemas/SuccessfulAdd'
         400:
           description: bad request
-        409:
-          description: account with this name already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
       callbacks:
         onRegistrationAttempt:
           '{$request.body#/registrationUrl}/auth':
@@ -314,7 +643,7 @@ paths:
                               address will be blacklisted by the platform.
 
     get:
-      summary: list accounts for a service provider
+      summary: list accounts
       operationId: listAccounts
       responses:
         200:
@@ -325,14 +654,15 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Account'
-  /ServiceProviders/{ServiceProviderSid}/Accounts/{AccountSid}:
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+  /Accounts/{AccountSid}:
     parameters:
-      - name: ServiceProviderSid
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
       - name: AccountSid
         in: path
         required: true
@@ -343,181 +673,71 @@ paths:
       summary: delete an account
       operationId: deleteAccount
       responses:
-        200:
+        204:
           description: account successfully deleted
         404:
           description: account not found
-        409:
-          description: account with applications or phone numbers can not be deleted
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      summary: retrieve account
+      operationId: getAccount
+      responses:
+        200:
+          description: account found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        404:
+          description: account not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
 
-  /VoipCarriers:
-    post:
-      summary: create voip carrier
-      operationId: createVoipCarrier
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: voip carrier name
-                description:
-                  type: string
-              required: 
-                - name
-      responses:
-        201:
-          description: voip carrier successfully created
-          content:
-            application/json:
-              schema:
-                required:
-                  - voipCarrierSid
-                properties:
-                  accountSid:
-                    type: string
-                    format: uuid
-                    example: 2531329f-fb09-4ef7-887e-84e648214436
-        400:
-          description: bad request
-        409:
-          description: an existing voip carrier already exists with this name
-    get:
-      summary: list voip carriers
-      operationId: listVoipCarriers
-      responses:
-        200:
-          description: list of voip carriers
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/VoipCarrier'
-  /VoipCarriers/{VoipCarrierSid}:
-    parameters:
-      - name: VoipCarrierSid
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-    delete:
-      summary: delete a voip carrier
-      operationId: deleteVoipCarrier
-      responses:
-        200:
-          description: voip carrier successfully deleted
-        404:
-          description: voip carrier not found
-        409:
-          description: voip carrier with active phone numbers can not be deleted
-    get:
-      summary: retrieve voip carrier
-      operationId: getVoipCarrier
-      responses:
-        200:
-          description: voip carrier found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/VoipCarrier'
-        404:
-          description: voip carrier not found
     put:
-      summary: update voip carrier
-      operationId: updateVoipCarrier
-      parameters:
-      - name: VoipCarrierSid
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
+      summary: update account
+      operationId: updateAccount
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/VoipCarrier'
+              $ref: '#/components/schemas/Account'
       responses:
-        200:
-          description: voip carrier updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/VoipCarrier'
+        204:
+          description: account updated
         404:
-          description: voip carrier not found
-  /VoipCarriers/{VoipCarrierSid}/PhoneNumbers:
-    parameters:
-      - name: VoipCarrierSid
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-    post:
-      summary: provision a phone number into inventory from a Voip Carrier
-      operationId: provisionPhoneNumber
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                number:
-                  type: string
-                  description: telephone number
-                description:
-                  type: string
-              required: 
-                - number
-      responses:
-        201:
-          description: phone number successfully provisioned into inventory
+          description: account not found
+        422:
+          description: unprocessable entity
           content:
             application/json:
               schema:
-                required:
-                  - phoneNumberSid
-                properties:
-                  phoneNumberSid:
-                    type: string
-                    format: uuid
-                    example: 2531329f-fb09-4ef7-887e-84e648214436
-        400:
-          description: bad request
-        409:
-          description: the specified phone number already exists in inventory
-    get:
-      summary: list phone numbers for a carrier
-      operationId: listProvisionedPhoneNumbers
-      responses:
-        200:
-          description: list of phone numbers
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PhoneNumber'
+                $ref: '#/components/schemas/GeneralError'
 
-  /Accounts/{AccountSid}/Applications:
+  /Applications:
     post:
       summary: create application
       operationId: createApplication
-      parameters:
-      - name: AccountSid
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
       requestBody:
         content:
           application/json:
@@ -527,70 +747,68 @@ paths:
                 name:
                   type: string
                   description: application name
-                description:
+                account_sid:
                   type: string
-                statusUrl:
+                  format: uuid
+                call_hook:
+                  type: string
+                  format: url
+                  description: webhook to invoke when call is received
+                call_status_hook:
                   type: string
                   format: url
                   description: webhook to pass call status updates to
-                voiceUrl:
-                  type: string
-                  format: url
-                  description: webhook to call when call is received
-                voiceFallbackUrl:
-                  type: string
-                  format: url
-                  description: fallback webook url
               required: 
                 - name
-                - statusUrl
-                - voiceUrl
+                - account_sid
+                - call_hook
+                - call_status_hook
       responses:
         201:
           description: application successfully created
           content:
             application/json:
               schema:
-                required:
-                  - ApplicationSid
-                properties:
-                  accountSid:
-                    type: string
-                    format: uuid
-                    example: 2531329f-fb09-4ef7-887e-84e648214436
+                $ref: '#/components/schemas/SuccessfulAdd'
         400:
           description: bad request
-        409:
-          description: an existing application already exists with this name
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
     get:
-      summary: list applications for an account
+      summary: list applications
       operationId: listApplications
-      parameters:
-      - name: AccountSid
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
       responses:
         200:
-          description: retrieve applications for the account
+          description: list of applications
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Application'
-  /Accounts/{AccountSid}/Applications/{ApplicationSid}:
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+  /Applications/{ApplicationSid}:
     parameters:
-      - name: AccountSid
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
       - name: ApplicationSid
         in: path
         required: true
@@ -602,13 +820,24 @@ paths:
       summary: delete an application
       operationId: deleteApplication
       responses:
-        200:
+        204:
           description: application successfully deleted
         404:
           description: application not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
     get:
-      summary: retrieve application
-      operationId: getApplication
+      summary: retrieve an application
       responses:
         200:
           description: application found
@@ -618,137 +847,38 @@ paths:
                 $ref: '#/components/schemas/Application'
         404:
           description: application not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
     put:
       summary: update application
       operationId: updateApplication
-      parameters:
-      - name: AccountSid
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      - name: ApplicationSid
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Application'
       responses:
-        200:
+        204:
           description: application updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Application'
         404:
           description: application not found
-  /Accounts/{AccountSid}/Applications/{ApplicationSid}/PhoneNumbers/{PhoneNumberSid}:
-    parameters:
-      - name: AccountSid
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: ApplicationSid
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: PhoneNumberSid
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-    delete:
-      summary: remove a phone number from an application
-      operationId: removePhoneNumberFromApplication
-      responses:
-        200:
-          description: phone number removed from this application
-        404:
-          description: phone number not found or was not assigned to this application
-    put:
-      summary: provision a phone number for an Application
-      operationId: assignPhoneNumberToApplication
-      responses:
-        200:
-          description: phone number successfully assigned to application
+        422:
+          description: unprocessable entity
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PhoneNumber'
-        400:
-          description: bad request
-        409:
-          description: the specified phone number is already assigned to another application or account
-
-  /Accounts/{AccountSid}/Apikeys:
-    post:
-      summary: create an account level api key
-      operationId: createAccountApikey
-      parameters:
-      - name: AccountSid
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      responses:
-        201:
-          description: api key successfully created
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
           content:
             application/json:
               schema:
-                required:
-                  - apiKey
-                  - apiKeySid
-                properties:
-                  api_key_sid:
-                    type: string
-                    description: system identifier for api key that was created
-                    format: uuid
-                    example: 7531328e-eb08-4eff-887e-84e648214872
-                  token:
-                    type: string
-                    description: api key authorization token 
-                    format: uuid
-                    example: 2531329f-fb09-4ef7-887e-84e648214436
-        404:
-          description: Account not found
-  /Accounts/{AccountSid}/Apikeys/{ApiKeySid}:
-    delete:
-      summary: delete account-level api key
-      operationId: deleteAccountApiKey
-      parameters:
-      - name: AccountSid
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      - name: ApiKeySid
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        200:
-          description: api key deleted
-        404:
-          description: api key or account not found
+                $ref: '#/components/schemas/GeneralError'
+        
   
   /Accounts/{AccountSid}/Applications/{ApplicationSid}/Calls:
     post:
@@ -900,8 +1030,9 @@ components:
         registration_hook:
           type: string
           format: url
-        service_provider:
-          $ref: '#/components/schemas/ServiceProvider'
+        service_provider_sid:
+          type: string
+          format: uuid
       required:
         - account_sid
         - name
@@ -914,8 +1045,9 @@ components:
           format: uuid
         name:
           type: string
-        account:
-          $ref: '#/components/schemas/Account'
+        account_sid:
+          type: string
+          format: uuid
         call_hook:
           type: string
           format: url
@@ -925,7 +1057,7 @@ components:
       required:
         - application_sid
         - name
-        - account
+        - account_sid
         - call_hook
         - call_status_hook
     PhoneNumber:
@@ -936,17 +1068,19 @@ components:
           format: uuid
         number:
           type: string
-        voip_carrier:
-          $ref: '#/components/schemas/VoipCarrier'
-        account:
-          $ref: '#/components/schemas/Account'
-        application:
-          $ref: '#/components/schemas/Application'
+        voip_carrier_sid:
+          type: string
+          format: uuid
+        account_sid:
+          type: string
+          format: uuid
+        application_sid:
+          type: string
+          format: uuid
       required:
         - phone_number_sid
         - number
-        - voip_carrier
-        - account
+        - voip_carrier_sid
     Registration:
       type: object
       properties:

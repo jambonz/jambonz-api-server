@@ -27,8 +27,6 @@ DROP TABLE IF EXISTS `accounts`;
 
 DROP TABLE IF EXISTS `service_providers`;
 
-DROP TABLE IF EXISTS `phone_number_inventory`;
-
 DROP TABLE IF EXISTS `voip_carriers`;
 
 CREATE TABLE IF NOT EXISTS `applications`
@@ -65,16 +63,6 @@ CREATE TABLE IF NOT EXISTS `conference_participants`
 `conference_sid` CHAR(36) NOT NULL,
 PRIMARY KEY (`conference_participant_sid`)
 ) ENGINE=InnoDB COMMENT='A relationship between a call and a conference that it is co';
-
-CREATE TABLE IF NOT EXISTS `phone_numbers`
-(
-`phone_number_sid` CHAR(36) NOT NULL UNIQUE ,
-`number` VARCHAR(255) NOT NULL UNIQUE ,
-`account_sid` CHAR(36) NOT NULL,
-`application_sid` CHAR(36),
-`phone_number_inventory_id` INTEGER(10) UNSIGNED NOT NULL,
-PRIMARY KEY (`phone_number_sid`)
-) ENGINE=InnoDB COMMENT='A phone number that has been assigned to an account';
 
 CREATE TABLE IF NOT EXISTS `queues`
 (
@@ -182,13 +170,15 @@ CREATE TABLE IF NOT EXISTS `voip_carriers`
 PRIMARY KEY (`voip_carrier_sid`)
 ) ENGINE=InnoDB COMMENT='An external organization that can provide sip trunking and D';
 
-CREATE TABLE IF NOT EXISTS `phone_number_inventory`
+CREATE TABLE IF NOT EXISTS `phone_numbers`
 (
-`phone_number_inventory_sid` CHAR(36) NOT NULL UNIQUE ,
+`phone_number_sid` CHAR(36) NOT NULL UNIQUE ,
 `number` VARCHAR(255) NOT NULL UNIQUE ,
 `voip_carrier_sid` CHAR(36) NOT NULL,
-PRIMARY KEY (`phone_number_inventory_sid`)
-) ENGINE=InnoDB COMMENT='Telephone numbers (DIDs) that have been procured from a voip';
+`account_sid` CHAR(36),
+`application_sid` CHAR(36),
+PRIMARY KEY (`phone_number_sid`)
+) ENGINE=InnoDB COMMENT='A phone number that has been assigned to an account';
 
 CREATE INDEX `applications_application_sid_idx` ON `applications` (`application_sid`);
 CREATE INDEX `applications_name_idx` ON `applications` (`name`);
@@ -205,11 +195,6 @@ ALTER TABLE `conference_participants` ADD FOREIGN KEY call_sid_idxfk (`call_sid`
 
 ALTER TABLE `conference_participants` ADD FOREIGN KEY conference_sid_idxfk (`conference_sid`) REFERENCES `conferences` (`conference_sid`);
 
-CREATE INDEX `phone_numbers_phone_number_sid_idx` ON `phone_numbers` (`phone_number_sid`);
-ALTER TABLE `phone_numbers` ADD FOREIGN KEY account_sid_idxfk_2 (`account_sid`) REFERENCES `accounts` (`account_sid`);
-
-ALTER TABLE `phone_numbers` ADD FOREIGN KEY application_sid_idxfk_1 (`application_sid`) REFERENCES `applications` (`application_sid`);
-
 CREATE INDEX `queues_queue_sid_idx` ON `queues` (`queue_sid`);
 CREATE INDEX `registrations_registration_sid_idx` ON `registrations` (`registration_sid`);
 CREATE INDEX `queue_members_queue_member_sid_idx` ON `queue_members` (`queue_member_sid`);
@@ -220,7 +205,7 @@ ALTER TABLE `queue_members` ADD FOREIGN KEY queue_sid_idxfk (`queue_sid`) REFERE
 CREATE INDEX `calls_call_sid_idx` ON `calls` (`call_sid`);
 ALTER TABLE `calls` ADD FOREIGN KEY parent_call_sid_idxfk (`parent_call_sid`) REFERENCES `calls` (`call_sid`);
 
-ALTER TABLE `calls` ADD FOREIGN KEY application_sid_idxfk_2 (`application_sid`) REFERENCES `applications` (`application_sid`);
+ALTER TABLE `calls` ADD FOREIGN KEY application_sid_idxfk_1 (`application_sid`) REFERENCES `applications` (`application_sid`);
 
 ALTER TABLE `calls` ADD FOREIGN KEY phone_number_sd_idxfk (`phone_number_sd`) REFERENCES `phone_numbers` (`phone_number_sid`);
 
@@ -231,7 +216,7 @@ ALTER TABLE `calls` ADD FOREIGN KEY outbound_user_sid_idxfk (`outbound_user_sid`
 CREATE INDEX `service_providers_service_provider_sid_idx` ON `service_providers` (`service_provider_sid`);
 CREATE INDEX `service_providers_name_idx` ON `service_providers` (`name`);
 CREATE INDEX `api_keys_api_key_sid_idx` ON `api_keys` (`api_key_sid`);
-ALTER TABLE `api_keys` ADD FOREIGN KEY account_sid_idxfk_3 (`account_sid`) REFERENCES `accounts` (`account_sid`);
+ALTER TABLE `api_keys` ADD FOREIGN KEY account_sid_idxfk_2 (`account_sid`) REFERENCES `accounts` (`account_sid`);
 
 ALTER TABLE `api_keys` ADD FOREIGN KEY service_provider_sid_idxfk (`service_provider_sid`) REFERENCES `service_providers` (`service_provider_sid`);
 
@@ -242,5 +227,9 @@ CREATE INDEX `accounts_name_idx` ON `accounts` (`name`);
 ALTER TABLE `accounts` ADD FOREIGN KEY service_provider_sid_idxfk_1 (`service_provider_sid`) REFERENCES `service_providers` (`service_provider_sid`);
 
 CREATE INDEX `voip_carriers_voip_carrier_sid_idx` ON `voip_carriers` (`voip_carrier_sid`);
-CREATE INDEX `phone_number_inventory_sid_idx` ON `phone_number_inventory` (`phone_number_inventory_sid`);
-ALTER TABLE `phone_number_inventory` ADD FOREIGN KEY voip_carrier_sid_idxfk (`voip_carrier_sid`) REFERENCES `voip_carriers` (`voip_carrier_sid`);
+CREATE INDEX `phone_numbers_phone_number_sid_idx` ON `phone_numbers` (`phone_number_sid`);
+ALTER TABLE `phone_numbers` ADD FOREIGN KEY voip_carrier_sid_idxfk (`voip_carrier_sid`) REFERENCES `voip_carriers` (`voip_carrier_sid`);
+
+ALTER TABLE `phone_numbers` ADD FOREIGN KEY account_sid_idxfk_3 (`account_sid`) REFERENCES `accounts` (`account_sid`);
+
+ALTER TABLE `phone_numbers` ADD FOREIGN KEY application_sid_idxfk_2 (`application_sid`) REFERENCES `applications` (`application_sid`);

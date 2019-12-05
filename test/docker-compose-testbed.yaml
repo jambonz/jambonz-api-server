@@ -1,0 +1,25 @@
+version: '3'
+
+networks:
+  jambones-api-server:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.22.0.0/16
+
+services:
+  mysql:
+    image: mysql:8
+    environment: 
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: jambones
+      MYSQL_USER: jambones 
+      MYSQL_PASSWORD: jambones
+    command:  --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3406:3306/tcp"
+    volumes:
+      - ../db:/tmp
+    networks:
+      jambones-api-server:
+        ipv4_address: 172.22.0.10

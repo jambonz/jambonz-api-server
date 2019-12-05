@@ -4,7 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test node test/ | ./node_modules/.bin/tap-spec",
+    "coverage": "./node_modules/.bin/nyc --reporter html --report-dir ./coverage npm run test",
+    "jslint": "eslint app.js lib"
   },
   "author": "",
   "license": "ISC",
@@ -19,7 +21,17 @@
     "request": "^2.88.0",
     "request-debug": "^0.2.0",
     "swagger-ui-express": "^4.1.2",
+    "tape": "^4.11.0",
     "uuid": "^3.3.3",
     "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.7.2",
+    "eslint-plugin-promise": "^4.2.1",
+    "nyc": "^14.1.1",
+    "request-promise-native": "^1.0.8",
+    "tap": "^14.10.2",
+    "tap-dot": "^2.0.0",
+    "tap-spec": "^5.0.0"
   }
 }

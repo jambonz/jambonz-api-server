@@ -111,7 +111,7 @@
             <width>266.00</width>
             <height>80.00</height>
         </size>
-        <zorder>14</zorder>
+        <zorder>13</zorder>
         <SQLField>
             <name><![CDATA[voip_carrier_sid]]></name>
             <type><![CDATA[CHAR(36)]]></type>
@@ -203,58 +203,6 @@
         <objectComment><![CDATA[An authorization token that is used to access the REST api]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[3EDF89A0-FD38-4DF9-BB65-E0FCD0A678BE]]></uid>
-    </SQLTable>
-    <SQLTable>
-        <name><![CDATA[phone_number_inventory]]></name>
-        <schema><![CDATA[]]></schema>
-        <comment><![CDATA[Telephone numbers (DIDs) that have been procured from a voip carrier for our use]]></comment>
-        <tableType><![CDATA[InnoDB]]></tableType>
-        <location>
-            <x>78.00</x>
-            <y>178.00</y>
-        </location>
-        <size>
-            <width>344.00</width>
-            <height>80.00</height>
-        </size>
-        <zorder>13</zorder>
-        <SQLField>
-            <name><![CDATA[phone_number_inventory_sid]]></name>
-            <type><![CDATA[CHAR(36)]]></type>
-            <primaryKey>1</primaryKey>
-            <autoIncrement><![CDATA[0]]></autoIncrement>
-            <indexed><![CDATA[1]]></indexed>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[0F123268-6D7F-438D-A285-14B7183F6BF9]]></uid>
-            <unique><![CDATA[1]]></unique>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[number]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <autoIncrement><![CDATA[0]]></autoIncrement>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[74808B94-D472-4243-A5F6-48150FCFC712]]></uid>
-            <unique><![CDATA[1]]></unique>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[voip_carrier_sid]]></name>
-            <type><![CDATA[CHAR(36)]]></type>
-            <referencesField>voip_carrier_sid</referencesField>
-            <referencesTable>voip_carriers</referencesTable>
-            <referencesField><![CDATA[voip_carrier_sid]]></referencesField>
-            <referencesTable><![CDATA[voip_carriers]]></referencesTable>
-            <sourceCardinality>4</sourceCardinality>
-            <destinationCardinality>1</destinationCardinality>
-            <referencesFieldUID><![CDATA[E34851EF-3C5F-4118-8425-F88EE16E38AA]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[3D3136A7-AFC0-4A70-AEC3-68577955CA2E]]></referencesTableUID>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[4271E944-7163-407D-A2BC-71F85F6A2E91]]></uid>
-            <unsigned><![CDATA[0]]></unsigned>
-        </SQLField>
-        <labelWindowIndex><![CDATA[1]]></labelWindowIndex>
-        <objectComment><![CDATA[Telephone numbers (DIDs) that have been procured from a voip carrier for our use]]></objectComment>
-        <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
-        <uid><![CDATA[5497021F-675D-406B-A378-104E0F125823]]></uid>
     </SQLTable>
     <SQLTable>
         <name><![CDATA[call_routes]]></name>
@@ -746,7 +694,7 @@
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
             <x>83.00</x>
-            <y>322.00</y>
+            <y>191.00</y>
         </location>
         <size>
             <width>331.00</width>
@@ -772,6 +720,20 @@
             <unique><![CDATA[1]]></unique>
         </SQLField>
         <SQLField>
+            <name><![CDATA[voip_carrier_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>voip_carrier_sid</referencesField>
+            <referencesTable>voip_carriers</referencesTable>
+            <referencesField><![CDATA[voip_carrier_sid]]></referencesField>
+            <referencesTable><![CDATA[voip_carriers]]></referencesTable>
+            <sourceCardinality>4</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[E34851EF-3C5F-4118-8425-F88EE16E38AA]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[3D3136A7-AFC0-4A70-AEC3-68577955CA2E]]></referencesTableUID>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[58A047B9-C1C9-4697-9FE8-08E3BFF91660]]></uid>
+        </SQLField>
+        <SQLField>
             <name><![CDATA[account_sid]]></name>
             <type><![CDATA[CHAR(36)]]></type>
             <referencesField>account_sid</referencesField>
@@ -779,10 +741,10 @@
             <referencesField><![CDATA[account_sid]]></referencesField>
             <referencesTable><![CDATA[accounts]]></referencesTable>
             <sourceCardinality>4</sourceCardinality>
-            <destinationCardinality>1</destinationCardinality>
+            <destinationCardinality>2</destinationCardinality>
             <referencesFieldUID><![CDATA[1342FAFA-C15C-429B-809B-C6C55F9FA5B6]]></referencesFieldUID>
             <referencesTableUID><![CDATA[985D6997-B1A7-4AB3-80F4-4D59B45480C8]]></referencesTableUID>
-            <notNull><![CDATA[1]]></notNull>
+            <notNull><![CDATA[0]]></notNull>
             <uid><![CDATA[66690304-2370-4480-99E5-52C73A20F597]]></uid>
             <unique><![CDATA[0]]></unique>
             <unsigned><![CDATA[0]]></unsigned>
@@ -800,13 +762,6 @@
             <referencesTableUID><![CDATA[E97EE4F0-7ED7-4E8C-862E-D98192D6EAE0]]></referencesTableUID>
             <uid><![CDATA[962CB80A-54CB-4C6A-9591-9BFC644CF80F]]></uid>
             <unsigned><![CDATA[0]]></unsigned>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[phone_number_inventory_id]]></name>
-            <type><![CDATA[INTEGER(10)]]></type>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[5CE29FC3-CB49-4370-B985-2D948500A71A]]></uid>
-            <unsigned><![CDATA[1]]></unsigned>
         </SQLField>
         <labelWindowIndex><![CDATA[6]]></labelWindowIndex>
         <objectComment><![CDATA[A phone number that has been assigned to an account]]></objectComment>
@@ -1036,17 +991,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1841.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1403.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[1613.000000]]></windowHeight>
-        <windowLocationX><![CDATA[62.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[31.000000]]></windowLocationY>
+        <windowHeight><![CDATA[1027.000000]]></windowHeight>
+        <windowLocationX><![CDATA[0.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[0.000000]]></windowLocationY>
         <windowScrollOrigin><![CDATA[{0, 0}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[2118.000000]]></windowWidth>
+        <windowWidth><![CDATA[1680.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>
