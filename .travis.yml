@@ -6,3 +6,6 @@ services:
   - docker
 script:
   - npm test
+before_install:
+  - docker pull mysql:8
+  - docker images
