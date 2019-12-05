@@ -4,5 +4,9 @@ node_js:
   - "lts/*"
 services:
   - mysql
+env:
+  - MYSQL_ROOT_PASSWORD=
+before_install:
+  - cat ~travis/.my.cnf
 script:
   - npm test
