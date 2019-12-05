@@ -9,6 +9,8 @@ env:
 before_install:
   - cat ~travis/.my.cnf
   - sed -i -r -e 's/password =/password = root/g' ~travis/.my.cnf
+  - tee -a ~travis/.my.cnf > /dev/null << "[mysqld]"
+  - tee -a ~travis/.my.cnf > /dev/null << "default-authentication-plugin=mysql_native_password"
   - cat ~travis/.my.cnf
   - sudo systemctl restart mysql
 script:
