@@ -1,7 +1,7 @@
-require('./docker-start');
+require('./create-test-db');
 require('./service-providers');
 require('./voip-carriers');
 require('./accounts');
 require('./phone-numbers');
 require('./applications');
-require('./docker-stop');
+require('./remove-test-db');

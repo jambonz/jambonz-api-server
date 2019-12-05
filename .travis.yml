@@ -1,12 +1,8 @@
-sudo: required
 dist: bionic
 language: node_js
 node_js:
   - "lts/10"
 services:
-  - docker
+  - mysql
 script:
   - npm test
-before_install:
-  - docker pull mysql:8
-  - docker images

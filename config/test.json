@@ -4,9 +4,8 @@
   },
   "mysql": {
     "host": "localhost",
-    "user": "jambones",
-    "password": "jambones",
-    "database": "jambones",
-    "port": 3406
+    "user": "jambones_test",
+    "database": "jambones_test",
+    "password": "jambones_test"
   }
 }
