@@ -7,5 +7,5 @@ services:
 script:
   - npm test
 before_install:
-  - docker pull mysql:8
+  - docker pull mysql:latest
   - docker images

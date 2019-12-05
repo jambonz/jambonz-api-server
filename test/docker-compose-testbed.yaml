@@ -9,7 +9,7 @@ networks:
 
 services:
   mysql:
-    image: mysql:8
+    image: mysql:latest
     environment: 
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_DATABASE: jambones
