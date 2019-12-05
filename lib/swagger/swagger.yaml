@@ -12,7 +12,7 @@ servers:
   - url: /v1
     description: development server
 paths:
-  /Apikeys:
+  /ApiKeys:
     post:
       summary: create an api key
       operationId: createApikey
