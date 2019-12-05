@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 
 networks:
   jambones-api-server:
@@ -20,6 +20,7 @@ services:
       - "3406:3306/tcp"
     volumes:
       - ../db:/tmp
+    container_name: test_mysql_1
     networks:
       jambones-api-server:
         ipv4_address: 172.22.0.10
