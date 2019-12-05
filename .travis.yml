@@ -7,5 +7,5 @@ services:
 script:
   - npm test
 before_install:
-  - docker pull mariadb:latest
+  - docker pull mysql:5.6
   - docker images
