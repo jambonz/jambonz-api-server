@@ -26,7 +26,7 @@ HTTP_PORT=4000 node app
 ```
 
 #### Running the test suite
-To run the included test suite, you will need to have mysql installed on your laptop/server. You will need to set the mysql root password in the MYSQL_ROOT_PASSWORD environment variable and then run the tests.  The test suite creates a scratch database (called 'jambones_test') to run the tests against, and removes it afterwards.
+To run the included test suite, you will need to have a mysql server installed on your laptop/server. You will need to set the MYSQL_ROOT_PASSWORD env variable to the mysql root password before running the tests.  The test suite creates a database named 'jambones_test' in your mysql server to run the tests against, and removes it when done.
 ```
 export MYSQL_ROOT_PASSWORD=foobar
 npm test
