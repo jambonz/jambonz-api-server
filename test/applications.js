@@ -52,7 +52,7 @@ test('application tests', async(t) => {
       auth: authAdmin,
       json: true,
     });
-    t.ok(result.name === 'daveh' , 'successfully retrieved application by sid');
+    t.ok(result[0].name === 'daveh' , 'successfully retrieved application by sid');
 
     /* update applications */
     result = await request.put(`/Applications/${sid}`, {

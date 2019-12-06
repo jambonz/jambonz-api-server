@@ -209,6 +209,111 @@ test('authentication tests', async(t) => {
     //console.log(`result: ${JSON.stringify(result)}`);
     t.ok(result.statusCode === 204, 'successfully updated account A1 using auth token for account A1');
 
+    /* add an application for accounts A1, A2, and B1 */
+    result = await request.post('/Applications', {
+      resolveWithFullResponse: true,
+      auth: {bearer: accA1_token},
+      json: true,
+      body: {
+        name: 'A1-app',
+        call_hook: 'http://example.com',
+        call_status_hook: 'http://example.com'
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully created application for account A1 (using account level token)');
+    const appA1 = result.body.sid;
+
+    result = await request.post('/Applications', {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: {bearer: spB_token},
+      json: true,
+      body: {
+        name: 'A2-app',
+        account_sid: accA2,
+        call_hook: 'http://example.com',
+        call_status_hook: 'http://example.com'
+      }
+    });
+    t.ok(result.statusCode === 400 && result.body.msg === 'insufficient privileges to create an application under the specified account',
+      'cannot create application for account A2 using service provider token B');
+
+    result = await request.post('/Applications', {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: {bearer: spA_token},
+      json: true,
+      body: {
+        name: 'A2-app',
+        account_sid: accA2,
+        call_hook: 'http://example.com',
+        call_status_hook: 'http://example.com'
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully created application for account A2 (using service provider token A)');
+    const appA2 = result.body.sid;
+
+    result = await request.post('/Applications', {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: {bearer: spB_token},
+      json: true,
+      body: {
+        name: 'B1-app',
+        account_sid: accB1,
+        call_hook: 'http://example.com',
+        call_status_hook: 'http://example.com'
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully created application for account B1 (using service provider token B)');
+    const appB1 = result.body.sid;
+  
+    /* see all apps using admin token */
+    result = await request.get('/Applications', {
+      auth: authAdmin,
+      json: true
+    });
+    t.ok(result.length === 3, 'using admin token we see 3 applications');
+
+    /* see two apps using SP A token */
+    result = await request.get('/Applications', {
+      auth: {bearer: spA_token},
+      json: true
+    });
+    t.ok(result.length === 2, 'using service provider A token we see 2 applications');
+
+    /* see one app using SP B token */
+    result = await request.get('/Applications', {
+      auth: {bearer: spB_token},
+      json: true
+    });
+    t.ok(result.length === 1, 'using service provider B token we see 1 application');
+
+    /* see one app using account token token */
+    result = await request.get('/Applications', {
+      auth: {bearer: accA1_token},
+      json: true
+    });
+    t.ok(result.length === 1, 'using account token we see 1 application');
+
+    /* see one app using account token */
+    result = await request.get(`/Applications/${appA1}`, {
+      auth: {bearer: accA1_token},
+      json: true
+    });
+    //console.log(`result: ${JSON.stringify(result)}`);
+    t.ok(result.length === 1, 'using account token A1 we are able to retrieve application A1');
+
+    /* cannot see app under another account using account token */
+    result = await request.get(`/Applications/${appA2}`, {
+      auth: {bearer: accA1_token},
+      resolveWithFullResponse: true,
+      simple: false,
+      json: true
+    });
+    t.ok(result.statusCode === 404, 'using account token A1 we are not able to retrieve application A2s');
+
+
     /* service provider token can not be used to add phone number */
     result = await request.post('/PhoneNumbers', {
       auth: {bearer: spA_token},
@@ -335,6 +440,9 @@ test('authentication tests', async(t) => {
     await deleteObjectBySid(request, '/ApiKeys', accA1_token_sid2);
     await deleteObjectBySid(request, '/ApiKeys', spA_token_sid);
     await deleteObjectBySid(request, '/ApiKeys', spB_token_sid);
+    await deleteObjectBySid(request, '/Applications', appA1);
+    await deleteObjectBySid(request, '/Applications', appA2);
+    await deleteObjectBySid(request, '/Applications', appB1);
     await deleteObjectBySid(request, '/Accounts', accA1);
     await deleteObjectBySid(request, '/Accounts', accA2);
     await deleteObjectBySid(request, '/Accounts', accB1);
