@@ -33,4 +33,4 @@ npm test
 ```
 
 #### Testing a deployed server
-There is a swagger endpoint at `http://<your-ip>:3000/swagger` that can be used to exercise the APIs.
+There is a swagger endpoint at `http://<your-ip>:3000/swagger` that can be used to exercise the APIs. Bearer authentication is required, so you will need an auth token (refer to [create-admin-token.sql](db/create-admin-token.sql) to see how to generate one).
