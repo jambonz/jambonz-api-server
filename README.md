@@ -31,3 +31,6 @@ To run the included test suite, you will need to have a mysql server installed o
 export MYSQL_ROOT_PASSWORD=foobar
 npm test
 ```
+
+#### Testing a deployed server
+There is a swagger endpoint at `http://<your-ip>:3000/swagger` that can be used to exercise the APIs.
