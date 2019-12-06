@@ -180,8 +180,11 @@ CREATE TABLE IF NOT EXISTS `phone_numbers`
 PRIMARY KEY (`phone_number_sid`)
 ) ENGINE=InnoDB COMMENT='A phone number that has been assigned to an account';
 
+CREATE UNIQUE INDEX `applications_idx_name` ON `applications` (`account_sid`,`name`);
+
 CREATE INDEX `applications_application_sid_idx` ON `applications` (`application_sid`);
 CREATE INDEX `applications_name_idx` ON `applications` (`name`);
+CREATE INDEX `applications_account_sid_idx` ON `applications` (`account_sid`);
 ALTER TABLE `applications` ADD FOREIGN KEY account_sid_idxfk (`account_sid`) REFERENCES `accounts` (`account_sid`);
 
 CREATE INDEX `call_routes_call_route_sid_idx` ON `call_routes` (`call_route_sid`);
@@ -216,18 +219,23 @@ ALTER TABLE `calls` ADD FOREIGN KEY outbound_user_sid_idxfk (`outbound_user_sid`
 CREATE INDEX `service_providers_service_provider_sid_idx` ON `service_providers` (`service_provider_sid`);
 CREATE INDEX `service_providers_name_idx` ON `service_providers` (`name`);
 CREATE INDEX `api_keys_api_key_sid_idx` ON `api_keys` (`api_key_sid`);
+CREATE INDEX `api_keys_account_sid_idx` ON `api_keys` (`account_sid`);
 ALTER TABLE `api_keys` ADD FOREIGN KEY account_sid_idxfk_2 (`account_sid`) REFERENCES `accounts` (`account_sid`);
 
+CREATE INDEX `api_keys_service_provider_sid_idx` ON `api_keys` (`service_provider_sid`);
 ALTER TABLE `api_keys` ADD FOREIGN KEY service_provider_sid_idxfk (`service_provider_sid`) REFERENCES `service_providers` (`service_provider_sid`);
 
 ALTER TABLE `subscriptions` ADD FOREIGN KEY registration_sid_idxfk (`registration_sid`) REFERENCES `registrations` (`registration_sid`);
 
 CREATE INDEX `accounts_account_sid_idx` ON `accounts` (`account_sid`);
 CREATE INDEX `accounts_name_idx` ON `accounts` (`name`);
+CREATE INDEX `accounts_service_provider_sid_idx` ON `accounts` (`service_provider_sid`);
 ALTER TABLE `accounts` ADD FOREIGN KEY service_provider_sid_idxfk_1 (`service_provider_sid`) REFERENCES `service_providers` (`service_provider_sid`);
 
 CREATE INDEX `voip_carriers_voip_carrier_sid_idx` ON `voip_carriers` (`voip_carrier_sid`);
+CREATE INDEX `voip_carriers_name_idx` ON `voip_carriers` (`name`);
 CREATE INDEX `phone_numbers_phone_number_sid_idx` ON `phone_numbers` (`phone_number_sid`);
+CREATE INDEX `phone_numbers_voip_carrier_sid_idx` ON `phone_numbers` (`voip_carrier_sid`);
 ALTER TABLE `phone_numbers` ADD FOREIGN KEY voip_carrier_sid_idxfk (`voip_carrier_sid`) REFERENCES `voip_carriers` (`voip_carrier_sid`);
 
 ALTER TABLE `phone_numbers` ADD FOREIGN KEY account_sid_idxfk_3 (`account_sid`) REFERENCES `accounts` (`account_sid`);
