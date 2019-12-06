@@ -94,6 +94,22 @@ test('authentication tests', async(t) => {
     t.ok(result.statusCode === 201, 'successfully created account B2 using service provider token B');
     const accB2 = result.body.sid;
 
+    /* using auth token we see two accounts */
+    result = await request.get('/Accounts', {
+      auth: authAdmin,
+      json: true
+    });
+    //console.log(`result: ${JSON.stringify(result)}`);
+    t.ok(result.length === 4, 'using admin token we see all accounts');
+
+    /* using service provider token we see one account */
+    result = await request.get('/Accounts', {
+      auth: {bearer: spA_token},
+      json: true
+    });
+    //console.log(`result: ${JSON.stringify(result)}`);
+    t.ok(result.length === 2, 'using service provider token we see all accounts');
+
     /* cannot update account from different service provider */
     result = await request.put(`/Accounts/${accA1}`, {
       auth: {bearer: spB_token},
@@ -157,6 +173,14 @@ test('authentication tests', async(t) => {
     //console.log(`result: ${JSON.stringify(result)}`);
     t.ok(result.statusCode === 422 && result.body.msg === 'insufficient permissions to create accounts',
       'cannot create an account using an account-level token');
+
+    /* using account token we see one account */
+    result = await request.get('/Accounts', {
+      auth: {bearer: accA1_token},
+      json: true
+    });
+    //console.log(`result: ${JSON.stringify(result)}`);
+    t.ok(result.length === 1, 'using account token we see one account');
 
     /* cannot update account A2 using auth token for account A1*/
     result = await request.put(`/Accounts/${accA2}`, {

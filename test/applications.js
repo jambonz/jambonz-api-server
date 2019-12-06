@@ -44,6 +44,7 @@ test('application tests', async(t) => {
       auth: authAdmin,
       json: true,
     });
+    //console.log(`result: ${JSON.stringify(result)}`);
     t.ok(result.length === 1 , 'successfully queried all applications');
 
     /* query one applications */
