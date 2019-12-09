@@ -371,7 +371,9 @@
         <SQLField>
             <name><![CDATA[sip_realm]]></name>
             <type><![CDATA[VARCHAR(255)]]></type>
+            <indexed><![CDATA[1]]></indexed>
             <uid><![CDATA[CD99250E-6126-4CCA-A1F1-63FFFB028E63]]></uid>
+            <unique><![CDATA[1]]></unique>
         </SQLField>
         <SQLField>
             <name><![CDATA[service_provider_sid]]></name>
@@ -1015,17 +1017,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1756.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1328.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
         <windowHeight><![CDATA[1417.000000]]></windowHeight>
-        <windowLocationX><![CDATA[2985.000000]]></windowLocationX>
+        <windowLocationX><![CDATA[3389.000000]]></windowLocationX>
         <windowLocationY><![CDATA[-0.000000]]></windowLocationY>
         <windowScrollOrigin><![CDATA[{0, 0}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[2033.000000]]></windowWidth>
+        <windowWidth><![CDATA[1605.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>

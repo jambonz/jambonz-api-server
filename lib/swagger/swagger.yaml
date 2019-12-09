@@ -576,6 +576,10 @@ paths:
                           type: number
                           description: expiration requested, in seconds
                           example: 3600
+                        scheme:
+                          type: string
+                          description: encryption protocol
+                          example: digest
                         nonce:
                           type: string
                           description: nonce value
@@ -596,7 +600,7 @@ paths:
                         cnonce:
                           type: string
                           description: cnonce value
-                          example: 03d8d2aafd5a975f2b07dc90fe5f4100
+                          example: 6b8b4567
                         nc:
                           type: string
                           description: nc value
@@ -604,7 +608,7 @@ paths:
                         response:
                           type: string
                           description: digest value calculated by the client
-                          example: db7b7dbec7edc0c427c1708031f67cc6
+                          example: be641cf7951ff23ab04c57907d59f37d
               responses:
                 '200':
                   description: |
@@ -617,14 +621,14 @@ paths:
                       schema:
                         type: object
                         required:
-                          - response
+                          - status
                         properties:
-                          response:
+                          status:
                             type: string
                             description: indicates whether the request was successfully authenticated
                             enum:
                               - ok
-                              - failed
+                              - fail
                             example: ok
                           message:
                             type: string
@@ -636,11 +640,11 @@ paths:
                               The expires value to grant to the requesting user.
                               If not provided, the expires value in the request is observed.
                               If provided, must be less than the requested expires value.
-                          exileDuration:
+                          blacklist:
                             type: number
                             description: |
                               If provided, represents a period in seconds during which the source IP 
-                              address will be blacklisted by the platform.
+                              address will be blacklisted by the platform (-1 means forever).
 
     get:
       summary: list accounts

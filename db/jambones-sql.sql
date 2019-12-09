@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `accounts`
 (
 `account_sid` CHAR(36) NOT NULL UNIQUE ,
 `name` VARCHAR(255) NOT NULL,
-`sip_realm` VARCHAR(255),
+`sip_realm` VARCHAR(255) UNIQUE ,
 `service_provider_sid` CHAR(36) NOT NULL,
 `registration_hook` VARCHAR(255),
 PRIMARY KEY (`account_sid`)
@@ -229,6 +229,7 @@ ALTER TABLE `subscriptions` ADD FOREIGN KEY registration_sid_idxfk (`registratio
 
 CREATE INDEX `accounts_account_sid_idx` ON `accounts` (`account_sid`);
 CREATE INDEX `accounts_name_idx` ON `accounts` (`name`);
+CREATE INDEX `accounts_sip_realm_idx` ON `accounts` (`sip_realm`);
 CREATE INDEX `accounts_service_provider_sid_idx` ON `accounts` (`service_provider_sid`);
 ALTER TABLE `accounts` ADD FOREIGN KEY service_provider_sid_idxfk_1 (`service_provider_sid`) REFERENCES `service_providers` (`service_provider_sid`);
 
