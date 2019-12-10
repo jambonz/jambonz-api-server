@@ -1005,6 +1005,11 @@ components:
           type: string
         description:
           type: string
+        root_domain:
+          type: string
+        registration_hook:
+          type: string
+          format: url
       required:
         - service_provider_sid
         - name
