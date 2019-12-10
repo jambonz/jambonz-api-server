@@ -348,12 +348,12 @@
         <comment><![CDATA[A single end-user of the platform]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>667.00</x>
-            <y>168.00</y>
+            <x>664.00</x>
+            <y>205.00</y>
         </location>
         <size>
             <width>289.00</width>
-            <height>120.00</height>
+            <height>160.00</height>
         </size>
         <zorder>10</zorder>
         <SQLField>
@@ -402,6 +402,16 @@
             <name><![CDATA[registration_hook]]></name>
             <type><![CDATA[VARCHAR(255)]]></type>
             <uid><![CDATA[B81FD130-FAE7-4758-A6B7-B9B1F52F68B7]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[hook_basic_auth_user]]></name>
+            <type><![CDATA[VARCHAR(255)]]></type>
+            <uid><![CDATA[D0D88B7A-ED2D-4730-AD82-55418947EC66]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[hook_basic_auth_password]]></name>
+            <type><![CDATA[VARCHAR(255)]]></type>
+            <uid><![CDATA[2FF5162F-782B-43A5-BFF0-BD06A82387EB]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[8]]></labelWindowIndex>
         <objectComment><![CDATA[A single end-user of the platform]]></objectComment>
@@ -892,7 +902,7 @@
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
             <x>653.00</x>
-            <y>413.00</y>
+            <y>443.00</y>
         </location>
         <size>
             <width>345.00</width>
@@ -978,7 +988,7 @@
         </location>
         <size>
             <width>293.00</width>
-            <height>120.00</height>
+            <height>160.00</height>
         </size>
         <zorder>9</zorder>
         <SQLField>
@@ -1016,6 +1026,16 @@
             <name><![CDATA[registration_hook]]></name>
             <type><![CDATA[VARCHAR(255)]]></type>
             <uid><![CDATA[7E44BC47-CB8A-4754-96BB-32B589B408B0]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[hook_basic_auth_user]]></name>
+            <type><![CDATA[VARCHAR(255)]]></type>
+            <uid><![CDATA[0395A96B-8229-4C65-A153-DCA83E145B7C]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[hook_basic_auth_password]]></name>
+            <type><![CDATA[VARCHAR(255)]]></type>
+            <uid><![CDATA[1A765999-2BB9-45ED-B840-1688EA8E8B84]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[0]]></labelWindowIndex>
         <objectComment><![CDATA[An organization that provides communication services to its customers using the platform]]></objectComment>
