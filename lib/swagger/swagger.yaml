@@ -371,8 +371,24 @@ paths:
                 name:
                   type: string
                   description: service provider name
+                  example: fastcomms
                 description:
                   type: string
+                root_domain:
+                  type: string
+                  description: root domain for group of accounts that share a registration hook
+                  example: example.com
+                registration_hook:
+                  type: string
+                  format: url
+                  description: authentication webhook for registration
+                  example: https://mycompany.com
+                hook_basic_auth_user:
+                  type: string
+                  description: username to use for http basic auth when calling hook
+                hook_basic_auth_password:
+                  type: string
+                  description: password to use for http basic auth when calling hook
               required: 
                 - name
       responses:
@@ -510,6 +526,12 @@ paths:
                   type: string
                   format: uuid
                   example: 85f9c036-ba61-4f28-b2f5-617c23fa68ff
+                hook_basic_auth_user:
+                  type: string
+                  description: username to use for http basic auth when calling hook
+                hook_basic_auth_password:
+                  type: string
+                  description: password to use for http basic auth when calling hook
               required: 
                 - name
                 - service_provider_sid
@@ -1007,7 +1029,10 @@ components:
           type: string
         root_domain:
           type: string
-        registration_hook:
+        hook_basic_auth_user:
+          type: string
+          format: url
+        hook_basic_auth_password:
           type: string
           format: url
       required:
@@ -1042,6 +1067,12 @@ components:
         service_provider_sid:
           type: string
           format: uuid
+        hook_basic_auth_user:
+          type: string
+          format: url
+        hook_basic_auth_password:
+          type: string
+          format: url
       required:
         - account_sid
         - name
