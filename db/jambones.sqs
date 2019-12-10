@@ -148,8 +148,8 @@
         <comment><![CDATA[An authorization token that is used to access the REST api]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>1099.00</x>
-            <y>151.00</y>
+            <x>1123.00</x>
+            <y>61.00</y>
         </location>
         <size>
             <width>252.00</width>
@@ -212,12 +212,12 @@
         <schema><![CDATA[]]></schema>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>1109.00</x>
-            <y>355.00</y>
+            <x>1128.00</x>
+            <y>254.00</y>
         </location>
         <size>
             <width>254.00</width>
-            <height>100.00</height>
+            <height>120.00</height>
         </size>
         <zorder>11</zorder>
         <SQLField>
@@ -229,6 +229,12 @@
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[BEEB7DBE-19A7-4C44-BD3E-CFA34A343955]]></uid>
             <unique><![CDATA[1]]></unique>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[order]]></name>
+            <type><![CDATA[INTEGER]]></type>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[C1C84C91-F37F-49E0-8D2E-681097AB92AB]]></uid>
         </SQLField>
         <SQLField>
             <name><![CDATA[account_sid]]></name>
@@ -342,8 +348,8 @@
         <comment><![CDATA[A single end-user of the platform]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>664.00</x>
-            <y>148.00</y>
+            <x>667.00</x>
+            <y>168.00</y>
         </location>
         <size>
             <width>289.00</width>
@@ -544,7 +550,7 @@
             <uid><![CDATA[F33FB52C-A7C2-4050-BEFC-B2C682135143]]></uid>
         </SQLField>
         <SQLField>
-            <name><![CDATA[phone_number_sd]]></name>
+            <name><![CDATA[phone_number_sid]]></name>
             <type><![CDATA[CHAR(36)]]></type>
             <referencesField>phone_number_sid</referencesField>
             <referencesTable>phone_numbers</referencesTable>
@@ -555,6 +561,7 @@
             <referencesFieldUID><![CDATA[6E7DDB07-BED7-405B-961F-8BBA119D38DA]]></referencesFieldUID>
             <referencesTableUID><![CDATA[BA650DDC-AC7B-4DFE-A5E5-828C75607807]]></referencesTableUID>
             <forcedUnique><![CDATA[0]]></forcedUnique>
+            <indexed><![CDATA[1]]></indexed>
             <uid><![CDATA[C1819A57-3717-4AFE-AD15-424599187062]]></uid>
             <unsigned><![CDATA[0]]></unsigned>
         </SQLField>
@@ -699,8 +706,8 @@
         <comment><![CDATA[A phone number that has been assigned to an account]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>83.00</x>
-            <y>191.00</y>
+            <x>50.00</x>
+            <y>262.00</y>
         </location>
         <size>
             <width>331.00</width>
@@ -714,7 +721,7 @@
             <autoIncrement><![CDATA[0]]></autoIncrement>
             <forcedUnique><![CDATA[1]]></forcedUnique>
             <indexed><![CDATA[1]]></indexed>
-            <notNull><![CDATA[1]]></notNull>
+            <notNull><![CDATA[0]]></notNull>
             <uid><![CDATA[6E7DDB07-BED7-405B-961F-8BBA119D38DA]]></uid>
             <unique><![CDATA[1]]></unique>
         </SQLField>
@@ -884,8 +891,8 @@
         <comment><![CDATA[A defined set of behaviors to be applied to phone calls within an account]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>669.00</x>
-            <y>351.00</y>
+            <x>653.00</x>
+            <y>413.00</y>
         </location>
         <size>
             <width>345.00</width>
@@ -966,12 +973,12 @@
         <comment><![CDATA[An organization that provides communication services to its customers using the platform]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>675.00</x>
-            <y>16.00</y>
+            <x>665.00</x>
+            <y>6.00</y>
         </location>
         <size>
             <width>293.00</width>
-            <height>80.00</height>
+            <height>120.00</height>
         </size>
         <zorder>9</zorder>
         <SQLField>
@@ -998,6 +1005,18 @@
             <type><![CDATA[VARCHAR(255)]]></type>
             <uid><![CDATA[0FDACE57-2FEB-4F6C-96F5-C7C64CA6BFCA]]></uid>
         </SQLField>
+        <SQLField>
+            <name><![CDATA[root_domain]]></name>
+            <type><![CDATA[VARCHAR(255)]]></type>
+            <indexed><![CDATA[1]]></indexed>
+            <uid><![CDATA[7074CA4C-D211-4926-8BD2-7EF97B49071A]]></uid>
+            <unique><![CDATA[1]]></unique>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[registration_hook]]></name>
+            <type><![CDATA[VARCHAR(255)]]></type>
+            <uid><![CDATA[7E44BC47-CB8A-4754-96BB-32B589B408B0]]></uid>
+        </SQLField>
         <labelWindowIndex><![CDATA[0]]></labelWindowIndex>
         <objectComment><![CDATA[An organization that provides communication services to its customers using the platform]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
@@ -1017,17 +1036,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1328.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1499.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
         <windowHeight><![CDATA[1417.000000]]></windowHeight>
-        <windowLocationX><![CDATA[3389.000000]]></windowLocationX>
+        <windowLocationX><![CDATA[3218.000000]]></windowLocationX>
         <windowLocationY><![CDATA[-0.000000]]></windowLocationY>
         <windowScrollOrigin><![CDATA[{0, 0}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1605.000000]]></windowWidth>
+        <windowWidth><![CDATA[1776.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>
