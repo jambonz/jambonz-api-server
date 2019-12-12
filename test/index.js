@@ -1,4 +1,5 @@
 require('./create-test-db');
+require('./sip-gateways');
 require('./service-providers');
 require('./voip-carriers');
 require('./accounts');

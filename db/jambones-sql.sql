@@ -27,6 +27,8 @@ DROP TABLE IF EXISTS `accounts`;
 
 DROP TABLE IF EXISTS `service_providers`;
 
+DROP TABLE IF EXISTS `sip_gateways`;
+
 DROP TABLE IF EXISTS `voip_carriers`;
 
 CREATE TABLE IF NOT EXISTS `applications`
@@ -148,15 +150,6 @@ CREATE TABLE IF NOT EXISTS `api_keys`
 PRIMARY KEY (`api_key_sid`)
 ) ENGINE=InnoDB COMMENT='An authorization token that is used to access the REST api';
 
-CREATE TABLE IF NOT EXISTS `subscriptions`
-(
-`id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE ,
-`subscription_sid` CHAR(36) NOT NULL UNIQUE ,
-`registration_sid` CHAR(36) NOT NULL,
-`event` VARCHAR(255),
-PRIMARY KEY (`id`)
-) ENGINE=InnoDB COMMENT='An active sip subscription';
-
 CREATE TABLE IF NOT EXISTS `accounts`
 (
 `account_sid` CHAR(36) NOT NULL UNIQUE ,
@@ -166,8 +159,18 @@ CREATE TABLE IF NOT EXISTS `accounts`
 `registration_hook` VARCHAR(255),
 `hook_basic_auth_user` VARCHAR(255),
 `hook_basic_auth_password` VARCHAR(255),
+`is_active` BOOLEAN NOT NULL DEFAULT true,
 PRIMARY KEY (`account_sid`)
 ) ENGINE=InnoDB COMMENT='A single end-user of the platform';
+
+CREATE TABLE IF NOT EXISTS `subscriptions`
+(
+`id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE ,
+`subscription_sid` CHAR(36) NOT NULL UNIQUE ,
+`registration_sid` CHAR(36) NOT NULL,
+`event` VARCHAR(255),
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB COMMENT='An active sip subscription';
 
 CREATE TABLE IF NOT EXISTS `voip_carriers`
 (
@@ -186,6 +189,18 @@ CREATE TABLE IF NOT EXISTS `phone_numbers`
 `application_sid` CHAR(36),
 PRIMARY KEY (`phone_number_sid`)
 ) ENGINE=InnoDB COMMENT='A phone number that has been assigned to an account';
+
+CREATE TABLE IF NOT EXISTS `sip_gateways`
+(
+`sip_gateway_sid` CHAR(36),
+`ipv4` VARCHAR(32) NOT NULL,
+`port` INTEGER NOT NULL DEFAULT 5060,
+`inbound` BOOLEAN NOT NULL,
+`outbound` BOOLEAN NOT NULL,
+`voip_carrier_sid` CHAR(36) NOT NULL,
+`is_active` BOOLEAN NOT NULL DEFAULT true,
+PRIMARY KEY (`sip_gateway_sid`)
+);
 
 CREATE UNIQUE INDEX `applications_idx_name` ON `applications` (`account_sid`,`name`);
 
@@ -234,13 +249,13 @@ ALTER TABLE `api_keys` ADD FOREIGN KEY account_sid_idxfk_2 (`account_sid`) REFER
 CREATE INDEX `api_keys_service_provider_sid_idx` ON `api_keys` (`service_provider_sid`);
 ALTER TABLE `api_keys` ADD FOREIGN KEY service_provider_sid_idxfk (`service_provider_sid`) REFERENCES `service_providers` (`service_provider_sid`);
 
-ALTER TABLE `subscriptions` ADD FOREIGN KEY registration_sid_idxfk (`registration_sid`) REFERENCES `registrations` (`registration_sid`);
-
 CREATE INDEX `accounts_account_sid_idx` ON `accounts` (`account_sid`);
 CREATE INDEX `accounts_name_idx` ON `accounts` (`name`);
 CREATE INDEX `accounts_sip_realm_idx` ON `accounts` (`sip_realm`);
 CREATE INDEX `accounts_service_provider_sid_idx` ON `accounts` (`service_provider_sid`);
 ALTER TABLE `accounts` ADD FOREIGN KEY service_provider_sid_idxfk_1 (`service_provider_sid`) REFERENCES `service_providers` (`service_provider_sid`);
+
+ALTER TABLE `subscriptions` ADD FOREIGN KEY registration_sid_idxfk (`registration_sid`) REFERENCES `registrations` (`registration_sid`);
 
 CREATE INDEX `voip_carriers_voip_carrier_sid_idx` ON `voip_carriers` (`voip_carrier_sid`);
 CREATE INDEX `voip_carriers_name_idx` ON `voip_carriers` (`name`);
@@ -251,3 +266,7 @@ ALTER TABLE `phone_numbers` ADD FOREIGN KEY voip_carrier_sid_idxfk (`voip_carrie
 ALTER TABLE `phone_numbers` ADD FOREIGN KEY account_sid_idxfk_3 (`account_sid`) REFERENCES `accounts` (`account_sid`);
 
 ALTER TABLE `phone_numbers` ADD FOREIGN KEY application_sid_idxfk_2 (`application_sid`) REFERENCES `applications` (`application_sid`);
+
+CREATE UNIQUE INDEX `sip_gateways_sip_gateway_idx_hostport` ON `sip_gateways` (`ipv4`,`port`);
+
+ALTER TABLE `sip_gateways` ADD FOREIGN KEY voip_carrier_sid_idxfk_1 (`voip_carrier_sid`) REFERENCES `voip_carriers` (`voip_carrier_sid`);

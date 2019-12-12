@@ -210,7 +210,144 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-  
+
+  /SipGateways:
+    post:
+      summary: create sip gateway
+      operationId: createSipGateway
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                voip_carrier_sid:
+                  type: string
+                  description: voip carrier that provides this gateway
+                  format: uuid
+                ipv4:
+                  type: string
+                port:
+                  type: number
+                is_active:
+                  type: boolean
+                inbound:
+                  type: boolean
+                outbound:
+                  type: boolean
+              required: 
+                - voip_carrier_sid
+                - ipv4
+      responses:
+        201:
+          description: sip gateway successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      summary: list sip gateways
+      operationId: listSipGateways
+      responses:
+        200:
+          description: list of sip gateways
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SipGateway'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /SipGateways/{SipGatewaySid}:
+    parameters:
+      - name: SipGatewaySid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    delete:
+      summary: delete a sip gateway
+      operationId: deleteSipGateway
+      responses:
+        204:
+          description: sip gateway successfully deleted
+        404:
+          description: sip gateway not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      summary: retrieve sip gateway
+      operationId: getSipGateway
+      responses:
+        200:
+          description: sip gateway found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoipCarrier'
+        404:
+          description: sip gateway not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    put:
+      summary: update sip gateway
+      operationId: updateSipGateway
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SipGateway'
+      responses:
+        204:
+          description: sip gateway updated
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        404:
+          description: sip gateway not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+                
   /PhoneNumbers:
     post:
       summary: provision a phone number into inventory from a Voip Carrier
@@ -1051,6 +1188,30 @@ components:
       required:
         - voip_carrier_sid
         - name
+    SipGateway:
+      type: object
+      properties:
+        sip_gateway_sid:
+          type: string
+          format: uuid
+        ipv4:
+          type: string
+        port:
+          type: number
+        voip_carrier_sid:
+          type: string
+          format: uuid
+        is_active:
+          type: boolean
+        inbound:
+          type: boolean
+        outbound:
+          type: boolean
+      required:
+        - sip_gateway_sid
+        - voip_carrier_sid
+        - ipv4
+        - port
     Account:
       type: object
       properties:
