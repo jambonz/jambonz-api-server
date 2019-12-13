@@ -793,6 +793,14 @@ paths:
                             type: string
                             description: a human-readable message
                             example: authentication granted
+                          call_hook:
+                            type: string
+                            format: url
+                            description: url of application to invoke when this device places a call
+                          call_status_hook:
+                            type: string
+                            format: url
+                            description: url of application to invoke for call status events on calls placed from this device
                           expires:
                             type: number
                             description: |
@@ -803,7 +811,7 @@ paths:
                             type: number
                             description: |
                               If provided, represents a period in seconds during which the source IP 
-                              address will be blacklisted by the platform (-1 means forever).
+                              address should be blacklisted by the platform (0 means forever).
 
     get:
       summary: list accounts
