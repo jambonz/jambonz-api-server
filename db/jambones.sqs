@@ -6,7 +6,7 @@
         <comment><![CDATA[An active sip registration]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>687.00</x>
+            <x>843.00</x>
             <y>989.00</y>
         </location>
         <size>
@@ -59,7 +59,7 @@
         <comment><![CDATA[A set of behaviors to be applied to parked calls]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>1121.00</x>
+            <x>1277.00</x>
             <y>944.00</y>
         </location>
         <size>
@@ -104,8 +104,8 @@
         <comment><![CDATA[An external organization that can provide sip trunking and DIDs]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>57.00</x>
-            <y>238.00</y>
+            <x>417.00</x>
+            <y>263.00</y>
         </location>
         <size>
             <width>266.00</width>
@@ -148,7 +148,7 @@
         <comment><![CDATA[An authorization token that is used to access the REST api]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>1123.00</x>
+            <x>1279.00</x>
             <y>61.00</y>
         </location>
         <size>
@@ -212,7 +212,7 @@
         <schema><![CDATA[]]></schema>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>1128.00</x>
+            <x>1284.00</x>
             <y>254.00</y>
         </location>
         <size>
@@ -282,7 +282,7 @@
         <comment><![CDATA[A relationship between a call and a queue that it is waiting in]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>681.00</x>
+            <x>837.00</x>
             <y>809.00</y>
         </location>
         <size>
@@ -343,12 +343,75 @@
         <uid><![CDATA[8FA89482-40F1-46E5-8652-03CE22395A7B]]></uid>
     </SQLTable>
     <SQLTable>
+        <name><![CDATA[lcr_carrier_set_entry]]></name>
+        <schema><![CDATA[]]></schema>
+        <location>
+            <x>63.00</x>
+            <y>315.00</y>
+        </location>
+        <size>
+            <width>259.00</width>
+            <height>120.00</height>
+        </size>
+        <zorder>16</zorder>
+        <SQLField>
+            <name><![CDATA[lcr_carrier_set_entry_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <primaryKey>1</primaryKey>
+            <uid><![CDATA[7F8F912B-6596-4068-8C4D-9C790A2DEC8C]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[workload]]></name>
+            <type><![CDATA[INTEGER]]></type>
+            <defaultValue><![CDATA[1]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[D3930B7F-96F4-4FF7-8713-0DD7D6CC0AE0]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[lcr_route_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>lcr_route_sid</referencesField>
+            <referencesTable>lcr_routes</referencesTable>
+            <referencesField><![CDATA[lcr_route_sid]]></referencesField>
+            <referencesTable><![CDATA[lcr_routes]]></referencesTable>
+            <sourceCardinality>4</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[B558A3B9-2F3E-40E0-B78E-997350021A6B]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[F283D572-F670-4571-91FD-A665A9D3E15D]]></referencesTableUID>
+            <connectorMidPoint><![CDATA[329.042969]]></connectorMidPoint>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[103C5143-A9A8-40E8-ABE9-97BFAF9D31C5]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[voip_carrier_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>voip_carrier_sid</referencesField>
+            <referencesTable>voip_carriers</referencesTable>
+            <referencesField><![CDATA[voip_carrier_sid]]></referencesField>
+            <referencesTable><![CDATA[voip_carriers]]></referencesTable>
+            <sourceCardinality>4</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[E34851EF-3C5F-4118-8425-F88EE16E38AA]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[3D3136A7-AFC0-4A70-AEC3-68577955CA2E]]></referencesTableUID>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[39CA632B-0E98-497D-BC0A-07FBE06AF7E9]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[priority]]></name>
+            <type><![CDATA[INTEGER]]></type>
+            <defaultValue><![CDATA[0]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[01F61C68-799B-49B0-9E6A-0E2162EE5A54]]></uid>
+        </SQLField>
+        <uid><![CDATA[956025F5-0798-47F7-B76C-457814C7B52E]]></uid>
+    </SQLTable>
+    <SQLTable>
         <name><![CDATA[accounts]]></name>
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[A single end-user of the platform]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>664.00</x>
+            <x>820.00</x>
             <y>205.00</y>
         </location>
         <size>
@@ -431,7 +494,7 @@
         <comment><![CDATA[An active sip subscription]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>689.00</x>
+            <x>845.00</x>
             <y>1190.00</y>
         </location>
         <size>
@@ -488,8 +551,8 @@
         <comment><![CDATA[A phone call]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>75.00</x>
-            <y>672.00</y>
+            <x>415.00</x>
+            <y>932.00</y>
         </location>
         <size>
             <width>306.00</width>
@@ -723,8 +786,8 @@
         <comment><![CDATA[A phone number that has been assigned to an account]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>52.00</x>
-            <y>375.00</y>
+            <x>385.00</x>
+            <y>625.00</y>
         </location>
         <size>
             <width>331.00</width>
@@ -805,7 +868,7 @@
         <comment><![CDATA[A relationship between a call and a conference that it is connected to]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>683.00</x>
+            <x>839.00</x>
             <y>684.00</y>
         </location>
         <size>
@@ -861,8 +924,8 @@
         <name><![CDATA[sip_gateways]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>54.00</x>
-            <y>17.00</y>
+            <x>401.00</x>
+            <y>18.00</y>
         </location>
         <size>
             <width>310.00</width>
@@ -947,7 +1010,7 @@
         <comment><![CDATA[An audio conference]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>1116.00</x>
+            <x>1272.00</x>
             <y>807.00</y>
         </location>
         <size>
@@ -992,7 +1055,7 @@
         <comment><![CDATA[A defined set of behaviors to be applied to phone calls within an account]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>653.00</x>
+            <x>809.00</x>
             <y>443.00</y>
         </location>
         <size>
@@ -1069,12 +1132,52 @@
         <uid><![CDATA[E97EE4F0-7ED7-4E8C-862E-D98192D6EAE0]]></uid>
     </SQLTable>
     <SQLTable>
+        <name><![CDATA[lcr_routes]]></name>
+        <schema><![CDATA[]]></schema>
+        <location>
+            <x>66.00</x>
+            <y>176.00</y>
+        </location>
+        <size>
+            <width>233.00</width>
+            <height>100.00</height>
+        </size>
+        <zorder>15</zorder>
+        <SQLField>
+            <name><![CDATA[lcr_route_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <primaryKey>1</primaryKey>
+            <forcedUnique><![CDATA[1]]></forcedUnique>
+            <indexed><![CDATA[0]]></indexed>
+            <uid><![CDATA[B558A3B9-2F3E-40E0-B78E-997350021A6B]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[regex]]></name>
+            <type><![CDATA[VARCHAR(32)]]></type>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[A1433A26-AF1E-4FCA-A2B0-7B89BBEBB9A6]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[description]]></name>
+            <type><![CDATA[VARCHAR(1024)]]></type>
+            <uid><![CDATA[8219C17E-56E1-416E-841C-B177869AC127]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[priority]]></name>
+            <type><![CDATA[INTEGER]]></type>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[B73773BA-AB1B-47AA-B995-2D2FE006198F]]></uid>
+            <unique><![CDATA[1]]></unique>
+        </SQLField>
+        <uid><![CDATA[F283D572-F670-4571-91FD-A665A9D3E15D]]></uid>
+    </SQLTable>
+    <SQLTable>
         <name><![CDATA[service_providers]]></name>
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[An organization that provides communication services to its customers using the platform]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>665.00</x>
+            <x>821.00</x>
             <y>6.00</y>
         </location>
         <size>
@@ -1147,17 +1250,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1574.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[2024.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[1641.000000]]></windowHeight>
-        <windowLocationX><![CDATA[1155.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[28.000000]]></windowLocationY>
+        <windowHeight><![CDATA[1417.000000]]></windowHeight>
+        <windowLocationX><![CDATA[2816.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[-0.000000]]></windowLocationY>
         <windowScrollOrigin><![CDATA[{0, 0}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1851.000000]]></windowWidth>
+        <windowWidth><![CDATA[2301.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>

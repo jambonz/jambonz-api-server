@@ -59,6 +59,7 @@ test('service provider tests', async(t) => {
         name: 'daveh'
       }
     });
+    //console.log(`result: ${JSON.stringify(result)}`);
     t.ok(result.statusCode === 422, 'cannot add two service providers with the same name');
 
     /* cannot add a service provider with same root domain*/

@@ -15,6 +15,10 @@ DROP TABLE IF EXISTS `applications`;
 
 DROP TABLE IF EXISTS `conferences`;
 
+DROP TABLE IF EXISTS `lcr_carrier_set_entry`;
+
+DROP TABLE IF EXISTS `lcr_routes`;
+
 DROP TABLE IF EXISTS `queues`;
 
 DROP TABLE IF EXISTS `subscriptions`;
@@ -66,6 +70,15 @@ CREATE TABLE IF NOT EXISTS `conference_participants`
 `conference_sid` CHAR(36) NOT NULL,
 PRIMARY KEY (`conference_participant_sid`)
 ) ENGINE=InnoDB COMMENT='A relationship between a call and a conference that it is co';
+
+CREATE TABLE IF NOT EXISTS `lcr_routes`
+(
+`lcr_route_sid` CHAR(36),
+`regex` VARCHAR(32) NOT NULL,
+`description` VARCHAR(1024),
+`priority` INTEGER NOT NULL UNIQUE ,
+PRIMARY KEY (`lcr_route_sid`)
+);
 
 CREATE TABLE IF NOT EXISTS `queues`
 (
@@ -198,8 +211,18 @@ CREATE TABLE IF NOT EXISTS `sip_gateways`
 `inbound` BOOLEAN NOT NULL,
 `outbound` BOOLEAN NOT NULL,
 `voip_carrier_sid` CHAR(36) NOT NULL,
-`is_active` BOOLEAN NOT NULL DEFAULT true,
+`is_active` BOOLEAN NOT NULL DEFAULT 1,
 PRIMARY KEY (`sip_gateway_sid`)
+);
+
+CREATE TABLE IF NOT EXISTS `lcr_carrier_set_entry`
+(
+`lcr_carrier_set_entry_sid` CHAR(36),
+`workload` INTEGER NOT NULL DEFAULT 1,
+`lcr_route_sid` CHAR(36) NOT NULL,
+`voip_carrier_sid` CHAR(36) NOT NULL,
+`priority` INTEGER NOT NULL DEFAULT 0,
+PRIMARY KEY (`lcr_carrier_set_entry_sid`)
 );
 
 CREATE UNIQUE INDEX `applications_idx_name` ON `applications` (`account_sid`,`name`);
@@ -270,3 +293,7 @@ ALTER TABLE `phone_numbers` ADD FOREIGN KEY application_sid_idxfk_2 (`applicatio
 CREATE UNIQUE INDEX `sip_gateways_sip_gateway_idx_hostport` ON `sip_gateways` (`ipv4`,`port`);
 
 ALTER TABLE `sip_gateways` ADD FOREIGN KEY voip_carrier_sid_idxfk_1 (`voip_carrier_sid`) REFERENCES `voip_carriers` (`voip_carrier_sid`);
+
+ALTER TABLE `lcr_carrier_set_entry` ADD FOREIGN KEY lcr_route_sid_idxfk (`lcr_route_sid`) REFERENCES `lcr_routes` (`lcr_route_sid`);
+
+ALTER TABLE `lcr_carrier_set_entry` ADD FOREIGN KEY voip_carrier_sid_idxfk_2 (`voip_carrier_sid`) REFERENCES `voip_carriers` (`voip_carrier_sid`);
