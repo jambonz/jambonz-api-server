@@ -929,6 +929,18 @@ paths:
                   type: string
                   format: url
                   description: webhook to pass call status updates to
+                hook_basic_auth_user:
+                  type: string
+                  description: username to use for http basic auth when calling hook
+                hook_basic_auth_password:
+                  type: string
+                  description: password to use for http basic auth when calling hook
+                hook_http_method:
+                  type: string
+                  description: whether to use GET or POST
+                  enum:
+                    - get
+                    - post
               required: 
                 - name
                 - account_sid
@@ -1261,6 +1273,18 @@ components:
           type: string
           format: url
         call_status_hook:
+          type: string
+          format: url
+        hook_http_method:
+          type: string
+          enum:
+            - get
+            - post
+          default: get
+        hook_basic_auth_user:
+          type: string
+          format: url
+        hook_basic_auth_password:
           type: string
           format: url
       required:

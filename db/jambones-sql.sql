@@ -42,13 +42,16 @@ CREATE TABLE IF NOT EXISTS `applications`
 `account_sid` CHAR(36) NOT NULL,
 `call_hook` VARCHAR(255) NOT NULL,
 `call_status_hook` VARCHAR(255) NOT NULL,
+`hook_basic_auth_user` VARCHAR(255),
+`hook_basic_auth_password` VARCHAR(255),
+`hook_http_method` ENUM('get','post') NOT NULL DEFAULT 'get',
 PRIMARY KEY (`application_sid`)
 ) ENGINE=InnoDB COMMENT='A defined set of behaviors to be applied to phone calls with';
 
 CREATE TABLE IF NOT EXISTS `call_routes`
 (
 `call_route_sid` CHAR(36) NOT NULL UNIQUE ,
-`order` INTEGER NOT NULL,
+`priority` INTEGER NOT NULL,
 `account_sid` CHAR(36) NOT NULL,
 `regex` VARCHAR(255) NOT NULL,
 `application_sid` CHAR(36) NOT NULL,
@@ -203,6 +206,16 @@ CREATE TABLE IF NOT EXISTS `phone_numbers`
 PRIMARY KEY (`phone_number_sid`)
 ) ENGINE=InnoDB COMMENT='A phone number that has been assigned to an account';
 
+CREATE TABLE IF NOT EXISTS `lcr_carrier_set_entry`
+(
+`lcr_carrier_set_entry_sid` CHAR(36),
+`workload` INTEGER NOT NULL DEFAULT 1,
+`lcr_route_sid` CHAR(36) NOT NULL,
+`voip_carrier_sid` CHAR(36) NOT NULL,
+`priority` INTEGER NOT NULL DEFAULT 0,
+PRIMARY KEY (`lcr_carrier_set_entry_sid`)
+);
+
 CREATE TABLE IF NOT EXISTS `sip_gateways`
 (
 `sip_gateway_sid` CHAR(36),
@@ -213,16 +226,6 @@ CREATE TABLE IF NOT EXISTS `sip_gateways`
 `voip_carrier_sid` CHAR(36) NOT NULL,
 `is_active` BOOLEAN NOT NULL DEFAULT 1,
 PRIMARY KEY (`sip_gateway_sid`)
-);
-
-CREATE TABLE IF NOT EXISTS `lcr_carrier_set_entry`
-(
-`lcr_carrier_set_entry_sid` CHAR(36),
-`workload` INTEGER NOT NULL DEFAULT 1,
-`lcr_route_sid` CHAR(36) NOT NULL,
-`voip_carrier_sid` CHAR(36) NOT NULL,
-`priority` INTEGER NOT NULL DEFAULT 0,
-PRIMARY KEY (`lcr_carrier_set_entry_sid`)
 );
 
 CREATE UNIQUE INDEX `applications_idx_name` ON `applications` (`account_sid`,`name`);
@@ -290,10 +293,10 @@ ALTER TABLE `phone_numbers` ADD FOREIGN KEY account_sid_idxfk_3 (`account_sid`) 
 
 ALTER TABLE `phone_numbers` ADD FOREIGN KEY application_sid_idxfk_2 (`application_sid`) REFERENCES `applications` (`application_sid`);
 
-CREATE UNIQUE INDEX `sip_gateways_sip_gateway_idx_hostport` ON `sip_gateways` (`ipv4`,`port`);
-
-ALTER TABLE `sip_gateways` ADD FOREIGN KEY voip_carrier_sid_idxfk_1 (`voip_carrier_sid`) REFERENCES `voip_carriers` (`voip_carrier_sid`);
-
 ALTER TABLE `lcr_carrier_set_entry` ADD FOREIGN KEY lcr_route_sid_idxfk (`lcr_route_sid`) REFERENCES `lcr_routes` (`lcr_route_sid`);
 
-ALTER TABLE `lcr_carrier_set_entry` ADD FOREIGN KEY voip_carrier_sid_idxfk_2 (`voip_carrier_sid`) REFERENCES `voip_carriers` (`voip_carrier_sid`);
+ALTER TABLE `lcr_carrier_set_entry` ADD FOREIGN KEY voip_carrier_sid_idxfk_1 (`voip_carrier_sid`) REFERENCES `voip_carriers` (`voip_carrier_sid`);
+
+CREATE UNIQUE INDEX `sip_gateways_sip_gateway_idx_hostport` ON `sip_gateways` (`ipv4`,`port`);
+
+ALTER TABLE `sip_gateways` ADD FOREIGN KEY voip_carrier_sid_idxfk_2 (`voip_carrier_sid`) REFERENCES `voip_carriers` (`voip_carrier_sid`);
