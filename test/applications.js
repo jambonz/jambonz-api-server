@@ -32,8 +32,13 @@ test('application tests', async(t) => {
       body: {
         name: 'daveh',
         account_sid,
-        call_hook: 'http://example.com',
-        call_status_hook: 'http://example.com'
+        call_hook: {
+          url: 'http://example.com'
+        },
+        call_status_hook: {
+          url: 'http://example.com/status',
+          method: 'POST'
+        }
       }
     });
     t.ok(result.statusCode === 201, 'successfully created application');
@@ -60,7 +65,9 @@ test('application tests', async(t) => {
       json: true,
       resolveWithFullResponse: true,
       body: {
-        call_hook: 'http://example2.com'
+        call_hook: {
+          url: 'http://example2.com'
+        }
       }
     });
     t.ok(result.statusCode === 204, 'successfully updated application');

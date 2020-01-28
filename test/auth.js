@@ -55,7 +55,10 @@ test('authentication tests', async(t) => {
       simple: false,
       json: true,
       body: {
-        name: 'accountA1'
+        name: 'accountA1',
+        registration_hook: {
+          url: 'http://example.com'
+        }
       }
     });
     t.ok(result.statusCode === 201, 'successfully created account A1 using service provider token A');
@@ -216,8 +219,12 @@ test('authentication tests', async(t) => {
       json: true,
       body: {
         name: 'A1-app',
-        call_hook: 'http://example.com',
-        call_status_hook: 'http://example.com'
+        call_hook: {
+          url: 'http://example.com'
+        },
+        call_status_hook: {
+          url: 'http://example.com'
+        }
       }
     });
     t.ok(result.statusCode === 201, 'successfully created application for account A1 (using account level token)');
@@ -231,8 +238,12 @@ test('authentication tests', async(t) => {
       body: {
         name: 'A2-app',
         account_sid: accA2,
-        call_hook: 'http://example.com',
-        call_status_hook: 'http://example.com'
+        call_hook: {
+          url: 'http://example.com',
+        },
+        call_status_hook: {
+          url: 'http://example.com'
+        }
       }
     });
     t.ok(result.statusCode === 400 && result.body.msg === 'insufficient privileges to create an application under the specified account',
@@ -246,8 +257,8 @@ test('authentication tests', async(t) => {
       body: {
         name: 'A2-app',
         account_sid: accA2,
-        call_hook: 'http://example.com',
-        call_status_hook: 'http://example.com'
+        call_hook: {url: 'http://example.com'},
+        call_status_hook: {url: 'http://example.com'}
       }
     });
     t.ok(result.statusCode === 201, 'successfully created application for account A2 (using service provider token A)');
@@ -261,8 +272,8 @@ test('authentication tests', async(t) => {
       body: {
         name: 'B1-app',
         account_sid: accB1,
-        call_hook: 'http://example.com',
-        call_status_hook: 'http://example.com'
+        call_hook: {url: 'http://example.com'},
+        call_status_hook: {url: 'http://example.com'}
       }
     });
     t.ok(result.statusCode === 201, 'successfully created application for account B1 (using service provider token B)');

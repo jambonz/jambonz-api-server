@@ -655,20 +655,18 @@ paths:
                   description: sip realm for registration
                   example: sip.mycompany.com
                 registration_hook:
-                  type: string
-                  format: url
+                  $ref: '#/components/Webhook'
                   description: authentication webhook for registration
-                  example: https://mycompany.com
+                device_calling_hook:
+                  $ref: '#/components/Webhook'
+                  description: webhook for inbound call from registered devices
+                error_hook:
+                  $ref: '#/components/Webhook'
+                  description: webhook for reporting errors from malformed applications
                 service_provider_sid:
                   type: string
                   format: uuid
                   example: 85f9c036-ba61-4f28-b2f5-617c23fa68ff
-                hook_basic_auth_user:
-                  type: string
-                  description: username to use for http basic auth when calling hook
-                hook_basic_auth_password:
-                  type: string
-                  description: password to use for http basic auth when calling hook
               required: 
                 - name
                 - service_provider_sid
@@ -797,10 +795,6 @@ paths:
                             type: string
                             format: url
                             description: url of application to invoke when this device places a call
-                          call_status_hook:
-                            type: string
-                            format: url
-                            description: url of application to invoke for call status events on calls placed from this device
                           expires:
                             type: number
                             description: |
@@ -922,25 +916,19 @@ paths:
                   type: string
                   format: uuid
                 call_hook:
-                  type: string
-                  format: url
-                  description: webhook to invoke when call is received
+                  $ref: '#/components/Webhook'
+                  description: authentication webhook for inbound calls from PSTN
                 call_status_hook:
+                  $ref: '#/components/Webhook'
+                  description: webhook for call status events
+                speech_synthesis_vendor:
                   type: string
-                  format: url
-                  description: webhook to pass call status updates to
-                hook_basic_auth_user:
+                speech_synthesis_voice:
                   type: string
-                  description: username to use for http basic auth when calling hook
-                hook_basic_auth_password:
+                speech_recognizer_vendor:
                   type: string
-                  description: password to use for http basic auth when calling hook
-                hook_http_method:
+                speech_recognizer_language:
                   type: string
-                  description: whether to use GET or POST
-                  enum:
-                    - get
-                    - post
               required: 
                 - name
                 - account_sid
@@ -1243,17 +1231,17 @@ components:
         sip_realm:
           type: string
         registration_hook:
-          type: string
-          format: url
+          $ref: '#/components/Webhook'
+          description: authentication webhook for registration
+        device_calling_hook:
+          $ref: '#/components/Webhook'
+          description: webhook for inbound call from registered devices
+        error_hook:
+          $ref: '#/components/Webhook'
+          description: webhook for reporting errors from malformed applications
         service_provider_sid:
           type: string
           format: uuid
-        hook_basic_auth_user:
-          type: string
-          format: url
-        hook_basic_auth_password:
-          type: string
-          format: url
       required:
         - account_sid
         - name
@@ -1270,29 +1258,25 @@ components:
           type: string
           format: uuid
         call_hook:
-          type: string
-          format: url
+          $ref: '#/components/Webhook'
+          description: authentication webhook for registration
         call_status_hook:
+          $ref: '#/components/Webhook'
+          description: authentication webhook for registration
+        speech_synthesis_vendor:
           type: string
-          format: url
-        hook_http_method:
+        speech_synthesis_voice:
           type: string
-          enum:
-            - get
-            - post
-          default: get
-        hook_basic_auth_user:
+        speech_recognizer_vendor:
           type: string
-          format: url
-        hook_basic_auth_password:
+        speech_recognizer_language:
           type: string
-          format: url
       required:
         - application_sid
         - name
         - account_sid
-        - call_hook
-        - call_status_hook
+        - inbound_hook
+        - inbound_status_hook
     PhoneNumber:
       type: object
       properties:
@@ -1362,6 +1346,23 @@ components:
         - call_sid
         - application
         - direction
+    Webhook:
+      type: object
+      properties:
+        url:
+          type: string
+          format: url
+        method:
+          type: string
+          enum:
+            - get
+            - post
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - url
 
 security:
   - bearerAuth: []

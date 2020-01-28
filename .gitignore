@@ -39,3 +39,5 @@ node_modules
 examples/*
 
 create_db.sql
+
+.vscode
