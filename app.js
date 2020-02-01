@@ -24,6 +24,7 @@ app.use((err, req, res, next) => {
   logger.error(err, 'burped error');
   res.status(err.status || 500).json({msg: err.message});
 });
+logger.info(`listening for HTTP traffic on port ${PORT}`);
 app.listen(PORT);
 
 module.exports = app;

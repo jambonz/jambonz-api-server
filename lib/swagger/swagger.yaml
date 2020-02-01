@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Jambones REST API
-  description: Jambones REST API
+  title: jambonz REST API
+  description: jambonz REST API
   contact:
     email: daveh@drachtio.org
   license:
@@ -1051,17 +1051,12 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
         
   
-  /Accounts/{AccountSid}/Applications/{ApplicationSid}/Calls:
+  /Accounts/{AccountSid}/Calls:
     post:
       summary: create a call
       operationId: createCall
       parameters:
       - name: AccountSid
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: ApplicationSid
         in: path
         required: true
         schema:
@@ -1075,39 +1070,28 @@ paths:
                 - to
               type: object
               properties:
-                url:
+                application_sid:
                   type: string
-                  description: |
-                    The url of the web application to control this call.
-                    If not provided, the url specified in the application will be used
-                  example: https://mycompany.com/deliver-message.json
+                  format: uuid
+                  description: The application to use to control this call.  Either applicationSid or url is required.
+                call_hook:
+                  $ref: '#/components/Webhook'
+                call_status_hook:
+                  $ref: '#/components/Webhook'
                 from:
                   type: string
                   description: The calling party number
-                  example: 16172375089
+                  example: +16172375089
+                timeout:
+                  type: integer
+                  description: the number of seconds to wait for call to be answered.  Defaults to 60.
+                tag:
+                  type: object
+                  description: initial set of customer-supplied metadata to associate with the call (see jambonz 'tag' verb)
                 to:
-                  type: string
-                  description: The telephone number or sip endpoint to call
-                  example: 16172228000
-                recordingUrl:
-                  type: string
-                  format: url
-                  description: A websocket url to stream the call audio to
-                  example: wss://myserver.com
-                recordingMix:
-                  type: string
-                  description: whether to record either or both parties
-                  enum:
-                    - caller
-                    - callee
-                    - stereo
-                    - mixed
-                  example: stereo
-                statusCallback:
-                  type: string
-                  format: url
-                  description: The url to send call status change events to
-                  example: https://company.com/status
+                  $ref: '#/components/Target'
+                  description: destination for call
+
       responses:
         201:
           description: call successfully created
@@ -1317,35 +1301,6 @@ components:
         - username
         - domain
         - sip_contact
-    Call:
-      type: object
-      properties:
-        call_sid:
-          type: string
-          format: uuid
-        application:
-          $ref: '#/components/schemas/Application'
-        parent_call:
-          $ref: '#/components/schemas/Call'
-        direction:
-          type: string
-          enum:
-          - inbound
-          - outbound
-        phone_number:
-          $ref: '#/components/schemas/PhoneNumber'
-        inbound_user:
-          $ref: '#/components/schemas/RegisteredUser'
-        outbound_user:
-          $ref: '#/components/schemas/RegisteredUser'
-        calling_number:
-          type: string
-        called_number:
-          type: string
-      required:
-        - call_sid
-        - application
-        - direction
     Webhook:
       type: object
       properties:
@@ -1363,6 +1318,82 @@ components:
           type: string
       required:
         - url
+    Call:
+      type: object
+      properties:
+        account_sid:
+          type: string
+          format: uuid
+        application_sid:
+          type: string
+          format: uuid
+        api_version:
+          type: string
+        caller_name:
+          type: string
+        call_sid:
+          type: string
+          format: uuid
+        date_created:
+          type: string
+        date_updated:
+          type: string
+        direction:
+          type: string
+          enum:
+            - inbound
+            - outbound 
+        duration:
+          type: integer
+        end_time:
+          type: string
+        forwarded_from:
+          type: string
+        from:
+          type: string
+        parent_call_sid:
+          type: string
+          format: uuid
+        phone_number_sid:
+          type: string
+          format: uuid
+        start_time:
+          type: string
+        to:
+          type: string
+        uri:
+          type: string
+      required:
+        - api_version
+        - account-sid
+        - call_sid
+        - date_created
+        - from
+        - to
+        - uri
+    Target:
+      properties:
+        type:
+          type: string
+          enum:
+            - phone
+            - sip
+            - user
+        number:
+          type: string
+        sipUri:
+          type: string
+        name:
+          type: string
+        auth:
+          type: object
+          properties:
+            username:
+              type: string
+            password:
+              type: string
+      required:
+        - type
 
 security:
   - bearerAuth: []

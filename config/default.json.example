@@ -8,5 +8,8 @@
     "password": "secret",
     "database": "jambones",
     "connectionLimit": 10
+  },
+  "services": {
+    "createCall": "http://feature.server/createCall:3000"
   }
 }
