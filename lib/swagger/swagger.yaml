@@ -655,13 +655,13 @@ paths:
                   description: sip realm for registration
                   example: sip.mycompany.com
                 registration_hook:
-                  $ref: '#/components/Webhook'
+                  $ref: '#/components/schemas/Webhook'
                   description: authentication webhook for registration
                 device_calling_hook:
-                  $ref: '#/components/Webhook'
+                  $ref: '#/components/schemas/Webhook'
                   description: webhook for inbound call from registered devices
                 error_hook:
-                  $ref: '#/components/Webhook'
+                  $ref: '#/components/schemas/Webhook'
                   description: webhook for reporting errors from malformed applications
                 service_provider_sid:
                   type: string
@@ -916,10 +916,10 @@ paths:
                   type: string
                   format: uuid
                 call_hook:
-                  $ref: '#/components/Webhook'
+                  $ref: '#/components/schemas/Webhook'
                   description: authentication webhook for inbound calls from PSTN
                 call_status_hook:
-                  $ref: '#/components/Webhook'
+                  $ref: '#/components/schemas/Webhook'
                   description: webhook for call status events
                 speech_synthesis_vendor:
                   type: string
@@ -1075,21 +1075,24 @@ paths:
                   format: uuid
                   description: The application to use to control this call.  Either applicationSid or url is required.
                 call_hook:
-                  $ref: '#/components/Webhook'
+                  $ref: '#/components/schemas/Webhook'
                 call_status_hook:
-                  $ref: '#/components/Webhook'
+                  $ref: '#/components/schemas/Webhook'
+                  example: {"url": "https://acme.com/status", "method": "POST"}
                 from:
                   type: string
                   description: The calling party number
-                  example: +16172375089
+                  example: 16172375089
                 timeout:
                   type: integer
                   description: the number of seconds to wait for call to be answered.  Defaults to 60.
+                  example: 30
                 tag:
                   type: object
                   description: initial set of customer-supplied metadata to associate with the call (see jambonz 'tag' verb)
+                  example: {"callCount": 10}
                 to:
-                  $ref: '#/components/Target'
+                  $ref: '#/components/schemas/Target'
                   description: destination for call
 
       responses:
@@ -1215,13 +1218,13 @@ components:
         sip_realm:
           type: string
         registration_hook:
-          $ref: '#/components/Webhook'
+          $ref: '#/components/schemas/Webhook'
           description: authentication webhook for registration
         device_calling_hook:
-          $ref: '#/components/Webhook'
+          $ref: '#/components/schemas/Webhook'
           description: webhook for inbound call from registered devices
         error_hook:
-          $ref: '#/components/Webhook'
+          $ref: '#/components/schemas/Webhook'
           description: webhook for reporting errors from malformed applications
         service_provider_sid:
           type: string
@@ -1242,10 +1245,10 @@ components:
           type: string
           format: uuid
         call_hook:
-          $ref: '#/components/Webhook'
+          $ref: '#/components/schemas/Webhook'
           description: authentication webhook for registration
         call_status_hook:
-          $ref: '#/components/Webhook'
+          $ref: '#/components/schemas/Webhook'
           description: authentication webhook for registration
         speech_synthesis_vendor:
           type: string
@@ -1318,6 +1321,7 @@ components:
           type: string
       required:
         - url
+      example: {"url": "https://acme.com", "method": "POST"}
     Call:
       type: object
       properties:
@@ -1394,6 +1398,7 @@ components:
               type: string
       required:
         - type
+      example: {"type": "phone", "number": "+16172375080"}
 
 security:
   - bearerAuth: []
