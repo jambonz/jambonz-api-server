@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "NODE_ENV=test node test/ | ./node_modules/.bin/tap-spec",
     "coverage": "./node_modules/.bin/nyc --reporter html --report-dir ./coverage npm run test",
     "jslint": "eslint app.js lib"
