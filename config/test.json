@@ -11,5 +11,9 @@
   "redis": {
     "host": "127.0.0.1",
     "port": 6379
+  },
+  "services": {
+    "apiVersion" : "v1",
+    "createCall": "http://feature.server/v1/createCall:3000"
   }
 }
