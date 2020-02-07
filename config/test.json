@@ -7,5 +7,9 @@
     "user": "jambones_test",
     "database": "jambones_test",
     "password": "jambones_test"
+  },
+  "redis": {
+    "host": "127.0.0.1",
+    "port": 6379
   }
 }

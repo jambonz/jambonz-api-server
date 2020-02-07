@@ -9,11 +9,18 @@ const cors = require('cors');
 const passport = require('passport');
 const authStrategy = require('./lib/auth')(logger);
 const routes = require('./lib/routes');
+const {retrieveCall, deleteCall, listCalls} = require('jambonz-realtimedb-helpers')(config.get('redis'), logger);
 const PORT = process.env.HTTP_PORT || 3000;
 
 passport.use(authStrategy);
 
-app.locals.logger = logger;
+app.locals = app.locals || {};
+Object.assign(app.locals, {
+  logger,
+  retrieveCall,
+  deleteCall,
+  listCalls
+});
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));

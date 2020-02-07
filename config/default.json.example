@@ -9,7 +9,12 @@
     "database": "jambones",
     "connectionLimit": 10
   },
+  "redis": {
+    "host": "127.0.0.1",
+    "port": 6379
+  },
   "services": {
-    "createCall": "http://feature.server/createCall:3000"
+    "apiVersion" : "v1",
+    "createCall": "http://feature.server/v1/createCall:3000"
   }
 }

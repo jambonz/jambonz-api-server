@@ -1094,7 +1094,6 @@ paths:
                 to:
                   $ref: '#/components/schemas/Target'
                   description: destination for call
-
       responses:
         201:
           description: call successfully created
@@ -1110,7 +1109,117 @@ paths:
                     example: 2531329f-fb09-4ef7-887e-84e648214436
         400:
           description: bad request
+    get:
+      summary: list calls
+      operationId: listCalls
+      parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: list of calls for a specified account
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Call'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
 
+
+  /Accounts/{AccountSid}/Calls/{CallSid}:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: CallSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    delete:
+      summary: delete a call
+      operationId: deleteCall
+      responses:
+        204:
+          description: call successfully deleted
+        404:
+          description: call not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      summary: retrieve a call
+      responses:
+        200:
+          description: call found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Call'
+        404:
+          description: call not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    post:
+      summary: update a call
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                call_hook:
+                  $ref: '#/components/schemas/Webhook'
+                call_status_hook:
+                  $ref: '#/components/schemas/Webhook'
+                call_status:
+                  type: string
+                  enum:
+                    - completed
+                    - no-answer
+      responses:
+        200:
+          description: call updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Call'
+        404:
+          description: call not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'                
 components:
   securitySchemes:
     bearerAuth:
@@ -1331,16 +1440,24 @@ components:
         application_sid:
           type: string
           format: uuid
-        api_version:
-          type: string
-        caller_name:
+        call_id:
           type: string
         call_sid:
           type: string
           format: uuid
-        date_created:
+        call_status:
           type: string
-        date_updated:
+          enum:
+            - trying
+            - ringing
+            - alerting
+            - in-progress
+            - completed
+            - busy
+            - no-answer
+            - failed
+            - queued
+        caller_name:
           type: string
         direction:
           type: string
@@ -1349,32 +1466,29 @@ components:
             - outbound 
         duration:
           type: integer
-        end_time:
-          type: string
-        forwarded_from:
-          type: string
         from:
+          type: string
+        originating_sip_trunk_name:
           type: string
         parent_call_sid:
           type: string
           format: uuid
-        phone_number_sid:
+        service_url:
           type: string
-          format: uuid
-        start_time:
-          type: string
+        sip_status:
+          type: integer
         to:
           type: string
-        uri:
-          type: string
       required:
-        - api_version
-        - account-sid
+        - account_sid
+        - call_id
         - call_sid
-        - date_created
+        - call_status
+        - direction
         - from
+        - service_url
+        - sip_status
         - to
-        - uri
     Target:
       properties:
         type:
