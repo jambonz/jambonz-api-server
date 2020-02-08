@@ -15,6 +15,10 @@ const {
   listCalls,
   purgeCalls
 } = require('jambonz-realtimedb-helpers')(config.get('redis'), logger);
+const {
+  lookupApplicationBySid,
+  lookupAccountBySid
+} = require('jambonz-db-helpers')(config.get('mysql'), logger);
 const PORT = process.env.HTTP_PORT || 3000;
 
 passport.use(authStrategy);
@@ -25,7 +29,9 @@ Object.assign(app.locals, {
   retrieveCall,
   deleteCall,
   listCalls,
-  purgeCalls
+  purgeCalls,
+  lookupApplicationBySid,
+  lookupAccountBySid
 });
 
 app.use(cors());

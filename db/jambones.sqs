@@ -1,107 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SQLContainer>
     <SQLTable>
-        <name><![CDATA[registrations]]></name>
-        <schema><![CDATA[]]></schema>
-        <comment><![CDATA[An active sip registration]]></comment>
-        <tableType><![CDATA[InnoDB]]></tableType>
-        <location>
-            <x>854.00</x>
-            <y>1190.00</y>
-        </location>
-        <size>
-            <width>282.00</width>
-            <height>120.00</height>
-        </size>
-        <zorder>5</zorder>
-        <SQLField>
-            <name><![CDATA[registration_sid]]></name>
-            <type><![CDATA[CHAR(36)]]></type>
-            <primaryKey>1</primaryKey>
-            <autoIncrement><![CDATA[0]]></autoIncrement>
-            <forcedUnique><![CDATA[1]]></forcedUnique>
-            <indexed><![CDATA[1]]></indexed>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[C7DAA073-B3C3-4AFA-854A-4F4D6F7EC5BC]]></uid>
-            <unique><![CDATA[1]]></unique>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[username]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[F70D0EAA-5063-4A0A-B7DA-F27D66D7A744]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[domain]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[0D360AB8-FAB5-4A80-83D5-5B1BDE9A1D2E]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[sip_contact]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[EADB5F6B-117B-4241-8BA4-F6AA91115F9C]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[sip_user_agent]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <uid><![CDATA[7B5CFAB8-1489-4FCC-AA0F-8F5159C2A4E6]]></uid>
-        </SQLField>
-        <labelWindowIndex><![CDATA[17]]></labelWindowIndex>
-        <objectComment><![CDATA[An active sip registration]]></objectComment>
-        <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
-        <uid><![CDATA[09D20234-503B-42B4-B34D-BDE7FC2FFA6E]]></uid>
-    </SQLTable>
-    <SQLTable>
-        <name><![CDATA[queues]]></name>
-        <schema><![CDATA[]]></schema>
-        <comment><![CDATA[A set of behaviors to be applied to parked calls]]></comment>
-        <tableType><![CDATA[InnoDB]]></tableType>
-        <location>
-            <x>1277.00</x>
-            <y>944.00</y>
-        </location>
-        <size>
-            <width>227.00</width>
-            <height>80.00</height>
-        </size>
-        <zorder>7</zorder>
-        <SQLField>
-            <name><![CDATA[id]]></name>
-            <type><![CDATA[INTEGER(10)]]></type>
-            <primaryKey>1</primaryKey>
-            <autoIncrement><![CDATA[1]]></autoIncrement>
-            <forcedUnique><![CDATA[0]]></forcedUnique>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[9C272250-4885-4DE7-8A14-EA9762C1FABA]]></uid>
-            <unique><![CDATA[1]]></unique>
-            <unsigned><![CDATA[1]]></unsigned>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[queue_sid]]></name>
-            <type><![CDATA[CHAR(36)]]></type>
-            <autoIncrement><![CDATA[0]]></autoIncrement>
-            <forcedUnique><![CDATA[1]]></forcedUnique>
-            <indexed><![CDATA[1]]></indexed>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[CEA40333-B24C-469E-9708-2305A236AE7C]]></uid>
-            <unique><![CDATA[1]]></unique>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[name]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <uid><![CDATA[4D191E4E-BAC3-4131-A06F-66CF45127D92]]></uid>
-        </SQLField>
-        <labelWindowIndex><![CDATA[16]]></labelWindowIndex>
-        <objectComment><![CDATA[A set of behaviors to be applied to parked calls]]></objectComment>
-        <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
-        <uid><![CDATA[2FBA947F-0976-491E-B9DE-7812B44A663A]]></uid>
-    </SQLTable>
-    <SQLTable>
         <name><![CDATA[voip_carriers]]></name>
         <schema><![CDATA[]]></schema>
-        <comment><![CDATA[An external organization that can provide sip trunking and DIDs]]></comment>
+        <comment><![CDATA[A Carrier or customer PBX that can send or receive calls]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
             <x>417.00</x>
@@ -109,9 +11,9 @@
         </location>
         <size>
             <width>266.00</width>
-            <height>80.00</height>
+            <height>120.00</height>
         </size>
-        <zorder>13</zorder>
+        <zorder>6</zorder>
         <SQLField>
             <name><![CDATA[voip_carrier_sid]]></name>
             <type><![CDATA[CHAR(36)]]></type>
@@ -125,7 +27,7 @@
         </SQLField>
         <SQLField>
             <name><![CDATA[name]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
+            <type><![CDATA[VARCHAR(64)]]></type>
             <autoIncrement><![CDATA[0]]></autoIncrement>
             <indexed><![CDATA[1]]></indexed>
             <notNull><![CDATA[1]]></notNull>
@@ -137,8 +39,36 @@
             <type><![CDATA[VARCHAR(255)]]></type>
             <uid><![CDATA[27E702F3-73ED-43F4-8B40-3C170AA17445]]></uid>
         </SQLField>
+        <SQLField>
+            <name><![CDATA[account_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>account_sid</referencesField>
+            <referencesTable>accounts</referencesTable>
+            <referencesField><![CDATA[account_sid]]></referencesField>
+            <referencesTable><![CDATA[accounts]]></referencesTable>
+            <sourceCardinality>4</sourceCardinality>
+            <destinationCardinality>2</destinationCardinality>
+            <referencesFieldUID><![CDATA[1342FAFA-C15C-429B-809B-C6C55F9FA5B6]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[985D6997-B1A7-4AB3-80F4-4D59B45480C8]]></referencesTableUID>
+            <objectComment><![CDATA[if provided, indicates this entity represents a customer PBX that is associated with a specific account]]></objectComment>
+            <uid><![CDATA[A1047797-5ACB-4E2E-8F87-5AA965D2EBD8]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[application_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>application_sid</referencesField>
+            <referencesTable>applications</referencesTable>
+            <referencesField><![CDATA[application_sid]]></referencesField>
+            <referencesTable><![CDATA[applications]]></referencesTable>
+            <sourceCardinality>4</sourceCardinality>
+            <destinationCardinality>2</destinationCardinality>
+            <referencesFieldUID><![CDATA[EF943D13-DCB0-43C1-B03F-550612E20F9D]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[E97EE4F0-7ED7-4E8C-862E-D98192D6EAE0]]></referencesTableUID>
+            <objectComment><![CDATA[If provided, all incoming calls from this source will be routed to the associated application]]></objectComment>
+            <uid><![CDATA[B6545E2E-7F55-4082-AEFA-29F50C137D64]]></uid>
+        </SQLField>
         <labelWindowIndex><![CDATA[5]]></labelWindowIndex>
-        <objectComment><![CDATA[An external organization that can provide sip trunking and DIDs]]></objectComment>
+        <objectComment><![CDATA[A Carrier or customer PBX that can send or receive calls]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[3D3136A7-AFC0-4A70-AEC3-68577955CA2E]]></uid>
     </SQLTable>
@@ -210,6 +140,7 @@
     <SQLTable>
         <name><![CDATA[webhooks]]></name>
         <schema><![CDATA[]]></schema>
+        <comment><![CDATA[An HTTP callback]]></comment>
         <location>
             <x>1383.00</x>
             <y>365.00</y>
@@ -218,7 +149,7 @@
             <width>254.00</width>
             <height>120.00</height>
         </size>
-        <zorder>17</zorder>
+        <zorder>10</zorder>
         <SQLField>
             <name><![CDATA[webhook_sid]]></name>
             <type><![CDATA[CHAR(36)]]></type>
@@ -253,12 +184,14 @@
             <uid><![CDATA[04BB457A-D532-4780-8A58-5900094171EC]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[1]]></labelWindowIndex>
+        <objectComment><![CDATA[An HTTP callback]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[64D64CB9-0990-4C68-BE71-F9FD43C2BE19]]></uid>
     </SQLTable>
     <SQLTable>
         <name><![CDATA[call_routes]]></name>
         <schema><![CDATA[]]></schema>
+        <comment><![CDATA[a regex-based pattern match for call routing]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
             <x>406.00</x>
@@ -268,7 +201,7 @@
             <width>254.00</width>
             <height>120.00</height>
         </size>
-        <zorder>11</zorder>
+        <zorder>5</zorder>
         <SQLField>
             <name><![CDATA[call_route_sid]]></name>
             <type><![CDATA[CHAR(36)]]></type>
@@ -322,78 +255,14 @@
             <unsigned><![CDATA[0]]></unsigned>
         </SQLField>
         <labelWindowIndex><![CDATA[14]]></labelWindowIndex>
+        <objectComment><![CDATA[a regex-based pattern match for call routing]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[78584D93-2CD7-4495-9C5E-893C7B869133]]></uid>
     </SQLTable>
     <SQLTable>
-        <name><![CDATA[queue_members]]></name>
-        <schema><![CDATA[]]></schema>
-        <comment><![CDATA[A relationship between a call and a queue that it is waiting in]]></comment>
-        <tableType><![CDATA[InnoDB]]></tableType>
-        <location>
-            <x>871.00</x>
-            <y>1024.00</y>
-        </location>
-        <size>
-            <width>286.00</width>
-            <height>100.00</height>
-        </size>
-        <zorder>12</zorder>
-        <SQLField>
-            <name><![CDATA[queue_member_sid]]></name>
-            <type><![CDATA[CHAR(36)]]></type>
-            <primaryKey>1</primaryKey>
-            <autoIncrement><![CDATA[0]]></autoIncrement>
-            <indexed><![CDATA[1]]></indexed>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[4EB44EF4-3976-4220-A7CC-2E1E51B7F4F3]]></uid>
-            <unique><![CDATA[1]]></unique>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[call_sid]]></name>
-            <type><![CDATA[CHAR(36)]]></type>
-            <referencesField>call_sid</referencesField>
-            <referencesTable>calls</referencesTable>
-            <referencesField><![CDATA[call_sid]]></referencesField>
-            <referencesTable><![CDATA[calls]]></referencesTable>
-            <sourceCardinality>2</sourceCardinality>
-            <destinationCardinality>1</destinationCardinality>
-            <referencesFieldUID><![CDATA[EB298238-98AD-424A-A15B-935CF9D4AA53]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[A58DEB6C-A5C6-441A-8659-5BC27A53FB00]]></referencesTableUID>
-            <autoIncrement><![CDATA[0]]></autoIncrement>
-            <notNull><![CDATA[0]]></notNull>
-            <uid><![CDATA[CAF4A898-CDBF-4C96-9357-65CEAC8DD43A]]></uid>
-            <unsigned><![CDATA[0]]></unsigned>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[queue_sid]]></name>
-            <type><![CDATA[CHAR(36)]]></type>
-            <referencesField>queue_sid</referencesField>
-            <referencesTable>queues</referencesTable>
-            <referencesField><![CDATA[queue_sid]]></referencesField>
-            <referencesTable><![CDATA[queues]]></referencesTable>
-            <sourceCardinality>4</sourceCardinality>
-            <destinationCardinality>1</destinationCardinality>
-            <referencesFieldUID><![CDATA[CEA40333-B24C-469E-9708-2305A236AE7C]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[2FBA947F-0976-491E-B9DE-7812B44A663A]]></referencesTableUID>
-            <autoIncrement><![CDATA[0]]></autoIncrement>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[2849848C-825D-46E9-B26E-5142A1C0D53F]]></uid>
-            <unsigned><![CDATA[0]]></unsigned>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[position]]></name>
-            <type><![CDATA[INTEGER]]></type>
-            <uid><![CDATA[96823D87-D5BE-4D15-BC31-BE44485DC303]]></uid>
-        </SQLField>
-        <labelWindowIndex><![CDATA[13]]></labelWindowIndex>
-        <objectComment><![CDATA[A relationship between a call and a queue that it is waiting in]]></objectComment>
-        <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
-        <uid><![CDATA[8FA89482-40F1-46E5-8652-03CE22395A7B]]></uid>
-    </SQLTable>
-    <SQLTable>
         <name><![CDATA[lcr_carrier_set_entry]]></name>
         <schema><![CDATA[]]></schema>
+        <comment><![CDATA[An entry in the LCR routing list]]></comment>
         <location>
             <x>63.00</x>
             <y>315.00</y>
@@ -402,7 +271,7 @@
             <width>259.00</width>
             <height>120.00</height>
         </size>
-        <zorder>16</zorder>
+        <zorder>9</zorder>
         <SQLField>
             <name><![CDATA[lcr_carrier_set_entry_sid]]></name>
             <type><![CDATA[CHAR(36)]]></type>
@@ -414,6 +283,7 @@
             <type><![CDATA[INTEGER]]></type>
             <defaultValue><![CDATA[1]]></defaultValue>
             <notNull><![CDATA[1]]></notNull>
+            <objectComment><![CDATA[represents a proportion of traffic to send through the associated carrier; can be used for load balancing traffic across carriers with a common priority for a destination]]></objectComment>
             <uid><![CDATA[D3930B7F-96F4-4FF7-8713-0DD7D6CC0AE0]]></uid>
         </SQLField>
         <SQLField>
@@ -450,16 +320,18 @@
             <type><![CDATA[INTEGER]]></type>
             <defaultValue><![CDATA[0]]></defaultValue>
             <notNull><![CDATA[1]]></notNull>
+            <objectComment><![CDATA[lower priority carriers are attempted first]]></objectComment>
             <uid><![CDATA[01F61C68-799B-49B0-9E6A-0E2162EE5A54]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[4]]></labelWindowIndex>
+        <objectComment><![CDATA[An entry in the LCR routing list]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[956025F5-0798-47F7-B76C-457814C7B52E]]></uid>
     </SQLTable>
     <SQLTable>
         <name><![CDATA[accounts]]></name>
         <schema><![CDATA[]]></schema>
-        <comment><![CDATA[A single end-user of the platform]]></comment>
+        <comment><![CDATA[An enterprise that uses the platform for comm services]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
             <x>825.00</x>
@@ -467,9 +339,9 @@
         </location>
         <size>
             <width>380.00</width>
-            <height>180.00</height>
+            <height>160.00</height>
         </size>
-        <zorder>10</zorder>
+        <zorder>4</zorder>
         <SQLField>
             <name><![CDATA[account_sid]]></name>
             <type><![CDATA[CHAR(36)]]></type>
@@ -490,8 +362,9 @@
         </SQLField>
         <SQLField>
             <name><![CDATA[sip_realm]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
+            <type><![CDATA[VARCHAR(132)]]></type>
             <indexed><![CDATA[1]]></indexed>
+            <objectComment><![CDATA[sip domain that will be used for devices registering under this account]]></objectComment>
             <uid><![CDATA[CD99250E-6126-4CCA-A1F1-63FFFB028E63]]></uid>
             <unique><![CDATA[1]]></unique>
         </SQLField>
@@ -509,6 +382,7 @@
             <forcedUnique><![CDATA[0]]></forcedUnique>
             <indexed><![CDATA[1]]></indexed>
             <notNull><![CDATA[1]]></notNull>
+            <objectComment><![CDATA[service provider that owns the customer relationship with this account]]></objectComment>
             <uid><![CDATA[4A8C5F2C-DACE-4C7E-916A-66485BE06884]]></uid>
             <unsigned><![CDATA[0]]></unsigned>
         </SQLField>
@@ -523,6 +397,7 @@
             <destinationCardinality>2</destinationCardinality>
             <referencesFieldUID><![CDATA[E046BA30-BC18-483C-A5C8-766E7160F574]]></referencesFieldUID>
             <referencesTableUID><![CDATA[64D64CB9-0990-4C68-BE71-F9FD43C2BE19]]></referencesTableUID>
+            <objectComment><![CDATA[webhook to call when devices underr this account attempt to register]]></objectComment>
             <uid><![CDATA[A75FAB8E-C2A1-4A05-A09E-6FF454109B6F]]></uid>
         </SQLField>
         <SQLField>
@@ -536,20 +411,8 @@
             <destinationCardinality>2</destinationCardinality>
             <referencesFieldUID><![CDATA[E046BA30-BC18-483C-A5C8-766E7160F574]]></referencesFieldUID>
             <referencesTableUID><![CDATA[64D64CB9-0990-4C68-BE71-F9FD43C2BE19]]></referencesTableUID>
+            <objectComment><![CDATA[webhook to call when devices under this account place outbound calls]]></objectComment>
             <uid><![CDATA[36C13087-E026-4F6F-A409-A082F7ADE1B6]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[error_hook_sid]]></name>
-            <type><![CDATA[CHAR(36)]]></type>
-            <referencesField>webhook_sid</referencesField>
-            <referencesTable>webhooks</referencesTable>
-            <referencesField><![CDATA[webhook_sid]]></referencesField>
-            <referencesTable><![CDATA[webhooks]]></referencesTable>
-            <sourceCardinality>4</sourceCardinality>
-            <destinationCardinality>2</destinationCardinality>
-            <referencesFieldUID><![CDATA[E046BA30-BC18-483C-A5C8-766E7160F574]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[64D64CB9-0990-4C68-BE71-F9FD43C2BE19]]></referencesTableUID>
-            <uid><![CDATA[F563DEB1-071D-4BBE-A858-A0A33D64A8B6]]></uid>
         </SQLField>
         <SQLField>
             <name><![CDATA[is_active]]></name>
@@ -559,301 +422,9 @@
             <uid><![CDATA[C7130A90-DBB4-424D-A9A9-CB203C32350C]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[12]]></labelWindowIndex>
-        <objectComment><![CDATA[A single end-user of the platform]]></objectComment>
+        <objectComment><![CDATA[An enterprise that uses the platform for comm services]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[985D6997-B1A7-4AB3-80F4-4D59B45480C8]]></uid>
-    </SQLTable>
-    <SQLTable>
-        <name><![CDATA[subscriptions]]></name>
-        <schema><![CDATA[]]></schema>
-        <comment><![CDATA[An active sip subscription]]></comment>
-        <tableType><![CDATA[InnoDB]]></tableType>
-        <location>
-            <x>846.00</x>
-            <y>1359.00</y>
-        </location>
-        <size>
-            <width>283.00</width>
-            <height>100.00</height>
-        </size>
-        <zorder>6</zorder>
-        <SQLField>
-            <name><![CDATA[id]]></name>
-            <type><![CDATA[INTEGER(10)]]></type>
-            <primaryKey>1</primaryKey>
-            <autoIncrement><![CDATA[1]]></autoIncrement>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[F01244AF-7055-4871-BC5F-DED4EFC5C510]]></uid>
-            <unique><![CDATA[1]]></unique>
-            <unsigned><![CDATA[1]]></unsigned>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[subscription_sid]]></name>
-            <type><![CDATA[CHAR(36)]]></type>
-            <autoIncrement><![CDATA[0]]></autoIncrement>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[89B66033-AF5A-4CAF-BB71-4939061F3EDA]]></uid>
-            <unique><![CDATA[1]]></unique>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[registration_sid]]></name>
-            <type><![CDATA[CHAR(36)]]></type>
-            <referencesField>registration_sid</referencesField>
-            <referencesTable>registrations</referencesTable>
-            <referencesField><![CDATA[registration_sid]]></referencesField>
-            <referencesTable><![CDATA[registrations]]></referencesTable>
-            <sourceCardinality>4</sourceCardinality>
-            <destinationCardinality>1</destinationCardinality>
-            <referencesFieldUID><![CDATA[C7DAA073-B3C3-4AFA-854A-4F4D6F7EC5BC]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[09D20234-503B-42B4-B34D-BDE7FC2FFA6E]]></referencesTableUID>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[CD3FFC4A-EBE4-4991-BC9B-D805C0D26254]]></uid>
-            <unsigned><![CDATA[0]]></unsigned>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[event]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <uid><![CDATA[318884AC-2CC4-4975-9973-606D2E9206BD]]></uid>
-        </SQLField>
-        <labelWindowIndex><![CDATA[11]]></labelWindowIndex>
-        <objectComment><![CDATA[An active sip subscription]]></objectComment>
-        <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
-        <uid><![CDATA[997ED97A-3E4E-4CDC-8F48-9C0FE9F913B2]]></uid>
-    </SQLTable>
-    <SQLTable>
-        <name><![CDATA[calls]]></name>
-        <schema><![CDATA[]]></schema>
-        <comment><![CDATA[A phone call]]></comment>
-        <tableType><![CDATA[InnoDB]]></tableType>
-        <location>
-            <x>415.00</x>
-            <y>932.00</y>
-        </location>
-        <size>
-            <width>306.00</width>
-            <height>620.00</height>
-        </size>
-        <zorder>2</zorder>
-        <SQLField>
-            <name><![CDATA[call_sid]]></name>
-            <type><![CDATA[CHAR(36)]]></type>
-            <primaryKey>1</primaryKey>
-            <forcedUnique><![CDATA[1]]></forcedUnique>
-            <indexed><![CDATA[1]]></indexed>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[EB298238-98AD-424A-A15B-935CF9D4AA53]]></uid>
-            <unique><![CDATA[1]]></unique>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[parent_call_sid]]></name>
-            <type><![CDATA[CHAR(36)]]></type>
-            <referencesField>call_sid</referencesField>
-            <referencesTable>calls</referencesTable>
-            <referencesField><![CDATA[call_sid]]></referencesField>
-            <referencesTable><![CDATA[calls]]></referencesTable>
-            <sourceCardinality>2</sourceCardinality>
-            <destinationCardinality>4</destinationCardinality>
-            <referencesFieldUID><![CDATA[EB298238-98AD-424A-A15B-935CF9D4AA53]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[A58DEB6C-A5C6-441A-8659-5BC27A53FB00]]></referencesTableUID>
-            <forcedUnique><![CDATA[0]]></forcedUnique>
-            <uid><![CDATA[DAF8DB93-9C26-4CCC-AC6C-1E8CA6B760B8]]></uid>
-            <unsigned><![CDATA[0]]></unsigned>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[application_sid]]></name>
-            <type><![CDATA[CHAR(36)]]></type>
-            <referencesField>application_sid</referencesField>
-            <referencesTable>applications</referencesTable>
-            <referencesField><![CDATA[application_sid]]></referencesField>
-            <referencesTable><![CDATA[applications]]></referencesTable>
-            <sourceCardinality>4</sourceCardinality>
-            <destinationCardinality>1</destinationCardinality>
-            <referencesFieldUID><![CDATA[EF943D13-DCB0-43C1-B03F-550612E20F9D]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[E97EE4F0-7ED7-4E8C-862E-D98192D6EAE0]]></referencesTableUID>
-            <uid><![CDATA[AEC22987-CD2B-480B-8E02-1F6A3A7CF569]]></uid>
-            <unsigned><![CDATA[0]]></unsigned>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[status_url]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <uid><![CDATA[EAFD0703-CEC4-4330-8730-3598120A3FB9]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[time_start]]></name>
-            <type><![CDATA[DATETIME]]></type>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[01101F7B-206C-48B8-A37A-8C2A43A5BBBE]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[time_alerting]]></name>
-            <type><![CDATA[DATETIME]]></type>
-            <uid><![CDATA[B9B162EB-5FE7-45F1-8460-D821EB9FC590]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[time_answered]]></name>
-            <type><![CDATA[DATETIME]]></type>
-            <uid><![CDATA[CFD9B011-3D75-400D-967C-FE90F84F1128]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[time_ended]]></name>
-            <type><![CDATA[DATETIME]]></type>
-            <uid><![CDATA[AFC6819A-1C28-41A2-ABC2-0284AD8C9D5D]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[direction]]></name>
-            <type><![CDATA[ENUM('inbound','outbound')]]></type>
-            <uid><![CDATA[F33FB52C-A7C2-4050-BEFC-B2C682135143]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[phone_number_sid]]></name>
-            <type><![CDATA[CHAR(36)]]></type>
-            <referencesField>phone_number_sid</referencesField>
-            <referencesTable>phone_numbers</referencesTable>
-            <referencesField><![CDATA[phone_number_sid]]></referencesField>
-            <referencesTable><![CDATA[phone_numbers]]></referencesTable>
-            <sourceCardinality>4</sourceCardinality>
-            <destinationCardinality>2</destinationCardinality>
-            <referencesFieldUID><![CDATA[6E7DDB07-BED7-405B-961F-8BBA119D38DA]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[BA650DDC-AC7B-4DFE-A5E5-828C75607807]]></referencesTableUID>
-            <forcedUnique><![CDATA[0]]></forcedUnique>
-            <indexed><![CDATA[1]]></indexed>
-            <uid><![CDATA[C1819A57-3717-4AFE-AD15-424599187062]]></uid>
-            <unsigned><![CDATA[0]]></unsigned>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[inbound_user_sid]]></name>
-            <type><![CDATA[CHAR(36)]]></type>
-            <referencesField>registration_sid</referencesField>
-            <referencesTable>registrations</referencesTable>
-            <referencesField><![CDATA[registration_sid]]></referencesField>
-            <referencesTable><![CDATA[registrations]]></referencesTable>
-            <sourceCardinality>4</sourceCardinality>
-            <destinationCardinality>2</destinationCardinality>
-            <referencesFieldUID><![CDATA[C7DAA073-B3C3-4AFA-854A-4F4D6F7EC5BC]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[09D20234-503B-42B4-B34D-BDE7FC2FFA6E]]></referencesTableUID>
-            <uid><![CDATA[D413E50D-1EA2-4700-AF93-D1942412556D]]></uid>
-            <unsigned><![CDATA[0]]></unsigned>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[outbound_user_sid]]></name>
-            <type><![CDATA[CHAR(36)]]></type>
-            <referencesField>registration_sid</referencesField>
-            <referencesTable>registrations</referencesTable>
-            <referencesField><![CDATA[registration_sid]]></referencesField>
-            <referencesTable><![CDATA[registrations]]></referencesTable>
-            <sourceCardinality>4</sourceCardinality>
-            <destinationCardinality>2</destinationCardinality>
-            <referencesFieldUID><![CDATA[C7DAA073-B3C3-4AFA-854A-4F4D6F7EC5BC]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[09D20234-503B-42B4-B34D-BDE7FC2FFA6E]]></referencesTableUID>
-            <uid><![CDATA[C1903F47-505E-4B33-81A5-105484A6F3A1]]></uid>
-            <unsigned><![CDATA[0]]></unsigned>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[calling_number]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <uid><![CDATA[D9AB1AD7-9434-4D18-9FEC-195EA7527F58]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[called_number]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <uid><![CDATA[493FAAE9-DD8D-4FDF-96B3-A15D7CBBEDBF]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[caller_name]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <uid><![CDATA[45BD7C9C-31CE-454C-A652-F439D194EE87]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[status]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <notNull><![CDATA[1]]></notNull>
-            <objectComment><![CDATA[Possible values are queued, ringing, in-progress, completed, failed, busy and no-answer]]></objectComment>
-            <uid><![CDATA[71880FF9-A8A7-4729-B7D3-4738D8FA005D]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[sip_uri]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[205AB3AD-60C4-40B0-9DAE-9956553C56D5]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[sip_call_id]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[14E2B625-4C96-4060-8166-F64847C3BD75]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[sip_cseq]]></name>
-            <type><![CDATA[INTEGER]]></type>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[7DF23036-A1C7-4626-85EE-DD311D3CC572]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[sip_from_tag]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[C65D6190-26C7-4836-A601-FA6FD0F22F7A]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[sip_via_branch]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[904B9E55-286B-46B9-BD14-C04189224596]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[sip_contact]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <uid><![CDATA[F95D51B2-5F09-4AE1-84A4-4B9D28DADA0B]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[sip_final_status]]></name>
-            <type><![CDATA[INTEGER]]></type>
-            <uid><![CDATA[E1210786-8895-42B5-8C0F-FE3FC4CFBCE3]]></uid>
-            <unsigned><![CDATA[1]]></unsigned>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[sdp_offer]]></name>
-            <type><![CDATA[VARCHAR(4096)]]></type>
-            <uid><![CDATA[2B33A1DC-935A-4468-BBBB-4395DC6DAEE7]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[sdp_answer]]></name>
-            <type><![CDATA[VARCHAR(4096)]]></type>
-            <uid><![CDATA[EBD41A8B-61E4-40D7-900D-8723F3582A2E]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[source_address]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[F0E7ADDB-45A6-4F81-B48D-3A28FDB467B1]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[source_port]]></name>
-            <type><![CDATA[INTEGER]]></type>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[710C59AE-52F7-4D89-AB74-EFF932C24E46]]></uid>
-            <unsigned><![CDATA[1]]></unsigned>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[dest_address]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <uid><![CDATA[C953D307-51FA-406A-B09E-FEE8B7DBC47C]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[dest_port]]></name>
-            <type><![CDATA[INTEGER]]></type>
-            <uid><![CDATA[DD538F9D-9C95-472B-8191-8C77641CF160]]></uid>
-            <unsigned><![CDATA[1]]></unsigned>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[url]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <uid><![CDATA[47EBED41-CCBE-42F6-9615-78D44720ADED]]></uid>
-        </SQLField>
-        <labelWindowIndex><![CDATA[10]]></labelWindowIndex>
-        <objectComment><![CDATA[A phone call]]></objectComment>
-        <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
-        <uid><![CDATA[A58DEB6C-A5C6-441A-8659-5BC27A53FB00]]></uid>
     </SQLTable>
     <SQLTable>
         <name><![CDATA[phone_numbers]]></name>
@@ -868,13 +439,13 @@
             <width>331.00</width>
             <height>120.00</height>
         </size>
-        <zorder>8</zorder>
+        <zorder>2</zorder>
         <SQLField>
             <name><![CDATA[phone_number_sid]]></name>
             <type><![CDATA[CHAR(36)]]></type>
             <primaryKey>1</primaryKey>
             <autoIncrement><![CDATA[0]]></autoIncrement>
-            <forcedUnique><![CDATA[1]]></forcedUnique>
+            <forcedUnique><![CDATA[0]]></forcedUnique>
             <indexed><![CDATA[1]]></indexed>
             <notNull><![CDATA[0]]></notNull>
             <uid><![CDATA[6E7DDB07-BED7-405B-961F-8BBA119D38DA]]></uid>
@@ -938,75 +509,18 @@
         <uid><![CDATA[BA650DDC-AC7B-4DFE-A5E5-828C75607807]]></uid>
     </SQLTable>
     <SQLTable>
-        <name><![CDATA[conference_participants]]></name>
-        <schema><![CDATA[]]></schema>
-        <comment><![CDATA[A relationship between a call and a conference that it is connected to]]></comment>
-        <tableType><![CDATA[InnoDB]]></tableType>
-        <location>
-            <x>854.00</x>
-            <y>900.00</y>
-        </location>
-        <size>
-            <width>329.00</width>
-            <height>80.00</height>
-        </size>
-        <zorder>4</zorder>
-        <SQLField>
-            <name><![CDATA[conference_participant_sid]]></name>
-            <type><![CDATA[CHAR(36)]]></type>
-            <primaryKey>1</primaryKey>
-            <autoIncrement><![CDATA[0]]></autoIncrement>
-            <indexed><![CDATA[1]]></indexed>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[E66601EF-56B5-494B-BE07-71D51E6092C5]]></uid>
-            <unique><![CDATA[1]]></unique>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[call_sid]]></name>
-            <type><![CDATA[CHAR(36)]]></type>
-            <referencesField>call_sid</referencesField>
-            <referencesTable>calls</referencesTable>
-            <referencesField><![CDATA[call_sid]]></referencesField>
-            <referencesTable><![CDATA[calls]]></referencesTable>
-            <sourceCardinality>2</sourceCardinality>
-            <destinationCardinality>1</destinationCardinality>
-            <referencesFieldUID><![CDATA[EB298238-98AD-424A-A15B-935CF9D4AA53]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[A58DEB6C-A5C6-441A-8659-5BC27A53FB00]]></referencesTableUID>
-            <uid><![CDATA[0572279E-374A-4751-B053-446B00D70773]]></uid>
-            <unsigned><![CDATA[0]]></unsigned>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[conference_sid]]></name>
-            <type><![CDATA[CHAR(36)]]></type>
-            <referencesField>conference_sid</referencesField>
-            <referencesTable>conferences</referencesTable>
-            <referencesField><![CDATA[conference_sid]]></referencesField>
-            <referencesTable><![CDATA[conferences]]></referencesTable>
-            <sourceCardinality>4</sourceCardinality>
-            <destinationCardinality>1</destinationCardinality>
-            <referencesFieldUID><![CDATA[98626069-852D-4E5E-9BE2-2C27C3374F12]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[DAED2AAE-A146-4F09-809A-CC453E2CDFE9]]></referencesTableUID>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[E07F5855-50C6-4D6E-92EC-724E299B2CF5]]></uid>
-            <unsigned><![CDATA[0]]></unsigned>
-        </SQLField>
-        <labelWindowIndex><![CDATA[8]]></labelWindowIndex>
-        <objectComment><![CDATA[A relationship between a call and a conference that it is connected to]]></objectComment>
-        <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
-        <uid><![CDATA[C415EB08-CA27-42B5-AE94-2681B6B6DC93]]></uid>
-    </SQLTable>
-    <SQLTable>
         <name><![CDATA[sip_gateways]]></name>
         <schema><![CDATA[]]></schema>
+        <comment><![CDATA[A whitelisted sip gateway used for origination/termination]]></comment>
         <location>
             <x>401.00</x>
-            <y>18.00</y>
+            <y>17.00</y>
         </location>
         <size>
             <width>310.00</width>
             <height>180.00</height>
         </size>
-        <zorder>14</zorder>
+        <zorder>7</zorder>
         <SQLField>
             <name><![CDATA[sip_gateway_sid]]></name>
             <type><![CDATA[CHAR(36)]]></type>
@@ -1017,6 +531,7 @@
             <name><![CDATA[ipv4]]></name>
             <type><![CDATA[VARCHAR(32)]]></type>
             <notNull><![CDATA[1]]></notNull>
+            <objectComment><![CDATA[ip address or DNS name of the gateway.  For gateways providing inbound calling service, ip address is required.]]></objectComment>
             <uid><![CDATA[F18DB7D4-F902-4863-870C-CB07032AE17C]]></uid>
         </SQLField>
         <SQLField>
@@ -1024,18 +539,21 @@
             <type><![CDATA[INTEGER]]></type>
             <defaultValue><![CDATA[5060]]></defaultValue>
             <notNull><![CDATA[1]]></notNull>
+            <objectComment><![CDATA[sip signaling port]]></objectComment>
             <uid><![CDATA[26B20F1E-4DB0-48C0-90F7-CA90A06A1070]]></uid>
         </SQLField>
         <SQLField>
             <name><![CDATA[inbound]]></name>
             <type><![CDATA[BOOLEAN]]></type>
             <notNull><![CDATA[1]]></notNull>
+            <objectComment><![CDATA[if true, whitelist this IP to allow inbound calls from the gateway]]></objectComment>
             <uid><![CDATA[CDE029DC-0C7C-400C-85E9-5005C53B7460]]></uid>
         </SQLField>
         <SQLField>
             <name><![CDATA[outbound]]></name>
             <type><![CDATA[BOOLEAN]]></type>
             <notNull><![CDATA[1]]></notNull>
+            <objectComment><![CDATA[if true, include in least-cost routing when placing calls to the PSTN]]></objectComment>
             <uid><![CDATA[4BD24677-82BA-4647-9873-A5245F53FF1C]]></uid>
         </SQLField>
         <SQLField>
@@ -1078,58 +596,14 @@
             <uid><![CDATA[1C744DE3-39BD-4EC6-B427-7EB2DD258771]]></uid>
         </SQLIndex>
         <labelWindowIndex><![CDATA[3]]></labelWindowIndex>
+        <objectComment><![CDATA[A whitelisted sip gateway used for origination/termination]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[D8A564E2-DA41-4217-8ACE-06CF77E9BEC1]]></uid>
     </SQLTable>
     <SQLTable>
-        <name><![CDATA[conferences]]></name>
-        <schema><![CDATA[]]></schema>
-        <comment><![CDATA[An audio conference]]></comment>
-        <tableType><![CDATA[InnoDB]]></tableType>
-        <location>
-            <x>1272.00</x>
-            <y>807.00</y>
-        </location>
-        <size>
-            <width>235.00</width>
-            <height>80.00</height>
-        </size>
-        <zorder>3</zorder>
-        <SQLField>
-            <name><![CDATA[id]]></name>
-            <type><![CDATA[INTEGER(10)]]></type>
-            <primaryKey>1</primaryKey>
-            <autoIncrement><![CDATA[1]]></autoIncrement>
-            <forcedUnique><![CDATA[0]]></forcedUnique>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[8289E5B7-B72B-45AF-9071-F4B73D96BEF0]]></uid>
-            <unique><![CDATA[1]]></unique>
-            <unsigned><![CDATA[1]]></unsigned>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[conference_sid]]></name>
-            <type><![CDATA[CHAR(36)]]></type>
-            <autoIncrement><![CDATA[0]]></autoIncrement>
-            <forcedUnique><![CDATA[1]]></forcedUnique>
-            <indexed><![CDATA[1]]></indexed>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[98626069-852D-4E5E-9BE2-2C27C3374F12]]></uid>
-            <unique><![CDATA[1]]></unique>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[name]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
-            <uid><![CDATA[3FB439EC-7146-4A77-8204-AC4B38BE4825]]></uid>
-        </SQLField>
-        <labelWindowIndex><![CDATA[7]]></labelWindowIndex>
-        <objectComment><![CDATA[An audio conference]]></objectComment>
-        <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
-        <uid><![CDATA[DAED2AAE-A146-4F09-809A-CC453E2CDFE9]]></uid>
-    </SQLTable>
-    <SQLTable>
         <name><![CDATA[applications]]></name>
         <schema><![CDATA[]]></schema>
-        <comment><![CDATA[A defined set of behaviors to be applied to phone calls within an account]]></comment>
+        <comment><![CDATA[A defined set of behaviors to be applied to phone calls ]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
             <x>829.00</x>
@@ -1170,6 +644,7 @@
             <referencesTableUID><![CDATA[985D6997-B1A7-4AB3-80F4-4D59B45480C8]]></referencesTableUID>
             <indexed><![CDATA[1]]></indexed>
             <notNull><![CDATA[1]]></notNull>
+            <objectComment><![CDATA[account that this application belongs to]]></objectComment>
             <uid><![CDATA[8799F9EA-2C44-4C7D-8AEE-27179D09EBED]]></uid>
             <unsigned><![CDATA[0]]></unsigned>
         </SQLField>
@@ -1184,6 +659,7 @@
             <destinationCardinality>2</destinationCardinality>
             <referencesFieldUID><![CDATA[E046BA30-BC18-483C-A5C8-766E7160F574]]></referencesFieldUID>
             <referencesTableUID><![CDATA[64D64CB9-0990-4C68-BE71-F9FD43C2BE19]]></referencesTableUID>
+            <objectComment><![CDATA[webhook to call for inbound calls to phone numbers owned by this account]]></objectComment>
             <uid><![CDATA[55AE0F31-209A-49F9-A6CB-1BB31BE4178A]]></uid>
         </SQLField>
         <SQLField>
@@ -1197,6 +673,7 @@
             <destinationCardinality>2</destinationCardinality>
             <referencesFieldUID><![CDATA[E046BA30-BC18-483C-A5C8-766E7160F574]]></referencesFieldUID>
             <referencesTableUID><![CDATA[64D64CB9-0990-4C68-BE71-F9FD43C2BE19]]></referencesTableUID>
+            <objectComment><![CDATA[webhook to call for call status events]]></objectComment>
             <uid><![CDATA[A3B4621B-DF13-4920-A718-068B20CB4E8A]]></uid>
         </SQLField>
         <SQLField>
@@ -1246,13 +723,14 @@
             <uid><![CDATA[3FDDDF3B-375D-4DE4-B759-514438845F7D]]></uid>
         </SQLIndex>
         <labelWindowIndex><![CDATA[6]]></labelWindowIndex>
-        <objectComment><![CDATA[A defined set of behaviors to be applied to phone calls within an account]]></objectComment>
+        <objectComment><![CDATA[A defined set of behaviors to be applied to phone calls ]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[E97EE4F0-7ED7-4E8C-862E-D98192D6EAE0]]></uid>
     </SQLTable>
     <SQLTable>
         <name><![CDATA[lcr_routes]]></name>
         <schema><![CDATA[]]></schema>
+        <comment><![CDATA[Least cost routing table]]></comment>
         <location>
             <x>66.00</x>
             <y>176.00</y>
@@ -1261,7 +739,7 @@
             <width>233.00</width>
             <height>100.00</height>
         </size>
-        <zorder>15</zorder>
+        <zorder>8</zorder>
         <SQLField>
             <name><![CDATA[lcr_route_sid]]></name>
             <type><![CDATA[CHAR(36)]]></type>
@@ -1274,6 +752,7 @@
             <name><![CDATA[regex]]></name>
             <type><![CDATA[VARCHAR(32)]]></type>
             <notNull><![CDATA[1]]></notNull>
+            <objectComment><![CDATA[regex-based pattern match against dialed number, used for LCR routing of PSTN calls]]></objectComment>
             <uid><![CDATA[A1433A26-AF1E-4FCA-A2B0-7B89BBEBB9A6]]></uid>
         </SQLField>
         <SQLField>
@@ -1285,17 +764,19 @@
             <name><![CDATA[priority]]></name>
             <type><![CDATA[INTEGER]]></type>
             <notNull><![CDATA[1]]></notNull>
+            <objectComment><![CDATA[lower priority routes are attempted first]]></objectComment>
             <uid><![CDATA[B73773BA-AB1B-47AA-B995-2D2FE006198F]]></uid>
             <unique><![CDATA[1]]></unique>
         </SQLField>
         <labelWindowIndex><![CDATA[2]]></labelWindowIndex>
+        <objectComment><![CDATA[Least cost routing table]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[F283D572-F670-4571-91FD-A665A9D3E15D]]></uid>
     </SQLTable>
     <SQLTable>
         <name><![CDATA[service_providers]]></name>
         <schema><![CDATA[]]></schema>
-        <comment><![CDATA[An organization that provides communication services to its customers using the platform]]></comment>
+        <comment><![CDATA[A partition of the platform used by one service provider]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
             <x>813.00</x>
@@ -1305,7 +786,7 @@
             <width>293.00</width>
             <height>120.00</height>
         </size>
-        <zorder>9</zorder>
+        <zorder>3</zorder>
         <SQLField>
             <name><![CDATA[service_provider_sid]]></name>
             <type><![CDATA[CHAR(36)]]></type>
@@ -1319,7 +800,7 @@
         </SQLField>
         <SQLField>
             <name><![CDATA[name]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
+            <type><![CDATA[VARCHAR(64)]]></type>
             <indexed><![CDATA[1]]></indexed>
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[BEC72602-A02E-453D-9EE1-9947F7EEAE73]]></uid>
@@ -1351,7 +832,7 @@
             <uid><![CDATA[506BBE72-1A97-4776-B2C3-D94169652FFE]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[0]]></labelWindowIndex>
-        <objectComment><![CDATA[An organization that provides communication services to its customers using the platform]]></objectComment>
+        <objectComment><![CDATA[A partition of the platform used by one service provider]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[F294B51E-F867-47CA-BC1F-F70BDF8170FF]]></uid>
     </SQLTable>
@@ -1369,17 +850,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1552.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1477.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[1027.000000]]></windowHeight>
-        <windowLocationX><![CDATA[115.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[0.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{295, 0}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1553.000000]]></windowWidth>
+        <windowHeight><![CDATA[1391.000000]]></windowHeight>
+        <windowLocationX><![CDATA[3365.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[26.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{55.5, 23}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[1754.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>

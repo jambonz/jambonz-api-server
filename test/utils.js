@@ -48,6 +48,24 @@ async function createAccount(request, service_provider_sid, name = 'daveh') {
   return result.sid;
 }
 
+async function createApplication(request, account_sid, name = 'daveh') {
+  const result = await request.post('/Applications', {
+    auth: authAdmin,
+    json: true,
+    body: {
+      name,
+      account_sid,
+      call_hook: {
+        url: 'http://example.com'
+      },
+      call_status_hook: {
+        url: 'http://example.com'
+      }
+    }
+  });
+  return result.sid;
+}
+
 async function deleteObjectBySid(request, path, sid) {
   const result = await request.delete(`${path}/${sid}`, {
     auth: authAdmin,
@@ -60,5 +78,6 @@ module.exports = {
   createVoipCarrier,
   createPhoneNumber,
   createAccount,
+  createApplication,
   deleteObjectBySid
 };

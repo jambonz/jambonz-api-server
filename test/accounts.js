@@ -38,9 +38,6 @@ test('account tests', async(t) => {
           method: 'get',
           username: 'foo',
           password: 'abr'
-        },
-        error_hook: {
-          url: 'http://example.com/error'
         }
       }
     });
@@ -54,11 +51,9 @@ test('account tests', async(t) => {
     });
     let regHook = result[0].registration_hook;
     let devHook = result[0].device_calling_hook;
-    let errHook = result[0].error_hook; 
     t.ok(result.length === 1 &&
       Object.keys(regHook).length == 5 &&
-      Object.keys(devHook).length === 5 &&
-      Object.keys(errHook).length === 5, 'successfully queried all accounts');
+      Object.keys(devHook).length === 5, 'successfully queried all accounts');
 
     /* query one accounts */
     result = await request.get(`/Accounts/${sid}`, {
@@ -66,7 +61,6 @@ test('account tests', async(t) => {
       json: true,
     });
     t.ok(result.name === 'daveh' , 'successfully retrieved account by sid');
-    const error_hook_sid = result.error_hook.webhook_sid;
 
     /* update accounts */
     result = await request.put(`/Accounts/${sid}`, {
@@ -78,10 +72,6 @@ test('account tests', async(t) => {
         registration_hook: {
           url: 'http://example.com/reg2',
           method: 'get'
-        },
-        error_hook: {
-          webhook_sid: error_hook_sid,
-          method: 'post'
         }
       }
     });
@@ -93,8 +83,7 @@ test('account tests', async(t) => {
     });
     //console.log(`retrieved account after update: ${JSON.stringify(result)}`);
     t.ok(result.device_calling_hook === null &&
-      Object.keys(result.registration_hook).length === 5 &&
-      Object.keys(result.error_hook).length === 5, 'successfully removed a hook from account');
+      Object.keys(result.registration_hook).length === 5, 'successfully removed a hook from account');
 
     /* assign phone number to account */
     result = await request.put(`/PhoneNumbers/${phone_number_sid}`, {

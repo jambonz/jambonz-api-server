@@ -4,6 +4,7 @@ const authAdmin = {bearer: ADMIN_TOKEN};
 const request = require('request-promise-native').defaults({
   baseUrl: 'http://127.0.0.1:3000/v1'
 });
+const {createServiceProvider, createAccount, createApplication, deleteObjectBySid} = require('./utils');
 
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
@@ -25,7 +26,7 @@ test('voip carrier tests', async(t) => {
       }
     });
     t.ok(result.statusCode === 201, 'successfully created voip carrier');
-    const sid = result.body.sid;
+    sid = result.body.sid;
 
     /* query all voip carriers */
     result = await request.get('/VoipCarriers', {
@@ -99,6 +100,95 @@ test('voip carrier tests', async(t) => {
     //console.log(`result: ${JSON.stringify(result)}`);
     t.ok(result.statusCode === 204, 'successfully deleted voip carrier');
     
+    /* create voipd carrier that is a customer PBX */
+    const service_provider_sid = await createServiceProvider(request);
+    const account_sid = await createAccount(request, service_provider_sid);
+    const account_sid2 = await createAccount(request, service_provider_sid, 'another');
+    const application_sid = await createApplication(request, account_sid);
+    
+    result = await request.post('/VoipCarriers', {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'daveh',
+        account_sid: 'xxxx'
+      }
+    });
+    t.ok(result.statusCode === 400 && result.body.msg === 'unknown account_sid', 'fails to create voip_carrier with unknown account_sid');
+
+    result = await request.post('/VoipCarriers', {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'daveh',
+        application_sid
+      }
+    });
+    t.ok(result.statusCode === 400 && result.body.msg === 'account_sid missing', 'fails to create voip_carrier with missing account_sid');
+
+    result = await request.post('/VoipCarriers', {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'daveh',
+        account_sid: account_sid2,
+        application_sid
+      }
+    });
+    t.ok(result.statusCode === 400 && result.body.msg === 'application_sid does not exist for specified account_sid', 
+      'fails to create voip_carrier with account_sid not matching application_sid');
+
+      result = await request.post('/VoipCarriers', {
+        resolveWithFullResponse: true,
+        simple: false,
+        auth: authAdmin,
+        json: true,
+        body: {
+          name: 'daveh',
+          account_sid: account_sid,
+          application_sid: 'xxx'
+        }
+      });
+      t.ok(result.statusCode === 400 && result.body.msg === 'unknown application_sid', 'fails to create voip_carrier with unknown application_sid');
+  
+      result = await request.post('/VoipCarriers', {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'daveh',
+        account_sid,
+        application_sid
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully created customer PBX with account and application');
+    sid = result.body.sid;
+    await deleteObjectBySid(request, '/VoipCarriers', sid);
+
+    result = await request.post('/VoipCarriers', {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'daveh',
+        account_sid
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully created customer PBX with account only');
+    sid = result.body.sid;
+    await deleteObjectBySid(request, '/VoipCarriers', sid);
+
+    await deleteObjectBySid(request, '/Applications', application_sid);
+    await deleteObjectBySid(request, '/Accounts', account_sid);
+    await deleteObjectBySid(request, '/Accounts', account_sid2);
+    await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid);
+
     t.end();
   }
   catch (err) {
