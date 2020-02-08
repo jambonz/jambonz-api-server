@@ -1205,6 +1205,12 @@ paths:
                   enum:
                     - completed
                     - no-answer
+                listen_status:
+                  type: string
+                  enum:
+                    - pause
+                    - silence
+                    - resume
       responses:
         200:
           description: call updated
