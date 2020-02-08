@@ -1173,6 +1173,7 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
     get:
       summary: retrieve a call
+      operationId: getCall
       responses:
         200:
           description: call found
@@ -1190,6 +1191,7 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
     post:
       summary: update a call
+      operationId: updateCall
       requestBody:
         content:
           application/json:
@@ -1211,12 +1213,8 @@ paths:
                     - pause
                     - resume
       responses:
-        200:
-          description: call updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Call'
+        202:
+          description: Accepted
         400:
           description: bad request
         404:
@@ -1270,7 +1268,7 @@ components:
         msg:
           type: string
       example:
-        msg: cannot delete service provider with active accounts
+        msg: specific error detail will be provided here
     ServiceProvider:
       type: object
       properties:
