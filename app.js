@@ -1,7 +1,7 @@
 const assert = require('assert');
 const opts = Object.assign({
   timestamp: () => {return `, "time": "${new Date().toISOString()}"`;}
-}, process.env.JAMBONES_LOGLEVEL || 'info');
+}, {level: process.env.JAMBONES_LOGLEVEL || 'info'});
 const logger = require('pino')(opts);
 const express = require('express');
 const app = express();
@@ -14,6 +14,7 @@ assert.ok(process.env.JAMBONES_MYSQL_HOST &&
   process.env.JAMBONES_MYSQL_USER &&
   process.env.JAMBONES_MYSQL_PASSWORD &&
   process.env.JAMBONES_MYSQL_DATABASE, 'missing JAMBONES_MYSQL_XXX env vars');
+assert.ok(process.env.JAMBONES_REDIS_HOST, 'missing JAMBONES_REDIS_HOST env var');
 assert.ok(process.env.JAMBONES_CREATE_CALL_URL, 'missing JAMBONES_CREATE_CALL_URL env var');
 
 const {
