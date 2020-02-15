@@ -41,3 +41,6 @@ examples/*
 create_db.sql
 
 .vscode
+
+.env.*
+.env

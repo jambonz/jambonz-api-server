@@ -4,7 +4,21 @@ Jambones REST API server.
 
 ## Configuration
 
-The configuration needs of the application are minimal and can be found in the `config` directory (using the npmjs [config](https://www.npmjs.com/package/config) package). You simply need to configure the connection settings to the mysql database and the log level.  Copy the provided [default.json.example](config/default.json.example) to default.json or local.json and edit appropriately.
+This process requires the following environment variables to be set.
+
+```
+JAMBONES_MYSQL_HOST
+JAMBONES_MYSQL_USER
+JAMBONES_MYSQL_PASSWORD
+JAMBONES_MYSQL_DATABASE
+JAMBONES_MYSQL_CONNECTION_LIMIT   # defaults to 10
+JAMBONES_REDIS_HOST
+JAMBONES_REDIS_PORT
+JAMBONES_LOGLEVEL                 # defaults to info
+JAMBONES_API_VERSION              # defaults to v1
+JAMBONES_CREATE_CALL_URL
+HTTP_PORT                         # defaults to 3000
+```
 
 #### Database dependency
 A mysql database is used to store long-lived objects such as Accounts, Applications, etc. To create the database schema, use or review the scripts in the 'db' folder, particularly:

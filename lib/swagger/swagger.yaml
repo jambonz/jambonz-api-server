@@ -1212,6 +1212,8 @@ paths:
                   enum:
                     - pause
                     - resume
+                whisper:
+                  $ref: '#/components/schemas/Webhook'         
       responses:
         202:
           description: Accepted

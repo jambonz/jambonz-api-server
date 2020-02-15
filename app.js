@@ -1,7 +1,7 @@
-const config = require('config');
+const assert = require('assert');
 const opts = Object.assign({
   timestamp: () => {return `, "time": "${new Date().toISOString()}"`;}
-}, config.get('logging'));
+}, process.env.JAMBONES_LOGLEVEL || 'info');
 const logger = require('pino')(opts);
 const express = require('express');
 const app = express();
@@ -9,16 +9,32 @@ const cors = require('cors');
 const passport = require('passport');
 const authStrategy = require('./lib/auth')(logger);
 const routes = require('./lib/routes');
+
+assert.ok(process.env.JAMBONES_MYSQL_HOST &&
+  process.env.JAMBONES_MYSQL_USER &&
+  process.env.JAMBONES_MYSQL_PASSWORD &&
+  process.env.JAMBONES_MYSQL_DATABASE, 'missing JAMBONES_MYSQL_XXX env vars');
+assert.ok(process.env.JAMBONES_CREATE_CALL_URL, 'missing JAMBONES_CREATE_CALL_URL env var');
+
 const {
   retrieveCall,
   deleteCall,
   listCalls,
   purgeCalls
-} = require('jambonz-realtimedb-helpers')(config.get('redis'), logger);
+} = require('jambonz-realtimedb-helpers')({
+  host: process.env.JAMBONES_REDIS_HOST || 'localhost',
+  port: process.env.JAMBONES_REDIS_PORT || 6379
+}, logger);
 const {
   lookupApplicationBySid,
   lookupAccountBySid
-} = require('jambonz-db-helpers')(config.get('mysql'), logger);
+} = require('jambonz-db-helpers')({
+  host: process.env.JAMBONES_MYSQL_HOST,
+  user: process.env.JAMBONES_MYSQL_USER,
+  password: process.env.JAMBONES_MYSQL_PASSWORD,
+  database: process.env.JAMBONES_MYSQL_DATABASE,
+  connectionLimit: process.env.JAMBONES_MYSQL_CONNECTION_LIMIT || 10
+}, logger);
 const PORT = process.env.HTTP_PORT || 3000;
 
 passport.use(authStrategy);
