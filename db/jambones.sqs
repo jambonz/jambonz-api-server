@@ -401,17 +401,17 @@
             <uid><![CDATA[A75FAB8E-C2A1-4A05-A09E-6FF454109B6F]]></uid>
         </SQLField>
         <SQLField>
-            <name><![CDATA[device_calling_hook_sid]]></name>
+            <name><![CDATA[device_calling_application_sid]]></name>
             <type><![CDATA[CHAR(36)]]></type>
-            <referencesField>webhook_sid</referencesField>
-            <referencesTable>webhooks</referencesTable>
-            <referencesField><![CDATA[webhook_sid]]></referencesField>
-            <referencesTable><![CDATA[webhooks]]></referencesTable>
+            <referencesField>application_sid</referencesField>
+            <referencesTable>applications</referencesTable>
+            <referencesField><![CDATA[application_sid]]></referencesField>
+            <referencesTable><![CDATA[applications]]></referencesTable>
             <sourceCardinality>4</sourceCardinality>
             <destinationCardinality>2</destinationCardinality>
-            <referencesFieldUID><![CDATA[E046BA30-BC18-483C-A5C8-766E7160F574]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[64D64CB9-0990-4C68-BE71-F9FD43C2BE19]]></referencesTableUID>
-            <objectComment><![CDATA[webhook to call when devices under this account place outbound calls]]></objectComment>
+            <referencesFieldUID><![CDATA[EF943D13-DCB0-43C1-B03F-550612E20F9D]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[E97EE4F0-7ED7-4E8C-862E-D98192D6EAE0]]></referencesTableUID>
+            <objectComment><![CDATA[application to use for outbound calling from an account]]></objectComment>
             <uid><![CDATA[36C13087-E026-4F6F-A409-A082F7ADE1B6]]></uid>
         </SQLField>
         <SQLField>
@@ -850,17 +850,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1403.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[2146.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[1027.000000]]></windowHeight>
-        <windowLocationX><![CDATA[0.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[0.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{0, 17.5}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1680.000000]]></windowWidth>
+        <windowHeight><![CDATA[1322.000000]]></windowHeight>
+        <windowLocationX><![CDATA[2553.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[95.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{0, 0}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[2423.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>

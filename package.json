@@ -17,7 +17,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "jambonz-db-helpers": "^0.2.3",
+    "jambonz-db-helpers": "^0.3.2",
     "jambonz-realtimedb-helpers": "0.1.6",
     "mysql2": "^2.0.2",
     "passport": "^0.4.0",

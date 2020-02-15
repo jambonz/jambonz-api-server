@@ -1,5 +1,6 @@
 /* SQLEditor (MySQL (2))*/
 
+SET FOREIGN_KEY_CHECKS = 0;
 
 DROP TABLE IF EXISTS `call_routes`;
 
@@ -15,13 +16,15 @@ DROP TABLE IF EXISTS `sip_gateways`;
 
 DROP TABLE IF EXISTS `voip_carriers`;
 
-DROP TABLE IF EXISTS `applications`;
-
 DROP TABLE IF EXISTS `accounts`;
+
+DROP TABLE IF EXISTS `applications`;
 
 DROP TABLE IF EXISTS `service_providers`;
 
 DROP TABLE IF EXISTS `webhooks`;
+
+SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE IF NOT EXISTS `call_routes`
 (
@@ -134,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `accounts`
 `sip_realm` VARCHAR(132) UNIQUE  COMMENT 'sip domain that will be used for devices registering under this account',
 `service_provider_sid` CHAR(36) NOT NULL COMMENT 'service provider that owns the customer relationship with this account',
 `registration_hook_sid` CHAR(36) COMMENT 'webhook to call when devices underr this account attempt to register',
-`device_calling_hook_sid` CHAR(36) COMMENT 'webhook to call when devices under this account place outbound calls',
+`device_calling_application_sid` CHAR(36) COMMENT 'application to use for outbound calling from an account',
 `is_active` BOOLEAN NOT NULL DEFAULT true,
 PRIMARY KEY (`account_sid`)
 ) ENGINE=InnoDB COMMENT='An enterprise that uses the platform for comm services';
@@ -198,4 +201,4 @@ ALTER TABLE `accounts` ADD FOREIGN KEY service_provider_sid_idxfk_1 (`service_pr
 
 ALTER TABLE `accounts` ADD FOREIGN KEY registration_hook_sid_idxfk_1 (`registration_hook_sid`) REFERENCES `webhooks` (`webhook_sid`);
 
-ALTER TABLE `accounts` ADD FOREIGN KEY device_calling_hook_sid_idxfk (`device_calling_hook_sid`) REFERENCES `webhooks` (`webhook_sid`);
+ALTER TABLE `accounts` ADD FOREIGN KEY device_calling_application_sid_idxfk (`device_calling_application_sid`) REFERENCES `applications` (`application_sid`);

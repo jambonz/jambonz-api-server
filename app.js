@@ -27,7 +27,7 @@ const {
   port: process.env.JAMBONES_REDIS_PORT || 6379
 }, logger);
 const {
-  lookupApplicationBySid,
+  lookupAppBySid,
   lookupAccountBySid
 } = require('jambonz-db-helpers')({
   host: process.env.JAMBONES_MYSQL_HOST,
@@ -47,7 +47,7 @@ Object.assign(app.locals, {
   deleteCall,
   listCalls,
   purgeCalls,
-  lookupApplicationBySid,
+  lookupAppBySid,
   lookupAccountBySid
 });
 
