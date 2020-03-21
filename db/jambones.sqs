@@ -1,6 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SQLContainer>
     <SQLTable>
+        <name><![CDATA[users]]></name>
+        <schema><![CDATA[]]></schema>
+        <location>
+            <x>1560.00</x>
+            <y>65.00</y>
+        </location>
+        <size>
+            <width>250.00</width>
+            <height>110.00</height>
+        </size>
+        <zorder>11</zorder>
+        <SQLField>
+            <name><![CDATA[user_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <primaryKey>1</primaryKey>
+            <indexed><![CDATA[1]]></indexed>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[F33F9604-ADC9-46E3-AE51-A2A839A81758]]></uid>
+            <unique><![CDATA[1]]></unique>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[name]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <indexed><![CDATA[1]]></indexed>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[6E8DE796-46DA-4644-AA7F-1A75D9B834FB]]></uid>
+            <unique><![CDATA[1]]></unique>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[hashed_password]]></name>
+            <type><![CDATA[VARCHAR(1024)]]></type>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[3E7E38A2-96FC-4E28-BF10-332823FB17F1]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[salt]]></name>
+            <type><![CDATA[CHAR(16)]]></type>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[F21A170F-5922-4749-A062-6C7516051560]]></uid>
+        </SQLField>
+        <uid><![CDATA[2A735FAB-592C-42E5-9C8B-06B109314799]]></uid>
+    </SQLTable>
+    <SQLTable>
         <name><![CDATA[voip_carriers]]></name>
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[A Carrier or customer PBX that can send or receive calls]]></comment>
@@ -83,7 +126,7 @@
         </location>
         <size>
             <width>252.00</width>
-            <height>100.00</height>
+            <height>120.00</height>
         </size>
         <zorder>1</zorder>
         <SQLField>
@@ -131,6 +174,11 @@
             <referencesTableUID><![CDATA[F294B51E-F867-47CA-BC1F-F70BDF8170FF]]></referencesTableUID>
             <indexed><![CDATA[1]]></indexed>
             <uid><![CDATA[3F553F20-AA47-471E-A650-0B4CEC9DCB0A]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[expires_at]]></name>
+            <type><![CDATA[TIMESTAMP]]></type>
+            <uid><![CDATA[DE86BC18-858E-4D7E-9B83-891DB2861434]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[10]]></labelWindowIndex>
         <objectComment><![CDATA[An authorization token that is used to access the REST api]]></objectComment>
@@ -529,7 +577,7 @@
         </SQLField>
         <SQLField>
             <name><![CDATA[ipv4]]></name>
-            <type><![CDATA[VARCHAR(32)]]></type>
+            <type><![CDATA[VARCHAR(128)]]></type>
             <notNull><![CDATA[1]]></notNull>
             <objectComment><![CDATA[ip address or DNS name of the gateway.  For gateways providing inbound calling service, ip address is required.]]></objectComment>
             <uid><![CDATA[F18DB7D4-F902-4863-870C-CB07032AE17C]]></uid>
@@ -611,7 +659,7 @@
         </location>
         <size>
             <width>345.00</width>
-            <height>220.00</height>
+            <height>240.00</height>
         </size>
         <zorder>0</zorder>
         <SQLField>
@@ -684,10 +732,16 @@
             <uid><![CDATA[05D3C937-255D-44A5-A102-40303FA37CF1]]></uid>
         </SQLField>
         <SQLField>
+            <name><![CDATA[speech_synthesis_language]]></name>
+            <type><![CDATA[VARCHAR(12)]]></type>
+            <defaultValue><![CDATA[en-US]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[2498FC63-58A1-40AF-8502-ABC4F1F5F541]]></uid>
+        </SQLField>
+        <SQLField>
             <name><![CDATA[speech_synthesis_voice]]></name>
             <type><![CDATA[VARCHAR(64)]]></type>
-            <defaultValue><![CDATA[en-US-Wavenet-C]]></defaultValue>
-            <notNull><![CDATA[1]]></notNull>
+            <notNull><![CDATA[0]]></notNull>
             <uid><![CDATA[929D66F0-64B9-4D7C-AB4B-24F131E1178F]]></uid>
         </SQLField>
         <SQLField>
@@ -850,17 +904,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[2146.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1855.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[1322.000000]]></windowHeight>
-        <windowLocationX><![CDATA[2553.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[95.000000]]></windowLocationY>
+        <windowHeight><![CDATA[1143.000000]]></windowHeight>
+        <windowLocationX><![CDATA[2861.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[274.000000]]></windowLocationY>
         <windowScrollOrigin><![CDATA[{0, 0}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[2423.000000]]></windowWidth>
+        <windowWidth><![CDATA[2247.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>

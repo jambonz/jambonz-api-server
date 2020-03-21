@@ -28,6 +28,9 @@ paths:
                 account_sid:
                   type: string
                   description: account scope for the generated api key
+                expiry_secs:
+                  type: number
+                  description: duration of key validity, in seconds
       responses:
         201:
           description: api key successfully created
@@ -64,6 +67,80 @@ paths:
           404:
             description: api key or account not found
 
+  /login:
+    post:
+      summary: login a user and receive an api token
+      operationId: loginUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: login username
+                password:
+                  type: string
+                  description: login password
+              required:
+                - username
+                - password
+      responses:
+        200:
+          description: login succeeded
+          content:
+            application/json:
+              schema: '#/components/schemas/SuccessfulLogin'
+        403:
+          description: login failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /User/{UserSid}:
+    put:
+      summary: update a user password
+      operationId: updateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                old_password:
+                  type: string
+                  description: existing password, which is to be replaced
+                new_password:
+                  type: string
+                  description: new password
+              required:
+                - old_password
+                - new_password
+      responses:
+        200:
+          description: password successfully changed
+          content:
+            application/json:
+              schema: '#/components/schemas/SuccessfulLogin'
+        403:
+          description: password change failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
   /VoipCarriers:
     post:
       summary: create voip carrier
@@ -1240,6 +1317,17 @@ components:
       scheme: bearer
       bearerFormat: token
   schemas:
+    SuccessfulLogin:
+      type: object
+      properties:
+        user_sid: 
+          type: string
+        api_token:
+          type: string
+        change_password:
+          type: boolean
+      required:
+        - user_sid
     SuccessfulApiKeyAdd:
       type: object
       required:

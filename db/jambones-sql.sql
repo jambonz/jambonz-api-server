@@ -1,6 +1,5 @@
 /* SQLEditor (MySQL (2))*/
 
-SET FOREIGN_KEY_CHECKS = 0;
 
 DROP TABLE IF EXISTS `call_routes`;
 
@@ -9,6 +8,8 @@ DROP TABLE IF EXISTS `lcr_carrier_set_entry`;
 DROP TABLE IF EXISTS `lcr_routes`;
 
 DROP TABLE IF EXISTS `api_keys`;
+
+DROP TABLE IF EXISTS `users`;
 
 DROP TABLE IF EXISTS `phone_numbers`;
 
@@ -23,8 +24,6 @@ DROP TABLE IF EXISTS `applications`;
 DROP TABLE IF EXISTS `service_providers`;
 
 DROP TABLE IF EXISTS `webhooks`;
-
-SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE IF NOT EXISTS `call_routes`
 (
@@ -51,8 +50,18 @@ CREATE TABLE IF NOT EXISTS `api_keys`
 `token` CHAR(36) NOT NULL UNIQUE ,
 `account_sid` CHAR(36),
 `service_provider_sid` CHAR(36),
+`expires_at` TIMESTAMP,
 PRIMARY KEY (`api_key_sid`)
 ) ENGINE=InnoDB COMMENT='An authorization token that is used to access the REST api';
+
+CREATE TABLE IF NOT EXISTS `users`
+(
+`user_sid` CHAR(36) NOT NULL UNIQUE ,
+`name` CHAR(36) NOT NULL UNIQUE ,
+`hashed_password` VARCHAR(1024) NOT NULL,
+`salt` CHAR(16) NOT NULL,
+PRIMARY KEY (`user_sid`)
+);
 
 CREATE TABLE IF NOT EXISTS `voip_carriers`
 (
@@ -97,7 +106,7 @@ PRIMARY KEY (`lcr_carrier_set_entry_sid`)
 CREATE TABLE IF NOT EXISTS `sip_gateways`
 (
 `sip_gateway_sid` CHAR(36),
-`ipv4` VARCHAR(32) NOT NULL COMMENT 'ip address or DNS name of the gateway.  For gateways providing inbound calling service, ip address is required.',
+`ipv4` VARCHAR(128) NOT NULL COMMENT 'ip address or DNS name of the gateway.  For gateways providing inbound calling service, ip address is required.',
 `port` INTEGER NOT NULL DEFAULT 5060 COMMENT 'sip signaling port',
 `inbound` BOOLEAN NOT NULL COMMENT 'if true, whitelist this IP to allow inbound calls from the gateway',
 `outbound` BOOLEAN NOT NULL COMMENT 'if true, include in least-cost routing when placing calls to the PSTN',
@@ -114,7 +123,8 @@ CREATE TABLE IF NOT EXISTS `applications`
 `call_hook_sid` CHAR(36) COMMENT 'webhook to call for inbound calls to phone numbers owned by this account',
 `call_status_hook_sid` CHAR(36) COMMENT 'webhook to call for call status events',
 `speech_synthesis_vendor` VARCHAR(64) NOT NULL DEFAULT 'google',
-`speech_synthesis_voice` VARCHAR(64) NOT NULL DEFAULT 'en-US-Wavenet-C',
+`speech_synthesis_language` VARCHAR(12) NOT NULL DEFAULT 'en-US',
+`speech_synthesis_voice` VARCHAR(64),
 `speech_recognizer_vendor` VARCHAR(64) NOT NULL DEFAULT 'google',
 `speech_recognizer_language` VARCHAR(64) NOT NULL DEFAULT 'en-US',
 PRIMARY KEY (`application_sid`)
@@ -154,6 +164,8 @@ ALTER TABLE `api_keys` ADD FOREIGN KEY account_sid_idxfk_1 (`account_sid`) REFER
 CREATE INDEX `api_keys_service_provider_sid_idx` ON `api_keys` (`service_provider_sid`);
 ALTER TABLE `api_keys` ADD FOREIGN KEY service_provider_sid_idxfk (`service_provider_sid`) REFERENCES `service_providers` (`service_provider_sid`);
 
+CREATE INDEX `users_user_sid_idx` ON `users` (`user_sid`);
+CREATE INDEX `users_name_idx` ON `users` (`name`);
 CREATE INDEX `voip_carriers_voip_carrier_sid_idx` ON `voip_carriers` (`voip_carrier_sid`);
 CREATE INDEX `voip_carriers_name_idx` ON `voip_carriers` (`name`);
 ALTER TABLE `voip_carriers` ADD FOREIGN KEY account_sid_idxfk_2 (`account_sid`) REFERENCES `accounts` (`account_sid`);
