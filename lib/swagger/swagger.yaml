@@ -12,6 +12,31 @@ servers:
   - url: /v1
     description: development server
 paths:
+  /Sbcs:
+    get:
+      summary: retrieve public IP addresses of the jambonz /Sbcs
+      operationId: listSbcs
+      responses:
+        200:
+          description: list of IP addresses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    ipv4:
+                      type: string
+                      description: ip address of one of our /Sbcs 
+                  required:
+                    - ipv4
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
   /ApiKeys:
     post:
       summary: create an api key
@@ -104,7 +129,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-  /User/{UserSid}:
+  /Users/{UserSid}:
+    parameters:
+      - name: UserSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
     put:
       summary: update a user password
       operationId: updateUser

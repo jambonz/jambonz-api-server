@@ -51,10 +51,17 @@ Object.assign(app.locals, {
   lookupAccountBySid
 });
 
+const unless = (paths, middleware) => {
+  return (req, res, next) => {
+    if (paths.find((path) => req.path.startsWith(path))) return next();
+    return middleware(req, res, next);
+  };
+};
+
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use('/v1', passport.authenticate('bearer', { session: false }));
+app.use('/v1', unless(['/login', '/Users'], passport.authenticate('bearer', { session: false })));
 app.use('/', routes);
 app.use((err, req, res, next) => {
   logger.error(err, 'burped error');
