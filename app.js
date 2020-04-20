@@ -21,7 +21,8 @@ const {
   retrieveCall,
   deleteCall,
   listCalls,
-  purgeCalls
+  purgeCalls,
+  retrieveSet
 } = require('jambonz-realtimedb-helpers')({
   host: process.env.JAMBONES_REDIS_HOST || 'localhost',
   port: process.env.JAMBONES_REDIS_PORT || 6379
@@ -47,6 +48,7 @@ Object.assign(app.locals, {
   deleteCall,
   listCalls,
   purgeCalls,
+  retrieveSet,
   lookupAppBySid,
   lookupAccountBySid
 });
