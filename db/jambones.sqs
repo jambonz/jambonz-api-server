@@ -4,8 +4,8 @@
         <name><![CDATA[users]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>1632.00</x>
-            <y>86.00</y>
+            <x>1599.00</x>
+            <y>37.00</y>
         </location>
         <size>
             <width>250.00</width>
@@ -130,7 +130,7 @@
         <comment><![CDATA[An authorization token that is used to access the REST api]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>1279.00</x>
+            <x>1302.00</x>
             <y>61.00</y>
         </location>
         <size>
@@ -199,8 +199,8 @@
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[An HTTP callback]]></comment>
         <location>
-            <x>1383.00</x>
-            <y>365.00</y>
+            <x>1315.00</x>
+            <y>376.00</y>
         </location>
         <size>
             <width>254.00</width>
@@ -317,6 +317,81 @@
         <uid><![CDATA[78584D93-2CD7-4495-9C5E-893C7B869133]]></uid>
     </SQLTable>
     <SQLTable>
+        <name><![CDATA[ms_teams_tenants]]></name>
+        <schema><![CDATA[]]></schema>
+        <comment><![CDATA[A Microsoft Teams customer tenant]]></comment>
+        <location>
+            <x>1309.00</x>
+            <y>219.00</y>
+        </location>
+        <size>
+            <width>298.00</width>
+            <height>120.00</height>
+        </size>
+        <zorder>12</zorder>
+        <SQLField>
+            <name><![CDATA[ms_teams_tenant_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <primaryKey>1</primaryKey>
+            <indexed><![CDATA[1]]></indexed>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[A0E48CB5-C2B2-47FC-8486-EF5F16DAF797]]></uid>
+            <unique><![CDATA[1]]></unique>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[service_provider_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>service_provider_sid</referencesField>
+            <referencesTable>service_providers</referencesTable>
+            <referencesField><![CDATA[service_provider_sid]]></referencesField>
+            <referencesTable><![CDATA[service_providers]]></referencesTable>
+            <sourceCardinality>4</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[58E1702C-6A95-4B17-8C08-8A3810EA16A1]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[F294B51E-F867-47CA-BC1F-F70BDF8170FF]]></referencesTableUID>
+            <indexed><![CDATA[0]]></indexed>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[519A33A0-B678-4F60-892F-ADA90E656500]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[account_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>account_sid</referencesField>
+            <referencesTable>accounts</referencesTable>
+            <referencesField><![CDATA[account_sid]]></referencesField>
+            <referencesTable><![CDATA[accounts]]></referencesTable>
+            <sourceCardinality>4</sourceCardinality>
+            <destinationCardinality>2</destinationCardinality>
+            <referencesFieldUID><![CDATA[1342FAFA-C15C-429B-809B-C6C55F9FA5B6]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[985D6997-B1A7-4AB3-80F4-4D59B45480C8]]></referencesTableUID>
+            <uid><![CDATA[EB48F39F-9D5F-43E0-BE8A-34A5C1304A76]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[application_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>application_sid</referencesField>
+            <referencesTable>applications</referencesTable>
+            <referencesField><![CDATA[application_sid]]></referencesField>
+            <referencesTable><![CDATA[applications]]></referencesTable>
+            <sourceCardinality>4</sourceCardinality>
+            <destinationCardinality>2</destinationCardinality>
+            <referencesFieldUID><![CDATA[EF943D13-DCB0-43C1-B03F-550612E20F9D]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[E97EE4F0-7ED7-4E8C-862E-D98192D6EAE0]]></referencesTableUID>
+            <forcedUnique><![CDATA[0]]></forcedUnique>
+            <uid><![CDATA[7959F455-D49D-4185-97B5-37C7FAAB339B]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[tenant_fqdn]]></name>
+            <type><![CDATA[VARCHAR(255)]]></type>
+            <indexed><![CDATA[1]]></indexed>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[1DDAD1A1-942D-4487-89C8-D496B7F82274]]></uid>
+            <unique><![CDATA[1]]></unique>
+        </SQLField>
+        <objectComment><![CDATA[A Microsoft Teams customer tenant]]></objectComment>
+        <uid><![CDATA[92FD042A-5AEC-4D8F-AB94-C73C0F566F75]]></uid>
+    </SQLTable>
+    <SQLTable>
         <name><![CDATA[lcr_carrier_set_entry]]></name>
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[An entry in the LCR routing list]]></comment>
@@ -413,7 +488,7 @@
         <SQLField>
             <name><![CDATA[name]]></name>
             <type><![CDATA[VARCHAR(64)]]></type>
-            <indexed><![CDATA[1]]></indexed>
+            <indexed><![CDATA[0]]></indexed>
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[87414407-17CB-4582-9C0B-73CA548E1016]]></uid>
         </SQLField>
@@ -684,7 +759,7 @@
         <SQLField>
             <name><![CDATA[name]]></name>
             <type><![CDATA[VARCHAR(64)]]></type>
-            <indexed><![CDATA[1]]></indexed>
+            <indexed><![CDATA[0]]></indexed>
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[E0EDB7B1-B7F7-4F56-B94F-6B81BB87C514]]></uid>
         </SQLField>
@@ -791,6 +866,73 @@
         <uid><![CDATA[E97EE4F0-7ED7-4E8C-862E-D98192D6EAE0]]></uid>
     </SQLTable>
     <SQLTable>
+        <name><![CDATA[sbc_addresses]]></name>
+        <schema><![CDATA[]]></schema>
+        <location>
+            <x>1305.00</x>
+            <y>564.00</y>
+        </location>
+        <size>
+            <width>281.00</width>
+            <height>120.00</height>
+        </size>
+        <zorder>13</zorder>
+        <SQLField>
+            <name><![CDATA[sbc_address_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <primaryKey>1</primaryKey>
+            <indexed><![CDATA[1]]></indexed>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[468F8C06-5A38-494A-8E77-3F53F111237B]]></uid>
+            <unique><![CDATA[1]]></unique>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[ipv4]]></name>
+            <type><![CDATA[VARCHAR(255)]]></type>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[4FE97DA7-8D8E-4BE3-982A-01B0444FB070]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[port]]></name>
+            <type><![CDATA[INTEGER]]></type>
+            <defaultValue><![CDATA[5060]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[707EF28F-F4AF-4B7E-AB04-C128C894ECE9]]></uid>
+        </SQLField>
+        <SQLIndex>
+            <name><![CDATA[sbc_addresses_idx_host_port]]></name>
+            <fieldName><![CDATA[ipv4]]></fieldName>
+            <fieldName><![CDATA[port]]></fieldName>
+            <SQLIndexEntry>
+                <name><![CDATA[ipv4]]></name>
+                <prefixSize><![CDATA[]]></prefixSize>
+                <fieldUid><![CDATA[4FE97DA7-8D8E-4BE3-982A-01B0444FB070]]></fieldUid>
+            </SQLIndexEntry>
+            <SQLIndexEntry>
+                <name><![CDATA[port]]></name>
+                <prefixSize><![CDATA[]]></prefixSize>
+                <fieldUid><![CDATA[707EF28F-F4AF-4B7E-AB04-C128C894ECE9]]></fieldUid>
+            </SQLIndexEntry>
+            <indexNamePrefix><![CDATA[sbc_addresses]]></indexNamePrefix>
+            <uid><![CDATA[174BD35A-B09C-4F4A-B3D2-D5464D927D9B]]></uid>
+        </SQLIndex>
+        <SQLField>
+            <name><![CDATA[service_provider_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>service_provider_sid</referencesField>
+            <referencesTable>service_providers</referencesTable>
+            <referencesField><![CDATA[service_provider_sid]]></referencesField>
+            <referencesTable><![CDATA[service_providers]]></referencesTable>
+            <sourceCardinality>4</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[58E1702C-6A95-4B17-8C08-8A3810EA16A1]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[F294B51E-F867-47CA-BC1F-F70BDF8170FF]]></referencesTableUID>
+            <indexed><![CDATA[1]]></indexed>
+            <uid><![CDATA[6F249D1F-111F-45B4-B76C-8B5E6B9CB43F]]></uid>
+        </SQLField>
+        <uid><![CDATA[F0EE651E-DBF6-4CAC-A517-AC85BCC2D3AF]]></uid>
+    </SQLTable>
+    <SQLTable>
         <name><![CDATA[lcr_routes]]></name>
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[Least cost routing table]]></comment>
@@ -842,12 +984,12 @@
         <comment><![CDATA[A partition of the platform used by one service provider]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>813.00</x>
-            <y>99.00</y>
+            <x>838.00</x>
+            <y>96.00</y>
         </location>
         <size>
             <width>293.00</width>
-            <height>120.00</height>
+            <height>140.00</height>
         </size>
         <zorder>3</zorder>
         <SQLField>
@@ -894,6 +1036,11 @@
             <referencesTableUID><![CDATA[64D64CB9-0990-4C68-BE71-F9FD43C2BE19]]></referencesTableUID>
             <uid><![CDATA[506BBE72-1A97-4776-B2C3-D94169652FFE]]></uid>
         </SQLField>
+        <SQLField>
+            <name><![CDATA[ms_teams_fqdn]]></name>
+            <type><![CDATA[VARCHAR(255)]]></type>
+            <uid><![CDATA[FA39B463-61C7-4654-BE9C-D1AC39AB1B97]]></uid>
+        </SQLField>
         <labelWindowIndex><![CDATA[0]]></labelWindowIndex>
         <objectComment><![CDATA[A partition of the platform used by one service provider]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
@@ -913,17 +1060,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[2261.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1753.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[1428.000000]]></windowHeight>
-        <windowLocationX><![CDATA[146.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[145.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{0, 0}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[2538.000000]]></windowWidth>
+        <windowHeight><![CDATA[1298.000000]]></windowHeight>
+        <windowLocationX><![CDATA[192.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[74.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{298.5, 2}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[2153.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>

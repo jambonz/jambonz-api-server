@@ -13,12 +13,57 @@ servers:
     description: development server
 paths:
   /Sbcs:
+    post:
+      summary: add an SBC address
+      operationId: createSbc
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ipv4:
+                  type: string
+                port:
+                  type: number
+                service_provider_sid:
+                  type: string
+                  description: service provider scope for the generated api key
+              required:
+                - ipv4
+      responses:
+        201:
+          description:  sbc address successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulApiKeyAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+        500:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
     get:
-      summary: retrieve public IP addresses of the jambonz /Sbcs
+      summary: retrieve public IP addresses of the jambonz Sbcs
       operationId: listSbcs
+      parameters:
+        - in: query
+          name: service_provider_sid
+          required: false
+          schema:
+            type: string
+            description: return only the SBCs operated for the sole use of this service provider
       responses:
         200:
-          description: list of IP addresses
+          description: list of SBC addresses
           content:
             application/json:
               schema:
@@ -27,7 +72,7 @@ paths:
                   properties:
                     ipv4:
                       type: string
-                      description: ip address of one of our /Sbcs 
+                      description: ip address of one of our Sbcs 
                   required:
                     - ipv4
         500:
@@ -36,6 +81,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
+  /Sbcs/{SbcSid}:
+      parameters:
+      - name: SbcSid
+        in: path
+        required: true
+        schema:
+          type: string
+      delete:
+        summary: delete sbc address
+        operationId: deleteSbcAddress      
+        responses:
+          200:
+            description: sbc address deleted
+          404:
+            description: sbc address not found
+
 
   /ApiKeys:
     post:
@@ -116,7 +177,7 @@ paths:
           description: login succeeded
           content:
             application/json:
-              schema: '#/components/schemas/SuccessfulLogin'
+              schema: '#/components/schemas/Login'
         403:
           description: login failed
           content:
@@ -161,7 +222,7 @@ paths:
           description: password successfully changed
           content:
             application/json:
-              schema: '#/components/schemas/SuccessfulLogin'
+              schema: '#/components/schemas/Login'
         403:
           description: password change failed
           content:
@@ -745,6 +806,140 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
+
+  /MicrosoftTeamsTenants:
+    post:
+      summary: provision a customer tenant for MS Teams
+      operationId: createMsTeamsTenant
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                service_provider_sid:
+                  type: string
+                  format: uuid
+                  example: 85f9c036-ba61-4f28-b2f5-617c23fa68ff
+                account_sid:
+                  type: string
+                  format: uuid
+                  example: 85f9c036-ba61-4f28-b2f5-617c23fa68ff
+                application_sid:
+                  type: string
+                  format: uuid
+                  example: 85f9c036-ba61-4f28-b2f5-617c23fa68ff
+                tenant_fqdn:
+                  type: string
+                  example: customer.contoso.com
+              required:
+                - service_provider_sid
+                - account
+                - tenant_fqdn
+      responses:
+        201:
+          description: tenant successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      summary: list MS Teams tenants
+      operationId: listMsTeamsTenants
+      responses:
+        200:
+          description: list of tenants
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MsTeamsTenant'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /MicrosoftTeamsTenants/{TenantSid}:
+    parameters:
+      - name: TenantSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    delete:
+      summary: delete an MS Teams tenant
+      operationId: deleteTenant
+      responses:
+        204:
+          description: tenant successfully deleted
+        404:
+          description: tenant not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      summary: retrieve an MS Teams tenant
+      operationId: getTenant
+      responses:
+        200:
+          description: tenant found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MsTeamsTenant'
+        404:
+          description: account not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+    put:
+      summary: update tenant
+      operationId: updateAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tenant'
+      responses:
+        204:
+          description: tenant updated
+        404:
+          description: tenant not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
 
   /Accounts:
     post:
@@ -1350,7 +1545,7 @@ components:
       scheme: bearer
       bearerFormat: token
   schemas:
-    SuccessfulLogin:
+    Login:
       type: object
       properties:
         user_sid: 
@@ -1410,6 +1605,8 @@ components:
         hook_basic_auth_password:
           type: string
           format: url
+        ms_teams_fqdn:
+          type: string
       required:
         - service_provider_sid
         - name
@@ -1565,6 +1762,23 @@ components:
       required:
         - url
       example: {"url": "https://acme.com", "method": "POST"}
+    MsTeamsTenant:
+      type: object
+      properties:
+        service_provider_sid:
+          type: string
+          format: uuid
+        account_sid:
+          type: string
+          format: uuid
+        application_sid:
+          type: string
+          format: uuid
+        tenant_fqdn:
+          type: string
+      required:
+        - service_provider_sid
+        - tenant_fqdn
     Call:
       type: object
       properties:

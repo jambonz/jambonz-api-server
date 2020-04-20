@@ -6,4 +6,6 @@ require('./accounts');
 require('./phone-numbers');
 require('./applications');
 require('./auth');
+require('./sbcs');
+require('./ms-teams');
 require('./remove-test-db');

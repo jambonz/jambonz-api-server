@@ -18,7 +18,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jambonz-db-helpers": "^0.3.2",
-    "jambonz-realtimedb-helpers": "0.1.7",
+    "jambonz-realtimedb-helpers": "0.2.4",
     "mysql2": "^2.0.2",
     "passport": "^0.4.0",
     "passport-http-bearer": "^1.0.1",
@@ -26,17 +26,16 @@
     "request": "^2.88.0",
     "request-debug": "^0.2.0",
     "swagger-ui-express": "^4.1.2",
-    "tape": "^4.11.0",
     "uuid": "^3.3.3",
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "eslint": "^6.7.2",
+    "eslint": "^6.8.0",
     "eslint-plugin-promise": "^4.2.1",
-    "nyc": "^14.1.1",
+    "nyc": "^15.0.1",
     "request-promise-native": "^1.0.8",
-    "tap": "^14.10.2",
     "tap-dot": "^2.0.0",
-    "tap-spec": "^5.0.0"
+    "tap-spec": "^5.0.0",
+    "tape": "^4.13.2"
   }
 }

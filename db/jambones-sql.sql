@@ -7,7 +7,11 @@ DROP TABLE IF EXISTS lcr_carrier_set_entry;
 
 DROP TABLE IF EXISTS lcr_routes;
 
+DROP TABLE IF EXISTS ms_teams_tenants;
+
 DROP TABLE IF EXISTS api_keys;
+
+DROP TABLE IF EXISTS sbc_addresses;
 
 DROP TABLE IF EXISTS users;
 
@@ -44,6 +48,16 @@ priority INTEGER NOT NULL UNIQUE  COMMENT 'lower priority routes are attempted f
 PRIMARY KEY (lcr_route_sid)
 ) COMMENT='Least cost routing table';
 
+CREATE TABLE ms_teams_tenants
+(
+ms_teams_tenant_sid CHAR(36) NOT NULL UNIQUE ,
+service_provider_sid CHAR(36) NOT NULL,
+account_sid CHAR(36),
+application_sid CHAR(36),
+tenant_fqdn VARCHAR(255) NOT NULL UNIQUE ,
+PRIMARY KEY (ms_teams_tenant_sid)
+) COMMENT='A Microsoft Teams customer tenant';
+
 CREATE TABLE api_keys
 (
 api_key_sid CHAR(36) NOT NULL UNIQUE ,
@@ -53,6 +67,15 @@ service_provider_sid CHAR(36),
 expires_at TIMESTAMP,
 PRIMARY KEY (api_key_sid)
 ) ENGINE=InnoDB COMMENT='An authorization token that is used to access the REST api';
+
+CREATE TABLE sbc_addresses
+(
+sbc_address_sid CHAR(36) NOT NULL UNIQUE ,
+ipv4 VARCHAR(255) NOT NULL,
+port INTEGER NOT NULL DEFAULT 5060,
+service_provider_sid CHAR(36),
+PRIMARY KEY (sbc_address_sid)
+);
 
 CREATE TABLE users
 (
@@ -138,6 +161,7 @@ name VARCHAR(64) NOT NULL UNIQUE ,
 description VARCHAR(255),
 root_domain VARCHAR(128) UNIQUE ,
 registration_hook_sid CHAR(36),
+ms_teams_fqdn VARCHAR(255),
 PRIMARY KEY (service_provider_sid)
 ) ENGINE=InnoDB COMMENT='A partition of the platform used by one service provider';
 
@@ -158,28 +182,42 @@ ALTER TABLE call_routes ADD FOREIGN KEY account_sid_idxfk (account_sid) REFERENC
 
 ALTER TABLE call_routes ADD FOREIGN KEY application_sid_idxfk (application_sid) REFERENCES applications (application_sid);
 
+CREATE INDEX ms_teams_tenant_sid_idx ON ms_teams_tenants (ms_teams_tenant_sid);
+ALTER TABLE ms_teams_tenants ADD FOREIGN KEY service_provider_sid_idxfk (service_provider_sid) REFERENCES service_providers (service_provider_sid);
+
+ALTER TABLE ms_teams_tenants ADD FOREIGN KEY account_sid_idxfk_1 (account_sid) REFERENCES accounts (account_sid);
+
+ALTER TABLE ms_teams_tenants ADD FOREIGN KEY application_sid_idxfk_1 (application_sid) REFERENCES applications (application_sid);
+
+CREATE INDEX tenant_fqdn_idx ON ms_teams_tenants (tenant_fqdn);
 CREATE INDEX api_key_sid_idx ON api_keys (api_key_sid);
 CREATE INDEX account_sid_idx ON api_keys (account_sid);
-ALTER TABLE api_keys ADD FOREIGN KEY account_sid_idxfk_1 (account_sid) REFERENCES accounts (account_sid);
+ALTER TABLE api_keys ADD FOREIGN KEY account_sid_idxfk_2 (account_sid) REFERENCES accounts (account_sid);
 
 CREATE INDEX service_provider_sid_idx ON api_keys (service_provider_sid);
-ALTER TABLE api_keys ADD FOREIGN KEY service_provider_sid_idxfk (service_provider_sid) REFERENCES service_providers (service_provider_sid);
+ALTER TABLE api_keys ADD FOREIGN KEY service_provider_sid_idxfk_1 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
+
+CREATE INDEX sbc_addresses_idx_host_port ON sbc_addresses (ipv4,port);
+
+CREATE INDEX sbc_address_sid_idx ON sbc_addresses (sbc_address_sid);
+CREATE INDEX service_provider_sid_idx ON sbc_addresses (service_provider_sid);
+ALTER TABLE sbc_addresses ADD FOREIGN KEY service_provider_sid_idxfk_2 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
 
 CREATE INDEX user_sid_idx ON users (user_sid);
 CREATE INDEX name_idx ON users (name);
 CREATE INDEX voip_carrier_sid_idx ON voip_carriers (voip_carrier_sid);
 CREATE INDEX name_idx ON voip_carriers (name);
-ALTER TABLE voip_carriers ADD FOREIGN KEY account_sid_idxfk_2 (account_sid) REFERENCES accounts (account_sid);
+ALTER TABLE voip_carriers ADD FOREIGN KEY account_sid_idxfk_3 (account_sid) REFERENCES accounts (account_sid);
 
-ALTER TABLE voip_carriers ADD FOREIGN KEY application_sid_idxfk_1 (application_sid) REFERENCES applications (application_sid);
+ALTER TABLE voip_carriers ADD FOREIGN KEY application_sid_idxfk_2 (application_sid) REFERENCES applications (application_sid);
 
 CREATE INDEX phone_number_sid_idx ON phone_numbers (phone_number_sid);
 CREATE INDEX voip_carrier_sid_idx ON phone_numbers (voip_carrier_sid);
 ALTER TABLE phone_numbers ADD FOREIGN KEY voip_carrier_sid_idxfk (voip_carrier_sid) REFERENCES voip_carriers (voip_carrier_sid);
 
-ALTER TABLE phone_numbers ADD FOREIGN KEY account_sid_idxfk_3 (account_sid) REFERENCES accounts (account_sid);
+ALTER TABLE phone_numbers ADD FOREIGN KEY account_sid_idxfk_4 (account_sid) REFERENCES accounts (account_sid);
 
-ALTER TABLE phone_numbers ADD FOREIGN KEY application_sid_idxfk_2 (application_sid) REFERENCES applications (application_sid);
+ALTER TABLE phone_numbers ADD FOREIGN KEY application_sid_idxfk_3 (application_sid) REFERENCES applications (application_sid);
 
 CREATE INDEX webhook_sid_idx ON webhooks (webhook_sid);
 CREATE UNIQUE INDEX sip_gateway_idx_hostport ON sip_gateways (ipv4,port);
@@ -193,9 +231,8 @@ ALTER TABLE lcr_carrier_set_entry ADD FOREIGN KEY voip_carrier_sid_idxfk_2 (voip
 CREATE UNIQUE INDEX applications_idx_name ON applications (account_sid,name);
 
 CREATE INDEX application_sid_idx ON applications (application_sid);
-CREATE INDEX name_idx ON applications (name);
 CREATE INDEX account_sid_idx ON applications (account_sid);
-ALTER TABLE applications ADD FOREIGN KEY account_sid_idxfk_4 (account_sid) REFERENCES accounts (account_sid);
+ALTER TABLE applications ADD FOREIGN KEY account_sid_idxfk_5 (account_sid) REFERENCES accounts (account_sid);
 
 ALTER TABLE applications ADD FOREIGN KEY call_hook_sid_idxfk (call_hook_sid) REFERENCES webhooks (webhook_sid);
 
@@ -207,10 +244,9 @@ CREATE INDEX root_domain_idx ON service_providers (root_domain);
 ALTER TABLE service_providers ADD FOREIGN KEY registration_hook_sid_idxfk (registration_hook_sid) REFERENCES webhooks (webhook_sid);
 
 CREATE INDEX account_sid_idx ON accounts (account_sid);
-CREATE INDEX name_idx ON accounts (name);
 CREATE INDEX sip_realm_idx ON accounts (sip_realm);
 CREATE INDEX service_provider_sid_idx ON accounts (service_provider_sid);
-ALTER TABLE accounts ADD FOREIGN KEY service_provider_sid_idxfk_1 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
+ALTER TABLE accounts ADD FOREIGN KEY service_provider_sid_idxfk_3 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
 
 ALTER TABLE accounts ADD FOREIGN KEY registration_hook_sid_idxfk_1 (registration_hook_sid) REFERENCES webhooks (webhook_sid);
 
