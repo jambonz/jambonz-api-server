@@ -1387,7 +1387,7 @@ paths:
                 from:
                   type: string
                   description: The calling party number
-                  example: 16172375089
+                  example: "16172375089"
                 timeout:
                   type: integer
                   description: the number of seconds to wait for call to be answered.  Defaults to 60.
