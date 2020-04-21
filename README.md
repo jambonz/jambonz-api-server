@@ -16,7 +16,6 @@ JAMBONES_REDIS_HOST
 JAMBONES_REDIS_PORT
 JAMBONES_LOGLEVEL                 # defaults to info
 JAMBONES_API_VERSION              # defaults to v1
-JAMBONES_CREATE_CALL_URL
 HTTP_PORT                         # defaults to 3000
 ```
 
