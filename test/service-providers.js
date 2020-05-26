@@ -30,7 +30,8 @@ test('service provider tests', async(t) => {
       auth: authAdmin,
       json: true,
       body: {
-        name: 'daveh'
+        name: 'daveh',
+        ms_teams_fqdn: 'contoso.com'
       }
     });
     t.ok(result.statusCode === 201, 'successfully created service provider');
@@ -88,7 +89,7 @@ test('service provider tests', async(t) => {
       auth: authAdmin,
       json: true,
     });
-    t.ok(result.name === 'daveh' , 'successfully retrieved service provider by sid');
+    t.ok(result.name === 'daveh' && result.ms_teams_fqdn === 'contoso.com', 'successfully retrieved service provider by sid');
 
 
     /* update service providers */

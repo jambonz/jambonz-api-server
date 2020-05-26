@@ -4,7 +4,7 @@ const authAdmin = {bearer: ADMIN_TOKEN};
 const request = require('request-promise-native').defaults({
   baseUrl: 'http://127.0.0.1:3000/v1'
 });
-const {createServiceProvider, deleteObjectBySid} = require('./utils');
+const {createServiceProvider, createAccount, deleteObjectBySid} = require('./utils');
 
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
@@ -16,6 +16,8 @@ test('sbc_addresses tests', async(t) => {
   try {
     let result;
     const service_provider_sid = await createServiceProvider(request);
+    const account_sid = await createAccount(request, service_provider_sid);
+    const account_sid2 = await createAccount(request, service_provider_sid, 'account2');
 
     /* add a tenant  */
     result = await request.post('/MicrosoftTeamsTenants', {
@@ -24,6 +26,7 @@ test('sbc_addresses tests', async(t) => {
       json: true,
       body: {
         service_provider_sid,
+        account_sid,
         tenant_fqdn: 'foo.bar.baz'
       }
     });
@@ -37,6 +40,7 @@ test('sbc_addresses tests', async(t) => {
       json: true,
       body: {
         service_provider_sid,
+        account_sid: account_sid2,
         tenant_fqdn: 'junk.bar.baz'
       }
     });
@@ -50,8 +54,29 @@ test('sbc_addresses tests', async(t) => {
     });
     t.ok(result.body.length === 2, 'successfully retrieved tenants');
 
+    /* update tenant */
+    result = await request.put(`/MicrosoftTeamsTenants/${sid1}`, {
+      auth: authAdmin,
+      json: true,
+      resolveWithFullResponse: true,
+      body: {
+        tenant_fqdn: 'foo.bar.bazzle'
+      }
+    });
+    t.ok(result.statusCode === 204, 'successfully updated ms teams tenant');
+
+    /* get tenant */
+    result = await request.get(`/MicrosoftTeamsTenants/${sid1}`, {
+      auth: authAdmin,
+      json: true
+    });
+    t.ok(result.tenant_fqdn === 'foo.bar.bazzle', 'successfully retrieved ms teams tenant');
+    
+
     await deleteObjectBySid(request, '/MicrosoftTeamsTenants', sid1);
     await deleteObjectBySid(request, '/MicrosoftTeamsTenants', sid2);
+    await deleteObjectBySid(request, '/Accounts', account_sid);
+    await deleteObjectBySid(request, '/Accounts', account_sid2);
     await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid);
 
     t.end();

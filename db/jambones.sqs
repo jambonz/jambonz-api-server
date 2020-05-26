@@ -48,7 +48,7 @@
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[57655C0C-9427-4CC7-9502-24ACF56AAECF]]></uid>
         </SQLField>
-        <labelWindowIndex><![CDATA[1]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[3]]></labelWindowIndex>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[2A735FAB-592C-42E5-9C8B-06B109314799]]></uid>
     </SQLTable>
@@ -119,7 +119,7 @@
             <objectComment><![CDATA[If provided, all incoming calls from this source will be routed to the associated application]]></objectComment>
             <uid><![CDATA[B6545E2E-7F55-4082-AEFA-29F50C137D64]]></uid>
         </SQLField>
-        <labelWindowIndex><![CDATA[6]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[8]]></labelWindowIndex>
         <objectComment><![CDATA[A Carrier or customer PBX that can send or receive calls]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[3D3136A7-AFC0-4A70-AEC3-68577955CA2E]]></uid>
@@ -189,7 +189,7 @@
             <type><![CDATA[TIMESTAMP]]></type>
             <uid><![CDATA[DE86BC18-858E-4D7E-9B83-891DB2861434]]></uid>
         </SQLField>
-        <labelWindowIndex><![CDATA[11]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[13]]></labelWindowIndex>
         <objectComment><![CDATA[An authorization token that is used to access the REST api]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[3EDF89A0-FD38-4DF9-BB65-E0FCD0A678BE]]></uid>
@@ -240,7 +240,7 @@
             <type><![CDATA[VARCHAR(255)]]></type>
             <uid><![CDATA[04BB457A-D532-4780-8A58-5900094171EC]]></uid>
         </SQLField>
-        <labelWindowIndex><![CDATA[2]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[4]]></labelWindowIndex>
         <objectComment><![CDATA[An HTTP callback]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[64D64CB9-0990-4C68-BE71-F9FD43C2BE19]]></uid>
@@ -311,7 +311,7 @@
             <uid><![CDATA[9B4208B5-9E3B-4B76-B7F7-4E5D36B99BF2]]></uid>
             <unsigned><![CDATA[0]]></unsigned>
         </SQLField>
-        <labelWindowIndex><![CDATA[10]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[12]]></labelWindowIndex>
         <objectComment><![CDATA[a regex-based pattern match for call routing]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[78584D93-2CD7-4495-9C5E-893C7B869133]]></uid>
@@ -364,6 +364,7 @@
             <destinationCardinality>2</destinationCardinality>
             <referencesFieldUID><![CDATA[1342FAFA-C15C-429B-809B-C6C55F9FA5B6]]></referencesFieldUID>
             <referencesTableUID><![CDATA[985D6997-B1A7-4AB3-80F4-4D59B45480C8]]></referencesTableUID>
+            <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[EB48F39F-9D5F-43E0-BE8A-34A5C1304A76]]></uid>
         </SQLField>
         <SQLField>
@@ -388,7 +389,9 @@
             <uid><![CDATA[1DDAD1A1-942D-4487-89C8-D496B7F82274]]></uid>
             <unique><![CDATA[1]]></unique>
         </SQLField>
+        <labelWindowIndex><![CDATA[2]]></labelWindowIndex>
         <objectComment><![CDATA[A Microsoft Teams customer tenant]]></objectComment>
+        <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[92FD042A-5AEC-4D8F-AB94-C73C0F566F75]]></uid>
     </SQLTable>
     <SQLTable>
@@ -455,7 +458,7 @@
             <objectComment><![CDATA[lower priority carriers are attempted first]]></objectComment>
             <uid><![CDATA[01F61C68-799B-49B0-9E6A-0E2162EE5A54]]></uid>
         </SQLField>
-        <labelWindowIndex><![CDATA[5]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[7]]></labelWindowIndex>
         <objectComment><![CDATA[An entry in the LCR routing list]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[956025F5-0798-47F7-B76C-457814C7B52E]]></uid>
@@ -553,7 +556,7 @@
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[C7130A90-DBB4-424D-A9A9-CB203C32350C]]></uid>
         </SQLField>
-        <labelWindowIndex><![CDATA[9]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[11]]></labelWindowIndex>
         <objectComment><![CDATA[An enterprise that uses the platform for comm services]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[985D6997-B1A7-4AB3-80F4-4D59B45480C8]]></uid>
@@ -635,7 +638,7 @@
             <uid><![CDATA[962CB80A-54CB-4C6A-9591-9BFC644CF80F]]></uid>
             <unsigned><![CDATA[0]]></unsigned>
         </SQLField>
-        <labelWindowIndex><![CDATA[8]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[10]]></labelWindowIndex>
         <objectComment><![CDATA[A phone number that has been assigned to an account]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[BA650DDC-AC7B-4DFE-A5E5-828C75607807]]></uid>
@@ -727,7 +730,7 @@
             <indexType><![CDATA[UNIQUE]]></indexType>
             <uid><![CDATA[1C744DE3-39BD-4EC6-B427-7EB2DD258771]]></uid>
         </SQLIndex>
-        <labelWindowIndex><![CDATA[4]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[6]]></labelWindowIndex>
         <objectComment><![CDATA[A whitelisted sip gateway used for origination/termination]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[D8A564E2-DA41-4217-8ACE-06CF77E9BEC1]]></uid>
@@ -860,7 +863,7 @@
             <indexType><![CDATA[UNIQUE]]></indexType>
             <uid><![CDATA[3FDDDF3B-375D-4DE4-B759-514438845F7D]]></uid>
         </SQLIndex>
-        <labelWindowIndex><![CDATA[7]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[9]]></labelWindowIndex>
         <objectComment><![CDATA[A defined set of behaviors to be applied to phone calls ]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[E97EE4F0-7ED7-4E8C-862E-D98192D6EAE0]]></uid>
@@ -930,6 +933,8 @@
             <indexed><![CDATA[1]]></indexed>
             <uid><![CDATA[6F249D1F-111F-45B4-B76C-8B5E6B9CB43F]]></uid>
         </SQLField>
+        <labelWindowIndex><![CDATA[1]]></labelWindowIndex>
+        <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[F0EE651E-DBF6-4CAC-A517-AC85BCC2D3AF]]></uid>
     </SQLTable>
     <SQLTable>
@@ -973,7 +978,7 @@
             <uid><![CDATA[B73773BA-AB1B-47AA-B995-2D2FE006198F]]></uid>
             <unique><![CDATA[1]]></unique>
         </SQLField>
-        <labelWindowIndex><![CDATA[3]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[5]]></labelWindowIndex>
         <objectComment><![CDATA[Least cost routing table]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[F283D572-F670-4571-91FD-A665A9D3E15D]]></uid>
@@ -1060,17 +1065,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1753.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1756.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[1298.000000]]></windowHeight>
-        <windowLocationX><![CDATA[192.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[74.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{298.5, 2}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[2153.000000]]></windowWidth>
+        <windowHeight><![CDATA[1337.000000]]></windowHeight>
+        <windowLocationX><![CDATA[2625.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[80.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{0, 1}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[2033.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>

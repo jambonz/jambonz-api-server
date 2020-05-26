@@ -1,6 +1,6 @@
 {
   "name": "jambonz-api-server",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "",
   "main": "app.js",
   "scripts": {
@@ -17,8 +17,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "jambonz-db-helpers": "^0.3.4",
-    "jambonz-realtimedb-helpers": "0.2.4",
+    "@jambonz/db-helpers": "^0.3.8",
+    "@jambonz/realtimedb-helpers": "0.2.15",
     "mysql2": "^2.0.2",
     "passport": "^0.4.0",
     "passport-http-bearer": "^1.0.1",

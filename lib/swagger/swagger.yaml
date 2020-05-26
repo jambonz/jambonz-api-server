@@ -697,6 +697,10 @@ paths:
                 hook_basic_auth_password:
                   type: string
                   description: password to use for http basic auth when calling hook
+                ms_teams_fqdn:
+                  type: string
+                  description: SBC domain name for Microsoft Teams
+                  example: contoso.com
               required: 
                 - name
       responses:

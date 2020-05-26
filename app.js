@@ -22,14 +22,14 @@ const {
   listCalls,
   purgeCalls,
   retrieveSet
-} = require('jambonz-realtimedb-helpers')({
+} = require('@jambonz/realtimedb-helpers')({
   host: process.env.JAMBONES_REDIS_HOST || 'localhost',
   port: process.env.JAMBONES_REDIS_PORT || 6379
 }, logger);
 const {
   lookupAppBySid,
   lookupAccountBySid
-} = require('jambonz-db-helpers')({
+} = require('@jambonz/db-helpers')({
   host: process.env.JAMBONES_MYSQL_HOST,
   user: process.env.JAMBONES_MYSQL_USER,
   password: process.env.JAMBONES_MYSQL_PASSWORD,
