@@ -687,16 +687,8 @@ paths:
                   description: root domain for group of accounts that share a registration hook
                   example: example.com
                 registration_hook:
-                  type: string
-                  format: url
+                  $ref: '#/components/schemas/Webhook'
                   description: authentication webhook for registration
-                  example: https://mycompany.com
-                hook_basic_auth_user:
-                  type: string
-                  description: username to use for http basic auth when calling hook
-                hook_basic_auth_password:
-                  type: string
-                  description: password to use for http basic auth when calling hook
                 ms_teams_fqdn:
                   type: string
                   description: SBC domain name for Microsoft Teams
@@ -1603,12 +1595,9 @@ components:
           type: string
         root_domain:
           type: string
-        hook_basic_auth_user:
-          type: string
-          format: url
-        hook_basic_auth_password:
-          type: string
-          format: url
+        registration_hook:
+          $ref: '#/components/schemas/Webhook'
+          description: authentication webhook for registration
         ms_teams_fqdn:
           type: string
       required:

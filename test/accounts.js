@@ -45,7 +45,7 @@ test('account tests', async(t) => {
     });
     let regHook = result[0].registration_hook;
     t.ok(result.length === 1 &&
-      Object.keys(regHook).length == 5, 'successfully queried all accounts');
+      Object.keys(regHook).length == 4, 'successfully queried all accounts');
 
     /* query one accounts */
     result = await request.get(`/Accounts/${sid}`, {
@@ -74,7 +74,7 @@ test('account tests', async(t) => {
       json: true,
     });
     //console.log(`retrieved account after update: ${JSON.stringify(result)}`);
-    t.ok(Object.keys(result.registration_hook).length === 5, 'successfully removed a hook from account');
+    t.ok(Object.keys(result.registration_hook).length === 4, 'successfully removed a hook from account');
 
     /* assign phone number to account */
     result = await request.put(`/PhoneNumbers/${phone_number_sid}`, {

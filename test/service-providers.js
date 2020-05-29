@@ -44,7 +44,10 @@ test('service provider tests', async(t) => {
       json: true,
       body: {
         name: 'johndoe',
-        root_domain: 'example.com'
+        root_domain: 'example.com',
+        registration_hook: {
+          url: 'http://a.com'
+        }
       }
     });
     t.ok(result.statusCode === 201, 'successfully created service provider with a root domain');
@@ -85,11 +88,11 @@ test('service provider tests', async(t) => {
     t.ok(result.length === 2 , 'successfully queried all service providers');
 
     /* query one service providers */
-    result = await request.get(`/ServiceProviders/${sid}`, {
+    result = await request.get(`/ServiceProviders/${sid2}`, {
       auth: authAdmin,
       json: true,
     });
-    t.ok(result.name === 'daveh' && result.ms_teams_fqdn === 'contoso.com', 'successfully retrieved service provider by sid');
+    t.ok(result.name === 'johndoe' && result.root_domain === 'example.com', 'successfully retrieved service provider by sid');
 
 
     /* update service providers */
