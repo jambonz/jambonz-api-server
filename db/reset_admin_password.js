@@ -6,6 +6,10 @@ const sqlInsert = `INSERT into users
 (user_sid, name, hashed_password, salt) 
 values (?, ?, ?, ?)
 `;
+const sqlChangeAdminToken = `UPDATE api_keys set token = ? 
+WHERE account_sid IS NULL 
+AND service_provider_sid IS NULL`;
+
 /**
  * generates random string of characters i.e salt
  * @function
@@ -55,8 +59,13 @@ getMysqlConnection((err, conn) => {
     ], (err) => {
       if (err) return console.log(err, 'Error inserting admin user');
       console.log('successfully reset admin password');
-      conn.release();
-      process.exit(0);
+      const uuid = uuidv4();
+      conn.query(sqlChangeAdminToken, [uuid], (err) => {
+        if (err) return console.log(err, 'Error updating admin token');
+        console.log('successfully changed admin tokens');
+        conn.release();
+        process.exit(0);
+      });
     });
   });
 });
