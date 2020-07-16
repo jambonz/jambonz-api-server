@@ -63,7 +63,7 @@
         </location>
         <size>
             <width>266.00</width>
-            <height>120.00</height>
+            <height>140.00</height>
         </size>
         <zorder>6</zorder>
         <SQLField>
@@ -118,6 +118,13 @@
             <referencesTableUID><![CDATA[E97EE4F0-7ED7-4E8C-862E-D98192D6EAE0]]></referencesTableUID>
             <objectComment><![CDATA[If provided, all incoming calls from this source will be routed to the associated application]]></objectComment>
             <uid><![CDATA[B6545E2E-7F55-4082-AEFA-29F50C137D64]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[e164_leading_plus]]></name>
+            <type><![CDATA[BOOLEAN]]></type>
+            <defaultValue><![CDATA[false]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[123EA4AC-627B-42A1-8779-D72494E8D47F]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[8]]></labelWindowIndex>
         <objectComment><![CDATA[A Carrier or customer PBX that can send or receive calls]]></objectComment>
@@ -251,8 +258,8 @@
         <comment><![CDATA[a regex-based pattern match for call routing]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>406.00</x>
-            <y>425.00</y>
+            <x>424.00</x>
+            <y>461.00</y>
         </location>
         <size>
             <width>254.00</width>
@@ -1065,17 +1072,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1756.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1788.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[1337.000000]]></windowHeight>
-        <windowLocationX><![CDATA[2625.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[80.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{0, 1}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[2033.000000]]></windowWidth>
+        <windowHeight><![CDATA[1250.000000]]></windowHeight>
+        <windowLocationX><![CDATA[408.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[94.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{0, 0.5}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[2065.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>

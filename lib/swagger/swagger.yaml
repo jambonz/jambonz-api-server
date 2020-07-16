@@ -250,6 +250,8 @@ paths:
                   description: voip carrier name
                 description:
                   type: string
+                e164_leading_plus:
+                  type: boolean
               required: 
                 - name
       responses:
@@ -1613,6 +1615,8 @@ components:
           type: string
         description:
           type: string
+        e164_leading_plus:
+          type: boolean
       required:
         - voip_carrier_sid
         - name

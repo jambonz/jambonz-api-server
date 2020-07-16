@@ -22,7 +22,8 @@ test('voip carrier tests', async(t) => {
       auth: authAdmin,
       json: true,
       body: {
-        name: 'daveh'
+        name: 'daveh',
+        e164_leading_plus: true
       }
     });
     t.ok(result.statusCode === 201, 'successfully created voip carrier');
@@ -33,7 +34,7 @@ test('voip carrier tests', async(t) => {
       auth: authAdmin,
       json: true,
     });
-    t.ok(result.length === 1 , 'successfully queried all voip carriers');
+    t.ok(result.length === 1 && result[0].e164_leading_plus, 'successfully queried all voip carriers');
 
     /* query one voip carriers */
     result = await request.get(`/VoipCarriers/${sid}`, {

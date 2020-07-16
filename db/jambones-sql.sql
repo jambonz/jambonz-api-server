@@ -95,6 +95,7 @@ name VARCHAR(64) NOT NULL UNIQUE ,
 description VARCHAR(255),
 account_sid CHAR(36) COMMENT 'if provided, indicates this entity represents a customer PBX that is associated with a specific account',
 application_sid CHAR(36) COMMENT 'If provided, all incoming calls from this source will be routed to the associated application',
+e164_leading_plus BOOLEAN NOT NULL DEFAULT false,
 PRIMARY KEY (voip_carrier_sid)
 ) ENGINE=InnoDB COMMENT='A Carrier or customer PBX that can send or receive calls';
 
