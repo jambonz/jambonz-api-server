@@ -57,7 +57,7 @@ account_sid CHAR(36),
 service_provider_sid CHAR(36),
 expires_at TIMESTAMP,
 last_used TIMESTAMP,
-created_at TIMESTAMP DEFAULT NOW(),
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (api_key_sid)
 ) ENGINE=InnoDB COMMENT='An authorization token that is used to access the REST api';
 

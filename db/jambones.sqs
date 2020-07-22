@@ -141,7 +141,7 @@
             <y>38.00</y>
         </location>
         <size>
-            <width>252.00</width>
+            <width>245.00</width>
             <height>160.00</height>
         </size>
         <zorder>1</zorder>
@@ -204,7 +204,7 @@
         <SQLField>
             <name><![CDATA[created_at]]></name>
             <type><![CDATA[TIMESTAMP]]></type>
-            <defaultValue><![CDATA[NOW()]]></defaultValue>
+            <defaultValue><![CDATA[CURRENT_TIMESTAMP]]></defaultValue>
             <uid><![CDATA[C84C9B6A-80B5-4B0B-8C14-EB02F7421BBE]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[13]]></labelWindowIndex>
