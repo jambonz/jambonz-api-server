@@ -37,7 +37,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessfulApiKeyAdd'
+                $ref: '#/components/schemas/SuccessfulAdd'
         400:
           description: bad request
           content:
@@ -222,7 +222,8 @@ paths:
           description: password successfully changed
           content:
             application/json:
-              schema: '#/components/schemas/Login'
+              schema: 
+                $ref: '#/components/schemas/Login'
         403:
           description: password change failed
           content:
@@ -1201,6 +1202,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
+  /Accounts/{AccountSid}/ApiKeys:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: get all api keys for an account
+      operationId: getAccountApiKeys
+      responses:
+        200:
+          description: list of api keys
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApiKey'
+        404:
+          description: account not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
 
   /Applications:
     post:
@@ -1701,6 +1730,30 @@ components:
         - account_sid
         - inbound_hook
         - inbound_status_hook
+    ApiKey:
+      type: object
+      properties:
+        api_key_sid:
+          type: string
+          format: uuid
+        token:
+          type: string
+          format: uuid
+        account_sid:
+          type: string
+          format: uuid
+        service_provider_sid:
+          type: string
+          format: uuid
+        expires_at:
+          type: dateTime
+        created_at:
+          type: dateTime
+        last_used:
+          type: dateTime
+      required:
+        - api_key_sid
+        - token
     PhoneNumber:
       type: object
       properties:

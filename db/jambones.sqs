@@ -137,12 +137,12 @@
         <comment><![CDATA[An authorization token that is used to access the REST api]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>1302.00</x>
-            <y>61.00</y>
+            <x>1319.00</x>
+            <y>38.00</y>
         </location>
         <size>
             <width>252.00</width>
-            <height>120.00</height>
+            <height>160.00</height>
         </size>
         <zorder>1</zorder>
         <SQLField>
@@ -195,6 +195,17 @@
             <name><![CDATA[expires_at]]></name>
             <type><![CDATA[TIMESTAMP]]></type>
             <uid><![CDATA[DE86BC18-858E-4D7E-9B83-891DB2861434]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[last_used]]></name>
+            <type><![CDATA[TIMESTAMP]]></type>
+            <uid><![CDATA[11A93288-B892-436B-9BB4-D5C3B70DB061]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[created_at]]></name>
+            <type><![CDATA[TIMESTAMP]]></type>
+            <defaultValue><![CDATA[NOW()]]></defaultValue>
+            <uid><![CDATA[C84C9B6A-80B5-4B0B-8C14-EB02F7421BBE]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[13]]></labelWindowIndex>
         <objectComment><![CDATA[An authorization token that is used to access the REST api]]></objectComment>
@@ -1072,17 +1083,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1788.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1944.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[1250.000000]]></windowHeight>
-        <windowLocationX><![CDATA[408.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[94.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{0, 0.5}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[2065.000000]]></windowWidth>
+        <windowHeight><![CDATA[1194.000000]]></windowHeight>
+        <windowLocationX><![CDATA[26.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[100.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{0, 5}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[2221.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>

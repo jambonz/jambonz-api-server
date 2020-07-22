@@ -4,7 +4,11 @@ const authAdmin = {bearer: ADMIN_TOKEN};
 const request = require('request-promise-native').defaults({
   baseUrl: 'http://127.0.0.1:3000/v1'
 });
-const {createVoipCarrier, createServiceProvider, createPhoneNumber, deleteObjectBySid} = require('./utils');
+const {
+  createVoipCarrier, 
+  createServiceProvider, 
+  createPhoneNumber, 
+  deleteObjectBySid} = require('./utils');
 
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
@@ -38,6 +42,26 @@ test('account tests', async(t) => {
     t.ok(result.statusCode === 201, 'successfully created account');
     const sid = result.body.sid;
 
+    /* add an account level api key */
+    result = await request.post(`/ApiKeys`, {
+      auth: authAdmin,
+      json: true,
+      resolveWithFullResponse: true,
+      body: {
+        account_sid: sid
+      }
+    });
+    t.ok(result.statusCode === 201 && result.body.token, 'successfully created account level token');
+    const apiKeySid = result.body.sid;
+    const accountLevelToken = result.body.token;
+  
+    /* query all account level api keys */
+    result = await request.get(`/Accounts/${sid}/ApiKeys`, {
+      auth: {bearer: accountLevelToken},
+      json: true,
+    });
+    t.ok(Array.isArray(result) && result.length === 1, 'successfully queried account level keys');
+
     /* query all accounts */
     result = await request.get('/Accounts', {
       auth: authAdmin,
@@ -54,9 +78,9 @@ test('account tests', async(t) => {
     });
     t.ok(result.name === 'daveh' , 'successfully retrieved account by sid');
 
-    /* update accounts */
+    /* update account with account level token */
     result = await request.put(`/Accounts/${sid}`, {
-      auth: authAdmin,
+      auth: {bearer: accountLevelToken},
       json: true,
       resolveWithFullResponse: true,
       body: {
@@ -67,8 +91,15 @@ test('account tests', async(t) => {
         }
       }
     });
-    t.ok(result.statusCode === 204, 'successfully updated account');
+    t.ok(result.statusCode === 204, 'successfully updated account using account level token');
 
+    /* verify that account level api key last_used was updated*/
+    result = await request.get(`/Accounts/${sid}/ApiKeys`, {
+      auth: {bearer: accountLevelToken},
+      json: true,
+    });
+    t.ok(typeof result[0].last_used === 'string', 'api_key last_used timestamp was updated');
+    
     result = await request.get(`/Accounts/${sid}`, {
       auth: authAdmin,
       json: true,
@@ -97,6 +128,7 @@ test('account tests', async(t) => {
     t.ok(result.statusCode === 422 && result.body.msg === 'cannot delete account with phone numbers', 'cannot delete account with phone numbers');
 
     /* delete account */
+    await request.delete(`ApiKeys/${apiKeySid}`, {auth: {bearer: accountLevelToken}});
     await request.delete(`/PhoneNumbers/${phone_number_sid}`, {auth: authAdmin});
     result = await request.delete(`/Accounts/${sid}`, {
       auth: authAdmin,
@@ -109,7 +141,7 @@ test('account tests', async(t) => {
     t.end();
   }
   catch (err) {
-    //console.error(err);
+    console.error(err);
     t.end(err);
   }
 });
