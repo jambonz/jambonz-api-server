@@ -6,3 +6,4 @@ services:
   - mysql
 script:
   - npm test
+  - cat /home/travis/build/jambonz/jambonz-api-server/test/../db/jambones-sql.sql
