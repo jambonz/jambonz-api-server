@@ -1532,8 +1532,6 @@ paths:
               properties:
                 call_hook:
                   $ref: '#/components/schemas/Webhook'
-                call_status_hook:
-                  $ref: '#/components/schemas/Webhook'
                 call_status:
                   type: string
                   enum:
@@ -1544,6 +1542,11 @@ paths:
                   enum:
                     - pause
                     - resume
+                mute_status:
+                  type: string
+                  enum:
+                    - mute
+                    - unmute
                 whisper:
                   $ref: '#/components/schemas/Webhook'         
       responses:
