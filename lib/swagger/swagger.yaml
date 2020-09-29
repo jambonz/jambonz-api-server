@@ -1249,10 +1249,13 @@ paths:
                   format: uuid
                 call_hook:
                   $ref: '#/components/schemas/Webhook'
-                  description: authentication webhook for inbound calls from PSTN
+                  description: application webhook to handle inbound voice calls
                 call_status_hook:
                   $ref: '#/components/schemas/Webhook'
-                  description: webhook for call status events
+                  description: webhook to report call status events
+                messaging_hook:
+                  $ref: '#/components/schemas/Webhook'
+                  description: application webhook to handle inbound SMS/MMS messages
                 speech_synthesis_vendor:
                   type: string
                 speech_synthesis_voice:
@@ -1715,10 +1718,13 @@ components:
           format: uuid
         call_hook:
           $ref: '#/components/schemas/Webhook'
-          description: authentication webhook for registration
+          description: application webhook for inbound voice calls
         call_status_hook:
           $ref: '#/components/schemas/Webhook'
-          description: authentication webhook for registration
+          description: webhhok for reporting call status events
+        messaging_hook:
+          $ref: '#/components/schemas/Webhook'
+          description: application webhook for inbound SMS/MMS
         speech_synthesis_vendor:
           type: string
         speech_synthesis_voice:
@@ -1731,8 +1737,6 @@ components:
         - application_sid
         - name
         - account_sid
-        - inbound_hook
-        - inbound_status_hook
     ApiKey:
       type: object
       properties:

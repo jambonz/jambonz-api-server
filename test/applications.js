@@ -38,6 +38,9 @@ test('application tests', async(t) => {
         call_status_hook: {
           url: 'http://example.com/status',
           method: 'POST'
+        },
+        messaging_hook: {
+          url: 'http://example.com/sms'
         }
       }
     });
@@ -58,6 +61,7 @@ test('application tests', async(t) => {
       json: true,
     });
     t.ok(result[0].name === 'daveh' , 'successfully retrieved application by sid');
+    t.ok(result[0].messaging_hook.url === 'http://example.com/sms' , 'successfully retrieved messaging_hook from application');
 
     /* update applications */
     result = await request.put(`/Applications/${sid}`, {
@@ -67,11 +71,21 @@ test('application tests', async(t) => {
       body: {
         call_hook: {
           url: 'http://example2.com'
+        },
+        messaging_hook: {
+          url: 'http://example2.com/mms'
         }
       }
     });
     t.ok(result.statusCode === 204, 'successfully updated application');
 
+    /* validate messaging hook was updated */
+    result = await request.get(`/Applications/${sid}`, {
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result[0].messaging_hook.url === 'http://example2.com/mms' , 'successfully updated messaging_hook');
+    
     /* assign phone number to application */
     result = await request.put(`/PhoneNumbers/${phone_number_sid}`, {
       auth: authAdmin,
