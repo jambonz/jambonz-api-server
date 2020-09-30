@@ -1,7 +1,11 @@
 const assert = require('assert');
 const opts = Object.assign({
-  timestamp: () => {return `, "time": "${new Date().toISOString()}"`;}
-}, {level: process.env.JAMBONES_LOGLEVEL || 'info'});
+  timestamp: () => {
+    return `, "time": "${new Date().toISOString()}"`;
+  }
+}, {
+  level: process.env.JAMBONES_LOGLEVEL || 'info'
+});
 const logger = require('pino')(opts);
 const express = require('express');
 const app = express();
@@ -28,7 +32,8 @@ const {
 }, logger);
 const {
   lookupAppBySid,
-  lookupAccountBySid
+  lookupAccountBySid,
+  lookupAppByPhoneNumber
 } = require('@jambonz/db-helpers')({
   host: process.env.JAMBONES_MYSQL_HOST,
   user: process.env.JAMBONES_MYSQL_USER,
@@ -49,7 +54,8 @@ Object.assign(app.locals, {
   purgeCalls,
   retrieveSet,
   lookupAppBySid,
-  lookupAccountBySid
+  lookupAccountBySid,
+  lookupAppByPhoneNumber
 });
 
 const unless = (paths, middleware) => {
@@ -60,13 +66,19 @@ const unless = (paths, middleware) => {
 };
 
 app.use(cors());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+  extended: true
+}));
 app.use(express.json());
-app.use('/v1', unless(['/login', '/Users'], passport.authenticate('bearer', { session: false })));
+app.use('/v1', unless(['/login', '/Users', '/messaging'], passport.authenticate('bearer', {
+  session: false
+})));
 app.use('/', routes);
 app.use((err, req, res, next) => {
   logger.error(err, 'burped error');
-  res.status(err.status || 500).json({msg: err.message});
+  res.status(err.status || 500).json({
+    msg: err.message
+  });
 });
 logger.info(`listening for HTTP traffic on port ${PORT}`);
 app.listen(PORT);
