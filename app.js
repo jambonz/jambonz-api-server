@@ -70,7 +70,7 @@ app.use(express.urlencoded({
   extended: true
 }));
 app.use(express.json());
-app.use('/v1', unless(['/login', '/Users', '/messaging'], passport.authenticate('bearer', {
+app.use('/v1', unless(['/login', '/Users', '/messaging', '/outboundSMS'], passport.authenticate('bearer', {
   session: false
 })));
 app.use('/', routes);

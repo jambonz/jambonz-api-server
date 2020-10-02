@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@jambonz/db-helpers": "^0.5.0",
-    "@jambonz/messaging-peerless": "0.0.4",
+    "@jambonz/messaging-peerless": "0.0.5",
     "@jambonz/realtimedb-helpers": "0.2.16",
     "cors": "^2.8.5",
     "express": "^4.17.1",
