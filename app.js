@@ -33,6 +33,7 @@ const {
 const {
   lookupAppBySid,
   lookupAccountBySid,
+  lookupAccountByPhoneNumber,
   lookupAppByPhoneNumber
 } = require('@jambonz/db-helpers')({
   host: process.env.JAMBONES_MYSQL_HOST,
@@ -55,6 +56,7 @@ Object.assign(app.locals, {
   retrieveSet,
   lookupAppBySid,
   lookupAccountBySid,
+  lookupAccountByPhoneNumber,
   lookupAppByPhoneNumber
 });
 

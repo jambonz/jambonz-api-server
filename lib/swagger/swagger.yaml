@@ -1436,9 +1436,9 @@ paths:
             application/json:
               schema:
                 required:
-                  - callSid
+                  - sid
                 properties:
-                  callSid:
+                  sid:
                     type: string
                     format: uuid
                     example: 2531329f-fb09-4ef7-887e-84e648214436
@@ -1468,8 +1468,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-
-
   /Accounts/{AccountSid}/Calls/{CallSid}:
     parameters:
       - name: AccountSid
@@ -1570,7 +1568,37 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GeneralError'                
+                $ref: '#/components/schemas/GeneralError'
+  /Accounts/{AccountSid}/Messages:
+    post:
+      summary: create an outgoing SMS message
+      operationId: createMessage
+      parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        201:
+          description: call successfully created
+          content:
+            application/json:
+              schema:
+                required:
+                  - sid
+                properties:
+                  sid:
+                    type: string
+                    format: uuid
+                    example: 2531329f-fb09-4ef7-887e-84e648214436
+        400:
+          description: bad request         
 components:
   securitySchemes:
     bearerAuth:
@@ -1918,6 +1946,30 @@ components:
       required:
         - type
       example: {"type": "phone", "number": "+16172375080"}
+    Message:
+      properties:
+        provider:
+          type: string
+        from:
+          type: string
+        to:
+          type: array
+          items:
+            type: string
+        cc:
+          type: array
+          items:
+            type: string
+        text:
+          type: string
+        media:
+          type: array
+          items: 
+            type: string
+      required:
+        - from
+        - to
+      example: {"from": "13394445678", "to": "16173333456", "text": "please call when you can"}
 
 security:
   - bearerAuth: []
