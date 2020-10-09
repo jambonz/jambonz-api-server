@@ -1597,6 +1597,8 @@ paths:
                     type: string
                     format: uuid
                     example: 2531329f-fb09-4ef7-887e-84e648214436
+                  providerResponse:
+                    type: string
         400:
           description: bad request         
 components:
@@ -1953,19 +1955,11 @@ components:
         from:
           type: string
         to:
-          type: array
-          items:
-            type: string
-        cc:
-          type: array
-          items:
-            type: string
+          type: string
         text:
           type: string
         media:
-          type: array
-          items: 
-            type: string
+          type: string
       required:
         - from
         - to
