@@ -148,8 +148,9 @@ CREATE TABLE applications
 application_sid CHAR(36) NOT NULL UNIQUE ,
 name VARCHAR(64) NOT NULL,
 account_sid CHAR(36) NOT NULL COMMENT 'account that this application belongs to',
-call_hook_sid CHAR(36) COMMENT 'webhook to call for inbound calls to phone numbers owned by this account',
+call_hook_sid CHAR(36) COMMENT 'webhook to call for inbound calls ',
 call_status_hook_sid CHAR(36) COMMENT 'webhook to call for call status events',
+messaging_hook_sid CHAR(36) COMMENT 'webhook to call for inbound SMS/MMS ',
 speech_synthesis_vendor VARCHAR(64) NOT NULL DEFAULT 'google',
 speech_synthesis_language VARCHAR(12) NOT NULL DEFAULT 'en-US',
 speech_synthesis_voice VARCHAR(64),
@@ -241,6 +242,8 @@ ALTER TABLE applications ADD FOREIGN KEY account_sid_idxfk_5 (account_sid) REFER
 ALTER TABLE applications ADD FOREIGN KEY call_hook_sid_idxfk (call_hook_sid) REFERENCES webhooks (webhook_sid);
 
 ALTER TABLE applications ADD FOREIGN KEY call_status_hook_sid_idxfk (call_status_hook_sid) REFERENCES webhooks (webhook_sid);
+
+ALTER TABLE applications ADD FOREIGN KEY messaging_hook_sid_idxfk (messaging_hook_sid) REFERENCES webhooks (webhook_sid);
 
 CREATE INDEX service_provider_sid_idx ON service_providers (service_provider_sid);
 CREATE INDEX name_idx ON service_providers (name);

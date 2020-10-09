@@ -194,11 +194,13 @@
         <SQLField>
             <name><![CDATA[expires_at]]></name>
             <type><![CDATA[TIMESTAMP]]></type>
+            <defaultValue><![CDATA[NULL]]></defaultValue>
             <uid><![CDATA[DE86BC18-858E-4D7E-9B83-891DB2861434]]></uid>
         </SQLField>
         <SQLField>
             <name><![CDATA[last_used]]></name>
             <type><![CDATA[TIMESTAMP]]></type>
+            <defaultValue><![CDATA[NULL]]></defaultValue>
             <uid><![CDATA[11A93288-B892-436B-9BB4-D5C3B70DB061]]></uid>
         </SQLField>
         <SQLField>
@@ -764,7 +766,7 @@
         </location>
         <size>
             <width>345.00</width>
-            <height>240.00</height>
+            <height>260.00</height>
         </size>
         <zorder>0</zorder>
         <SQLField>
@@ -812,7 +814,7 @@
             <destinationCardinality>2</destinationCardinality>
             <referencesFieldUID><![CDATA[E046BA30-BC18-483C-A5C8-766E7160F574]]></referencesFieldUID>
             <referencesTableUID><![CDATA[64D64CB9-0990-4C68-BE71-F9FD43C2BE19]]></referencesTableUID>
-            <objectComment><![CDATA[webhook to call for inbound calls to phone numbers owned by this account]]></objectComment>
+            <objectComment><![CDATA[webhook to call for inbound calls ]]></objectComment>
             <uid><![CDATA[55AE0F31-209A-49F9-A6CB-1BB31BE4178A]]></uid>
         </SQLField>
         <SQLField>
@@ -828,6 +830,20 @@
             <referencesTableUID><![CDATA[64D64CB9-0990-4C68-BE71-F9FD43C2BE19]]></referencesTableUID>
             <objectComment><![CDATA[webhook to call for call status events]]></objectComment>
             <uid><![CDATA[A3B4621B-DF13-4920-A718-068B20CB4E8A]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[messaging_hook_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>webhook_sid</referencesField>
+            <referencesTable>webhooks</referencesTable>
+            <referencesField><![CDATA[webhook_sid]]></referencesField>
+            <referencesTable><![CDATA[webhooks]]></referencesTable>
+            <sourceCardinality>4</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[E046BA30-BC18-483C-A5C8-766E7160F574]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[64D64CB9-0990-4C68-BE71-F9FD43C2BE19]]></referencesTableUID>
+            <objectComment><![CDATA[webhook to call for inbound SMS/MMS ]]></objectComment>
+            <uid><![CDATA[4690A98A-2F67-4205-A5C1-D9523F6B3282]]></uid>
         </SQLField>
         <SQLField>
             <name><![CDATA[speech_synthesis_vendor]]></name>
@@ -1083,17 +1099,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1944.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1924.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[1194.000000]]></windowHeight>
-        <windowLocationX><![CDATA[26.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[100.000000]]></windowLocationY>
+        <windowHeight><![CDATA[1013.000000]]></windowHeight>
+        <windowLocationX><![CDATA[2716.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[1913.000000]]></windowLocationY>
         <windowScrollOrigin><![CDATA[{0, 5}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[2221.000000]]></windowWidth>
+        <windowWidth><![CDATA[2201.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>
