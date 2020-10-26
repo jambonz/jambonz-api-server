@@ -19,7 +19,7 @@
     "@jambonz/messaging-382com": "0.0.2",
     "@jambonz/messaging-peerless": "0.0.9",
     "@jambonz/messaging-simwood": "0.0.4",
-    "@jambonz/realtimedb-helpers": "0.2.18",
+    "@jambonz/realtimedb-helpers": "0.2.19",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mysql2": "^2.1.0",
