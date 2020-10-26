@@ -177,7 +177,8 @@ paths:
           description: login succeeded
           content:
             application/json:
-              schema: '#/components/schemas/Login'
+              schema: 
+                $ref: '#/components/schemas/Login'
         403:
           description: login failed
           content:
