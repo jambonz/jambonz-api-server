@@ -962,12 +962,6 @@ paths:
                 registration_hook:
                   $ref: '#/components/schemas/Webhook'
                   description: authentication webhook for registration
-                device_calling_hook:
-                  $ref: '#/components/schemas/Webhook'
-                  description: webhook for inbound call from registered devices
-                error_hook:
-                  $ref: '#/components/schemas/Webhook'
-                  description: webhook for reporting errors from malformed applications
                 service_provider_sid:
                   type: string
                   format: uuid
@@ -1723,19 +1717,16 @@ components:
         registration_hook:
           $ref: '#/components/schemas/Webhook'
           description: authentication webhook for registration
-        device_calling_hook:
-          $ref: '#/components/schemas/Webhook'
-          description: webhook for inbound call from registered devices
-        error_hook:
-          $ref: '#/components/schemas/Webhook'
-          description: webhook for reporting errors from malformed applications
+        device_calling_application_sid:
+          type: string
+          format: uuid
         service_provider_sid:
           type: string
           format: uuid
       required:
         - account_sid
         - name
-        - service_provider
+        - service_provider_sid
     Application:
       type: object
       properties:
