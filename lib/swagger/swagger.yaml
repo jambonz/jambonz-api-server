@@ -250,10 +250,29 @@ paths:
                 name:
                   type: string
                   description: voip carrier name
+                  example: fastco
                 description:
                   type: string
+                  example: my US sip trunking provider
                 e164_leading_plus:
                   type: boolean
+                  description: whether a leading + is required on INVITEs to this provider
+                  example: true
+                requires_register:
+                  type: boolean
+                  description: wehther this provider requires us to send a REGISTER to them in order to receive calls
+                register_username:
+                  type: string
+                  description: sip username to authenticate with, if registration is required
+                  example: foo
+                register_sip_realm:
+                  type: string
+                  description: sip realm to authenticate with, if registration is required
+                  example: sip.fastco.com
+                register_password:
+                  type: string
+                  description: sip password to authenticate with, if registration is required
+                  example: bar
               required: 
                 - name
       responses:
