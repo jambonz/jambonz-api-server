@@ -63,7 +63,7 @@
         </location>
         <size>
             <width>266.00</width>
-            <height>140.00</height>
+            <height>220.00</height>
         </size>
         <zorder>6</zorder>
         <SQLField>
@@ -125,6 +125,28 @@
             <defaultValue><![CDATA[false]]></defaultValue>
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[123EA4AC-627B-42A1-8779-D72494E8D47F]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[requires_register]]></name>
+            <type><![CDATA[BOOLEAN]]></type>
+            <defaultValue><![CDATA[false]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[B694DA3E-F58D-44C5-980F-E0CFBE6DFA02]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[register_username]]></name>
+            <type><![CDATA[VARCHAR(64)]]></type>
+            <uid><![CDATA[7EA13180-1746-44F5-8699-6099D5D29018]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[register_sip_realm]]></name>
+            <type><![CDATA[VARCHAR(64)]]></type>
+            <uid><![CDATA[163F2E47-6536-4A30-BD0A-4BBAA5AB4214]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[register_password]]></name>
+            <type><![CDATA[VARCHAR(64)]]></type>
+            <uid><![CDATA[3699DD5F-20F9-4650-86EB-A08A90894C59]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[8]]></labelWindowIndex>
         <objectComment><![CDATA[A Carrier or customer PBX that can send or receive calls]]></objectComment>
@@ -271,8 +293,8 @@
         <comment><![CDATA[a regex-based pattern match for call routing]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>424.00</x>
-            <y>461.00</y>
+            <x>414.00</x>
+            <y>542.00</y>
         </location>
         <size>
             <width>254.00</width>
@@ -587,8 +609,8 @@
         <comment><![CDATA[A phone number that has been assigned to an account]]></comment>
         <tableType><![CDATA[InnoDB]]></tableType>
         <location>
-            <x>385.00</x>
-            <y>625.00</y>
+            <x>360.00</x>
+            <y>753.00</y>
         </location>
         <size>
             <width>331.00</width>
@@ -1099,17 +1121,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1924.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1515.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[1013.000000]]></windowHeight>
-        <windowLocationX><![CDATA[2716.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[1913.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{0, 5}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[2201.000000]]></windowWidth>
+        <windowHeight><![CDATA[1048.000000]]></windowHeight>
+        <windowLocationX><![CDATA[0.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[49.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{43, 0}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[1792.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>

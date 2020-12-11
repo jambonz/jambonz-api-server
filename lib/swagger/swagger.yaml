@@ -1677,6 +1677,14 @@ components:
           type: string
         e164_leading_plus:
           type: boolean
+        requires_register:
+          type: boolean
+        register_username:
+          type: string
+        register_sip_realm:
+          type: string
+        register_password:
+          type: string
       required:
         - voip_carrier_sid
         - name

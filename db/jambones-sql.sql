@@ -55,8 +55,8 @@ api_key_sid CHAR(36) NOT NULL UNIQUE ,
 token CHAR(36) NOT NULL UNIQUE ,
 account_sid CHAR(36),
 service_provider_sid CHAR(36),
-expires_at TIMESTAMP NULL,
-last_used TIMESTAMP NULL,
+expires_at TIMESTAMP NULL  DEFAULT NULL,
+last_used TIMESTAMP NULL  DEFAULT NULL,
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (api_key_sid)
 ) ENGINE=InnoDB COMMENT='An authorization token that is used to access the REST api';
@@ -98,6 +98,10 @@ description VARCHAR(255),
 account_sid CHAR(36) COMMENT 'if provided, indicates this entity represents a customer PBX that is associated with a specific account',
 application_sid CHAR(36) COMMENT 'If provided, all incoming calls from this source will be routed to the associated application',
 e164_leading_plus BOOLEAN NOT NULL DEFAULT false,
+requires_register BOOLEAN NOT NULL DEFAULT false,
+register_username VARCHAR(64),
+register_sip_realm VARCHAR(64),
+register_password VARCHAR(64),
 PRIMARY KEY (voip_carrier_sid)
 ) ENGINE=InnoDB COMMENT='A Carrier or customer PBX that can send or receive calls';
 

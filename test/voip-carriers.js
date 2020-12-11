@@ -50,7 +50,11 @@ test('voip carrier tests', async(t) => {
       json: true,
       resolveWithFullResponse: true,
       body: {
-        name: 'robb'
+        name: 'robb',
+        requires_register: true,
+        register_username: 'foo',
+        register_sip_realm: 'bar',
+        register_password: 'baz'
       }
     });
     t.ok(result.statusCode === 204, 'successfully updated voip carrier');
