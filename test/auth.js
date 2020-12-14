@@ -1,4 +1,4 @@
-const test = require('tape').test ;
+const test = require('blue-tape').test ;
 const ADMIN_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734de';
 const authAdmin = {bearer: ADMIN_TOKEN};
 const request = require('request-promise-native').defaults({
@@ -461,7 +461,7 @@ test('authentication tests', async(t) => {
     await deleteObjectBySid(request, '/ServiceProviders', spA_sid);
     await deleteObjectBySid(request, '/ServiceProviders', spB_sid);
 
-    t.end();
+    //t.end();
   }
   catch (err) {
     console.error(err);
