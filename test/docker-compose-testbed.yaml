@@ -1,0 +1,13 @@
+version: '3'
+
+services:  
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment: 
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "127.0.0.1", "--protocol", "tcp"]
+      timeout: 5s
+      retries: 10    

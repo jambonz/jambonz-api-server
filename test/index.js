@@ -1,3 +1,4 @@
+require('./docker_start');
 require('./create-test-db');
 require('./sip-gateways');
 require('./service-providers');
@@ -8,4 +9,4 @@ require('./applications');
 require('./auth');
 require('./sbcs');
 require('./ms-teams');
-require('./remove-test-db');
+require('./docker_stop');

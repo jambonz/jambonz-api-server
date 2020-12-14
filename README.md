@@ -1,4 +1,4 @@
-# jambones-api-server [![Build Status](https://secure.travis-ci.org/jambonz/jambones-api-server.png)](http://travis-ci.org/jambonz/jambones-api-server)
+# jambonz-api-server ![Build Status](https://github.com/jambonz/jambonz-api-server/workflows/CI/badge.svg)
 
 Jambones REST API server.
 

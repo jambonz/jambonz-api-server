@@ -1,4 +1,4 @@
-const test = require('tape').test ;
+const test = require('blue-tape').test ;
 const ADMIN_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734de';
 const authAdmin = {bearer: ADMIN_TOKEN};
 const request = require('request-promise-native').defaults({
@@ -10,7 +10,7 @@ process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
 });
 
-test('sbc_addresses tests', async(t) => {
+test('ms teams tests', async(t) => {
   const app = require('../app');
   let sid;
   try {
@@ -79,7 +79,7 @@ test('sbc_addresses tests', async(t) => {
     await deleteObjectBySid(request, '/Accounts', account_sid2);
     await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid);
 
-    t.end();
+    //t.end();
   }
   catch (err) {
     console.error(err);

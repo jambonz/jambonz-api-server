@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "NODE_ENV=test JAMBONES_MYSQL_HOST=localhost JAMBONES_MYSQL_USER=jambones_test JAMBONES_MYSQL_PASSWORD=jambones_test JAMBONES_MYSQL_DATABASE=jambones_test JAMBONES_REDIS_HOST=localhost JAMBONES_LOGLEVEL=error JAMBONES_CREATE_CALL_URL=http://localhost/v1/createCall node test/ | ./node_modules/.bin/tap-spec",
+    "test": "NODE_ENV=test JAMBONES_MYSQL_HOST=127.0.0.1 JAMBONES_MYSQL_USER=jambones_test JAMBONES_MYSQL_PASSWORD=jambones_test JAMBONES_MYSQL_DATABASE=jambones_test JAMBONES_REDIS_HOST=localhost JAMBONES_LOGLEVEL=error JAMBONES_CREATE_CALL_URL=http://localhost/v1/createCall node test/ | ./node_modules/.bin/tap-spec",
     "coverage": "./node_modules/.bin/nyc --reporter html --report-dir ./coverage npm run test",
     "jslint": "eslint app.js lib"
   },
@@ -15,31 +15,29 @@
     "url": "https://github.com/jambonz/jambonz-api-server.git"
   },
   "dependencies": {
-    "@jambonz/db-helpers": "^0.5.1",
+    "@jambonz/db-helpers": "^0.5.5",
     "@jambonz/messaging-382com": "0.0.2",
     "@jambonz/messaging-peerless": "0.0.9",
     "@jambonz/messaging-simwood": "0.0.4",
     "@jambonz/realtimedb-helpers": "0.2.19",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mysql2": "^2.1.0",
+    "mysql2": "^2.2.5",
     "passport": "^0.4.1",
     "passport-http-bearer": "^1.0.1",
     "pino": "^5.17.0",
     "request": "^2.88.2",
     "request-debug": "^0.2.0",
-    "swagger-ui-dist": "^3.35.0",
-    "swagger-ui-express": "^4.1.4",
+    "swagger-ui-express": "^4.1.5",
     "uuid": "^3.4.0",
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "eslint": "^7.10.0",
+    "blue-tape": "^1.0.0",
+    "eslint": "^7.15.0",
     "eslint-plugin-promise": "^4.2.1",
     "nyc": "^15.1.0",
     "request-promise-native": "^1.0.9",
-    "tap-dot": "^2.0.0",
-    "tap-spec": "^5.0.0",
-    "tape": "^5.0.1"
+    "tap-spec": "^5.0.0"
   }
 }

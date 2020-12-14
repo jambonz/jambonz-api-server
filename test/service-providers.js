@@ -1,4 +1,4 @@
-const test = require('tape').test ;
+const test = require('blue-tape').test ;
 const ADMIN_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734de';
 const authAdmin = {bearer: ADMIN_TOKEN};
 const request = require('request-promise-native').defaults({
@@ -117,7 +117,7 @@ test('service provider tests', async(t) => {
       resolveWithFullResponse: true,
     });
     t.ok(result.statusCode === 204, 'successfully deleted service provider 2');
-    t.end();
+    //t.end();
   }
   catch (err) {
     console.error(err);
