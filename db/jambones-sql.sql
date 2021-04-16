@@ -38,7 +38,7 @@ account_sid CHAR(36) NOT NULL,
 regex VARCHAR(255) NOT NULL,
 application_sid CHAR(36) NOT NULL,
 PRIMARY KEY (call_route_sid)
-) ENGINE=InnoDB COMMENT='a regex-based pattern match for call routing';
+) COMMENT='a regex-based pattern match for call routing';
 
 CREATE TABLE lcr_routes
 (
@@ -59,7 +59,7 @@ expires_at TIMESTAMP NULL  DEFAULT NULL,
 last_used TIMESTAMP NULL  DEFAULT NULL,
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (api_key_sid)
-) ENGINE=InnoDB COMMENT='An authorization token that is used to access the REST api';
+) COMMENT='An authorization token that is used to access the REST api';
 
 CREATE TABLE ms_teams_tenants
 (
@@ -102,8 +102,11 @@ requires_register BOOLEAN NOT NULL DEFAULT false,
 register_username VARCHAR(64),
 register_sip_realm VARCHAR(64),
 register_password VARCHAR(64),
+tech_prefix VARCHAR(16),
+diversion VARCHAR(32),
+is_active BOOLEAN NOT NULL DEFAULT true,
 PRIMARY KEY (voip_carrier_sid)
-) ENGINE=InnoDB COMMENT='A Carrier or customer PBX that can send or receive calls';
+) COMMENT='A Carrier or customer PBX that can send or receive calls';
 
 CREATE TABLE phone_numbers
 (
@@ -161,7 +164,7 @@ speech_synthesis_voice VARCHAR(64),
 speech_recognizer_vendor VARCHAR(64) NOT NULL DEFAULT 'google',
 speech_recognizer_language VARCHAR(64) NOT NULL DEFAULT 'en-US',
 PRIMARY KEY (application_sid)
-) ENGINE=InnoDB COMMENT='A defined set of behaviors to be applied to phone calls ';
+) COMMENT='A defined set of behaviors to be applied to phone calls ';
 
 CREATE TABLE service_providers
 (
@@ -172,7 +175,7 @@ root_domain VARCHAR(128) UNIQUE ,
 registration_hook_sid CHAR(36),
 ms_teams_fqdn VARCHAR(255),
 PRIMARY KEY (service_provider_sid)
-) ENGINE=InnoDB COMMENT='A partition of the platform used by one service provider';
+) COMMENT='A partition of the platform used by one service provider';
 
 CREATE TABLE accounts
 (
@@ -184,7 +187,7 @@ registration_hook_sid CHAR(36) COMMENT 'webhook to call when devices underr this
 device_calling_application_sid CHAR(36) COMMENT 'application to use for outbound calling from an account',
 is_active BOOLEAN NOT NULL DEFAULT true,
 PRIMARY KEY (account_sid)
-) ENGINE=InnoDB COMMENT='An enterprise that uses the platform for comm services';
+) COMMENT='An enterprise that uses the platform for comm services';
 
 CREATE INDEX call_route_sid_idx ON call_routes (call_route_sid);
 ALTER TABLE call_routes ADD FOREIGN KEY account_sid_idxfk (account_sid) REFERENCES accounts (account_sid);
