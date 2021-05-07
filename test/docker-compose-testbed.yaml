@@ -4,10 +4,22 @@ services:
   mysql:
     image: mysql:5.7
     ports:
-      - "3306:3306"
+      - "3360:3306"
     environment: 
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "127.0.0.1", "--protocol", "tcp"]
       timeout: 5s
       retries: 10    
+  redis:
+    image: redis:5-alpine
+    ports:
+      - "16379:6379/tcp"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  influxdb:
+    image: influxdb:1.8-alpine
+    ports:
+      - "8086:8086"

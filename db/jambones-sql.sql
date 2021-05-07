@@ -186,6 +186,8 @@ service_provider_sid CHAR(36) NOT NULL COMMENT 'service provider that owns the c
 registration_hook_sid CHAR(36) COMMENT 'webhook to call when devices underr this account attempt to register',
 device_calling_application_sid CHAR(36) COMMENT 'application to use for outbound calling from an account',
 is_active BOOLEAN NOT NULL DEFAULT true,
+webhook_secret VARCHAR(36),
+disable_cdrs BOOLEAN NOT NULL DEFAULT 0,
 PRIMARY KEY (account_sid)
 ) COMMENT='An enterprise that uses the platform for comm services';
 

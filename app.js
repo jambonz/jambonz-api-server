@@ -38,6 +38,7 @@ const {
 } = require('@jambonz/db-helpers')({
   host: process.env.JAMBONES_MYSQL_HOST,
   user: process.env.JAMBONES_MYSQL_USER,
+  port: process.env.JAMBONES_MYSQL_PORT || 3306,
   password: process.env.JAMBONES_MYSQL_PASSWORD,
   database: process.env.JAMBONES_MYSQL_DATABASE,
   connectionLimit: process.env.JAMBONES_MYSQL_CONNECTION_LIMIT || 10
