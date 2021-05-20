@@ -1,4 +1,4 @@
-const test = require('blue-tape').test ;
+const test = require('tape') ;
 const ADMIN_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734de';
 const authAdmin = {bearer: ADMIN_TOKEN};
 const request = require('request-promise-native').defaults({
@@ -56,6 +56,7 @@ test('authentication tests', async(t) => {
       json: true,
       body: {
         name: 'accountA1',
+        webhook_secret: 'foobar',
         registration_hook: {
           url: 'http://example.com'
         }
@@ -69,6 +70,7 @@ test('authentication tests', async(t) => {
       simple: false,
       json: true,
       body: {
+        webhook_secret: 'foobar',
         name: 'accountA2'
       }
     });
@@ -80,6 +82,7 @@ test('authentication tests', async(t) => {
       simple: false,
       json: true,
       body: {
+        webhook_secret: 'foobar',
         name: 'accountB1'
       }
     });
@@ -91,6 +94,7 @@ test('authentication tests', async(t) => {
       simple: false,
       json: true,
       body: {
+        webhook_secret: 'foobar',
         name: 'accountB2'
       }
     });
@@ -170,6 +174,7 @@ test('authentication tests', async(t) => {
       json: true,
       body: {
         name: 'accountC',
+        webhook_secret: 'foobar',
         service_provider_sid: spA_sid
       }
     });
@@ -206,7 +211,7 @@ test('authentication tests', async(t) => {
       simple: false,
       json: true,
       body: {
-        sip_realm: 'sip.foo.bar'
+        name: 'joe knife'
       }
     });
     //console.log(`result: ${JSON.stringify(result)}`);
@@ -337,19 +342,6 @@ test('authentication tests', async(t) => {
         }
     });
     t.ok(result.statusCode === 403, 'service provider token can not be used to add phone number');
-
-    /* account token can not be used to add phone number */
-    result = await request.post('/PhoneNumbers', {
-      auth: {bearer: accA1_token},
-      resolveWithFullResponse: true,
-      simple: false,
-      json: true,
-      body: {
-        number: '16173333456',
-        voip_carrier_sid
-        }
-    });
-    t.ok(result.statusCode === 403, 'account level token can not be used to add phone number');
 
     /* account level token can not create token for another account */
     result = await request.post('/ApiKeys', {

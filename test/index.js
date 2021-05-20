@@ -9,4 +9,7 @@ require('./applications');
 require('./auth');
 require('./sbcs');
 require('./ms-teams');
+require('./speech-credentials');
+require('./recent-calls');
+require('./webapp_tests');
 require('./docker_stop');

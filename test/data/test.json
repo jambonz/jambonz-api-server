@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "foobar",
+  "private_key_id": "17a374747574b98284367f1fd2197401c8",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nkdkdkdkdkdkdkdkdkdkdkdkdkddjdjdjdjjEVtS\n8cZeK4w128sbogusVmVARsj5/\nw6Ou08xBX+e1rsKkiaGnzuKhuZczwWMuAwfnBtNQhw2ZUJCDkQfk7tT1100CAi4h\nLAWX/sufHNi9h2z7yCAeRDGqmIM89lRguycKexy8MM4NZRxAIrLs7LIGhTczMFUC\n6TxaFWlXAgMBAAECggEAMHFgrcUn0ATiQcxkeplWom9Ki7gTuhO1wQeOqRtTIZ+d\nCQOigARklx0YTQlsqoG/acLSfeAcfyLWEklULaqJbeghl9KPE4FwPX13VPlZHCMj\nyXUycrjlxw4tHpcy9egDjj5c4XSiUQ/3nNrn0q0EMxFleM3Mhhj1408HifBLH3KY\nKCA+fq+tqmS/daCUgs7jEZCo4z8qFmz0npHUcQ5P7SrsYf00Di9RH8m1Tc9aXU6H\nkMSCfM8/UpPvt+lOQktWjDKP2APowuPyfl4RgX+9jNUm8h2y9jYKeyTelQC0CAUM\nW4ZB6tiDbXOVeP9miXgVwv3WUh4Mrwufar5e0DeqvQKBgQDKZ6Vk7CEVfGQgBoUU\neWo203Tmc2W5qnXRh0pa1VwUtgte+D7l8Lwfc0gCfjbkk7EXKQrQ19jtTwZAzvHz\nsgziQ8H1IDLQBBtknWxuOJbNuronZE6NMWNp+ULu2Y4XN6MnD75sPgtxFMPUUuWI\n5CdXPKweyC+BKC99ukIposGWcwKBgQDGVCYik8nh3fX+BkC1xrFGZ4z3jIqZs8bk\nLFDCiDGwAJTXee2/L5wUJIv4UGoO822OOg+8ftMCtDmdrIkOjsXUPrhbnrGyqZgM\nEC4T3CNDiQXHqxw4tjg4eM5Vcwi6KkuhSAcClz/aaZ1T5jk0QGdF7UpqKcbsURx8\n5hGcscVEjQKBgBXPcV0crLv5+XgR+8knBDEAPDqQ+Mc2/Rck8vgywYdhznvfWDfC\n5yKkc4ABRbz/xTdvrsCuYavAtjXJlvzhlM3U61OUsqUDrEf9Rq/h3S4yDtkrz+Mb\nDVFgELxYKR2LW0NcSPK1BNqcmDWK8Tz9CNg3q3xtqeDLCcMMjRCbfyzNAoGAWlLC\nl2bFP6eNu6XvXJnj7JOGYMtR6BQ3FX2VPjM2pdht8QBnpXWyWH4YfPtqgeqdT3Pj\n7M25nfakcsm8FbQyJqp13cwVU6/nPj80LPlJ2h0SU8/6510dl6J1Hfdo1xgiH46l\nGqn1e6wz6ZzlGoXmQrOB+32RSdja54sEJF/V3pUCgYAoGFZAGVBuWqipbBLdQqNl\n1ppdEliEBhDPq4cZAnNx1lvnmFn8D5bqi+rB8bkqvGcR921AMLDadasHX4BJAJw+\nQoSx1wqy9Zsiaz9EzWUxHtnKFOzMVeVz/RJqH8hNu4xb6Lv50BgTztoO+bGIOAJ/\nVaY6N4gOkiAihhQzsSnLvQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "cloud-speech-testing@foobar.iam.gserviceaccount.com",
+  "client_id": "109945388890626427918",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/cloud-speech-testing%40foobarg.iam.gserviceaccount.com"
+}

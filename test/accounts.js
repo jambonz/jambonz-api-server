@@ -1,4 +1,4 @@
-const test = require('blue-tape').test ;
+const test = require('tape') ;
 const ADMIN_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734de';
 const authAdmin = {bearer: ADMIN_TOKEN};
 const request = require('request-promise-native').defaults({
@@ -16,6 +16,7 @@ process.on('unhandledRejection', (reason, p) => {
 
 test('account tests', async(t) => {
   const app = require('../app');
+  const logger = app.locals.logger;
   let sid;
   try {
     let result;
@@ -25,6 +26,61 @@ test('account tests', async(t) => {
     const service_provider_sid = await createServiceProvider(request);
     const phone_number_sid = await createPhoneNumber(request, voip_carrier_sid);
     
+    /* add invite codes */
+    result = await request.post('/BetaInviteCodes', {
+      resolveWithFullResponse: true,
+      json: true,
+      auth: authAdmin,
+      body: {
+        count: 2
+      }
+    });
+    t.ok(result.statusCode === 200 && 2 === parseInt(result.body.added), 'successfully added 2 beta codes');
+    //console.log(result.body.codes);
+
+    /* claim an invite code */
+    /*
+    const mycodes = result.body.codes;
+    result = await request.post('/InviteCodes', {
+      resolveWithFullResponse: true,
+      json: true,
+      auth: authAdmin,
+      body: {
+        test: true,
+        code: mycodes[0]
+      }
+    });
+    t.ok(result.statusCode === 204, 'successfully tested a beta codes');
+    result = await request.post('/InviteCodes', {
+      resolveWithFullResponse: true,
+      json: true,
+      auth: authAdmin,
+      body: {
+        code: mycodes[0]
+      }
+    });
+    t.ok(result.statusCode === 204, 'successfully claimed a beta codes');
+    */
+
+    result = await request.post('/BetaInviteCodes', {
+      resolveWithFullResponse: true,
+      json: true,
+      auth: authAdmin,
+      body: {
+        count: 50
+      }
+    });
+    t.ok(result.statusCode === 200 && 50 === parseInt(result.body.added), 'successfully added 50 beta codes');
+
+    result = await request.post('/BetaInviteCodes', {
+      resolveWithFullResponse: true,
+      json: true,
+      auth: authAdmin,
+      body: {
+      }
+    });
+    t.ok(result.statusCode === 200 && 1 === parseInt(result.body.added), 'successfully added 1 beta codes');
+
     /* add an account */
     result = await request.post('/Accounts', {
       resolveWithFullResponse: true,
@@ -36,7 +92,8 @@ test('account tests', async(t) => {
         registration_hook: {
           url: 'http://example.com/reg',
           method: 'get'
-        }
+        },
+        webhook_secret: 'foobar'
       }
     });
     t.ok(result.statusCode === 201, 'successfully created account');
@@ -118,23 +175,12 @@ test('account tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully assigned phone number to account');
 
-    /* cannot delete account that has phone numbers assigned */
-    result = await request.delete(`/Accounts/${sid}`, {
-      auth: authAdmin,
-      resolveWithFullResponse: true,
-      simple: false,
-      json: true
-    });
-    t.ok(result.statusCode === 422 && result.body.msg === 'cannot delete account with phone numbers', 'cannot delete account with phone numbers');
-
     /* delete account */
-    await request.delete(`ApiKeys/${apiKeySid}`, {auth: {bearer: accountLevelToken}});
-    await request.delete(`/PhoneNumbers/${phone_number_sid}`, {auth: authAdmin});
     result = await request.delete(`/Accounts/${sid}`, {
       auth: authAdmin,
       resolveWithFullResponse: true,
     });
-    t.ok(result.statusCode === 204, 'successfully deleted account after removing phone number');
+    t.ok(result.statusCode === 204, 'successfully deleted account');
 
     await deleteObjectBySid(request, '/VoipCarriers', voip_carrier_sid);
     await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid);

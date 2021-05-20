@@ -1,4 +1,4 @@
-const test = require('blue-tape').test ;
+const test = require('tape') ;
 const ADMIN_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734de';
 const authAdmin = {bearer: ADMIN_TOKEN};
 const request = require('request-promise-native').defaults({
@@ -105,7 +105,7 @@ test('voip carrier tests', async(t) => {
     //console.log(`result: ${JSON.stringify(result)}`);
     t.ok(result.statusCode === 204, 'successfully deleted voip carrier');
     
-    /* create voipd carrier that is a customer PBX */
+    /* create voip carrier that is a customer PBX */
     const service_provider_sid = await createServiceProvider(request);
     const account_sid = await createAccount(request, service_provider_sid);
     const account_sid2 = await createAccount(request, service_provider_sid, 'another');
