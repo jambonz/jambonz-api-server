@@ -18,7 +18,7 @@ test('re-creating schema', (t) => {
 });
 
 test('seeding database for webapp tests', (t) => {
-  exec(`mysql -h 127.0.0.1 -u root  --protocol=tcp --port=3360 -D jambones_test < ${__dirname}/../db/seed-integration-test.sql`, (err, stdout, stderr) => {
+  exec(`mysql -h 127.0.0.1 -u root  --protocol=tcp --port=3360 -D jambones_test < ${__dirname}/../db/webapp-tests.sql`, (err, stdout, stderr) => {
     if (err) return t.end(err);
     t.pass('successfully re-seeded database');
     t.end();
