@@ -189,6 +189,30 @@ test('voip carrier tests', async(t) => {
     sid = result.body.sid;
     await deleteObjectBySid(request, '/VoipCarriers', sid);
 
+    /* add a voip carrier for a service provider */
+    result = await request.post(`/ServiceProviders/${service_provider_sid}/VoipCarriers`, {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'twilio',
+        e164_leading_plus: true
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully created voip carrier for a service provider');
+    sid = result.body.sid;
+
+    /* list voip carriers for a service provider */
+    result = await request.get(`/ServiceProviders/${service_provider_sid}/VoipCarriers`, {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+    });
+    //console.log(result.body);
+    t.ok(result.statusCode === 200, 'successfully retrieved voip carrier for a service provider');
+    sid = result.body[0].voip_carrier_sid;
+  
+    await deleteObjectBySid(request, '/VoipCarriers', sid);
     await deleteObjectBySid(request, '/Applications', application_sid);
     await deleteObjectBySid(request, '/Accounts', account_sid);
     await deleteObjectBySid(request, '/Accounts', account_sid2);

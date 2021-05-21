@@ -1459,6 +1459,47 @@ paths:
         404:
           description: service provider not found
 
+  /ServiceProviders/{ServiceProviderSid}/VoipCarriers:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: get all carriers for a service provider
+      operationId: getServiceProviderCarriers
+      responses:
+        200:
+          description: account listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VoipCarrier'
+        403:
+          description: unauthorized
+        404:
+          description: service provider not found
+    post:
+      summary: create a carrier
+      operationId: createCarrierForServiceProvider
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoipCarrier'
+      responses:
+        201:
+          description: service provider successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        404:
+          description: service provider not found
   /ServiceProviders/{ServiceProviderSid}/PredefinedCarriers/{PredefinedCarrierSid}:
     parameters:
       - name: ServiceProviderSid
