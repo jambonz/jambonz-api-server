@@ -1,28 +1,27 @@
 SET FOREIGN_KEY_CHECKS=0;
 
--- create one service provider
-insert into service_providers (service_provider_sid, name, description, root_domain) 
-values ('2708b1b3-2736-40ea-b502-c53d8396247f', 'jambonz.us', 'jambonz.us service provider', 'sip.yakeeda.com');
+-- create one service provider and account
 insert into api_keys (api_key_sid, token) 
 values ('3f35518f-5a0d-4c2e-90a5-2407bb3b36f0', '38700987-c7a4-4685-a5bb-af378f9734de');
 
--- one sbc
-insert into sbc_addresses (sbc_address_sid, ipv4, port) values ('8d6d0fda-4550-41ab-8e2f-60761d81fe7d', '3.39.45.30', '5060');
+-- create one service provider and one account
+insert into service_providers (service_provider_sid, name) 
+values ('2708b1b3-2736-40ea-b502-c53d8396247f', 'default service provider');
 
--- one voip carrier with one gateway
-insert into voip_carriers (voip_carrier_sid, name) values ('5145b436-2f38-4029-8d4c-fd8c67831c7a', 'my test carrier');
-insert into sip_gateways (sip_gateway_sid, voip_carrier_sid, ipv4, port, inbound, outbound, is_active)
-values ('46b727eb-c7dc-44fa-b063-96e48d408e4a', '5145b436-2f38-4029-8d4c-fd8c67831c7a', '3.3.3.3', 5060, 1, 1, 1);
+insert into accounts (account_sid, service_provider_sid, name, webhook_secret) 
+values ('9351f46a-678c-43f5-b8a6-d4eb58d131af','2708b1b3-2736-40ea-b502-c53d8396247f', 'default account', 'wh_secret_cJqgtMDPzDhhnjmaJH6Mtk');
 
--- create the test application and test phone number
-insert into webhooks (webhook_sid, url, method) values ('d9c205c6-a129-443e-a9c0-d1bb437d4bb7', 'https://flows.jambonz.us/testCall', 'POST');
-insert into webhooks (webhook_sid, url, method) values ('6ac36aeb-6bd0-428a-80a1-aed95640a296', 'https://flows.jambonz.us/callStatus', 'POST');
-insert into applications (application_sid, name, service_provider_sid, call_hook_sid, call_status_hook_sid, 
-speech_synthesis_vendor, speech_synthesis_language, speech_synthesis_voice, speech_recognizer_vendor, speech_recognizer_language)
-values ('7a489343-02ed-471e-8df0-fc5e1b98ce8f', 'Test application', '2708b1b3-2736-40ea-b502-c53d8396247f', 
-'d9c205c6-a129-443e-a9c0-d1bb437d4bb7','6ac36aeb-6bd0-428a-80a1-aed95640a296','google', 'en-US', 'en-US-Standard-C', 'google', 'en-US');
-insert into phone_numbers (phone_number_sid, number, voip_carrier_sid, service_provider_sid)
-values ('ec028c46-1363-4b3f-81db-ee33f179d6ba', '18005551212', '5145b436-2f38-4029-8d4c-fd8c67831c7a', '2708b1b3-2736-40ea-b502-c53d8396247f');
+-- create two applications
+insert into webhooks(webhook_sid, url, method)
+values 
+('84e3db00-b172-4e46-b54b-a503fdb19e4a', 'https://public-apps.jambonz.us/call-status', 'POST'),
+('d31568d0-b193-4a05-8ff6-778369bc6efe', 'https://public-apps.jambonz.us/hello-world', 'POST'),
+('81844b05-714d-4295-8bf3-3b0640a4bf02', 'https://public-apps.jambonz.us/dial-time', 'POST');
+
+insert into applications (application_sid, account_sid, name, call_hook_sid, call_status_hook_sid, speech_synthesis_vendor, speech_synthesis_language, speech_synthesis_voice, speech_recognizer_vendor, speech_recognizer_language)
+VALUES
+('7087fe50-8acb-4f3b-b820-97b573723aab', '9351f46a-678c-43f5-b8a6-d4eb58d131af', 'hello world', 'd31568d0-b193-4a05-8ff6-778369bc6efe', '84e3db00-b172-4e46-b54b-a503fdb19e4a', 'google', 'en-US', 'en-US-Wavenet-C', 'google', 'en-US'),
+('4ca2fb6a-8636-4f2e-96ff-8966c5e26f8e', '9351f46a-678c-43f5-b8a6-d4eb58d131af', 'dial time', '81844b05-714d-4295-8bf3-3b0640a4bf02', '84e3db00-b172-4e46-b54b-a503fdb19e4a', 'google', 'en-US', 'en-US-Wavenet-C', 'google', 'en-US');
 
 -- create our products
 insert into products (product_sid, name, category)
@@ -63,6 +62,7 @@ VALUES
 ('1de3b2a1-96f0-407a-bcc4-ce371d823a8d', '032d90d5-39e8-41c0-b807-9c88cffba65c', '81.201.82.45', 32, 5060, 1, 0),
 ('50c1f91a-6080-4495-a241-6bba6e9d9688', '032d90d5-39e8-41c0-b807-9c88cffba65c', '81.201.85.45', 32, 5060, 1, 0),
 ('e6ebad33-80d5-4dbb-bc6f-a7ae08160cc6', '032d90d5-39e8-41c0-b807-9c88cffba65c', '81.201.84.45', 32, 5060, 1, 0),
+('7bae60b3-4237-4baa-a711-30ea3bce19d8', '032d90d5-39e8-41c0-b807-9c88cffba65c', '185.47.148.45', 32, 5060, 1, 0),
 ('bc933522-18a2-47d8-9ae4-9faa8de4e927', '032d90d5-39e8-41c0-b807-9c88cffba65c', 'outbound.voxbone.com', 32, 5060, 0, 1);
 
 -- Peerless gateways
@@ -81,21 +81,13 @@ VALUES
 -- simwood gateways
 insert into predefined_sip_gateways (predefined_sip_gateway_sid, predefined_carrier_sid, ipv4, netmask, port, inbound, outbound)
 VALUES
-('91cb050f-9826-4ac9-b736-84a10372a9fe', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '149.91.14.0', 24, 5060, 1, 0),
-('58700fad-98bf-4d31-b61e-888c54911b35', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '154.51.137.96', 27, 5060, 1, 0),
-('d020fd9e-7fdb-4bca-ae0d-e61b38142873', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '78.40.245.160', 27, 5060, 1, 0),
-('441fd2e7-c845-459c-963d-6e917063ed9a', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '178.22.136.24', 29, 5060, 1, 0),
-('1e0d3e80-9973-4184-9bec-07ae564f983f', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '178.22.136.28', 28, 5060, 1, 0),
-('e56ec745-5f37-443f-afb4-7bbda31ae7ac', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '178.22.140.48', 28, 5060, 1, 0),
-('e7447e7e-2c7d-4738-ab53-097c187236ff', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '178.22.140.242', 32, 5060, 1, 0),
-('279807e7-649e-41dd-931a-00c460bcc0a2', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '178.22.143.80', 28, 5060, 1, 0),
-('f5fd66f7-97f6-4979-ab19-eea1557bc872', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '185.63.140.0', 26, 5060, 1, 0),
-('efcfefdc-451c-4e59-960a-f9e4952d964f', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '185.63.141.0', 26, 5060, 1, 0),
-('b6ae6240-55ac-4c11-892f-a71b2155ea60', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '185.63.142.0', 26, 5060, 1, 0),
-('5a976337-164b-408e-8748-d8bfb4bd5d76', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '185.63.143.0', 26, 5060, 1, 0),
-('ed0434ca-7f26-4624-9523-0419d0d2924d', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '178.22.139.0', 26, 5060, 1, 0),
-('d1a594c2-c14f-4ead-b621-96129bc87886', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '172.86.224.0', 24, 5060, 1, 0),
+('91cb050f-9826-4ac9-b736-84a10372a9fe', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '178.22.139.77', 32, 5060, 1, 0),
+('58700fad-98bf-4d31-b61e-888c54911b35', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '185.63.140.77', 32, 5060, 1, 0),
+('d020fd9e-7fdb-4bca-ae0d-e61b38142873', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '185.63.142.77', 32, 5060, 1, 0),
+('441fd2e7-c845-459c-963d-6e917063ed9a', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '185.63.141.77', 32, 5060, 1, 0),
+('1e0d3e80-9973-4184-9bec-07ae564f983f', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '185.63.143.77', 32, 5060, 1, 0),
+('e56ec745-5f37-443f-afb4-7bbda31ae7ac', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '178.22.140.34', 32, 5060, 1, 0),
+('e7447e7e-2c7d-4738-ab53-097c187236ff', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '178.22.143.66', 32, 5060, 1, 0),
 ('5f431d42-48e4-44ce-a311-d946f0b475b6', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', 'out.simwood.com', 32, 5060, 0, 1);
-
 
 SET FOREIGN_KEY_CHECKS=1;
