@@ -99,6 +99,15 @@ test('account tests', async(t) => {
     t.ok(result.statusCode === 201, 'successfully created account');
     const sid = result.body.sid;
 
+    /* query accounts for service providers */
+    result = await request.get(`/ServiceProviders/${service_provider_sid}/Accounts`, {
+      auth: authAdmin,
+      json: true,
+      resolveWithFullResponse: true,
+    });
+    //console.log(result.body);
+    t.ok(result.statusCode === 200, 'successfully queried accounts for service provider');
+    
     /* add an account level api key */
     result = await request.post(`/ApiKeys`, {
       auth: authAdmin,

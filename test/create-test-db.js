@@ -24,3 +24,11 @@ test('creating auth token', (t) => {
     t.end();
   });
 });
+
+test('add predefined carriers', (t) => {
+  exec(`mysql -h 127.0.0.1 -u root  --protocol=tcp --port=3360 -D jambones_test < ${__dirname}/../db/add-predefined-carriers.sql`, (err, stdout, stderr) => {
+    if (err) return t.end(err);
+    t.pass('predefined carriers added');
+    t.end();
+  });
+});

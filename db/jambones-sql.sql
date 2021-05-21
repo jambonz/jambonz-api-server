@@ -254,6 +254,7 @@ voip_carrier_sid CHAR(36) NOT NULL UNIQUE ,
 name VARCHAR(64) NOT NULL,
 description VARCHAR(255),
 account_sid CHAR(36) COMMENT 'if provided, indicates this entity represents a sip trunk that is associated with a specific account',
+service_provider_sid CHAR(36),
 application_sid CHAR(36) COMMENT 'If provided, all incoming calls from this source will be routed to the associated application',
 e164_leading_plus BOOLEAN NOT NULL DEFAULT false COMMENT 'if true, a leading plus should be prepended to outbound phone numbers',
 requires_register BOOLEAN NOT NULL DEFAULT false,
@@ -443,6 +444,9 @@ CREATE INDEX voip_carrier_sid_idx ON voip_carriers (voip_carrier_sid);
 CREATE INDEX account_sid_idx ON voip_carriers (account_sid);
 ALTER TABLE voip_carriers ADD FOREIGN KEY account_sid_idxfk_9 (account_sid) REFERENCES accounts (account_sid);
 
+CREATE INDEX service_provider_sid_idx ON voip_carriers (service_provider_sid);
+ALTER TABLE voip_carriers ADD FOREIGN KEY service_provider_sid_idxfk_5 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
+
 ALTER TABLE voip_carriers ADD FOREIGN KEY application_sid_idxfk_2 (application_sid) REFERENCES applications (application_sid);
 
 CREATE INDEX phone_number_sid_idx ON phone_numbers (phone_number_sid);
@@ -455,7 +459,7 @@ ALTER TABLE phone_numbers ADD FOREIGN KEY account_sid_idxfk_10 (account_sid) REF
 ALTER TABLE phone_numbers ADD FOREIGN KEY application_sid_idxfk_3 (application_sid) REFERENCES applications (application_sid);
 
 CREATE INDEX service_provider_sid_idx ON phone_numbers (service_provider_sid);
-ALTER TABLE phone_numbers ADD FOREIGN KEY service_provider_sid_idxfk_5 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
+ALTER TABLE phone_numbers ADD FOREIGN KEY service_provider_sid_idxfk_6 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
 
 CREATE INDEX sip_gateway_idx_hostport ON sip_gateways (ipv4,port);
 
@@ -471,7 +475,7 @@ CREATE UNIQUE INDEX applications_idx_name ON applications (account_sid,name);
 
 CREATE INDEX application_sid_idx ON applications (application_sid);
 CREATE INDEX service_provider_sid_idx ON applications (service_provider_sid);
-ALTER TABLE applications ADD FOREIGN KEY service_provider_sid_idxfk_6 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
+ALTER TABLE applications ADD FOREIGN KEY service_provider_sid_idxfk_7 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
 
 CREATE INDEX account_sid_idx ON applications (account_sid);
 ALTER TABLE applications ADD FOREIGN KEY account_sid_idxfk_11 (account_sid) REFERENCES accounts (account_sid);
@@ -490,7 +494,7 @@ ALTER TABLE service_providers ADD FOREIGN KEY registration_hook_sid_idxfk (regis
 CREATE INDEX account_sid_idx ON accounts (account_sid);
 CREATE INDEX sip_realm_idx ON accounts (sip_realm);
 CREATE INDEX service_provider_sid_idx ON accounts (service_provider_sid);
-ALTER TABLE accounts ADD FOREIGN KEY service_provider_sid_idxfk_7 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
+ALTER TABLE accounts ADD FOREIGN KEY service_provider_sid_idxfk_8 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
 
 ALTER TABLE accounts ADD FOREIGN KEY registration_hook_sid_idxfk_1 (registration_hook_sid) REFERENCES webhooks (webhook_sid);
 

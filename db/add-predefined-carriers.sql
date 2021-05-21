@@ -1,34 +1,3 @@
-SET FOREIGN_KEY_CHECKS=0;
-
--- create one service provider and account
-insert into api_keys (api_key_sid, token) 
-values ('3f35518f-5a0d-4c2e-90a5-2407bb3b36f0', '38700987-c7a4-4685-a5bb-af378f9734de');
-
--- create one service provider and one account
-insert into service_providers (service_provider_sid, name) 
-values ('2708b1b3-2736-40ea-b502-c53d8396247f', 'default service provider');
-
-insert into accounts (account_sid, service_provider_sid, name, webhook_secret) 
-values ('9351f46a-678c-43f5-b8a6-d4eb58d131af','2708b1b3-2736-40ea-b502-c53d8396247f', 'default account', 'wh_secret_cJqgtMDPzDhhnjmaJH6Mtk');
-
--- create two applications
-insert into webhooks(webhook_sid, url, method)
-values 
-('84e3db00-b172-4e46-b54b-a503fdb19e4a', 'https://public-apps.jambonz.us/call-status', 'POST'),
-('d31568d0-b193-4a05-8ff6-778369bc6efe', 'https://public-apps.jambonz.us/hello-world', 'POST'),
-('81844b05-714d-4295-8bf3-3b0640a4bf02', 'https://public-apps.jambonz.us/dial-time', 'POST');
-
-insert into applications (application_sid, account_sid, name, call_hook_sid, call_status_hook_sid, speech_synthesis_vendor, speech_synthesis_language, speech_synthesis_voice, speech_recognizer_vendor, speech_recognizer_language)
-VALUES
-('7087fe50-8acb-4f3b-b820-97b573723aab', '9351f46a-678c-43f5-b8a6-d4eb58d131af', 'hello world', 'd31568d0-b193-4a05-8ff6-778369bc6efe', '84e3db00-b172-4e46-b54b-a503fdb19e4a', 'google', 'en-US', 'en-US-Wavenet-C', 'google', 'en-US'),
-('4ca2fb6a-8636-4f2e-96ff-8966c5e26f8e', '9351f46a-678c-43f5-b8a6-d4eb58d131af', 'dial time', '81844b05-714d-4295-8bf3-3b0640a4bf02', '84e3db00-b172-4e46-b54b-a503fdb19e4a', 'google', 'en-US', 'en-US-Wavenet-C', 'google', 'en-US');
-
--- create our products
-insert into products (product_sid, name, category)
-values
-('c4403cdb-8e75-4b27-9726-7d8315e3216d', 'concurrent call session', 'voice_call_session'),
-('2c815913-5c26-4004-b748-183b459329df', 'registered device', 'device'),
-('35a9fb10-233d-4eb9-aada-78de5814d680', 'api call', 'api_rate');
 
 -- create predefined carriers
 insert into predefined_carriers (predefined_carrier_sid, name, requires_static_ip, e164_leading_plus, 
@@ -89,5 +58,3 @@ VALUES
 ('e56ec745-5f37-443f-afb4-7bbda31ae7ac', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '178.22.140.34', 32, 5060, 1, 0),
 ('e7447e7e-2c7d-4738-ab53-097c187236ff', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '178.22.143.66', 32, 5060, 1, 0),
 ('5f431d42-48e4-44ce-a311-d946f0b475b6', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', 'out.simwood.com', 32, 5060, 0, 1);
-
-SET FOREIGN_KEY_CHECKS=1;

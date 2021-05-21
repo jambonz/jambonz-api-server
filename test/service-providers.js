@@ -4,6 +4,7 @@ const authAdmin = {bearer: ADMIN_TOKEN};
 const request = require('request-promise-native').defaults({
   baseUrl: 'http://127.0.0.1:3000/v1'
 });
+const {deleteObjectBySid} = require('./utils');
 
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
@@ -94,7 +95,6 @@ test('service provider tests', async(t) => {
     });
     t.ok(result.name === 'johndoe' && result.root_domain === 'example.com', 'successfully retrieved service provider by sid');
 
-
     /* update service providers */
     result = await request.put(`/ServiceProviders/${sid}`, {
       auth: authAdmin,
@@ -105,6 +105,16 @@ test('service provider tests', async(t) => {
       }
     });
     t.ok(result.statusCode === 204, 'successfully updated service provider');
+
+    /* add a predefined carrier for a service provider */
+    result = await request.post(`/ServiceProviders/${sid}/PredefinedCarriers/7d509a18-bbff-4c5d-b21e-b99bf8f8c49a`, {
+      auth: authAdmin,
+      json: true,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 201, 'successfully added predefined carrier to service provider');
+
+    await deleteObjectBySid(request, '/VoipCarriers', result.body.sid);
 
     /* delete service providers */
     result = await request.delete(`/ServiceProviders/${sid}`, {

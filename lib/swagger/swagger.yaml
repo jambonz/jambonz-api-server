@@ -1434,6 +1434,169 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
 
+  /ServiceProviders/{ServiceProviderSid}/Accounts:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: get all accounts for a service provider
+      operationId: getServiceProviderAccounts
+      responses:
+        200:
+          description: account listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+        403:
+          description: unauthorized
+        404:
+          description: service provider not found
+
+  /ServiceProviders/{ServiceProviderSid}/PredefinedCarriers/{PredefinedCarrierSid}:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: PredefinedCarrierSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    post:
+      summary: add a VoiPCarrier to a service provider based on PredefinedCarrier template
+      operationId: createVoipCarrierFromTemplate
+      responses:
+        201:
+          description:  voip carrier successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+  /ServiceProviders/{ServiceProviderSid}/SpeechCredentials/{SpeechCredentialSid}:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: SpeechCredentialSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: get a specific speech credential
+      operationId: getSpeechCredential
+      responses:
+        200:
+          description: retrieve speech credentials for a specified account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpeechCredential'
+        404:
+          description: credential not found
+    put:
+      summary: update a speech credential
+      operationId: updateSpeechCredential
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpeechCredentialUpdate'
+      responses:
+        204:
+          description: credential successfully deleted
+        404:
+          description: credential not found
+        422:
+          description: credential not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    delete:
+      summary: delete a speech credential
+      operationId: deleteSpeechCredential
+      responses:
+        204:
+          description: credential successfully deleted
+        404:
+          description: credential not found
+  /ServiceProviders/{ServiceProviderSid}/SpeechCredentials/{SpeechCredentialSid}/test:
+    get:
+      summary: test a speech credential
+      operationId: testSpeechCredential
+      parameters:
+        - name: AccountSid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: SpeechCredentialSid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: credential test results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tts:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        enum: 
+                            - success 
+                            - fail
+                            - not tested
+                      reason:
+                        type: string
+                  stt:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        enum: 
+                            - success 
+                            - fail
+                      reason:
+                        type: string
+        404:
+          description: credential not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
   /MicrosoftTeamsTenants:
     post:
       summary: provision a customer tenant for MS Teams

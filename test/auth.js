@@ -329,20 +329,6 @@ test('authentication tests', async(t) => {
     });
     t.ok(result.statusCode === 404, 'using account token A1 we are not able to retrieve application A2s');
 
-
-    /* service provider token can not be used to add phone number */
-    result = await request.post('/PhoneNumbers', {
-      auth: {bearer: spA_token},
-      resolveWithFullResponse: true,
-      simple: false,
-      json: true,
-      body: {
-        number: '16173333456',
-        voip_carrier_sid
-        }
-    });
-    t.ok(result.statusCode === 403, 'service provider token can not be used to add phone number');
-
     /* account level token can not create token for another account */
     result = await request.post('/ApiKeys', {
       resolveWithFullResponse: true,
