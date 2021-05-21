@@ -21,6 +21,33 @@ test('speech credentials tests', async(t) => {
     const service_provider_sid = await createServiceProvider(request);
     const account_sid = await createAccount(request, service_provider_sid);
 
+    /* add a speech credential to a service provider */
+    result = await request.post(`/ServiceProviders/${service_provider_sid}/SpeechCredentials`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+      body: {
+        vendor: 'google',
+        service_key: jsonKey
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully added a speech credential to service provider');
+    console.log(result.body)
+    const speech_credential_sid = result.body.sid;
+
+    /* query speech credentials for a service provider */
+    result = await request.get(`/ServiceProviders/${service_provider_sid}/SpeechCredentials`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+    });
+    console.log(result.body)
+    t.ok(result.statusCode === 200, 'successfully queried speech credential to service provider');
+
+    await deleteObjectBySid(request, `/ServiceProviders/${service_provider_sid}/SpeechCredentials`, speech_credential_sid);
+
     const token = jwt.sign({
       account_sid
     }, process.env.JWT_SECRET, { expiresIn: '1h' });
