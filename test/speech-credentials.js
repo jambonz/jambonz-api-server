@@ -33,7 +33,7 @@ test('speech credentials tests', async(t) => {
       }
     });
     t.ok(result.statusCode === 201, 'successfully added a speech credential to service provider');
-    console.log(result.body)
+    //console.log(result.body)
     const speech_credential_sid = result.body.sid;
 
     /* query speech credentials for a service provider */
@@ -43,7 +43,7 @@ test('speech credentials tests', async(t) => {
       auth: authAdmin,
       json: true,
     });
-    console.log(result.body)
+    //console.log(result.body)
     t.ok(result.statusCode === 200, 'successfully queried speech credential to service provider');
 
     await deleteObjectBySid(request, `/ServiceProviders/${service_provider_sid}/SpeechCredentials`, speech_credential_sid);

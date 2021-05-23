@@ -1531,6 +1531,31 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
 
+  /ServiceProviders/{ServiceProviderSid}/SpeechCredentials/:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    post:
+      summary: create a speech credential for a service provider
+      operationId: addSpeechCredentialForSeerviceProvider
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpeechCredential'
+      responses:
+        201:
+          description: speech credential successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        404:
+          description: credential not found
   /ServiceProviders/{ServiceProviderSid}/SpeechCredentials/{SpeechCredentialSid}:
     parameters:
       - name: ServiceProviderSid
@@ -1567,7 +1592,7 @@ paths:
               $ref: '#/components/schemas/SpeechCredentialUpdate'
       responses:
         204:
-          description: credential successfully deleted
+          description: credential successfully updated
         404:
           description: credential not found
         422:
@@ -3318,6 +3343,8 @@ components:
         access_key_id:
           type: string
         secret_access_key:
+          type: string
+        aws_region:
           type: string
         last_used:
           type: string
