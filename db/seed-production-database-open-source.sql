@@ -11,6 +11,9 @@ values ('2708b1b3-2736-40ea-b502-c53d8396247f', 'default service provider');
 insert into accounts (account_sid, service_provider_sid, name, webhook_secret) 
 values ('9351f46a-678c-43f5-b8a6-d4eb58d131af','2708b1b3-2736-40ea-b502-c53d8396247f', 'default account', 'wh_secret_cJqgtMDPzDhhnjmaJH6Mtk');
 
+insert into api_keys (api_key_sid, token, account_sid) 
+values ('09e92f3c-9d73-4303-b63f-3668574862ce', '1cf2f4f4-64c4-4249-9a3e-5bb4cb597c2a', '9351f46a-678c-43f5-b8a6-d4eb58d131af');
+
 -- create two applications
 insert into webhooks(webhook_sid, url, method)
 values 
@@ -35,11 +38,16 @@ insert into predefined_carriers (predefined_carrier_sid, name, requires_static_i
 requires_register, register_username, register_password, 
 register_sip_realm, tech_prefix, inbound_auth_username, inbound_auth_password, diversion)
 VALUES
+('17479288-bb9f-421a-89d1-f4ac57af1dca', 'TelecomsXChange', 0, 0, 0, NULL, NULL, NULL, 'your-tech-prefix', NULL, NULL, NULL),
 ('7d509a18-bbff-4c5d-b21e-b99bf8f8c49a', 'Twilio', 0, 1, 0, '<your-twilio-credential-username>', '<your-twilio-credential-password>', NULL, NULL, NULL, NULL, NULL),
 ('032d90d5-39e8-41c0-b807-9c88cffba65c', 'Voxbone', 0, 1, 0, '<your-voxbone-outbound-username>', '<your-voxbone-outbound-password>', NULL, NULL, NULL, NULL, '<your-voxbone-DID>'),
-('17479288-bb9f-421a-89d1-f4ac57af1dca', 'Peerless Network (US)', 1, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-('bdf70650-5328-47aa-b3d0-47cb219d9c6e', '382 Communications (US)', 1, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', 'Simwood', 0, 1, 0, '<your-simwood-auth-trunk-username>',  '<your-simwood-auth-trunk-password>', NULL, NULL, NULL, NULL, NULL);
+
+-- TelecomXchange gateways
+insert into predefined_sip_gateways (predefined_sip_gateway_sid, predefined_carrier_sid, ipv4, netmask, port, inbound, outbound)
+VALUES
+('c9c3643e-9a83-4b78-b172-9c09d911bef5', '17479288-bb9f-421a-89d1-f4ac57af1dca', '174.136.44.213', 32, 5060, 1, 0),
+('3b5b7fa5-4e61-4423-b921-05c3283b2101', '17479288-bb9f-421a-89d1-f4ac57af1dca', 'sip01.TelecomsXChange.com', 32, 5060, 0, 1);
 
 -- twilio gateways
 insert into predefined_sip_gateways (predefined_sip_gateway_sid, predefined_carrier_sid, ipv4, netmask, port, inbound, outbound)

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 console.log('reset_admin_password');
-const {getMysqlConnection} = require('../lib/db');
+const {promisePool} = require('../lib/db');
 const uuidv4 = require('uuid/v4');
 const {generateHashedPassword} = require('../lib/utils/password-utils');
 const sqlInsert = `INSERT into users 
@@ -10,20 +10,16 @@ values (?, ?, ?, ?, ?, ?, ?)
 const sqlChangeAdminToken = `UPDATE api_keys set token = ? 
 WHERE account_sid IS NULL 
 AND service_provider_sid IS NULL`;
+const sqlQueryAccount = 'SELECT * from accounts LIMIT 1';
+const sqlAddAccountAdminToken = `INSERT into api_keys (api_key_sid, token, account_sid) 
+VALUES (?, ?, ?)`;
 
-/* reset admin password */
-console.log('reset_admin_password');
-getMysqlConnection((err, conn) => {
-  if (err) return console.log(err, 'Error connecting to database');
-  console.log('got database connetion');
-
-  /* delete admin user if it exists */
-  conn.query('DELETE from users where name = "admin"', async(err) => {
-    if (err) return console.log(err, 'Error removing admin user');
-    console.log('deleted existing admin user');
-    const passwordHash = await generateHashedPassword('admin');
-    const sid = uuidv4();
-    conn.query(sqlInsert, [
+const doIt = async() => {
+  const passwordHash = await generateHashedPassword('admin');
+  const sid = uuidv4();
+  await promisePool.execute('DELETE from users where name = "admin"');
+  await promisePool.execute(sqlInsert, 
+    [
       sid,
       'admin',
       'joe@foo.bar',
@@ -31,22 +27,20 @@ getMysqlConnection((err, conn) => {
       1,
       'local',
       1
-    ], (err) => {
-      if (err) {
-        console.log(err, 'Error inserting admin user');
-        throw err;
-      }
-      console.log('successfully reset admin password');
-      const uuid = uuidv4();
-      conn.query(sqlChangeAdminToken, [uuid], (err) => {
-        if (err) {
-          console.log(err, 'Error updating admin token');
-          throw err;
-        }
-        console.log('successfully changed admin tokens');
-        conn.release();
-        process.exit(0);
-      });
-    });
-  });
-});
+    ]
+  );
+
+  /* reset admin token */
+  const uuid = uuidv4();
+  await promisePool.query(sqlChangeAdminToken, [uuid]);
+
+  /* create admin token for single account */
+  const api_key_sid = uuidv4();
+  const token = uuidv4();
+  const [r] = await promisePool.query(sqlQueryAccount);
+  await promisePool.execute(sqlAddAccountAdminToken, [api_key_sid, token, r[0].account_sid]);
+
+  process.exit(0);
+};
+
+doIt();
