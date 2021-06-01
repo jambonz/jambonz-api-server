@@ -36,7 +36,9 @@ test('smpp gateway tests', async(t) => {
     const sid = result.body.sid;
 
     /* query all smpp gateways */
+    console.log('querying with ')
     result = await request.get('/SmppGateways', {
+      qs: {voip_carrier_sid},
       auth: authAdmin,
       json: true,
     });

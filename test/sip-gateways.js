@@ -35,6 +35,7 @@ test('sip gateway tests', async(t) => {
 
     /* query all sip gateways */
     result = await request.get('/SipGateways', {
+      qs: {voip_carrier_sid},
       auth: authAdmin,
       json: true,
     });
@@ -62,7 +63,7 @@ test('sip gateway tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully updated voip carrier');
 
-    /* delete sip gatewas */
+    /* delete sip gateways */
     result = await request.delete(`/SipGateways/${sid}`, {
       resolveWithFullResponse: true,
       simple: false,
