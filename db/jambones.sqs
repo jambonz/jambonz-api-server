@@ -1,6 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SQLContainer>
     <SQLTable>
+        <name><![CDATA[smpp_gateways]]></name>
+        <schema><![CDATA[]]></schema>
+        <location>
+            <x>411.00</x>
+            <y>390.00</y>
+        </location>
+        <size>
+            <width>283.00</width>
+            <height>200.00</height>
+        </size>
+        <zorder>25</zorder>
+        <SQLField>
+            <name><![CDATA[smpp_gateway_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <primaryKey>1</primaryKey>
+            <indexed><![CDATA[1]]></indexed>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[3D86CB66-0CD4-4EDA-AFD1-C5905D9475AE]]></uid>
+            <unique><![CDATA[1]]></unique>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[ipv4]]></name>
+            <type><![CDATA[VARCHAR(128)]]></type>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[CA7A210B-AEA1-4984-8A7E-C4AE4F054800]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[port]]></name>
+            <type><![CDATA[INTEGER]]></type>
+            <defaultValue><![CDATA[2775]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[AE9346B2-9E73-417C-BFE2-D0E359E38D0F]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[netmask]]></name>
+            <type><![CDATA[INTEGER]]></type>
+            <defaultValue><![CDATA[32]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[8FEC0D6E-575D-4E54-BC46-0C90085DEA3E]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[is_primary]]></name>
+            <type><![CDATA[BOOLEAN]]></type>
+            <defaultValue><![CDATA[1]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[53350C4D-40F1-4E21-8DDB-84A67C0133CE]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[inbound]]></name>
+            <type><![CDATA[BOOLEAN]]></type>
+            <defaultValue><![CDATA[0]]></defaultValue>
+            <forcedUnique><![CDATA[0]]></forcedUnique>
+            <notNull><![CDATA[1]]></notNull>
+            <objectComment><![CDATA[if true, whitelist this IP to allow inbound calls from the gateway]]></objectComment>
+            <uid><![CDATA[B18D2059-7AFB-42F9-97FA-2FB03022BD7A]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[outbound]]></name>
+            <type><![CDATA[BOOLEAN]]></type>
+            <defaultValue><![CDATA[1]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <objectComment><![CDATA[if true, include in least-cost routing when placing calls to the PSTN]]></objectComment>
+            <uid><![CDATA[9E917A28-EDE4-4552-B01C-6BF450176464]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[use_tls]]></name>
+            <type><![CDATA[BOOLEAN]]></type>
+            <defaultValue><![CDATA[0]]></defaultValue>
+            <forcedUnique><![CDATA[0]]></forcedUnique>
+            <uid><![CDATA[719F20E3-72E3-4EAB-B640-AE9160A80F8B]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[voip_carrier_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>voip_carrier_sid</referencesField>
+            <referencesTable>voip_carriers</referencesTable>
+            <referencesField><![CDATA[voip_carrier_sid]]></referencesField>
+            <referencesTable><![CDATA[voip_carriers]]></referencesTable>
+            <sourceCardinality>4</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[E34851EF-3C5F-4118-8425-F88EE16E38AA]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[3D3136A7-AFC0-4A70-AEC3-68577955CA2E]]></referencesTableUID>
+            <indexed><![CDATA[1]]></indexed>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[49E56AF4-4E40-49B6-BA88-4E378F1E6C18]]></uid>
+        </SQLField>
+        <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
+        <uid><![CDATA[0507BD46-ACAC-48A3-841E-4DEC2FEDCB72]]></uid>
+    </SQLTable>
+    <SQLTable>
         <name><![CDATA[account_products]]></name>
         <schema><![CDATA[]]></schema>
         <location>
@@ -340,6 +430,71 @@
         <uid><![CDATA[2A735FAB-592C-42E5-9C8B-06B109314799]]></uid>
     </SQLTable>
     <SQLTable>
+        <name><![CDATA[smpp_addresses]]></name>
+        <schema><![CDATA[]]></schema>
+        <location>
+            <x>1140.00</x>
+            <y>12.00</y>
+        </location>
+        <size>
+            <width>282.00</width>
+            <height>140.00</height>
+        </size>
+        <zorder>26</zorder>
+        <SQLField>
+            <name><![CDATA[smpp_address_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <primaryKey>1</primaryKey>
+            <indexed><![CDATA[1]]></indexed>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[118E3695-DAA0-4A72-A91B-E5FB549FC4B7]]></uid>
+            <unique><![CDATA[1]]></unique>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[ipv4]]></name>
+            <type><![CDATA[VARCHAR(255)]]></type>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[C5D5D89D-706C-4FE5-A7AB-11683DBC4F0B]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[port]]></name>
+            <type><![CDATA[INTEGER]]></type>
+            <defaultValue><![CDATA[5060]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[676D326D-8300-4E05-9EC0-9A1641386286]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[use_tls]]></name>
+            <type><![CDATA[BOOLEAN]]></type>
+            <defaultValue><![CDATA[0]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[14281D2E-3A43-4C5D-8E8B-0FE2008ECD6B]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[is_primary]]></name>
+            <type><![CDATA[BOOLEAN]]></type>
+            <defaultValue><![CDATA[1]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[DC562FD0-6B8B-4856-8AE6-AD68118FE6FE]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[service_provider_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>service_provider_sid</referencesField>
+            <referencesTable>service_providers</referencesTable>
+            <referencesField><![CDATA[service_provider_sid]]></referencesField>
+            <referencesTable><![CDATA[service_providers]]></referencesTable>
+            <sourceCardinality>4</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[58E1702C-6A95-4B17-8C08-8A3810EA16A1]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[F294B51E-F867-47CA-BC1F-F70BDF8170FF]]></referencesTableUID>
+            <indexed><![CDATA[1]]></indexed>
+            <uid><![CDATA[365FB018-429D-4DA4-AC33-D9D106EA97E5]]></uid>
+        </SQLField>
+        <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
+        <uid><![CDATA[311D99B2-DC8B-4C4A-A1FC-4AFAA1F450F3]]></uid>
+    </SQLTable>
+    <SQLTable>
         <name><![CDATA[voip_carriers]]></name>
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[A Carrier or customer PBX that can send or receive calls]]></comment>
@@ -348,8 +503,8 @@
             <y>317.00</y>
         </location>
         <size>
-            <width>266.00</width>
-            <height>360.00</height>
+            <width>279.00</width>
+            <height>460.00</height>
         </size>
         <zorder>6</zorder>
         <SQLField>
@@ -486,6 +641,33 @@
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[193E557A-B988-4694-BB0E-5A3DAAC9A426]]></uid>
         </SQLField>
+        <SQLField>
+            <name><![CDATA[smpp_system_id]]></name>
+            <type><![CDATA[VARCHAR(255)]]></type>
+            <uid><![CDATA[62A785FC-82D5-4AD1-A7F2-F9CAE29E1E60]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[smpp_password]]></name>
+            <type><![CDATA[VARCHAR(64)]]></type>
+            <uid><![CDATA[BA4FB0F5-80A9-4E93-A7AF-896A0382764B]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[smpp_enquire_link_interval]]></name>
+            <type><![CDATA[INTEGER]]></type>
+            <defaultValue><![CDATA[0]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[19B9D7C5-4B49-4D0A-81A0-117F8569A86F]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[smpp_inbound_system_id]]></name>
+            <type><![CDATA[VARCHAR(255)]]></type>
+            <uid><![CDATA[E057BA47-4E55-4309-B933-5A0CF132742A]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[smpp_inbound_password]]></name>
+            <type><![CDATA[VARCHAR(64)]]></type>
+            <uid><![CDATA[630DAD4B-E60E-43AE-9822-41C1EED748AA]]></uid>
+        </SQLField>
         <labelWindowIndex><![CDATA[15]]></labelWindowIndex>
         <objectComment><![CDATA[A Carrier or customer PBX that can send or receive calls]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
@@ -496,8 +678,8 @@
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[An authorization token that is used to access the REST api]]></comment>
         <location>
-            <x>1326.00</x>
-            <y>25.00</y>
+            <x>1459.00</x>
+            <y>15.00</y>
         </location>
         <size>
             <width>245.00</width>
@@ -817,8 +999,8 @@
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[a regex-based pattern match for call routing]]></comment>
         <location>
-            <x>37.00</x>
-            <y>754.00</y>
+            <x>36.00</x>
+            <y>791.00</y>
         </location>
         <size>
             <width>254.00</width>
@@ -955,8 +1137,8 @@
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[A Microsoft Teams customer tenant]]></comment>
         <location>
-            <x>417.00</x>
-            <y>228.00</y>
+            <x>425.00</x>
+            <y>633.00</y>
         </location>
         <size>
             <width>298.00</width>
@@ -1902,8 +2084,8 @@
         <name><![CDATA[sbc_addresses]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>827.00</x>
-            <y>12.00</y>
+            <x>772.00</x>
+            <y>13.00</y>
         </location>
         <size>
             <width>281.00</width>
@@ -2095,17 +2277,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1627.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1657.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[1035.000000]]></windowHeight>
-        <windowLocationX><![CDATA[3547.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[1891.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{11, 4}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1917.000000]]></windowWidth>
+        <windowHeight><![CDATA[1042.000000]]></windowHeight>
+        <windowLocationX><![CDATA[3589.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[1884.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{0, 0}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[1934.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>
