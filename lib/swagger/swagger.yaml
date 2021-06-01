@@ -178,6 +178,46 @@ paths:
             description: sbc address deleted
           404:
             description: sbc address not found
+  /Smpps:
+    get:
+      summary: retrieve public IP addresses of the jambonz smpp servers
+      operationId: listSmpps
+      parameters:
+        - in: query
+          name: service_provider_sid
+          required: false
+          schema:
+            type: string
+            description: return only the smpp servers operated for the sole use of this service provider
+      responses:
+        200:
+          description: list of smpp server addresses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    ipv4:
+                      type: string
+                      description: ip address of one of our Sbcs
+                    port:
+                      type: number
+                    use_tls:
+                      type: boolean
+                    is_primary:
+                      type: boolean
+                  required:
+                    - ipv4
+                    - port
+                    - use_tls
+                    - is_primary
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
   /InviteCodes:
     post:
       summary: validate an invite code
@@ -1115,7 +1155,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VoipCarrier'
+                $ref: '#/components/schemas/SipGateway'
         404:
           description: sip gateway not found
         500:
@@ -1149,7 +1189,146 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-                
+  /SmppGateways:
+    post:
+      summary: create smpp gateway
+      operationId: createSmppGateway
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                voip_carrier_sid:
+                  type: string
+                  description: voip carrier that provides this gateway
+                  format: uuid
+                ipv4:
+                  type: string
+                port:
+                  type: number
+                netmask:
+                  type: number
+                inbound:
+                  type: boolean
+                outbound:
+                  type: boolean
+                is_primary:
+                  type: boolean
+                use_tls:
+                  type: boolean
+              required: 
+                - voip_carrier_sid
+                - ipv4
+      responses:
+        201:
+          description: smpp gateway successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      summary: list smpp gateways
+      operationId: listSmppGateways
+      responses:
+        200:
+          description: list of smpp gateways
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SmppGateway'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /SmppGateways/{SmppGatewaySid}:
+    parameters:
+      - name: SmppGatewaySid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    delete:
+      summary: delete a smpp gateway
+      operationId: deleteSmppGateway
+      responses:
+        204:
+          description: smpp gateway successfully deleted
+        404:
+          description: smpp gateway not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      summary: retrieve smpp gateway
+      operationId: getSmppGateway
+      responses:
+        200:
+          description: smpp gateway found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmppGateway'
+        404:
+          description: smpp gateway not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    put:
+      summary: update sip gateway
+      operationId: updateSmppGateway
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmppGateway'
+      responses:
+        204:
+          description: smpp gateway updated
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        404:
+          description: smpp gateway not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError' 
   /PhoneNumbers:
     post:
       summary: provision a phone number into inventory from a Voip Carrier
@@ -3040,6 +3219,17 @@ components:
           type: string
         is_active:
           type: boolean
+        smpp_system_id:
+          type: string
+        smpp_password:
+          type: string
+        smpp_inbound_system_id:
+          type: string
+        smpp_inbound_password:
+          type: string
+        smpp_enquire_link_interval:
+          type: number
+          format: integer
       required:
         - voip_carrier_sid
         - name
@@ -3053,11 +3243,11 @@ components:
           type: string
         port:
           type: number
+        netmask:
+          type: number
         voip_carrier_sid:
           type: string
           format: uuid
-        is_active:
-          type: boolean
         inbound:
           type: boolean
         outbound:
@@ -3067,6 +3257,36 @@ components:
         - voip_carrier_sid
         - ipv4
         - port
+        - netmask
+    SmppGateway:
+      type: object
+      properties:
+        smpp_gateway_sid:
+          type: string
+          format: uuid
+        ipv4:
+          type: string
+        port:
+          type: number
+        netmask:
+          type: number
+        voip_carrier_sid:
+          type: string
+          format: uuid
+        is_primary:
+          type: boolean
+        use_tls:
+          type: boolean
+        inbound:
+          type: boolean
+        outbound:
+          type: boolean
+      required:
+        - smpp_gateway_sid
+        - voip_carrier_sid
+        - ipv4
+        - port
+        - netmask
     Account:
       type: object
       properties:

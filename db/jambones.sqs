@@ -9,7 +9,7 @@
         </location>
         <size>
             <width>283.00</width>
-            <height>200.00</height>
+            <height>220.00</height>
         </size>
         <zorder>25</zorder>
         <SQLField>
@@ -503,7 +503,7 @@
             <y>317.00</y>
         </location>
         <size>
-            <width>279.00</width>
+            <width>267.00</width>
             <height>460.00</height>
         </size>
         <zorder>6</zorder>
@@ -655,7 +655,7 @@
             <name><![CDATA[smpp_enquire_link_interval]]></name>
             <type><![CDATA[INTEGER]]></type>
             <defaultValue><![CDATA[0]]></defaultValue>
-            <notNull><![CDATA[1]]></notNull>
+            <notNull><![CDATA[0]]></notNull>
             <uid><![CDATA[19B9D7C5-4B49-4D0A-81A0-117F8569A86F]]></uid>
         </SQLField>
         <SQLField>
@@ -1713,7 +1713,7 @@
             <y>17.00</y>
         </location>
         <size>
-            <width>323.00</width>
+            <width>260.00</width>
             <height>200.00</height>
         </size>
         <zorder>7</zorder>
