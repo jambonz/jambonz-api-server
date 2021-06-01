@@ -409,7 +409,7 @@ test('webapp tests', async(t) => {
       }
     });
     t.ok(result.statusCode === 201, 'successfully created sip gateway for BYOC carrier');
-    const gateway_sid = result.body.sid;
+    let gateway_sid = result.body.sid;
 
     /* update sip gateway  */
     result = await request.put(`/SipGateways/${gateway_sid}`, {
@@ -428,6 +428,55 @@ test('webapp tests', async(t) => {
       auth: authUser,
     });
     t.ok(result.statusCode === 204, 'successfully deleted sip gateway for BYOC carrier');
+
+    /* add a smpp gateway to the carrier */
+    result = await request.post('/SmppGateways', {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        voip_carrier_sid: carrier_sid,
+        ipv4: '192.168.1.1',
+        inbound: true,
+        outbound: true
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully created smpp gateway for BYOC carrier');
+    gateway_sid = result.body.sid;
+
+    /* update smpp gateway  */
+    result = await request.put(`/SmppGateways/${gateway_sid}`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        port: 5080
+      }
+    });
+    t.ok(result.statusCode === 204, 'successfully updated smpp gateway for BYOC carrier');
+
+    /* delete smpp gateway  */
+    result = await request.delete(`/SmppGateways/${gateway_sid}`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+    });
+    t.ok(result.statusCode === 204, 'successfully deleted smpp gateway for BYOC carrier');
+
+    result = await request.get('/Sbcs', {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+    });
+    //console.log(result.body);
+    t.ok(result.statusCode === 200 && result.body.length === 1, 'retrieve Sbcs');
+  
+    result = await request.get('/Smpps', {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+    });
+    //console.log(result.body);
+    t.ok(result.statusCode === 200 && result.body.length === 2, 'retrieve Smpps');
 
     /* delete account */
     result = await request.delete(`/Accounts/${account_sid}`, {
@@ -453,8 +502,8 @@ test('webapp tests', async(t) => {
     t.ok(result.statusCode === 200 && result.body.pristine === true &&
        !result.body.is_active && result.body.root_domain === 'sip.yakeeda.com', 
       'successfully created a user and account and got jwt using email validation');
-
-  }
+  
+    }
   catch (err) {
     console.error(err);
     t.end(err);

@@ -1,6 +1,7 @@
 require('./docker_start');
 require('./create-test-db');
 require('./sip-gateways');
+require('./smpp-gateways');
 require('./service-providers');
 require('./voip-carriers');
 require('./accounts');
