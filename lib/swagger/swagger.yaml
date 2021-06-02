@@ -1108,6 +1108,13 @@ paths:
     get:
       summary: list sip gateways
       operationId: listSipGateways
+      parameters:
+        - in: query
+          name: voip_carrier_sid
+          required: true
+          schema:
+            type: string
+            description: return only the SipGateways operated for this VoipCarrier
       responses:
         200:
           description: list of sip gateways

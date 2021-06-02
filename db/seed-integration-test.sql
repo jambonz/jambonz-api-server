@@ -1,5 +1,14 @@
 SET FOREIGN_KEY_CHECKS=0;
 
+insert into sbc_addresses (sbc_address_sid, ipv4, port) 
+values('f6567ae1-bf97-49af-8931-ca014b689995', '52.55.111.178', 5060);
+insert into sbc_addresses (sbc_address_sid, ipv4, port) 
+values('de5ed2f1-bccd-4600-a95e-cef46e9a3a4f', '3.34.102.122', 5060);
+insert into smpp_addresses (smpp_address_sid, ipv4, port, use_tls, is_primary) 
+values('de5ed2f1-bccd-4600-a95e-cef46e9a3a4f', '34.197.99.29', 2775, 0, 1);
+insert into smpp_addresses (smpp_address_sid, ipv4, port, use_tls, is_primary) 
+values('049078a0', '3.209.58.102', 3550, 1, 1);
+
 -- create one service provider and account
 insert into api_keys (api_key_sid, token) 
 values ('3f35518f-5a0d-4c2e-90a5-2407bb3b36f0', '38700987-c7a4-4685-a5bb-af378f9734de');
