@@ -35,6 +35,7 @@ test('sbc_addresses tests', async(t) => {
       auth: authAdmin,
       json: true
     });
+    //console.log(result.body)
     t.ok(result.body.length === 1 && result.body[0].ipv4 === '192.168.1.4', 'successfully retrieved service provider sbc');
 
     await deleteObjectBySid(request, '/Sbcs', sid);
