@@ -22,9 +22,9 @@ DROP TABLE IF EXISTS sip_gateways;
 
 DROP TABLE IF EXISTS voip_carriers;
 
-DROP TABLE IF EXISTS accounts;
-
 DROP TABLE IF EXISTS applications;
+
+DROP TABLE IF EXISTS accounts;
 
 DROP TABLE IF EXISTS service_providers;
 
@@ -150,6 +150,21 @@ priority INTEGER NOT NULL DEFAULT 0 COMMENT 'lower priority carriers are attempt
 PRIMARY KEY (lcr_carrier_set_entry_sid)
 ) COMMENT='An entry in the LCR routing list';
 
+CREATE TABLE accounts
+(
+account_sid CHAR(36) NOT NULL UNIQUE ,
+name VARCHAR(64) NOT NULL,
+sip_realm VARCHAR(132) UNIQUE  COMMENT 'sip domain that will be used for devices registering under this account',
+service_provider_sid CHAR(36) NOT NULL COMMENT 'service provider that owns the customer relationship with this account',
+registration_hook_sid CHAR(36) COMMENT 'webhook to call when devices underr this account attempt to register',
+queue_event_hook_sid CHAR(36) COMMENT 'webhook to call when members enter or leave a queue created by this account.',
+device_calling_application_sid CHAR(36) COMMENT 'application to use for outbound calling from an account',
+is_active BOOLEAN NOT NULL DEFAULT true,
+webhook_secret VARCHAR(36),
+disable_cdrs BOOLEAN NOT NULL DEFAULT 0,
+PRIMARY KEY (account_sid)
+) COMMENT='An enterprise that uses the platform for comm services';
+
 CREATE TABLE applications
 (
 application_sid CHAR(36) NOT NULL UNIQUE ,
@@ -176,20 +191,6 @@ registration_hook_sid CHAR(36),
 ms_teams_fqdn VARCHAR(255),
 PRIMARY KEY (service_provider_sid)
 ) COMMENT='A partition of the platform used by one service provider';
-
-CREATE TABLE accounts
-(
-account_sid CHAR(36) NOT NULL UNIQUE ,
-name VARCHAR(64) NOT NULL,
-sip_realm VARCHAR(132) UNIQUE  COMMENT 'sip domain that will be used for devices registering under this account',
-service_provider_sid CHAR(36) NOT NULL COMMENT 'service provider that owns the customer relationship with this account',
-registration_hook_sid CHAR(36) COMMENT 'webhook to call when devices underr this account attempt to register',
-device_calling_application_sid CHAR(36) COMMENT 'application to use for outbound calling from an account',
-is_active BOOLEAN NOT NULL DEFAULT true,
-webhook_secret VARCHAR(36),
-disable_cdrs BOOLEAN NOT NULL DEFAULT 0,
-PRIMARY KEY (account_sid)
-) COMMENT='An enterprise that uses the platform for comm services';
 
 CREATE INDEX call_route_sid_idx ON call_routes (call_route_sid);
 ALTER TABLE call_routes ADD FOREIGN KEY account_sid_idxfk (account_sid) REFERENCES accounts (account_sid);
@@ -242,6 +243,17 @@ ALTER TABLE lcr_carrier_set_entry ADD FOREIGN KEY lcr_route_sid_idxfk (lcr_route
 
 ALTER TABLE lcr_carrier_set_entry ADD FOREIGN KEY voip_carrier_sid_idxfk_2 (voip_carrier_sid) REFERENCES voip_carriers (voip_carrier_sid);
 
+CREATE INDEX account_sid_idx ON accounts (account_sid);
+CREATE INDEX sip_realm_idx ON accounts (sip_realm);
+CREATE INDEX service_provider_sid_idx ON accounts (service_provider_sid);
+ALTER TABLE accounts ADD FOREIGN KEY service_provider_sid_idxfk_3 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
+
+ALTER TABLE accounts ADD FOREIGN KEY registration_hook_sid_idxfk (registration_hook_sid) REFERENCES webhooks (webhook_sid);
+
+ALTER TABLE accounts ADD FOREIGN KEY queue_event_hook_sid_idxfk (queue_event_hook_sid) REFERENCES webhooks (webhook_sid);
+
+ALTER TABLE accounts ADD FOREIGN KEY device_calling_application_sid_idxfk (device_calling_application_sid) REFERENCES applications (application_sid);
+
 CREATE UNIQUE INDEX applications_idx_name ON applications (account_sid,name);
 
 CREATE INDEX application_sid_idx ON applications (application_sid);
@@ -257,15 +269,6 @@ ALTER TABLE applications ADD FOREIGN KEY messaging_hook_sid_idxfk (messaging_hoo
 CREATE INDEX service_provider_sid_idx ON service_providers (service_provider_sid);
 CREATE INDEX name_idx ON service_providers (name);
 CREATE INDEX root_domain_idx ON service_providers (root_domain);
-ALTER TABLE service_providers ADD FOREIGN KEY registration_hook_sid_idxfk (registration_hook_sid) REFERENCES webhooks (webhook_sid);
-
-CREATE INDEX account_sid_idx ON accounts (account_sid);
-CREATE INDEX sip_realm_idx ON accounts (sip_realm);
-CREATE INDEX service_provider_sid_idx ON accounts (service_provider_sid);
-ALTER TABLE accounts ADD FOREIGN KEY service_provider_sid_idxfk_3 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
-
-ALTER TABLE accounts ADD FOREIGN KEY registration_hook_sid_idxfk_1 (registration_hook_sid) REFERENCES webhooks (webhook_sid);
-
-ALTER TABLE accounts ADD FOREIGN KEY device_calling_application_sid_idxfk (device_calling_application_sid) REFERENCES applications (application_sid);
+ALTER TABLE service_providers ADD FOREIGN KEY registration_hook_sid_idxfk_1 (registration_hook_sid) REFERENCES webhooks (webhook_sid);
 
 SET FOREIGN_KEY_CHECKS=1;

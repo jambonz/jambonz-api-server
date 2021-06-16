@@ -1,4 +1,4 @@
-const test = require('blue-tape').test ;
+const test = require('tape') ;
 const ADMIN_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734de';
 const authAdmin = {bearer: ADMIN_TOKEN};
 const request = require('request-promise-native').defaults({
@@ -36,6 +36,10 @@ test('account tests', async(t) => {
         registration_hook: {
           url: 'http://example.com/reg',
           method: 'get'
+        },
+        queue_event_hook: {
+          url: 'http://example.com/q',
+          method: 'post'
         }
       }
     });
@@ -68,9 +72,10 @@ test('account tests', async(t) => {
       json: true,
     });
     let regHook = result[0].registration_hook;
+    let qHook = result[0].queue_event_hook;
     t.ok(result.length === 1 &&
-      Object.keys(regHook).length == 4, 'successfully queried all accounts');
-
+      Object.keys(regHook).length == 4 && Object.keys(qHook).length == 4, 'successfully queried all accounts');
+    
     /* query one accounts */
     result = await request.get(`/Accounts/${sid}`, {
       auth: authAdmin,
@@ -104,7 +109,6 @@ test('account tests', async(t) => {
       auth: authAdmin,
       json: true,
     });
-    //console.log(`retrieved account after update: ${JSON.stringify(result)}`);
     t.ok(Object.keys(result.registration_hook).length === 4, 'successfully removed a hook from account');
 
     /* assign phone number to account */

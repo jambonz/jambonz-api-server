@@ -260,7 +260,7 @@
             <y>376.00</y>
         </location>
         <size>
-            <width>254.00</width>
+            <width>268.00</width>
             <height>120.00</height>
         </size>
         <zorder>10</zorder>
@@ -529,7 +529,7 @@
         </location>
         <size>
             <width>380.00</width>
-            <height>200.00</height>
+            <height>220.00</height>
         </size>
         <zorder>4</zorder>
         <SQLField>
@@ -583,12 +583,28 @@
             <referencesTable>webhooks</referencesTable>
             <referencesField><![CDATA[webhook_sid]]></referencesField>
             <referencesTable><![CDATA[webhooks]]></referencesTable>
-            <sourceCardinality>4</sourceCardinality>
-            <destinationCardinality>2</destinationCardinality>
+            <sourceCardinality>2</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
             <referencesFieldUID><![CDATA[E046BA30-BC18-483C-A5C8-766E7160F574]]></referencesFieldUID>
             <referencesTableUID><![CDATA[64D64CB9-0990-4C68-BE71-F9FD43C2BE19]]></referencesTableUID>
+            <forcedUnique><![CDATA[0]]></forcedUnique>
             <objectComment><![CDATA[webhook to call when devices underr this account attempt to register]]></objectComment>
             <uid><![CDATA[A75FAB8E-C2A1-4A05-A09E-6FF454109B6F]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[queue_event_hook_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>webhook_sid</referencesField>
+            <referencesTable>webhooks</referencesTable>
+            <referencesField><![CDATA[webhook_sid]]></referencesField>
+            <referencesTable><![CDATA[webhooks]]></referencesTable>
+            <sourceCardinality>2</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[E046BA30-BC18-483C-A5C8-766E7160F574]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[64D64CB9-0990-4C68-BE71-F9FD43C2BE19]]></referencesTableUID>
+            <forcedUnique><![CDATA[0]]></forcedUnique>
+            <objectComment><![CDATA[webhook to call when members enter or leave a queue created by this account.]]></objectComment>
+            <uid><![CDATA[3F1CD447-0ABF-4B4C-80A8-BAB0F73B64C9]]></uid>
         </SQLField>
         <SQLField>
             <name><![CDATA[device_calling_application_sid]]></name>
@@ -1145,17 +1161,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1213.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1415.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[977.000000]]></windowHeight>
-        <windowLocationX><![CDATA[2718.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[1891.000000]]></windowLocationY>
+        <windowHeight><![CDATA[1042.000000]]></windowHeight>
+        <windowLocationX><![CDATA[3550.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[1884.000000]]></windowLocationY>
         <windowScrollOrigin><![CDATA[{369.5, 4}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1490.000000]]></windowWidth>
+        <windowWidth><![CDATA[1692.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>

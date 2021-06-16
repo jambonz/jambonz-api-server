@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "NODE_ENV=test JAMBONES_MYSQL_HOST=127.0.0.1 JAMBONES_MYSQL_USER=jambones_test JAMBONES_MYSQL_PASSWORD=jambones_test JAMBONES_MYSQL_DATABASE=jambones_test JAMBONES_MYSQL_PORT=3360 JAMBONES_REDIS_HOST=localhost JAMBONES_LOGLEVEL=error JAMBONES_CREATE_CALL_URL=http://localhost/v1/createCall node test/ | ./node_modules/.bin/tap-spec",
+    "test": "NODE_ENV=test JAMBONES_MYSQL_HOST=127.0.0.1 JAMBONES_MYSQL_USER=jambones_test JAMBONES_MYSQL_PASSWORD=jambones_test JAMBONES_MYSQL_DATABASE=jambones_test JAMBONES_MYSQL_PORT=3360 JAMBONES_REDIS_HOST=localhost JAMBONES_LOGLEVEL=error JAMBONES_CREATE_CALL_URL=http://localhost/v1/createCall node test/ ",
     "integration-test": "NODE_ENV=test JAMBONES_TIME_SERIES_HOST=127.0.0.1 AWS_REGION='us-east-1' JAMBONES_CURRENCY=USD JWT_SECRET=foobarbazzle JAMBONES_MYSQL_HOST=127.0.0.1 JAMBONES_MYSQL_PORT=3360 JAMBONES_MYSQL_USER=jambones_test JAMBONES_MYSQL_PASSWORD=jambones_test JAMBONES_MYSQL_DATABASE=jambones_test JAMBONES_REDIS_HOST=localhost JAMBONES_REDIS_PORT=16379 JAMBONES_LOGLEVEL=debug JAMBONES_CREATE_CALL_URL=http://localhost/v1/createCall node test/serve-integration.js",
     "coverage": "./node_modules/.bin/nyc --reporter html --report-dir ./coverage npm run test",
     "jslint": "eslint app.js lib"
@@ -16,11 +16,8 @@
     "url": "https://github.com/jambonz/jambonz-api-server.git"
   },
   "dependencies": {
-    "@jambonz/db-helpers": "^0.5.5",
-    "@jambonz/messaging-382com": "0.0.2",
-    "@jambonz/messaging-peerless": "0.0.9",
-    "@jambonz/messaging-simwood": "0.0.4",
-    "@jambonz/realtimedb-helpers": "0.2.19",
+    "@jambonz/db-helpers": "^0.6.11",
+    "@jambonz/realtimedb-helpers": "^0.4.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mysql2": "^2.2.5",
@@ -34,11 +31,10 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "blue-tape": "^1.0.0",
     "eslint": "^7.15.0",
     "eslint-plugin-promise": "^4.2.1",
     "nyc": "^15.1.0",
     "request-promise-native": "^1.0.9",
-    "tap-spec": "^5.0.0"
+    "tape": "^5.2.2"
   }
 }

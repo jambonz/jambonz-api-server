@@ -981,6 +981,9 @@ paths:
                 registration_hook:
                   $ref: '#/components/schemas/Webhook'
                   description: authentication webhook for registration
+                queue_event_hook:
+                  $ref: '#/components/schemas/Webhook'
+                  description: webhook for queue events
                 service_provider_sid:
                   type: string
                   format: uuid
@@ -1744,6 +1747,9 @@ components:
         registration_hook:
           $ref: '#/components/schemas/Webhook'
           description: authentication webhook for registration
+        queue_event_hook:
+          $ref: '#/components/schemas/Webhook'
+          description: webhook for queue events
         device_calling_application_sid:
           type: string
           format: uuid

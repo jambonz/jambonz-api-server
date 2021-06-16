@@ -1,4 +1,4 @@
-const test = require('tape').test ;
+const test = require('tape') ;
 const exec = require('child_process').exec ;
 const pwd = process.env.CI ? '' : '-p$MYSQL_ROOT_PASSWORD';
 
