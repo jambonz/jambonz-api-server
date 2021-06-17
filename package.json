@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@jambonz/db-helpers": "^0.6.11",
-    "@jambonz/realtimedb-helpers": "^0.4.1",
+    "@jambonz/realtimedb-helpers": "^0.4.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mysql2": "^2.2.5",

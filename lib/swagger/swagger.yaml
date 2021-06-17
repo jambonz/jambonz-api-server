@@ -1402,7 +1402,37 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
         
-  
+  /Accounts/{AccountSid}/Queues:
+    get:
+      summary: list queues for an Account
+      parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: 
+        - in: query
+          name: name
+          required: false
+          schema:
+            type: string
+            description: a queue name or glob-style pattern matching one or more queues to return
+      responses:
+        200:
+          description: list of queues for this account matching the name query param, if provided
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Queue'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
   /Accounts/{AccountSid}/Calls:
     post:
       summary: create a call
@@ -1989,6 +2019,18 @@ components:
         - from
         - to
       example: {"from": "13394445678", "to": "16173333456", "text": "please call when you can"}
-
+    Queue:
+      properties:
+        name:
+          type: string
+          example: support
+        length:
+          type: number
+          format: integer
+          example: 5
+      required:
+        - name
+        - length
+      example: {"name": "new-orders", length: 12}
 security:
   - bearerAuth: []

@@ -16,6 +16,7 @@ process.on('unhandledRejection', (reason, p) => {
 
 test('account tests', async(t) => {
   const app = require('../app');
+  const {pushBack} = app.locals;
   let sid;
   try {
     let result;
@@ -121,6 +122,36 @@ test('account tests', async(t) => {
       }
     });
     t.ok(result.statusCode === 204, 'successfully assigned phone number to account');
+
+    /* retrieve queues for account */
+    result = await request.get(`/Accounts/${sid}/Queues`, {
+      auth: {bearer: accountLevelToken},
+      json: true,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 200 && 0 === result.body.length,
+      'successfully retrieved an empty array when no queues exist');
+
+      await pushBack(`queue:${sid}:customer-support`, 'https://ip:300/v1/enqueue/foobar');
+      await pushBack(`queue:${sid}:customer-support`, 'https://ip:300/v1/enqueue/bazzle');
+      await pushBack(`queue:${sid}:sales-new-orders`, 'https://ip:300/v1/enqueue/bazzle');
+      await pushBack(`queue:${sid}:sales-returns`, 'https://ip:300/v1/enqueue/bazzle');
+
+    result = await request.get(`/Accounts/${sid}/Queues`, {
+      auth: {bearer: accountLevelToken},
+      json: true,
+      resolveWithFullResponse: true,
+    });
+    console.log(`retrieved queues: ${result.statusCode}: ${JSON.stringify(result.body)}`);
+    //t.ok(result.statusCode === 200 && 0 === result.body.length,
+    //  'successfully retrieved an empty array when no queues exist');
+
+    result = await request.get(`/Accounts/${sid}/Queues?name=sales-*`, {
+      auth: {bearer: accountLevelToken},
+      json: true,
+      resolveWithFullResponse: true,
+    });
+    console.log(`retrieved queues: ${result.statusCode}: ${JSON.stringify(result.body)}`);
 
     /* cannot delete account that has phone numbers assigned */
     result = await request.delete(`/Accounts/${sid}`, {

@@ -24,6 +24,8 @@ const {
   retrieveCall,
   deleteCall,
   listCalls,
+  pushBack,
+  listQueues,
   purgeCalls,
   retrieveSet
 } = require('@jambonz/realtimedb-helpers')({
@@ -53,6 +55,8 @@ Object.assign(app.locals, {
   retrieveCall,
   deleteCall,
   listCalls,
+  pushBack,
+  listQueues,
   purgeCalls,
   retrieveSet,
   lookupAppBySid,
