@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "NODE_ENV=test JAMBONES_MYSQL_HOST=127.0.0.1 JAMBONES_MYSQL_USER=jambones_test JAMBONES_MYSQL_PASSWORD=jambones_test JAMBONES_MYSQL_DATABASE=jambones_test JAMBONES_MYSQL_PORT=3360 JAMBONES_REDIS_HOST=localhost JAMBONES_LOGLEVEL=error JAMBONES_CREATE_CALL_URL=http://localhost/v1/createCall node test/ ",
+    "test": "NODE_ENV=test JAMBONES_MYSQL_HOST=127.0.0.1 JAMBONES_MYSQL_USER=jambones_test JAMBONES_MYSQL_PASSWORD=jambones_test JAMBONES_MYSQL_DATABASE=jambones_test JAMBONES_MYSQL_PORT=3360 JAMBONES_REDIS_HOST=localhost JAMBONES_REDIS_PORT=16379 JAMBONES_LOGLEVEL=error JAMBONES_CREATE_CALL_URL=http://localhost/v1/createCall node test/ ",
     "integration-test": "NODE_ENV=test JAMBONES_TIME_SERIES_HOST=127.0.0.1 AWS_REGION='us-east-1' JAMBONES_CURRENCY=USD JWT_SECRET=foobarbazzle JAMBONES_MYSQL_HOST=127.0.0.1 JAMBONES_MYSQL_PORT=3360 JAMBONES_MYSQL_USER=jambones_test JAMBONES_MYSQL_PASSWORD=jambones_test JAMBONES_MYSQL_DATABASE=jambones_test JAMBONES_REDIS_HOST=localhost JAMBONES_REDIS_PORT=16379 JAMBONES_LOGLEVEL=debug JAMBONES_CREATE_CALL_URL=http://localhost/v1/createCall node test/serve-integration.js",
     "coverage": "./node_modules/.bin/nyc --reporter html --report-dir ./coverage npm run test",
     "jslint": "eslint app.js lib"
