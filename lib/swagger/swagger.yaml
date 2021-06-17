@@ -1411,13 +1411,12 @@ paths:
         required: true
         schema:
           type: string
-      - name: 
-        - in: query
-          name: name
-          required: false
-          schema:
-            type: string
-            description: a queue name or glob-style pattern matching one or more queues to return
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+          description: a queue name or glob-style pattern matching one or more queues to return
       responses:
         200:
           description: list of queues for this account matching the name query param, if provided
