@@ -1,4 +1,4 @@
-const test = require('blue-tape').test ;
+const test = require('tape') ;
 const ADMIN_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734de';
 const authAdmin = {bearer: ADMIN_TOKEN};
 const request = require('request-promise-native').defaults({
@@ -17,18 +17,6 @@ test('sbc_addresses tests', async(t) => {
     let result;
     const service_provider_sid = await createServiceProvider(request);
 
-    /* add a community sbc */
-    result = await request.post('/Sbcs', {
-      resolveWithFullResponse: true,
-      auth: authAdmin,
-      json: true,
-      body: {
-        ipv4: '192.168.1.1'
-      }
-    });
-    t.ok(result.statusCode === 201, 'successfully created community sbc ');
-    const sid1 = result.body.sid;
-
     /* add a service provider sbc */
     result = await request.post('/Sbcs', {
       resolveWithFullResponse: true,
@@ -40,24 +28,17 @@ test('sbc_addresses tests', async(t) => {
       }
     });
     t.ok(result.statusCode === 201, 'successfully created service provider sbc ');
-    const sid2 = result.body.sid;
-
-    result = await request.get('/Sbcs', {
-      resolveWithFullResponse: true,
-      auth: authAdmin,
-      json: true
-    });
-    t.ok(result.body.length === 1 && result.body[0].ipv4 === '192.168.1.1', 'successfully retrieved community sbc');
+    const sid = result.body.sid;
 
     result = await request.get(`/Sbcs?service_provider_sid=${service_provider_sid}`, {
       resolveWithFullResponse: true,
       auth: authAdmin,
       json: true
     });
+    //console.log(result.body)
     t.ok(result.body.length === 1 && result.body[0].ipv4 === '192.168.1.4', 'successfully retrieved service provider sbc');
 
-    await deleteObjectBySid(request, '/Sbcs', sid1);
-    await deleteObjectBySid(request, '/Sbcs', sid2);
+    await deleteObjectBySid(request, '/Sbcs', sid);
     await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid);
 
     //t.end();

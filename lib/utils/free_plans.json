@@ -1,0 +1,22 @@
+{
+  "trial": [
+    {
+      "category": "voice_call_session",
+      "quantity": 20
+    },
+    {
+      "category": "device",
+      "quantity": 0
+    }
+  ],
+  "free": [
+    {
+      "category": "voice_call_session",
+      "quantity": 1
+    },
+    {
+      "category": "device",
+      "quantity": 1
+    }
+  ]
+}

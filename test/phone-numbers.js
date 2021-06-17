@@ -1,4 +1,4 @@
-const test = require('blue-tape').test ;
+const test = require('tape') ;
 const ADMIN_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734de';
 const authAdmin = {bearer: ADMIN_TOKEN};
 const request = require('request-promise-native').defaults({
@@ -19,19 +19,6 @@ test('phone number tests', async(t) => {
     /* add service provider, phone number, and voip carrier */
     const voip_carrier_sid = await createVoipCarrier(request);
 
-    /* provision phone number - failure case:  voip_carrier_sid is required */
-    result = await request.post('/PhoneNumbers', {
-      resolveWithFullResponse: true,
-      simple: false,
-      auth: authAdmin,
-      json: true,
-      body: {
-        number: '15083084809'
-      }
-    });
-    t.ok(result.statusCode === 400 && result.body.msg === 'voip_carrier_sid is required', 
-      'voip_carrier_sid is required when provisioning a phone number');
-
     /* provision phone number - failure case: digits only */
     result = await request.post('/PhoneNumbers', {
       resolveWithFullResponse: true,
@@ -43,37 +30,9 @@ test('phone number tests', async(t) => {
         voip_carrier_sid
       }
     });
-    t.ok(result.statusCode === 400 && result.body.msg === 'phone number must only include digits', 
-      'service_provider_sid is required when provisioning a phone number');
-    
-    /* provision phone number - failure case: insufficient digits */
-    result = await request.post('/PhoneNumbers', {
-      resolveWithFullResponse: true,
-      simple: false,
-      auth: authAdmin,
-      json: true,
-      body: {
-        number: '1508308',
-        voip_carrier_sid
-      }
-    });
-    //console.log(`result: ${JSON.stringify(result)}`);
-    t.ok(result.statusCode === 400 && result.body.msg === 'invalid phone number: insufficient digits', 
-      'invalid phone number: insufficient digits');
-
-    /* provision phone number - failure case: invalid US number */
-    result = await request.post('/PhoneNumbers', {
-      resolveWithFullResponse: true,
-      simple: false,
-      auth: authAdmin,
-      json: true,
-      body: {
-        number: '150830848091',
-        voip_carrier_sid
-      }
-    });
-    t.ok(result.statusCode === 400 && result.body.msg === 'invalid US phone number', 
-      'invalid US phone number');
+    t.ok(result.statusCode === 201, 
+      'accepts E.164 format');
+    const sid = result.body.sid;
 
     /* add a phone number */
     result = await request.post('/PhoneNumbers', {
@@ -86,17 +45,17 @@ test('phone number tests', async(t) => {
       }
     });
     t.ok(result.statusCode === 201, 'successfully created phone number');
-    const sid = result.body.sid;
+    const sid2 = result.body.sid;
     
     /* query all phone numbers */
     result = await request.get('/PhoneNumbers', {
       auth: authAdmin,
       json: true,
     });
-    t.ok(result.length === 1 , 'successfully queried all phone numbers');
+    t.ok(result.length === 2, 'successfully queried all phone numbers');
 
     /* query one phone numbers */
-    result = await request.get(`/PhoneNumbers/${sid}`, {
+    result = await request.get(`/PhoneNumbers/${sid2}`, {
       auth: authAdmin,
       json: true,
     });
@@ -108,6 +67,10 @@ test('phone number tests', async(t) => {
       resolveWithFullResponse: true,
     });
     t.ok(result.statusCode === 204, 'successfully deleted phone number');
+    result = await request.delete(`/PhoneNumbers/${sid2}`, {
+      auth: authAdmin,
+      resolveWithFullResponse: true,
+    });
 
     await deleteObjectBySid(request, '/VoipCarriers', voip_carrier_sid);
 

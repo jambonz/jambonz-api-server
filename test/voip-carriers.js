@@ -1,4 +1,4 @@
-const test = require('blue-tape').test ;
+const test = require('tape') ;
 const ADMIN_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734de';
 const authAdmin = {bearer: ADMIN_TOKEN};
 const request = require('request-promise-native').defaults({
@@ -105,7 +105,7 @@ test('voip carrier tests', async(t) => {
     //console.log(`result: ${JSON.stringify(result)}`);
     t.ok(result.statusCode === 204, 'successfully deleted voip carrier');
     
-    /* create voipd carrier that is a customer PBX */
+    /* create voip carrier that is a customer PBX */
     const service_provider_sid = await createServiceProvider(request);
     const account_sid = await createAccount(request, service_provider_sid);
     const account_sid2 = await createAccount(request, service_provider_sid, 'another');
@@ -189,6 +189,30 @@ test('voip carrier tests', async(t) => {
     sid = result.body.sid;
     await deleteObjectBySid(request, '/VoipCarriers', sid);
 
+    /* add a voip carrier for a service provider */
+    result = await request.post(`/ServiceProviders/${service_provider_sid}/VoipCarriers`, {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'twilio',
+        e164_leading_plus: true
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully created voip carrier for a service provider');
+    sid = result.body.sid;
+
+    /* list voip carriers for a service provider */
+    result = await request.get(`/ServiceProviders/${service_provider_sid}/VoipCarriers`, {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+    });
+    //console.log(result.body);
+    t.ok(result.statusCode === 200, 'successfully retrieved voip carrier for a service provider');
+    sid = result.body[0].voip_carrier_sid;
+  
+    await deleteObjectBySid(request, '/VoipCarriers', sid);
     await deleteObjectBySid(request, '/Applications', application_sid);
     await deleteObjectBySid(request, '/Accounts', account_sid);
     await deleteObjectBySid(request, '/Accounts', account_sid2);

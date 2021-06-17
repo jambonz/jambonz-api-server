@@ -1,3 +1,5 @@
+const bytesToUuid = require("uuid/lib/bytesToUuid");
+const uuid = require('uuid').v4;
 
 const ADMIN_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734de';
 const authAdmin = {bearer: ADMIN_TOKEN};
@@ -42,7 +44,8 @@ async function createAccount(request, service_provider_sid, name = 'daveh') {
     json: true,
     body: {
       name,
-      service_provider_sid
+      service_provider_sid,
+      webhook_secret: 'foobar'
   }
   });
   return result.sid;
@@ -66,6 +69,18 @@ async function createApplication(request, account_sid, name = 'daveh') {
   return result.sid;
 }
 
+async function createApiKey(request, account_sid) {
+  const result = await request.post('/ApiKeys', {
+    auth: authAdmin,
+    json: true,
+    body: {
+      account_sid,
+      token: uuid()
+    }
+  });
+  return result.sid;
+}
+
 async function deleteObjectBySid(request, path, sid) {
   const result = await request.delete(`${path}/${sid}`, {
     auth: authAdmin,
@@ -79,5 +94,6 @@ module.exports = {
   createPhoneNumber,
   createAccount,
   createApplication,
+  createApiKey,
   deleteObjectBySid
 };

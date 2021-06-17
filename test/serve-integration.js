@@ -45,15 +45,23 @@ const createSchema = () => {
 const seedDb = () => {
   return new Promise((resolve, reject) => {
     console.log('seeding database..')
-    exec(`mysql -h 127.0.0.1 -u root --protocol=tcp --port=3360 -D jambones_test < ${__dirname}/../db/create-default-service-provider-and-account.sql`, (err) => {
+    exec(`mysql -h 127.0.0.1 -u root --protocol=tcp --port=3360 -D jambones_test < ${__dirname}/../db/seed-integration-test.sql`, (err) => {
       if (err) return reject(err);
-      exec(`mysql -h 127.0.0.1 -u root --protocol=tcp --port=3360 -D jambones_test < ${__dirname}/../db/create-admin-token.sql`, (err) => {
-        if (err) return reject(err);
-        exec(`node ${__dirname}/../db/reset_admin_password.js`, (err) => {
-          if (err) return reject(err);
-          resolve();
-        });
-      });
+      resolve();
+    });
+  });
+};
+
+const resetAdminPassword = () => {
+  return new Promise((resolve, reject) => {
+    /* not needed when running jambonz hosting mode */
+    if (process.env.STRIPE_API_KEY) return resolve();
+    console.log('creating admin user..')
+    exec(`node ${__dirname}/../db/reset_admin_password.js`, (err, stdout, stderr) => {
+      console.log(stdout);
+      console.log(stderr);
+      if (err) return reject(err);
+      resolve();
     });
   });
 };
@@ -72,6 +80,7 @@ startDocker()
   .then(createDb)
   .then(createSchema)
   .then(seedDb)
+  .then(resetAdminPassword)
   .then(() => {
     console.log('ready for testing!');
     require('..');

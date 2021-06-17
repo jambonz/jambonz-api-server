@@ -1,4 +1,4 @@
-const test = require('blue-tape').test ;
+const test = require('tape') ;
 const ADMIN_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734de';
 const authAdmin = {bearer: ADMIN_TOKEN};
 const request = require('request-promise-native').defaults({
@@ -25,6 +25,7 @@ test('sip gateway tests', async(t) => {
       body: {
         voip_carrier_sid,
         ipv4: '192.168.1.1',
+        netmask: 32,
         inbound: true,
         outbound: true
       }
@@ -34,6 +35,7 @@ test('sip gateway tests', async(t) => {
 
     /* query all sip gateways */
     result = await request.get('/SipGateways', {
+      qs: {voip_carrier_sid},
       auth: authAdmin,
       json: true,
     });
@@ -55,12 +57,13 @@ test('sip gateway tests', async(t) => {
       resolveWithFullResponse: true,
       body: {
         port: 5061,
+        netmask:24,
         outbound: false
       }
     });
     t.ok(result.statusCode === 204, 'successfully updated voip carrier');
 
-    /* delete sip gatewas */
+    /* delete sip gateways */
     result = await request.delete(`/SipGateways/${sid}`, {
       resolveWithFullResponse: true,
       simple: false,
