@@ -38,7 +38,9 @@ const doIt = async() => {
   const api_key_sid = uuidv4();
   const token = uuidv4();
   const [r] = await promisePool.query(sqlQueryAccount);
-  await promisePool.execute(sqlAddAccountAdminToken, [api_key_sid, token, r[0].account_sid]);
+  if (r.length > 0) {
+    await promisePool.execute(sqlAddAccountAdminToken, [api_key_sid, token, r[0].account_sid]);
+  }
 
   process.exit(0);
 };
