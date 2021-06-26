@@ -73,19 +73,6 @@ VALUES
 ('7bae60b3-4237-4baa-a711-30ea3bce19d8', '032d90d5-39e8-41c0-b807-9c88cffba65c', '185.47.148.45', 32, 5060, 1, 0),
 ('bc933522-18a2-47d8-9ae4-9faa8de4e927', '032d90d5-39e8-41c0-b807-9c88cffba65c', 'outbound.voxbone.com', 32, 5060, 0, 1);
 
--- Peerless gateways
-insert into predefined_sip_gateways (predefined_sip_gateway_sid, predefined_carrier_sid, ipv4, netmask, port, inbound, outbound)
-VALUES
-('4e23f698-a70a-4616-9bf0-c9dd5ab123af', '17479288-bb9f-421a-89d1-f4ac57af1dca', '208.79.54.182', 32, 5060, 1, 0),
-('e5c71c18-0511-41b8-bed9-1ba061bbcf10', '17479288-bb9f-421a-89d1-f4ac57af1dca', '208.79.52.192', 32, 5060, 0, 1),
-('226c7471-2f4f-440f-8525-37fd0512bd8b', '17479288-bb9f-421a-89d1-f4ac57af1dca', '208.79.54.185', 32, 5060, 0, 1);
-
--- 382com gateways
-insert into predefined_sip_gateways (predefined_sip_gateway_sid, predefined_carrier_sid, ipv4, netmask, port, inbound, outbound)
-VALUES
-('23e4c250-8578-4d88-99b5-a7941a58e26f', 'bdf70650-5328-47aa-b3d0-47cb219d9c6e', '64.125.111.10', 32, 5060, 1, 0),
-('c726d435-c9a7-4c37-b891-775990a54638', 'bdf70650-5328-47aa-b3d0-47cb219d9c6e', '64.124.67.11', 32, 5060, 0, 1);
-
 -- simwood gateways
 insert into predefined_sip_gateways (predefined_sip_gateway_sid, predefined_carrier_sid, ipv4, netmask, port, inbound, outbound)
 VALUES
