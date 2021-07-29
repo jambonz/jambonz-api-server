@@ -1,7 +1,6 @@
 const bent = require('bent');
 const getJSON = bent('GET', 200);
 const request = require('request');
-require('request-debug')(request);
 
 const test = async() => {
   request.get('https://api.github.com/user', {

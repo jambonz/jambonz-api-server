@@ -44,3 +44,5 @@ create_db.sql
 
 .env.*
 .env
+
+postgres-data/*

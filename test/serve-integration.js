@@ -1,4 +1,5 @@
 const exec = require('child_process').exec ;
+const { sippUac } = require('./sipp')('test_jambonz-api');
 let stopping = false;
 
 process.on('SIGINT', async() => {
@@ -66,6 +67,14 @@ const resetAdminPassword = () => {
   });
 };
 
+const generateSipTrace = async() => {
+  try {
+    await sippUac('uac.xml', '172.58.0.30');
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const stopDocker = () => {
   return new Promise((resolve, reject) => {
     console.log('stopping docker network..')
@@ -81,6 +90,7 @@ startDocker()
   .then(createSchema)
   .then(seedDb)
   .then(resetAdminPassword)
+  .then(generateSipTrace)
   .then(() => {
     console.log('ready for testing!');
     require('..');

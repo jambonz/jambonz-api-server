@@ -1,5 +1,13 @@
 version: '3'
 
+networks:
+  jambonz-api:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.58.0.0/16
+
+
 services:  
   mysql:
     image: mysql:5.7
@@ -10,7 +18,11 @@ services:
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "127.0.0.1", "--protocol", "tcp"]
       timeout: 5s
-      retries: 10    
+      retries: 10
+    networks:
+      jambonz-api:
+        ipv4_address: 172.58.0.2
+  
   redis:
     image: redis:5-alpine
     ports:
@@ -18,8 +30,101 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-
+    networks:
+      jambonz-api:
+        ipv4_address: 172.58.0.3
+    
   influxdb:
     image: influxdb:1.8-alpine
     ports:
       - "8086:8086"
+    networks:
+      jambonz-api:
+        ipv4_address: 172.58.0.4
+  
+  db:
+    image: postgres:11-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: homerSeven
+      POSTGRES_USER: root
+    expose:
+      - 5432
+    restart: unless-stopped
+    volumes:
+      - ./postgresql/init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
+      - ./postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "psql -h 'localhost' -U 'root' -c '\\l'"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+    networks:
+      jambonz-api:
+        ipv4_address: 172.58.0.5
+  
+  heplify-server:
+    image: sipcapture/heplify-server
+    container_name: heplify-server
+    ports:
+      - "9069:9060"
+      - "9060:9060/udp"
+      - "9061:9061/tcp"
+    command:
+      - './heplify-server'
+    environment:
+      - "HEPLIFYSERVER_HEPADDR=0.0.0.0:9060"
+      - "HEPLIFYSERVER_HEPTCPADDR=0.0.0.0:9061"
+      - "HEPLIFYSERVER_DBDRIVER=postgres"
+      - "HEPLIFYSERVER_DBSHEMA=homer7"
+      - "HEPLIFYSERVER_DBADDR=db:5432"
+      - "HEPLIFYSERVER_DBUSER=root"
+      - "HEPLIFYSERVER_DBPASS=homerSeven"
+      - "HEPLIFYSERVER_DBDATATABLE=homer_data"
+      - "HEPLIFYSERVER_DBROTATE=true"
+      - "HEPLIFYSERVER_LOGLVL=debug"
+      - "HEPLIFYSERVER_LOGSTD=true"
+      - "HEPLIFYSERVER_DBDROPDAYS=7"
+      - "HEPLIFYSERVER_ALEGIDS=X-CID"
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      jambonz-api:
+        ipv4_address: 172.58.0.6
+    
+  homer-webapp:
+    container_name: homer-webapp
+    image: sipcapture/webapp
+    environment:
+      - "DB_HOST=db"
+      - "DB_USER=root"
+      - "DB_PASS=homerSeven"
+    ports:
+      - "9090:80"
+    expose:
+      - 80
+    restart: unless-stopped
+    volumes:
+      - ./bootstrap:/app/bootstrap
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      jambonz-api:
+        ipv4_address: 172.58.0.7
+    
+  drachtio:
+    container_name: drachtio
+    image: drachtio/drachtio-server:latest
+    command: drachtio --contact "sip:*;transport=udp" --loglevel debug --sofia-loglevel 9 --homer 172.58.0.6:9060 --homer-id 10
+    networks:
+      jambonz-api:
+        ipv4_address: 172.58.0.8
+    depends_on:
+      db:
+        condition: service_healthy
+          
+      
+      

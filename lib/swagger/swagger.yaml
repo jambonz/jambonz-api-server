@@ -2635,6 +2635,56 @@ paths:
                           - duration
         404:
           description: account not found
+  /Accounts/{AccountSid}/RecentCalls/{CallId}:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: CallId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: retrieve sip trace detail for a call
+      operationId: getRecentCallTrace
+      responses:
+        200:
+          description: retrieve sip trace data
+          content:
+            application/json:
+              schema:
+                type: object
+        404:
+          description: account or call not found
+  /Accounts/{AccountSid}/RecentCalls/{CallId}/pcap:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: CallId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: retrieve pcap for a call
+      operationId: getRecentCallTrace
+      responses:
+        200:
+          description: retrieve sip trace data
+          content:
+            application/octet-stream:
+              schema:
+                type: object
+        404:
+          description: account or call not found
   /Accounts/{AccountSid}/Alerts:
     parameters:
       - name: AccountSid

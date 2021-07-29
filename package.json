@@ -28,17 +28,12 @@
     "debug": "^4.3.1",
     "express": "^4.17.1",
     "form-data": "^2.3.3",
-    "form-urlencoded": "^4.2.1",
-    "google-libphonenumber": "^3.2.15",
     "jsonwebtoken": "^8.5.1",
     "mailgun.js": "^3.3.0",
     "mysql2": "^2.2.5",
     "passport": "^0.4.1",
     "passport-http-bearer": "^1.0.1",
     "pino": "^5.17.0",
-    "qs": "^6.7.0",
-    "request": "^2.88.2",
-    "request-debug": "^0.2.0",
     "short-uuid": "^4.1.0",
     "stripe": "^8.138.0",
     "swagger-ui-express": "^4.1.6",
@@ -50,6 +45,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "nyc": "^15.1.0",
     "request-promise-native": "^1.0.9",
+    "request": "^2.88.2",
     "tape": "^5.2.2"
   }
 }

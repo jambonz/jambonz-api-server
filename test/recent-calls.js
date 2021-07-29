@@ -66,6 +66,22 @@ test('recent calls tests', async(t) => {
       json: true,
     });
 
+    /* pull sip traces and pcap from homer */
+    /*
+    result = await request.get(`/Accounts/${account_sid}/RecentCalls/224f0f24-69aa-123a-eaa6-0ea24be4d211`, {
+      auth: authUser,
+      json: true
+    });
+    console.log(result);
+
+    const writeStream = fs.createWriteStream('./call.pcap');
+    const ret = await request.get(`/Accounts/${account_sid}/RecentCalls/224f0f24-69aa-123a-eaa6-0ea24be4d211/pcap`, {
+      auth: authUser,
+      resolveWithFullResponse: true
+    });
+    writeStream.write(ret.body);
+    */
+   
     await deleteObjectBySid(request, '/Accounts', account_sid);
     await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid);
 
