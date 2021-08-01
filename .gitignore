@@ -45,4 +45,4 @@ create_db.sql
 .env.*
 .env
 
-postgres-data/*
+test/postgres-data
