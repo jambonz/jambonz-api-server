@@ -46,3 +46,4 @@ create_db.sql
 .env
 
 test/postgres-data
+db/remove-account.sh
