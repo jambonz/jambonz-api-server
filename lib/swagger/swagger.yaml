@@ -2004,6 +2004,9 @@ paths:
                 registration_hook:
                   $ref: '#/components/schemas/Webhook'
                   description: authentication webhook for registration
+                queue_event_hook:
+                  $ref: '#/components/schemas/Webhook'
+                  description: webhook called when members join or leave a queue
                 service_provider_sid:
                   type: string
                   format: uuid
@@ -3681,6 +3684,8 @@ components:
             service_provider_sid:
               type: string
             registration_hook_sid:
+              type: string
+            queue_event_hook_sid:
               type: string
             device_calling_application_sid:
               type: string

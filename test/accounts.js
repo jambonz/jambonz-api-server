@@ -154,6 +154,10 @@ test('account tests', async(t) => {
         registration_hook: {
           url: 'http://example.com/reg2',
           method: 'get'
+        },
+        queue_event_hook: {
+          url: 'http://example.com/q',
+          method: 'post'
         }
       }
     });
