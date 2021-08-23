@@ -1958,7 +1958,7 @@ paths:
 
     put:
       summary: update tenant
-      operationId: updateAccount
+      operationId: putTenant
       requestBody:
         content:
           application/json:
