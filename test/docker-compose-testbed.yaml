@@ -56,9 +56,9 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "psql -h 'localhost' -U 'root' -c '\\l'"]
-      interval: 1s
+      interval: 3s
       timeout: 3s
-      retries: 30
+      retries: 60
     networks:
       jambonz-api:
         ipv4_address: 172.58.0.5
