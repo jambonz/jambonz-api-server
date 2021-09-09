@@ -997,6 +997,105 @@
         <uid><![CDATA[64D64CB9-0990-4C68-BE71-F9FD43C2BE19]]></uid>
     </SQLTable>
     <SQLTable>
+        <name><![CDATA[predefined_smpp_gateways]]></name>
+        <schema><![CDATA[]]></schema>
+        <location>
+            <x>482.00</x>
+            <y>1320.00</y>
+        </location>
+        <size>
+            <width>351.00</width>
+            <height>200.00</height>
+        </size>
+        <zorder>27</zorder>
+        <SQLField>
+            <name><![CDATA[predefined_smpp_gateway_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <primaryKey>1</primaryKey>
+            <autoIncrement><![CDATA[0]]></autoIncrement>
+            <indexed><![CDATA[1]]></indexed>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[592357C7-4BCA-4D53-926F-8CF528EB5508]]></uid>
+            <unique><![CDATA[1]]></unique>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[ipv4]]></name>
+            <type><![CDATA[VARCHAR(128)]]></type>
+            <autoIncrement><![CDATA[0]]></autoIncrement>
+            <notNull><![CDATA[1]]></notNull>
+            <objectComment><![CDATA[ip address or DNS name of the gateway. ]]></objectComment>
+            <uid><![CDATA[99AF6548-9A5D-468C-8F2D-78D4892B4A5B]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[port]]></name>
+            <type><![CDATA[INTEGER]]></type>
+            <autoIncrement><![CDATA[0]]></autoIncrement>
+            <defaultValue><![CDATA[2775]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <objectComment><![CDATA[smpp signaling port]]></objectComment>
+            <uid><![CDATA[AF88E4F9-5BAA-4BD6-9526-9B90AEA9C945]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[inbound]]></name>
+            <type><![CDATA[BOOLEAN]]></type>
+            <autoIncrement><![CDATA[0]]></autoIncrement>
+            <forcedUnique><![CDATA[0]]></forcedUnique>
+            <notNull><![CDATA[1]]></notNull>
+            <objectComment><![CDATA[if true, whitelist this IP to allow inbound SMS from the gateway]]></objectComment>
+            <uid><![CDATA[669A7FE8-1F0C-4FD6-8563-E20D9BDBAB25]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[outbound]]></name>
+            <type><![CDATA[BOOLEAN]]></type>
+            <autoIncrement><![CDATA[0]]></autoIncrement>
+            <notNull><![CDATA[1]]></notNull>
+            <objectComment><![CDATA[i]]></objectComment>
+            <uid><![CDATA[DDDF3B63-7662-4200-AD35-4FAF1F2FB738]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[netmask]]></name>
+            <type><![CDATA[INTEGER]]></type>
+            <autoIncrement><![CDATA[0]]></autoIncrement>
+            <defaultValue><![CDATA[32]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[D312DDB5-E8E6-4EFF-AC68-770953375266]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[is_primary]]></name>
+            <type><![CDATA[BOOLEAN]]></type>
+            <defaultValue><![CDATA[1]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[4BC17A6B-6F58-4669-A4EC-08E69185E5EB]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[use_tls]]></name>
+            <type><![CDATA[BOOLEAN]]></type>
+            <defaultValue><![CDATA[0]]></defaultValue>
+            <forcedUnique><![CDATA[0]]></forcedUnique>
+            <uid><![CDATA[A35C9B44-0667-4724-9E92-2B7D9C5E9102]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[predefined_carrier_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>predefined_carrier_sid</referencesField>
+            <referencesTable>predefined_carriers</referencesTable>
+            <referencesField><![CDATA[predefined_carrier_sid]]></referencesField>
+            <referencesTable><![CDATA[predefined_carriers]]></referencesTable>
+            <sourceCardinality>4</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[6B9B5C54-0EE6-45D0-834C-46B9295B823B]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[AF34726D-EDFD-414E-9B44-5243DA9D9497]]></referencesTableUID>
+            <autoIncrement><![CDATA[0]]></autoIncrement>
+            <forcedUnique><![CDATA[0]]></forcedUnique>
+            <indexed><![CDATA[1]]></indexed>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[9A75A20B-1EFD-4E16-994A-5376C650EAB5]]></uid>
+        </SQLField>
+        <labelWindowIndex><![CDATA[0]]></labelWindowIndex>
+        <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
+        <uid><![CDATA[6511AF7D-91FD-40C7-9F73-B8E9E66DC249]]></uid>
+    </SQLTable>
+    <SQLTable>
         <name><![CDATA[call_routes]]></name>
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[a regex-based pattern match for call routing]]></comment>
@@ -1488,7 +1587,7 @@
             <y>1103.00</y>
         </location>
         <size>
-            <width>326.00</width>
+            <width>302.00</width>
             <height>260.00</height>
         </size>
         <zorder>20</zorder>
@@ -1505,6 +1604,7 @@
         <SQLField>
             <name><![CDATA[name]]></name>
             <type><![CDATA[VARCHAR(64)]]></type>
+            <forcedUnique><![CDATA[0]]></forcedUnique>
             <indexed><![CDATA[0]]></indexed>
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[CC37C086-870D-411F-88B1-AC242A58A50A]]></uid>
@@ -2298,10 +2398,10 @@
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[977.000000]]></windowHeight>
-        <windowLocationX><![CDATA[3129.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[1949.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{178.5, 158}]]></windowScrollOrigin>
+        <windowHeight><![CDATA[865.000000]]></windowHeight>
+        <windowLocationX><![CDATA[1279.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[192.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{0, 837}]]></windowScrollOrigin>
         <windowWidth><![CDATA[1692.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>

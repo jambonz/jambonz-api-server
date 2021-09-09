@@ -44,11 +44,22 @@ insert into predefined_carriers (predefined_carrier_sid, name, requires_static_i
 requires_register, register_username, register_password, 
 register_sip_realm, tech_prefix, inbound_auth_username, inbound_auth_password, diversion)
 VALUES
+('17479288-bb9f-421a-89d1-f4ac57af1dca', 'TelecomsXChange', 0, 0, 0, NULL, NULL, NULL, 'your-tech-prefix', NULL, NULL, NULL),
 ('7d509a18-bbff-4c5d-b21e-b99bf8f8c49a', 'Twilio', 0, 1, 0, '<your-twilio-credential-username>', '<your-twilio-credential-password>', NULL, NULL, NULL, NULL, NULL),
 ('032d90d5-39e8-41c0-b807-9c88cffba65c', 'Voxbone', 0, 1, 0, '<your-voxbone-outbound-username>', '<your-voxbone-outbound-password>', NULL, NULL, NULL, NULL, '<your-voxbone-DID>'),
-('17479288-bb9f-421a-89d1-f4ac57af1dca', 'Peerless Network (US)', 1, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-('bdf70650-5328-47aa-b3d0-47cb219d9c6e', '382 Communications (US)', 1, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', 'Simwood', 0, 1, 0, '<your-simwood-auth-trunk-username>',  '<your-simwood-auth-trunk-password>', NULL, NULL, NULL, NULL, NULL);
+
+-- TelecomXchange gateways
+insert into predefined_sip_gateways (predefined_sip_gateway_sid, predefined_carrier_sid, ipv4, netmask, port, inbound, outbound)
+VALUES
+('c9c3643e-9a83-4b78-b172-9c09d911bef5', '17479288-bb9f-421a-89d1-f4ac57af1dca', '174.136.44.213', 32, 5060, 1, 0),
+('3b5b7fa5-4e61-4423-b921-05c3283b2101', '17479288-bb9f-421a-89d1-f4ac57af1dca', 'sip01.TelecomsXChange.com', 32, 5060, 0, 1);
+
+insert into predefined_smpp_gateways (predefined_smpp_gateway_sid, predefined_carrier_sid, ipv4, netmask, port, inbound, outbound)
+VALUES
+('9b72467a-cfe3-491f-80bf-652c38e666b9', '17479288-bb9f-421a-89d1-f4ac57af1dca', 'smpp01.telecomsxchange.com', 32, 2776, 0, 1),
+('d22883b9-f124-4a89-bab2-4487cf783f64', '17479288-bb9f-421a-89d1-f4ac57af1dca', '174.136.44.11', 32, 2775, 1, 0),
+('fdcf7f1e-1f5f-487b-afb3-c0f75ed0aa3d', '17479288-bb9f-421a-89d1-f4ac57af1dca', '174.136.44.213', 32, 2775, 1, 0);
 
 -- twilio gateways
 insert into predefined_sip_gateways (predefined_sip_gateway_sid, predefined_carrier_sid, ipv4, netmask, port, inbound, outbound)
@@ -74,19 +85,6 @@ VALUES
 ('7bae60b3-4237-4baa-a711-30ea3bce19d8', '032d90d5-39e8-41c0-b807-9c88cffba65c', '185.47.148.45', 32, 5060, 1, 0),
 ('bc933522-18a2-47d8-9ae4-9faa8de4e927', '032d90d5-39e8-41c0-b807-9c88cffba65c', 'outbound.voxbone.com', 32, 5060, 0, 1);
 
--- Peerless gateways
-insert into predefined_sip_gateways (predefined_sip_gateway_sid, predefined_carrier_sid, ipv4, netmask, port, inbound, outbound)
-VALUES
-('4e23f698-a70a-4616-9bf0-c9dd5ab123af', '17479288-bb9f-421a-89d1-f4ac57af1dca', '208.79.54.182', 32, 5060, 1, 0),
-('e5c71c18-0511-41b8-bed9-1ba061bbcf10', '17479288-bb9f-421a-89d1-f4ac57af1dca', '208.79.52.192', 32, 5060, 0, 1),
-('226c7471-2f4f-440f-8525-37fd0512bd8b', '17479288-bb9f-421a-89d1-f4ac57af1dca', '208.79.54.185', 32, 5060, 0, 1);
-
--- 382com gateways
-insert into predefined_sip_gateways (predefined_sip_gateway_sid, predefined_carrier_sid, ipv4, netmask, port, inbound, outbound)
-VALUES
-('23e4c250-8578-4d88-99b5-a7941a58e26f', 'bdf70650-5328-47aa-b3d0-47cb219d9c6e', '64.125.111.10', 32, 5060, 1, 0),
-('c726d435-c9a7-4c37-b891-775990a54638', 'bdf70650-5328-47aa-b3d0-47cb219d9c6e', '64.124.67.11', 32, 5060, 0, 1);
-
 -- simwood gateways
 insert into predefined_sip_gateways (predefined_sip_gateway_sid, predefined_carrier_sid, ipv4, netmask, port, inbound, outbound)
 VALUES
@@ -98,5 +96,6 @@ VALUES
 ('e56ec745-5f37-443f-afb4-7bbda31ae7ac', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '178.22.140.34', 32, 5060, 1, 0),
 ('e7447e7e-2c7d-4738-ab53-097c187236ff', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '178.22.143.66', 32, 5060, 1, 0),
 ('5f431d42-48e4-44ce-a311-d946f0b475b6', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', 'out.simwood.com', 32, 5060, 0, 1);
+
 
 SET FOREIGN_KEY_CHECKS=1;
