@@ -3163,6 +3163,22 @@ paths:
                     example: 2531329f-fb09-4ef7-887e-84e648214436
                   providerResponse:
                     type: string
+        480:
+          description: temporary failure
+          content:
+            application/json:
+              schema:
+                required:
+                  - sid
+                properties:
+                  sid:
+                    type: string
+                    format: uuid
+                    example: 2531329f-fb09-4ef7-887e-84e648214436
+                  message:
+                    type: string
+                  smpp_err_code:
+                    type: string
         400:
           description: bad request         
 components:
