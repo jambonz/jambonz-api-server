@@ -3102,6 +3102,13 @@ paths:
                   enum:
                     - completed
                     - no-answer
+                conf_mute:
+                  type: boolean
+                conf_status:
+                  type: string
+                  enum:
+                    - hold
+                    - unhold
                 listen_status:
                   type: string
                   enum:
