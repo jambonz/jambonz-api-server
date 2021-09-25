@@ -410,11 +410,11 @@ webhook_secret VARCHAR(36) NOT NULL,
 disable_cdrs BOOLEAN NOT NULL DEFAULT 0,
 trial_end_date DATETIME,
 deactivated_reason VARCHAR(255),
+device_to_call_ratio INTEGER NOT NULL DEFAULT 5,
 subspace_client_id VARCHAR(255),
 subspace_client_secret VARCHAR(255),
 subspace_sip_teleport_id VARCHAR(255),
-subspace_sip_teleport_destinations VARCHAR(255),
-device_to_call_ratio INTEGER NOT NULL DEFAULT 5,
+subspace_sip_teleport_entry_points VARCHAR(255),
 PRIMARY KEY (account_sid)
 ) COMMENT='An enterprise that uses the platform for comm services';
 
