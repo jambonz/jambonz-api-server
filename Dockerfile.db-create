@@ -1,0 +1,10 @@
+FROM node:16
+WORKDIR /opt/app/
+COPY package.json ./
+RUN npm install
+RUN npm prune
+COPY . /opt/app
+ARG NODE_ENV
+ENV NODE_ENV $NODE_ENV
+
+CMD [ "npm", "run", "upgrade-db" ]

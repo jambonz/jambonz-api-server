@@ -28,6 +28,8 @@ DROP TABLE IF EXISTS account_offers;
 
 DROP TABLE IF EXISTS products;
 
+DROP TABLE IF EXISTS schema_version;
+
 DROP TABLE IF EXISTS api_keys;
 
 DROP TABLE IF EXISTS sbc_addresses;
@@ -188,6 +190,11 @@ account_sid CHAR(36) NOT NULL,
 product_sid CHAR(36) NOT NULL,
 stripe_product_id VARCHAR(56) NOT NULL,
 PRIMARY KEY (account_offer_sid)
+);
+
+CREATE TABLE schema_version
+(
+version VARCHAR(16)
 );
 
 CREATE TABLE api_keys
@@ -565,4 +572,4 @@ ALTER TABLE accounts ADD FOREIGN KEY queue_event_hook_sid_idxfk (queue_event_hoo
 
 ALTER TABLE accounts ADD FOREIGN KEY device_calling_application_sid_idxfk (device_calling_application_sid) REFERENCES applications (application_sid);
 
-SET FOREIGN_KEY_CHECKS=1;
+SET FOREIGN_KEY_CHECKS=0;
