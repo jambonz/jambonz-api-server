@@ -13,17 +13,20 @@ assert.ok(process.env.JAMBONES_MYSQL_DATABASE, 'missing env JAMBONES_MYSQL_DATAB
 assert.ok(process.env.JAMBONES_MYSQL_PASSWORD, 'missing env JAMBONES_MYSQL_PASSWORD');
 assert.ok(process.env.JAMBONES_MYSQL_USER, 'missing env JAMBONES_MYSQL_USER');
 
-const doIt = async () => {
+const opts = {
+  host: process.env.JAMBONES_MYSQL_HOST,
+  user: process.env.JAMBONES_MYSQL_USER,
+  password: process.env.JAMBONES_MYSQL_PASSWORD,
+  database: process.env.JAMBONES_MYSQL_DATABASE,
+  port: process.env.JAMBONES_MYSQL_PORT || 3306,
+  multipleStatements: true
+};
+
+const doIt = async() => {
   let connection;
   try {
-    connection = await mysql.createConnection({
-      host: process.env.JAMBONES_MYSQL_HOST,
-      user: process.env.JAMBONES_MYSQL_USER,
-      password: process.env.JAMBONES_MYSQL_PASSWORD,
-      database: process.env.JAMBONES_MYSQL_DATABASE,
-      port: process.env.JAMBONES_MYSQL_PORT || 3306,
-      multipleStatements: true
-    });
+    logger.info({opts}, 'connecting to mysql database..');
+    connection = await mysql.createConnection(opts);
   } catch (err) {
     logger.error({err}, 'Error connecting to database with provided env vars');
     return;
