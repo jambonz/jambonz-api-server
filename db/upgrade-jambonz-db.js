@@ -29,7 +29,7 @@ const doIt = async() => {
     connection = await mysql.createConnection(opts);
   } catch (err) {
     logger.error({err}, 'Error connecting to database with provided env vars');
-    return;
+    process.exit(1);
   }
 
   try {
