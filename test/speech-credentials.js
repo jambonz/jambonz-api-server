@@ -7,6 +7,7 @@ const request = require('request-promise-native').defaults({
   baseUrl: 'http://127.0.0.1:3000/v1'
 });
 const {createServiceProvider, createAccount, deleteObjectBySid} = require('./utils');
+const { noopLogger } = require('@jambonz/realtimedb-helpers/lib/utils');
 
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
@@ -109,6 +110,37 @@ test('speech credentials tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully deleted speech credential');
 
+    /* add a credential for microsoft */
+    if (process.env.MICROSOFT_API_KEY && process.env.MICROSOFT_REGION) {
+      result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+        resolveWithFullResponse: true,
+        auth: authUser,
+        json: true,
+        body: {
+          vendor: 'microsoft',
+          use_for_tts: true,
+          api_key: process.env.MICROSOFT_API_KEY,
+          region: process.env.MICROSOFT_REGION
+        }
+      });
+      t.ok(result.statusCode === 201, 'successfully added speech credential');
+      const ms_sid = result.body.sid;
+
+      /* test the speech credential */
+      result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/${ms_sid}/test`, {
+        resolveWithFullResponse: true,
+        auth: authUser,
+        json: true,   
+      });
+      console.log(JSON.stringify(result));
+
+      /* delete the credential */
+      result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${ms_sid}`, {
+        auth: authUser,
+        resolveWithFullResponse: true,
+      });
+      t.ok(result.statusCode === 204, 'successfully deleted speech credential');
+    }
 
     await deleteObjectBySid(request, '/Accounts', account_sid);
     await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid);
