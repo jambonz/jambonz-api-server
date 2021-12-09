@@ -10,6 +10,7 @@ networks:
 
 services:  
   mysql:
+    platform: linux/x86_64
     image: mysql:5.7
     ports:
       - "3360:3306"
@@ -35,6 +36,7 @@ services:
         ipv4_address: 172.58.0.3
     
   influxdb:
+    platform: linux/x86_64
     image: influxdb:1.8-alpine
     ports:
       - "8086:8086"
