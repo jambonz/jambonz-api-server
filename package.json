@@ -28,7 +28,7 @@
     "cors": "^2.8.5",
     "debug": "^4.3.3",
     "express": "^4.17.1",
-    "form-data": "^2.3.3",
+    "form-data": "^2.5.1",
     "form-urlencoded": "^6.0.4",
     "jsonwebtoken": "^8.5.1",
     "mailgun.js": "^3.7.3",
