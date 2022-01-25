@@ -34,7 +34,7 @@
     "mailgun.js": "^3.7.3",
     "microsoft-cognitiveservices-speech-sdk": "^1.19.0",
     "mysql2": "^2.3.3",
-    "passport": "^0.5.0",
+    "passport": "^0.5.2",
     "passport-http-bearer": "^1.0.1",
     "pino": "^5.17.0",
     "request-debug": "^0.2.0",
