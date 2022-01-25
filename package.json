@@ -23,7 +23,7 @@
     "@jambonz/realtimedb-helpers": "^0.4.14",
     "@jambonz/time-series": "^0.1.5",
     "argon2-ffi": "^2.0.0",
-    "aws-sdk": "^2.1048.0",
+    "aws-sdk": "^2.1049.0",
     "bent": "^7.3.12",
     "cors": "^2.8.5",
     "debug": "^4.3.3",
