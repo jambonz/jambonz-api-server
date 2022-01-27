@@ -29,7 +29,7 @@
     "debug": "^4.3.3",
     "express": "^4.17.1",
     "form-data": "^2.5.1",
-    "form-urlencoded": "^6.0.4",
+    "form-urlencoded": "^6.0.5",
     "jsonwebtoken": "^8.5.1",
     "mailgun.js": "^3.7.3",
     "microsoft-cognitiveservices-speech-sdk": "^1.19.0",
