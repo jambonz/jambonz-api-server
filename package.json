@@ -19,9 +19,9 @@
   "dependencies": {
     "@google-cloud/speech": "^4.9.0",
     "@google-cloud/text-to-speech": "^3.4.0",
-    "@jambonz/db-helpers": "^0.6.12",
-    "@jambonz/realtimedb-helpers": "^0.4.14",
-    "@jambonz/time-series": "^0.1.5",
+    "@jambonz/db-helpers": "^0.6.16",
+    "@jambonz/realtimedb-helpers": "^0.4.17",
+    "@jambonz/time-series": "^0.1.6",
     "argon2-ffi": "^2.0.0",
     "aws-sdk": "^2.1049.0",
     "bent": "^7.3.12",
@@ -40,7 +40,7 @@
     "request-debug": "^0.2.0",
     "short-uuid": "^4.1.0",
     "stripe": "^8.195.0",
-    "swagger-ui-express": "^4.2.0",
+    "swagger-ui-express": "^4.3.0",
     "uuid": "^3.4.0",
     "yamljs": "^0.3.0"
   },
