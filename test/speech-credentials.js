@@ -133,6 +133,30 @@ test('speech credentials tests', async(t) => {
         json: true,   
       });
       console.log(JSON.stringify(result));
+    }
+
+    /* add a credential for wellsaid */
+    if (process.env.WELLSAID_API_KEY) {
+      result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+        resolveWithFullResponse: true,
+        auth: authUser,
+        json: true,
+        body: {
+          vendor: 'wellsaid',
+          use_for_tts: true,
+          api_key: process.env.WELLSAID_API_KEY
+        }
+      });
+      t.ok(result.statusCode === 201, 'successfully added speech credential');
+      const ms_sid = result.body.sid;
+
+      /* test the speech credential */
+      result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/${ms_sid}/test`, {
+        resolveWithFullResponse: true,
+        auth: authUser,
+        json: true,   
+      });
+      console.log(JSON.stringify(result));
 
       /* delete the credential */
       result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${ms_sid}`, {
@@ -144,7 +168,6 @@ test('speech credentials tests', async(t) => {
 
     await deleteObjectBySid(request, '/Accounts', account_sid);
     await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid);
-
     //t.end();
   }
   catch (err) {
