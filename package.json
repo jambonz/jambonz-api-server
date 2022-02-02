@@ -17,13 +17,13 @@
     "url": "https://github.com/jambonz/jambonz-api-server.git"
   },
   "dependencies": {
-    "@google-cloud/speech": "^4.9.0",
+    "@google-cloud/speech": "^4.10.0",
     "@google-cloud/text-to-speech": "^3.4.0",
     "@jambonz/db-helpers": "^0.6.16",
-    "@jambonz/realtimedb-helpers": "^0.4.17",
+    "@jambonz/realtimedb-helpers": "^0.4.19",
     "@jambonz/time-series": "^0.1.6",
     "argon2-ffi": "^2.0.0",
-    "aws-sdk": "^2.1049.0",
+    "aws-sdk": "^2.1066.0",
     "bent": "^7.3.12",
     "cors": "^2.8.5",
     "debug": "^4.3.3",
