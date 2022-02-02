@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const {promisePool} = require('../lib/db');
-const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 const {generateHashedPassword} = require('../lib/utils/password-utils');
 const sqlInsert = `INSERT into users 
 (user_sid, name, email, hashed_password, force_change, provider, email_validated) 

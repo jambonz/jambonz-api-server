@@ -41,7 +41,7 @@
     "short-uuid": "^4.1.0",
     "stripe": "^8.195.0",
     "swagger-ui-express": "^4.3.0",
-    "uuid": "^3.4.0",
+    "uuid": "^8.3.2",
     "yamljs": "^0.3.0"
   },
   "devDependencies": {

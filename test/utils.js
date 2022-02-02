@@ -1,5 +1,4 @@
-const bytesToUuid = require("uuid/lib/bytesToUuid");
-const uuid = require('uuid').v4;
+const { v4: uuid } = require('uuid');
 
 const ADMIN_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734de';
 const authAdmin = {bearer: ADMIN_TOKEN};
