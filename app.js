@@ -9,7 +9,7 @@ const opts = Object.assign({
 const logger = require('pino')(opts);
 const express = require('express');
 const app = express();
-app.disable('x-powered-by');
+const helmet = require('helmet');
 const cors = require('cors');
 const passport = require('passport');
 const routes = require('./lib/routes');
@@ -89,6 +89,8 @@ const unless = (paths, middleware) => {
     return middleware(req, res, next);
   };
 };
+app.use(helmet());
+app.use(helmet.hidePoweredBy());
 app.use(passport.initialize());
 app.use(cors());
 app.use(express.urlencoded({extended: true}));
