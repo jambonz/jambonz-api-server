@@ -39,7 +39,7 @@
     "pino": "^5.17.0",
     "request-debug": "^0.2.0",
     "short-uuid": "^4.1.0",
-    "stripe": "^8.195.0",
+    "stripe": "^8.196.0",
     "swagger-ui-express": "^4.3.0",
     "uuid": "^8.3.2",
     "yamljs": "^0.3.0"
