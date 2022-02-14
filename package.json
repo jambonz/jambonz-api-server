@@ -24,7 +24,7 @@
     "@jambonz/realtimedb-helpers": "^0.4.24",
     "@jambonz/time-series": "^0.1.6",
     "argon2-ffi": "^2.0.0",
-    "aws-sdk": "^2.1066.0",
+    "aws-sdk": "^2.1073.0",
     "bent": "^7.3.12",
     "cors": "^2.8.5",
     "debug": "^4.3.3",
@@ -49,10 +49,10 @@
   "devDependencies": {
     "eslint": "^7.17.0",
     "eslint-plugin-promise": "^4.2.1",
+    "husky": "7.0.4",
     "nyc": "^15.1.0",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.9",
-    "tape": "^5.2.2",
-    "husky": "7.0.4"
+    "tape": "^5.2.2"
   }
 }
