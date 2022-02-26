@@ -30,7 +30,7 @@
     "debug": "^4.3.3",
     "express": "^4.17.2",
     "form-data": "^2.5.1",
-    "form-urlencoded": "^6.0.5",
+    "form-urlencoded": "^6.0.6",
     "helmet": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
     "mailgun.js": "^3.7.3",
