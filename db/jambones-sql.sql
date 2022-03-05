@@ -365,7 +365,7 @@ CREATE TABLE webhooks
 (
 webhook_sid CHAR(36) NOT NULL UNIQUE ,
 url VARCHAR(1024) NOT NULL,
-method ENUM("GET","POST") NOT NULL DEFAULT 'POST',
+method ENUM("GET","POST","WS") NOT NULL DEFAULT 'POST',
 username VARCHAR(255),
 password VARCHAR(255),
 PRIMARY KEY (webhook_sid)
