@@ -3102,9 +3102,12 @@ paths:
                   enum:
                     - completed
                     - no-answer
-                conf_mute:
-                  type: boolean
-                conf_status:
+                conf_mute_status:
+                  type: string
+                  enum:
+                    - mute
+                    - unmute
+                conf_hold_status:
                   type: string
                   enum:
                     - hold
@@ -3120,8 +3123,21 @@ paths:
                     - mute
                     - unmute
                 whisper:
-                  $ref: '#/components/schemas/Webhook'         
+                  $ref: '#/components/schemas/Webhook'
+                sip_request:
+                  type: object
+                  properties:
+                    method:
+                      type: string
+                    content_type:
+                      type: string
+                    content:
+                      type: string
+                    headers:
+                      type: object
       responses:
+        200:
+          description: Accepted
         202:
           description: Accepted
         400:
