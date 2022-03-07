@@ -29,6 +29,7 @@
     "cors": "^2.8.5",
     "debug": "^4.3.3",
     "express": "^4.17.2",
+    "express-rate-limit": "^6.3.0",
     "form-data": "^2.5.1",
     "form-urlencoded": "^6.0.5",
     "helmet": "^5.0.2",
