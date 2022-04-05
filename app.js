@@ -92,7 +92,7 @@ const unless = (paths, middleware) => {
 };
 
 const limiter = rateLimit({
-  windowMs: (process.env.RATE_LIMIT_WINDOWS_MS || 5) * 60 * 1000, // 5 minutes
+  windowMs: (process.env.RATE_LIMIT_WINDOWS_MINS || 5) * 60 * 1000, // 5 minutes
   max: process.env.RATE_LIMIT_MAX_PER_WINDOW || 600, // Limit each IP to 600 requests per `window`
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
