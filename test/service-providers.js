@@ -106,6 +106,33 @@ test('service provider tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully updated service provider');
 
+    /* add an api key for a service provider */
+    result = await request.post(`/ApiKeys`, {
+      auth: authAdmin,
+      json: true,
+      resolveWithFullResponse: true,
+      body: {
+        service_provider_sid: sid
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully added an api_key for a service provider');
+    const apiKeySid = result.body.sid;
+
+    /* query all api keys for a service provider */
+    result = await request.get(`/ServiceProviders/${sid}/ApiKeys`, {
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.length === 1 , 'successfully queried all service provider keys');
+    
+    /* delete an api key */
+    result = await request.delete(`/ApiKeys/${apiKeySid}`, {
+      auth: authAdmin,
+      json: true,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 204, 'successfully deleted an api_key for a service provider');
+    
     /* add a predefined carrier for a service provider */
     result = await request.post(`/ServiceProviders/${sid}/PredefinedCarriers/7d509a18-bbff-4c5d-b21e-b99bf8f8c49a`, {
       auth: authAdmin,
