@@ -1,6 +1,8 @@
+SET FOREIGN_KEY_CHECKS=0;
+
 -- create one service provider
 insert into service_providers (service_provider_sid, name, description, root_domain) 
-values ('2708b1b3-2736-40ea-b502-c53d8396247f', 'sip.jambonz.us', 'jambonz.us service provider', 'sip.jambonz.us');
+values ('2708b1b3-2736-40ea-b502-c53d8396247f', 'sip.jambonz.xyz', 'jambonz.xyz service provider', 'sip.jambonz.xyz');
 insert into api_keys (api_key_sid, token) 
 values ('3f35518f-5a0d-4c2e-90a5-2407bb3b36f0', '38700987-c7a4-4685-a5bb-af378f9734de');
 
@@ -16,9 +18,9 @@ insert into predefined_carriers (predefined_carrier_sid, name, requires_static_i
 requires_register, register_username, register_password, 
 register_sip_realm, tech_prefix, inbound_auth_username, inbound_auth_password, diversion)
 VALUES
+('17479288-bb9f-421a-89d1-f4ac57af1dca', 'TelecomsXChange', 0, 0, 0, NULL, NULL, NULL, 'your-tech-prefix', NULL, NULL, NULL),
 ('7d509a18-bbff-4c5d-b21e-b99bf8f8c49a', 'Twilio', 0, 1, 0, '<your-twilio-credential-username>', '<your-twilio-credential-password>', NULL, NULL, NULL, NULL, NULL),
 ('032d90d5-39e8-41c0-b807-9c88cffba65c', 'Voxbone', 0, 1, 0, '<your-voxbone-outbound-username>', '<your-voxbone-outbound-password>', NULL, NULL, NULL, NULL, '<your-voxbone-DID>'),
-('17479288-bb9f-421a-89d1-f4ac57af1dca', 'TelecomsXChange', 0, 0, 0, NULL, NULL, NULL, 'your-tech-prefix', NULL, NULL, NULL),
 ('e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', 'Simwood', 0, 1, 0, '<your-simwood-auth-trunk-username>',  '<your-simwood-auth-trunk-password>', NULL, NULL, NULL, NULL, NULL);
 
 -- TelecomXchange gateways
@@ -69,3 +71,4 @@ VALUES
 ('e7447e7e-2c7d-4738-ab53-097c187236ff', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '178.22.143.66', 32, 5060, 1, 0),
 ('5f431d42-48e4-44ce-a311-d946f0b475b6', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', 'out.simwood.com', 32, 5060, 0, 1);
 
+SET FOREIGN_KEY_CHECKS=1;
