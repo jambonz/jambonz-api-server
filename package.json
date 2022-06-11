@@ -21,7 +21,7 @@
     "@google-cloud/speech": "^4.10.2",
     "@google-cloud/text-to-speech": "^3.4.0",
     "@jambonz/db-helpers": "^0.6.18",
-    "@jambonz/realtimedb-helpers": "^0.4.28",
+    "@jambonz/realtimedb-helpers": "^0.4.29",
     "@jambonz/time-series": "^0.1.9",
     "argon2-ffi": "^2.0.0",
     "aws-sdk": "^2.1152.0",
