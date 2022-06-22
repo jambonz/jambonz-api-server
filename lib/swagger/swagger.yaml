@@ -3135,6 +3135,20 @@ paths:
                       type: string
                     headers:
                       type: object
+                record: 
+                  type: object
+                  properties:
+                    action:
+                      type: string
+                      enum:
+                      - startCallRecording
+                      - stopCallRecording
+                      - pauseCallRecording
+                      - resumeCallRecording
+                    recordingID:
+                      type: string 
+                    siprecServerURL:
+                      type: string
       responses:
         200:
           description: Accepted
