@@ -1,4 +1,4 @@
-FROM node:17
+FROM node:lts-slim
 WORKDIR /opt/app/
 COPY package.json ./
 RUN npm install
