@@ -35,7 +35,7 @@
     "jsonwebtoken": "^8.5.1",
     "mailgun.js": "^3.7.3",
     "mysql2": "^2.3.3",
-    "passport": "^0.5.3",
+    "passport": "^0.6.0",
     "passport-http-bearer": "^1.0.1",
     "pino": "^5.17.0",
     "short-uuid": "^4.1.0",
