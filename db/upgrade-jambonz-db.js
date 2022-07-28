@@ -4,6 +4,7 @@ const mysql = require('mysql2/promise');
 const {readFile} = require('fs/promises');
 const {execSync} = require('child_process');
 const {version:desiredVersion} = require('../package.json');
+const lookupSipGatewayBySignalingAddress = require('@jambonz/db-helpers/lib/lookup-sip-gateway-by-signaling-address');
 const logger = require('pino')();
 
 logger.info(`upgrade-jambonz-db: desired version ${desiredVersion}`);
@@ -23,7 +24,7 @@ const opts = {
 };
 
 const sql = {
-  '706': [
+  '7006': [
     'ALTER TABLE `accounts` ADD COLUMN `siprec_hook_sid` CHAR(36)'
   ]
 };
@@ -50,9 +51,10 @@ const doIt = async() => {
         const val = (1000 * arr[1]) + (100 * arr[2]) + arr[3];
         logger.info(`current schema value: ${val}`);
 
-        if (val < 706) upgrades.push(...sql['706']);
+        if (val < 7006) upgrades.push(...sql['7006']);
 
         // perform all upgrades
+        logger.info({upgrades}, 'performing upgrades..');
         try {
           for (const upgrade of upgrades) {
             logger.info(`upgrading schema with : "${upgrade}"`);
