@@ -22,6 +22,12 @@ const opts = {
   multipleStatements: true
 };
 
+const sql = {
+  '706': [
+    'ALTER TABLE `accounts` ADD COLUMN `siprec_hook_sid` CHAR(36)'
+  ]
+};
+
 const doIt = async() => {
   let connection;
   try {
@@ -37,17 +43,20 @@ const doIt = async() => {
     const [r] = await connection.execute('SELECT version from schema_version');
     if (r.length) {
       const {version} = r[0];
-      logger.info(`performing schema migration: ${version} => ${desiredVersion}`);
-      if (version !== desiredVersion) {
+      const arr = /v?(\d+)\.(\d+)\.(\d+)/.exec(version);
+      if (arr) {
         const upgrades = [];
-        if (version === 'v0.7.5') {
-          upgrades.push(upgradeTo076.bind(null, connection));
-        }
+        logger.info(`performing schema migration: ${version} => ${desiredVersion}`);
+        const val = (1000 * arr[1]) + (100 * arr[2]) + arr[3];
+        logger.info(`current schema value: ${val}`);
+
+        if (val < 706) upgrades.push(...sql['706']);
 
         // perform all upgrades
         try {
           for (const upgrade of upgrades) {
-            await upgrade();
+            logger.info(`upgrading schema with : "${upgrade}"`);
+            await connection.execute(upgrade);
           }
         } catch (err) {
           logger.error({err}, 'Error performing upgrade');
@@ -87,9 +96,6 @@ const seedDatabase = async(connection) => {
   await connection.query(sql);
 };
 
-const upgradeTo076 = async(connection) => {
-  await connection.execute('ALTER TABLE `accounts` ADD COLUMN `siprec_hook_sid` CHAR(36)');
-};
 
 doIt();
 
