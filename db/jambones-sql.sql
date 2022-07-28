@@ -365,7 +365,7 @@ CREATE TABLE webhooks
 (
 webhook_sid CHAR(36) NOT NULL UNIQUE ,
 url VARCHAR(1024) NOT NULL,
-method ENUM("GET","POST","WS") NOT NULL DEFAULT 'POST',
+method ENUM("GET","POST") NOT NULL DEFAULT 'POST',
 username VARCHAR(255),
 password VARCHAR(255),
 PRIMARY KEY (webhook_sid)
@@ -422,6 +422,7 @@ subspace_client_id VARCHAR(255),
 subspace_client_secret VARCHAR(255),
 subspace_sip_teleport_id VARCHAR(255),
 subspace_sip_teleport_destinations VARCHAR(255),
+siprec_hook_sid CHAR(36),
 PRIMARY KEY (account_sid)
 ) COMMENT='An enterprise that uses the platform for comm services';
 
@@ -576,4 +577,6 @@ ALTER TABLE accounts ADD FOREIGN KEY queue_event_hook_sid_idxfk (queue_event_hoo
 
 ALTER TABLE accounts ADD FOREIGN KEY device_calling_application_sid_idxfk (device_calling_application_sid) REFERENCES applications (application_sid);
 
-SET FOREIGN_KEY_CHECKS=0;
+ALTER TABLE accounts ADD FOREIGN KEY siprec_hook_sid_idxfk (siprec_hook_sid) REFERENCES webhooks (webhook_sid);
+
+SET FOREIGN_KEY_CHECKS=1;

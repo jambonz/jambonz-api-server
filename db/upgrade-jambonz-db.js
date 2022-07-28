@@ -36,9 +36,26 @@ const doIt = async() => {
     /* does the schema exist at all ? */
     const [r] = await connection.execute('SELECT version from schema_version');
     if (r.length) {
-      //TODO: check against desired version and perform upgrades
-      logger.info(`current version is ${r[0].version}, no upgrade will be performed`);
+      const {version} = r[0];
+      logger.info(`performing schema migration: ${version} => ${desiredVersion}`);
+      if (version !== desiredVersion) {
+        const upgrades = [];
+        if (version === 'v0.7.5') {
+          upgrades.push(upgradeTo076.bind(null, connection));
+        }
+
+        // perform all upgrades
+        try {
+          for (const upgrade of upgrades) {
+            await upgrade();
+          }
+        } catch (err) {
+          logger.error({err}, 'Error performing upgrade');
+          process.exit(1);
+        }
+      }
       await connection.end();
+      logger.info(`schema migration to ${desiredVersion} completed`);
       return;
     }
   } catch (err) {
@@ -68,6 +85,10 @@ const seedDatabase = async(connection) => {
   const sql = await readFile(`${__dirname}/../db/seed-production-database-open-source.sql`, {encoding: 'utf8'});
   logger.info('seeding data..');
   await connection.query(sql);
+};
+
+const upgradeTo076 = async(connection) => {
+  await connection.execute('ALTER TABLE `accounts` ADD COLUMN `siprec_hook_sid` CHAR(36)');
 };
 
 doIt();
