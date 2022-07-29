@@ -4,7 +4,6 @@ const mysql = require('mysql2/promise');
 const {readFile} = require('fs/promises');
 const {execSync} = require('child_process');
 const {version:desiredVersion} = require('../package.json');
-const lookupSipGatewayBySignalingAddress = require('@jambonz/db-helpers/lib/lookup-sip-gateway-by-signaling-address');
 const logger = require('pino')();
 
 logger.info(`upgrade-jambonz-db: desired version ${desiredVersion}`);
@@ -42,6 +41,7 @@ const doIt = async() => {
   try {
     /* does the schema exist at all ? */
     const [r] = await connection.execute('SELECT version from schema_version');
+    let errors = 0;
     if (r.length) {
       const {version} = r[0];
       const arr = /v?(\d+)\.(\d+)\.(\d+)/.exec(version);
@@ -54,19 +54,19 @@ const doIt = async() => {
         if (val < 7006) upgrades.push(...sql['7006']);
 
         // perform all upgrades
-        logger.info({upgrades}, 'performing upgrades..');
-        try {
-          for (const upgrade of upgrades) {
-            logger.info(`upgrading schema with : "${upgrade}"`);
+        logger.info({upgrades}, 'applying schema upgrades..');
+        for (const upgrade of upgrades) {
+          try {
             await connection.execute(upgrade);
+          } catch (err) {
+            errors++;
+            logger.info({statement:upgrade, err}, 'Error applying statement');
           }
-        } catch (err) {
-          logger.error({err}, 'Error performing upgrade');
-          process.exit(1);
         }
       }
+      if (errors === 0) await connection.execute(`UPDATE schema_version SET version = '${desiredVersion}'`);
       await connection.end();
-      logger.info(`schema migration to ${desiredVersion} completed`);
+      logger.info(`schema migration to ${desiredVersion} completed with ${errors} errors`);
       return;
     }
   } catch (err) {
