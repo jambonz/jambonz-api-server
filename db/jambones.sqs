@@ -1580,14 +1580,14 @@
         <SQLField>
             <name><![CDATA[siprec_hook_sid]]></name>
             <type><![CDATA[CHAR(36)]]></type>
-            <referencesField>webhook_sid</referencesField>
-            <referencesTable>webhooks</referencesTable>
-            <referencesField><![CDATA[webhook_sid]]></referencesField>
-            <referencesTable><![CDATA[webhooks]]></referencesTable>
+            <referencesField>application_sid</referencesField>
+            <referencesTable>applications</referencesTable>
+            <referencesField><![CDATA[application_sid]]></referencesField>
+            <referencesTable><![CDATA[applications]]></referencesTable>
             <sourceCardinality>4</sourceCardinality>
-            <destinationCardinality>2</destinationCardinality>
-            <referencesFieldUID><![CDATA[E046BA30-BC18-483C-A5C8-766E7160F574]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[64D64CB9-0990-4C68-BE71-F9FD43C2BE19]]></referencesTableUID>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[EF943D13-DCB0-43C1-B03F-550612E20F9D]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[E97EE4F0-7ED7-4E8C-862E-D98192D6EAE0]]></referencesTableUID>
             <uid><![CDATA[4B8283B4-5E16-4846-A79D-12C6B2E73C86]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[25]]></labelWindowIndex>
