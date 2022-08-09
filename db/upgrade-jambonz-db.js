@@ -24,7 +24,9 @@ const opts = {
 
 const sql = {
   '7006': [
-    'ALTER TABLE `accounts` ADD COLUMN `siprec_hook_sid` CHAR(36)'
+    'ALTER TABLE `accounts` ADD COLUMN `siprec_hook_sid` CHAR(36)',
+    // eslint-disable-next-line max-len
+    'ALTER TABLE accounts ADD FOREIGN KEY siprec_hook_sid_idxfk (siprec_hook_sid) REFERENCES applications (application_sid)'
   ]
 };
 
