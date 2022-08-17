@@ -318,7 +318,7 @@ test('authentication tests', async(t) => {
       json: true
     });
     //console.log(`result: ${JSON.stringify(result)}`);
-    t.ok(result.name === "A1-app", 'using account token A1 we are able to retrieve application A1');
+    t.ok(result.length === 1, 'using account token A1 we are able to retrieve application A1');
 
     /* cannot see app under another account using account token */
     result = await request.get(`/Applications/${appA2}`, {
