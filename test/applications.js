@@ -60,8 +60,8 @@ test('application tests', async(t) => {
       auth: authAdmin,
       json: true,
     });
-    t.ok(result[0].name === 'daveh' , 'successfully retrieved application by sid');
-    t.ok(result[0].messaging_hook.url === 'http://example.com/sms' , 'successfully retrieved messaging_hook from application');
+    t.ok(result.name === 'daveh' , 'successfully retrieved application by sid');
+    t.ok(result.messaging_hook.url === 'http://example.com/sms' , 'successfully retrieved messaging_hook from application');
 
     /* update applications */
     result = await request.put(`/Applications/${sid}`, {
@@ -84,7 +84,7 @@ test('application tests', async(t) => {
       auth: authAdmin,
       json: true,
     });
-    t.ok(result[0].messaging_hook.url === 'http://example2.com/mms' , 'successfully updated messaging_hook');
+    t.ok(result.messaging_hook.url === 'http://example2.com/mms' , 'successfully updated messaging_hook');
     
     /* assign phone number to application */
     result = await request.put(`/PhoneNumbers/${phone_number_sid}`, {
