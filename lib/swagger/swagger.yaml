@@ -1346,6 +1346,12 @@ paths:
             schema:
               type: object
               properties:
+                account_sid:
+                  type: string
+                  format: uuid
+                application_sid:
+                  type: string
+                  format: uuid
                 number:
                   type: string
                   description: telephone number
