@@ -46,7 +46,6 @@ services:
   
   db:
     image: postgres:11-alpine
-    restart: always
     environment:
       POSTGRES_PASSWORD: homerSeven
       POSTGRES_USER: root
@@ -127,6 +126,11 @@ services:
     depends_on:
       db:
         condition: service_healthy
-          
-      
-      
+  
+  feature-server-test-scaffold:
+    image: jambonz/feature-server-test-scaffold:latest
+    ports:
+      - "3100:3000/tcp"
+    networks:
+      jambonz-api:
+        ipv4_address: 172.58.0.9
