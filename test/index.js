@@ -13,5 +13,6 @@ require('./ms-teams');
 require('./speech-credentials');
 require('./recent-calls');
 require('./webapp_tests');
-//require('./homer');
+// require('./homer');
+require('./call-test');
 require('./docker_stop');

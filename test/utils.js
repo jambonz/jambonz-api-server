@@ -1,4 +1,8 @@
 const { v4: uuid } = require('uuid');
+const fs = require('fs');
+const request_fs_mock = require('request-promise-native').defaults({
+  baseUrl: 'http://127.0.0.1:3100'
+});
 
 const ADMIN_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734de';
 const authAdmin = {bearer: ADMIN_TOKEN};
@@ -87,6 +91,42 @@ async function deleteObjectBySid(request, path, sid) {
   return result;
 }
 
+async function createGoogleSpeechCredentials(request, account_sid, service_provider_sid,token, use_tts, use_stt) {
+  const jsonKey = fs.readFileSync(`${__dirname}/data/test.json`, {encoding: 'utf8'});
+  if(account_sid) {
+    const result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+      auth: token ? token : authAdmin,
+      json: true,
+      body: {
+        vendor: 'google',
+        service_key: jsonKey,
+        use_for_tts: use_tts,
+        use_for_stt: use_stt
+      }
+    });
+    return result.sid;
+  } else if(service_provider_sid) {
+    const result = await request.post(`/ServiceProviders/${service_provider_sid}/SpeechCredentials`, {
+      auth: token ? token : authAdmin,
+      json: true,
+      body: {
+        vendor: 'google',
+        service_key: jsonKey,
+        use_for_tts: use_tts,
+        use_for_stt: use_stt
+      }
+    });
+    return result.sid;
+  }
+  
+  
+}
+
+async function getLastRequestFromFeatureServer(key) {
+  const result = await request_fs_mock.get(`/lastRequest/${key}`);
+  return result;
+}
+
 module.exports = {
   createServiceProvider,
   createVoipCarrier,
@@ -94,5 +134,7 @@ module.exports = {
   createAccount,
   createApplication,
   createApiKey,
-  deleteObjectBySid
+  deleteObjectBySid,
+  createGoogleSpeechCredentials,
+  getLastRequestFromFeatureServer
 };
