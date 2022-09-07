@@ -2669,6 +2669,202 @@ paths:
                 type: object
         404:
           description: account or call not found
+  /ServiceProviders/{ServiceProviderSid}/RecentCalls/{CallId}/pcap:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: CallId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: retrieve pcap for a call
+      operationId: getRecentCallTrace
+      responses:
+        200:
+          description: retrieve sip trace data
+          content:
+            application/octet-stream:
+              schema:
+                type: object
+        404:
+          description: account or call not found
+  /ServiceProviders/{ServiceProviderSid}/RecentCalls:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: page
+        required: true
+        schema:
+          type: number
+          format: integer
+          description: page number of data to retrieve
+      - in: query
+        name: count
+        required: true
+        schema:
+          type: number
+          format: integer
+          description: number of rows to retrieve in each page set
+      - in: query
+        name: days
+        required: false
+        schema:
+          type: number
+          format: integer
+          description: number of days back to retrieve, must be ge 1 and le 30
+      - in: query
+        name: start
+        required: false
+        schema:
+          type: string
+          format: date-time
+          description: start date to retrieve
+      - in: query
+        name: end
+        required: false
+        schema:
+          type: string
+          format: date-time
+          description: end date to retrieve
+      - in: query
+        name: answered
+        required: false
+        schema:
+          type: string
+          enum:
+            - true
+            - false
+          description: retrieve only answered calls
+      - in: query
+        name: direction
+        required: false
+        schema:
+          type: string
+          enum:
+            - inbound
+            - outbound
+    get:
+      summary: retrieve recent calls for an account
+      operationId: listRecentCalls
+      responses:
+        200:
+          description: retrieve recent call records for a specified account
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: number
+                    format: integer
+                    description: total number of records in that database that match the filter criteria
+                  batch:
+                    type: number
+                    format: integer
+                    description: total number of records returned in this page set
+                  page:
+                    type: number
+                    format: integer
+                    description: page number that was requested, and is being returned
+                  data:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          service_provider_sid:
+                            type: string
+                            format: uuid
+                          account_sid:
+                            type: string
+                            format: uuid
+                          call_sid:
+                            type: string
+                            format: uuid
+                          from:
+                            type: string
+                          to: 
+                            type: string
+                          answered:
+                            type: boolean
+                          sip_call_id:
+                            type: string
+                          sip_status:
+                            type: number
+                            format: integer
+                          duration:
+                            type: number
+                            format: integer
+                          attempted_at:
+                            type: number
+                            format: integer
+                          answered_at:
+                            type: number
+                            format: integer
+                          terminated_at:
+                            type: number
+                            format: integer
+                          termination_reason:
+                            type: string
+                          host:
+                            type: string
+                          remote_host:
+                            type: string
+                          direction:
+                            type: string
+                            enum:
+                              - inbound
+                              - outbound
+                          trunk:
+                            type: string
+                        required:
+                          - account_sid
+                          - call_sid
+                          - attempted_at
+                          - terminated_at
+                          - answered
+                          - direction
+                          - from 
+                          - to
+                          - sip_status
+                          - duration
+        404:
+          description: account not found
+  /ServiceProviders/{ServiceProviderSid}/RecentCalls/{CallId}:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: CallId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: retrieve sip trace detail for a call
+      operationId: getRecentCallTrace
+      responses:
+        200:
+          description: retrieve sip trace data
+          content:
+            application/json:
+              schema:
+                type: object
+        404:
+          description: service provider or call not found
   /Accounts/{AccountSid}/RecentCalls/{CallId}/pcap:
     parameters:
       - name: AccountSid
@@ -2694,6 +2890,116 @@ paths:
                 type: object
         404:
           description: account or call not found
+  /ServiceProviders/{ServiceProviderSid}/Alerts:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: page
+        required: true
+        schema:
+          type: number
+          format: integer
+          description: page number of data to retrieve
+      - in: query
+        name: count
+        required: true
+        schema:
+          type: number
+          format: integer
+          description: number of rows to retrieve in each page set
+      - in: query
+        name: days
+        required: false
+        schema:
+          type: number
+          format: integer
+          description: number of days back to retrieve, must be ge 1 and le 30
+      - in: query
+        name: start
+        required: false
+        schema:
+          type: string
+          format: date-time
+          description: start date to retrieve
+      - in: query
+        name: end
+        required: false
+        schema:
+          type: string
+          format: date-time
+          description: end date to retrieve
+      - in: query
+        name: alert_type
+        required: false
+        schema:
+          type: string
+          enum:
+            - webhook-failure
+            - webhook-connection-failure
+            - webhook-auth-failure
+            - no-tts
+            - no-stt
+            - tts-failure
+            - stt-failure
+            - no-carrier
+            - call-limit
+            - device-limit
+            - api-limit
+    get:
+      summary: retrieve alerts for a service provider
+      operationId: listAlerts
+      responses:
+        200:
+          description: retrieve alerts for a specified account
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: number
+                    format: integer
+                    description: total number of records in that database that match the filter criteria
+                  batch:
+                    type: number
+                    format: integer
+                    description: total number of records returned in this page set
+                  page:
+                    type: number
+                    format: integer
+                    description: page number that was requested, and is being returned
+                  data:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          time:
+                            type: string
+                            format: date-time
+                          service_provider_sid:
+                            type: string
+                            format: uuid
+                          account_sid:
+                            type: string
+                            format: uuid
+                          alert_type:
+                            type: string
+                          message:
+                            type: string
+                          detail:
+                            type: string
+                        required:
+                          - time
+                          - account_sid
+                          - alert_type
+                          - message
+        404:
+          description: service provider not found
   /Accounts/{AccountSid}/Alerts:
     parameters:
       - name: AccountSid

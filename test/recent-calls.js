@@ -28,13 +28,18 @@ test('recent calls tests', async(t) => {
     }, process.env.JWT_SECRET, { expiresIn: '1h' });
     const authUser = {bearer: token};
 
+    const tokenSP = jwt.sign({
+      service_provider_sid
+    }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const authUserSP = {bearer: token};
+
     /* write sample cdr data */
     const points = 500;
     const data = [];
     const start = new Date(Date.now() - (30 * 24 * 60 * 60 * 1000));
     const now = new Date();
     const increment = (now.getTime() - start.getTime()) / points;
-    for (let i =0 ; i < 500; i++) {
+    for (let i =0 ; i < 5; i++) {
       const attempted_at = new Date(start.getTime() + (i * increment));
       const failed = 0 === i % 5;
       data.push({
@@ -51,7 +56,8 @@ test('recent calls tests', async(t) => {
         termination_reason: 'caller hungup',
         host: "192.168.1.100",
         remote_host: '3.55.24.34',
-        account_sid: account_sid,
+        account_sid,
+        service_provider_sid,
         direction: 0 === i % 2 ? 'inbound' : 'outbound',
         trunk:  0 === i % 2 ? 'twilio' : 'user'
       });
@@ -60,11 +66,21 @@ test('recent calls tests', async(t) => {
     await writeCdrs(data);
     t.pass('seeded cdr data');
         
-    /* query last 7 days */
+    /* query last 7 days by account */
     result = await request.get(`/Accounts/${account_sid}/RecentCalls?page=1&count=25`, {
       auth: authUser,
       json: true,
     });
+    t.ok(result.data.length === 5, 'retrieved 5 recent calls by account');
+    //console.log({data: result.data}, 'Account recent calls');
+
+    /* query last 7 days by service provider */
+    result = await request.get(`/ServiceProviders/${service_provider_sid}/RecentCalls?page=1&count=25`, {
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.data.length === 5, 'retrieved 5 recent calls by service provider');
+    //console.log({data: result.data}, 'SP recent calls');
 
     /* pull sip traces and pcap from homer */
     /*
