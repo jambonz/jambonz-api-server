@@ -21,7 +21,15 @@ assert.ok(process.env.JAMBONES_MYSQL_HOST &&
   process.env.JAMBONES_MYSQL_DATABASE, 'missing JAMBONES_MYSQL_XXX env vars');
 assert.ok(process.env.JAMBONES_REDIS_HOST, 'missing JAMBONES_REDIS_HOST env var');
 assert.ok(process.env.JAMBONES_TIME_SERIES_HOST, 'missing JAMBONES_TIME_SERIES_HOST env var');
-const {queryCdrs, queryAlerts, writeCdrs, writeAlerts, AlertType} = require('@jambonz/time-series')(
+const {
+  queryCdrs,
+  queryCdrsSP,
+  queryAlerts,
+  queryAlertsSP,
+  writeCdrs,
+  writeAlerts,
+  AlertType
+} = require('@jambonz/time-series')(
   logger, process.env.JAMBONES_TIME_SERIES_HOST
 );
 const {
@@ -78,7 +86,9 @@ app.locals = {
   lookupSipGatewayBySid,
   lookupSmppGatewayBySid,
   queryCdrs,
+  queryCdrsSP,
   queryAlerts,
+  queryAlertsSP,
   writeCdrs,
   writeAlerts,
   AlertType
