@@ -108,6 +108,17 @@ const limiter = rateLimit({
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
+if (process.env.JAMBONES_TRUST_PROXY) {
+  const proxyCount = parseInt(process.env.JAMBONES_TRUST_PROXY);
+  if (!isNaN(proxyCount) && proxyCount > 0) {
+    logger.info(`setting trust proxy to ${proxyCount} and mounting endpoint /ip`);
+    app.set('trust proxy', proxyCount);
+    app.get('/ip', (req, res) => {
+      logger.info({headers: req.headers}, 'received GET /ip');
+      res.send(req.ip);
+    });
+  }
+}
 app.use(limiter);
 app.use(helmet());
 app.use(helmet.hidePoweredBy());
