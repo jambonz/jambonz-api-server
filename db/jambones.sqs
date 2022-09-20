@@ -95,8 +95,8 @@
         <name><![CDATA[account_products]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>1791.00</x>
-            <y>608.00</y>
+            <x>1823.00</x>
+            <y>738.00</y>
         </location>
         <size>
             <width>294.00</width>
@@ -233,8 +233,8 @@
         <name><![CDATA[account_static_ips]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>1334.00</x>
-            <y>1169.00</y>
+            <x>1333.00</x>
+            <y>1267.00</y>
         </location>
         <size>
             <width>298.00</width>
@@ -287,8 +287,8 @@
         <name><![CDATA[users]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>1745.00</x>
-            <y>19.00</y>
+            <x>1769.00</x>
+            <y>16.00</y>
         </location>
         <size>
             <width>316.00</width>
@@ -758,11 +758,62 @@
         <uid><![CDATA[3EDF89A0-FD38-4DF9-BB65-E0FCD0A678BE]]></uid>
     </SQLTable>
     <SQLTable>
+        <name><![CDATA[account_limits]]></name>
+        <schema><![CDATA[]]></schema>
+        <location>
+            <x>1334.00</x>
+            <y>325.00</y>
+        </location>
+        <size>
+            <width>352.00</width>
+            <height>100.00</height>
+        </size>
+        <zorder>30</zorder>
+        <SQLField>
+            <name><![CDATA[account_limits_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <primaryKey>1</primaryKey>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[F717BEE1-C530-4C3B-A35F-F4AB0A797B7A]]></uid>
+            <unique><![CDATA[1]]></unique>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[account_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>account_sid</referencesField>
+            <referencesTable>accounts</referencesTable>
+            <deleteAction>1</deleteAction>
+            <referencesField><![CDATA[account_sid]]></referencesField>
+            <referencesTable><![CDATA[accounts]]></referencesTable>
+            <sourceCardinality>4</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[1342FAFA-C15C-429B-809B-C6C55F9FA5B6]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[985D6997-B1A7-4AB3-80F4-4D59B45480C8]]></referencesTableUID>
+            <indexed><![CDATA[1]]></indexed>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[F350FCA7-C536-47EB-A9A3-CEE9CDA00DAD]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[category]]></name>
+            <type><![CDATA[ENUM('api_rate','voice_call_session', 'device')]]></type>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[9724C27F-3B51-453A-99B8-313480D4A63A]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[quantity]]></name>
+            <type><![CDATA[INTEGER]]></type>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[EA4C1A7E-68ED-41D5-9EE9-345DD61F00C7]]></uid>
+        </SQLField>
+        <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
+        <uid><![CDATA[4893A0F0-BE1B-4322-9034-644528E802DE]]></uid>
+    </SQLTable>
+    <SQLTable>
         <name><![CDATA[speech_credentials]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>1354.00</x>
-            <y>821.00</y>
+            <x>1328.00</x>
+            <y>958.00</y>
         </location>
         <size>
             <width>368.00</width>
@@ -909,8 +960,8 @@
         <name><![CDATA[account_offers]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>1386.00</x>
-            <y>333.00</y>
+            <x>1330.00</x>
+            <y>514.00</y>
         </location>
         <size>
             <width>276.00</width>
@@ -965,6 +1016,57 @@
         <labelWindowIndex><![CDATA[6]]></labelWindowIndex>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[51A02EFE-AA51-46EF-8671-E8B2F1FC5F8D]]></uid>
+    </SQLTable>
+    <SQLTable>
+        <name><![CDATA[service_provider_limits]]></name>
+        <schema><![CDATA[]]></schema>
+        <location>
+            <x>1327.00</x>
+            <y>205.00</y>
+        </location>
+        <size>
+            <width>352.00</width>
+            <height>100.00</height>
+        </size>
+        <zorder>29</zorder>
+        <SQLField>
+            <name><![CDATA[service_provider_limits_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <primaryKey>1</primaryKey>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[DE7EA932-0467-4D5F-8311-CADB7E7D6D17]]></uid>
+            <unique><![CDATA[1]]></unique>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[service_provider_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>service_provider_sid</referencesField>
+            <referencesTable>service_providers</referencesTable>
+            <deleteAction>1</deleteAction>
+            <referencesField><![CDATA[service_provider_sid]]></referencesField>
+            <referencesTable><![CDATA[service_providers]]></referencesTable>
+            <sourceCardinality>4</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[58E1702C-6A95-4B17-8C08-8A3810EA16A1]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[F294B51E-F867-47CA-BC1F-F70BDF8170FF]]></referencesTableUID>
+            <indexed><![CDATA[1]]></indexed>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[E1C82BD4-FA34-40C7-8236-EC924C9CF7D5]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[category]]></name>
+            <type><![CDATA[ENUM('api_rate','voice_call_session', 'device')]]></type>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[72BFA408-371D-4B21-8DA0-A56644FCD92C]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[quantity]]></name>
+            <type><![CDATA[INTEGER]]></type>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[2EA3A57F-7EF7-4958-B06B-62B0279BB87E]]></uid>
+        </SQLField>
+        <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
+        <uid><![CDATA[5784AC2F-BEBC-466F-9818-F9A7D227A5B5]]></uid>
     </SQLTable>
     <SQLTable>
         <name><![CDATA[webhooks]]></name>
@@ -1226,8 +1328,8 @@
         <name><![CDATA[beta_invite_codes]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>1796.00</x>
-            <y>780.00</y>
+            <x>1860.00</x>
+            <y>897.00</y>
         </location>
         <size>
             <width>232.00</width>
@@ -1599,8 +1701,8 @@
         <name><![CDATA[products]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>1779.00</x>
-            <y>427.00</y>
+            <x>1842.00</x>
+            <y>550.00</y>
         </location>
         <size>
             <width>352.00</width>
@@ -2146,8 +2248,8 @@
         <name><![CDATA[account_subscriptions]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>1367.00</x>
-            <y>477.00</y>
+            <x>1324.00</x>
+            <y>637.00</y>
         </location>
         <size>
             <width>322.00</width>
@@ -2455,7 +2557,7 @@
         <windowHeight><![CDATA[833.000000]]></windowHeight>
         <windowLocationX><![CDATA[0.000000]]></windowLocationX>
         <windowLocationY><![CDATA[111.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{172, 109}]]></windowScrollOrigin>
+        <windowScrollOrigin><![CDATA[{462, 81}]]></windowScrollOrigin>
         <windowWidth><![CDATA[1512.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>

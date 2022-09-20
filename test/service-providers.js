@@ -140,8 +140,33 @@ test('service provider tests', async(t) => {
       resolveWithFullResponse: true,
     });
     t.ok(result.statusCode === 201, 'successfully added predefined carrier to service provider');
-
     await deleteObjectBySid(request, '/VoipCarriers', result.body.sid);
+
+    /* add a limit for a service provider */
+    result = await request.post(`/ServiceProviders/${sid}/Limits`, {
+      auth: authAdmin,
+      json: true,
+      resolveWithFullResponse: true,
+      body: {
+        category: 'voice_call_session',
+        quantity: 1000
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully added a call session limit to service provider');
+
+    /* query all limits for a service provider */
+    result = await request.get(`/ServiceProviders/${sid}/Limits`, {
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.length === 1 , 'successfully queried all limits');
+
+    /* delete call session limits for a service provider */
+    result = await request.delete(`/ServiceProviders/${sid}/Limits?category=voice_call_session`, {
+      auth: authAdmin,
+      resolveWithFullResponse: true
+    });
+    t.ok(result.statusCode === 204, 'successfully deleted a call session limit for a service provider');
 
     /* delete service providers */
     result = await request.delete(`/ServiceProviders/${sid}`, {
