@@ -159,6 +159,7 @@ test('service provider tests', async(t) => {
       auth: authAdmin,
       json: true,
     });
+    //console.log(result);
     t.ok(result.length === 1 , 'successfully queried all limits');
 
     /* delete call session limits for a service provider */
