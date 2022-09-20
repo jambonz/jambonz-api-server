@@ -188,6 +188,60 @@ test('account tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully assigned phone number to account');
 
+    /* query all limits for an account */
+    result = await request.get(`/Accounts/${sid}/Limits`, {
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.length === 0, 'successfully queried account limits when there is none configured');
+    
+    /* add a new limit for a account */
+    result = await request.post(`/Accounts/${sid}/Limits`, {
+      auth: authAdmin,
+      json: true,
+      resolveWithFullResponse: true,
+      body: {
+        category: 'voice_call_session',
+        quantity: 200
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully added a call session limit to an account');
+    
+    /* update an existing limit for a account */
+    result = await request.post(`/Accounts/${sid}/Limits`, {
+      auth: authAdmin,
+      json: true,
+      resolveWithFullResponse: true,
+      body: {
+        category: 'voice_call_session',
+        quantity: 205
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully updated a call session limit to an account');
+
+    /* query all limits for an account */
+    result = await request.get(`/Accounts/${sid}/Limits`, {
+      auth: authAdmin,
+      json: true,
+    });
+    //console.log(result);
+    t.ok(result.length === 1 && result[0].quantity === 205, 'successfully queried account limits');
+
+    /* query all limits for an account by category*/
+    result = await request.get(`/Accounts/${sid}/Limits?category=voice_call_session`, {
+      auth: authAdmin,
+      json: true,
+    });
+    //console.log(result);
+    t.ok(result.length === 1  && result[0].quantity === 205, 'successfully queried account limits by category');
+
+    /* delete call session limits for a service provider */
+    result = await request.delete(`/Accounts/${sid}/Limits?category=voice_call_session`, {
+      auth: authAdmin,
+      resolveWithFullResponse: true
+    });
+    t.ok(result.statusCode === 204, 'successfully deleted a call session limit for an account');
+
     /* delete account */
     result = await request.delete(`/Accounts/${sid}`, {
       auth: authAdmin,

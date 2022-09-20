@@ -1806,7 +1806,7 @@ paths:
       summary: test a speech credential
       operationId: testSpeechCredential
       parameters:
-        - name: AccountSid
+        - name: ServiceProviderSid
           in: path
           required: true
           schema:
@@ -1849,6 +1849,122 @@ paths:
                         type: string
         404:
           description: credential not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /ServiceProviders/{ServiceProviderSid}/Limits:
+    post:
+      summary: create a limit for a service provider
+      operationId: addLimitForServiceProvider
+      parameters:
+        - name: ServiceProviderSid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Limits'
+      responses:
+        201:
+          description: limit successfully created or updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        404:
+          description: service provider not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      summary: retrieve call capacity and other limits from the service provider
+      operationId: getServiceProviderLimits
+      parameters:
+        - name: ServiceProviderSid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: service provider limits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Limits'
+        404:
+          description: service provider not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /Accounts/{AccountSid}/Limits:
+    post:
+      summary: create a limit for an account
+      operationId: addLimitForAccount
+      parameters:
+        - name: AccountSid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Limits'
+      responses:
+        201:
+          description: limit successfully created or updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        404:
+          description: account not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      summary: retrieve call capacity and other limits from the account
+      operationId: getAccountLimits
+      parameters:
+        - name: AccountSid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: account limits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Limits'
+        404:
+          description: account not found
         500:
           description: system error
           content:
@@ -4409,6 +4525,15 @@ components:
         - requires_static_ip
         - e164_leading_plus
         - requires_register
+    Limits:
+      type: object
+      properties:
+        category:
+          type: string
+          enum:
+            - voice_call_session
+            - api_limit
+            - devices
 
 security:
   - bearerAuth: []

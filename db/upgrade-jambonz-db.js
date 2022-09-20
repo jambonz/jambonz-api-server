@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable max-len */
 const assert = require('assert');
 const mysql = require('mysql2/promise');
 const {readFile} = require('fs/promises');
@@ -25,8 +26,34 @@ const opts = {
 const sql = {
   '7006': [
     'ALTER TABLE `accounts` ADD COLUMN `siprec_hook_sid` CHAR(36)',
-    // eslint-disable-next-line max-len
     'ALTER TABLE accounts ADD FOREIGN KEY siprec_hook_sid_idxfk (siprec_hook_sid) REFERENCES applications (application_sid)'
+  ],
+  '7007': [
+    `CREATE TABLE service_provider_limits 
+    (service_provider_limits_sid CHAR(36) NOT NULL UNIQUE,
+    service_provider_sid CHAR(36) NOT NULL,
+    category ENUM('api_rate','voice_call_session', 'device') NOT NULL,
+    quantity INTEGER NOT NULL,
+    PRIMARY KEY (service_provider_limits_sid)
+    )`,
+    `CREATE TABLE account_limits
+    (
+    account_limits_sid CHAR(36) NOT NULL UNIQUE ,
+    account_sid CHAR(36) NOT NULL,
+    category ENUM('api_rate','voice_call_session', 'device') NOT NULL,
+    quantity INTEGER NOT NULL,
+    PRIMARY KEY (account_limits_sid)
+    )`,
+    'CREATE INDEX service_provider_sid_idx ON service_provider_limits (service_provider_sid)',
+    `ALTER TABLE service_provider_limits 
+    ADD FOREIGN KEY service_provider_sid_idxfk_3 (service_provider_sid) 
+    REFERENCES service_providers (service_provider_sid) 
+    ON DELETE CASCADE`,
+    'CREATE INDEX account_sid_idx ON account_limits (account_sid)',
+    `ALTER TABLE account_limits 
+    ADD FOREIGN KEY account_sid_idxfk_2 (account_sid) 
+    REFERENCES accounts (account_sid) 
+    ON DELETE CASCADE`
   ]
 };
 
@@ -54,6 +81,7 @@ const doIt = async() => {
         logger.info(`current schema value: ${val}`);
 
         if (val < 7006) upgrades.push(...sql['7006']);
+        if (val < 7007) upgrades.push(...sql['7007']);
 
         // perform all upgrades
         logger.info({upgrades}, 'applying schema upgrades..');
