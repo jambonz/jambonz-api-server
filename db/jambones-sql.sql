@@ -4,11 +4,11 @@ SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS account_static_ips;
 
+DROP TABLE IF EXISTS account_limits;
+
 DROP TABLE IF EXISTS account_products;
 
 DROP TABLE IF EXISTS account_subscriptions;
-
-DROP TABLE IF EXISTS account_limits;
 
 DROP TABLE IF EXISTS beta_invite_codes;
 
@@ -19,6 +19,8 @@ DROP TABLE IF EXISTS dns_records;
 DROP TABLE IF EXISTS lcr_carrier_set_entry;
 
 DROP TABLE IF EXISTS lcr_routes;
+
+DROP TABLE IF EXISTS password_settings;
 
 DROP TABLE IF EXISTS predefined_sip_gateways;
 
@@ -38,9 +40,9 @@ DROP TABLE IF EXISTS sbc_addresses;
 
 DROP TABLE IF EXISTS ms_teams_tenants;
 
-DROP TABLE IF EXISTS signup_history;
-
 DROP TABLE IF EXISTS service_provider_limits;
+
+DROP TABLE IF EXISTS signup_history;
 
 DROP TABLE IF EXISTS smpp_addresses;
 
@@ -73,6 +75,15 @@ private_ipv4 VARBINARY(16) NOT NULL UNIQUE ,
 PRIMARY KEY (account_static_ip_sid)
 );
 
+CREATE TABLE account_limits
+(
+account_limits_sid CHAR(36) NOT NULL UNIQUE ,
+account_sid CHAR(36) NOT NULL,
+category ENUM('api_rate','voice_call_session', 'device') NOT NULL,
+quantity INTEGER NOT NULL,
+PRIMARY KEY (account_limits_sid)
+);
+
 CREATE TABLE account_subscriptions
 (
 account_subscription_sid CHAR(36) NOT NULL UNIQUE ,
@@ -90,15 +101,6 @@ exp_year INTEGER,
 card_type VARCHAR(16),
 pending_reason VARBINARY(52),
 PRIMARY KEY (account_subscription_sid)
-);
-
-CREATE TABLE account_limits
-(
-account_limits_sid CHAR(36) NOT NULL UNIQUE ,
-account_sid CHAR(36) NOT NULL,
-category ENUM('api_rate','voice_call_session', 'device') NOT NULL,
-quantity INTEGER NOT NULL,
-PRIMARY KEY (account_limits_sid)
 );
 
 CREATE TABLE beta_invite_codes
@@ -135,6 +137,13 @@ description VARCHAR(1024),
 priority INTEGER NOT NULL UNIQUE  COMMENT 'lower priority routes are attempted first',
 PRIMARY KEY (lcr_route_sid)
 ) COMMENT='Least cost routing table';
+
+CREATE TABLE password_settings
+(
+min_password_length INTEGER NOT NULL DEFAULT 8,
+require_digit BOOLEAN NOT NULL DEFAULT false,
+require_special_character BOOLEAN NOT NULL DEFAULT false
+);
 
 CREATE TABLE predefined_carriers
 (
@@ -241,14 +250,6 @@ tenant_fqdn VARCHAR(255) NOT NULL UNIQUE ,
 PRIMARY KEY (ms_teams_tenant_sid)
 ) COMMENT='A Microsoft Teams customer tenant';
 
-CREATE TABLE signup_history
-(
-email VARCHAR(255) NOT NULL,
-name VARCHAR(255),
-signed_up_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-PRIMARY KEY (email)
-);
-
 CREATE TABLE service_provider_limits
 (
 service_provider_limits_sid CHAR(36) NOT NULL UNIQUE ,
@@ -256,6 +257,14 @@ service_provider_sid CHAR(36) NOT NULL,
 category ENUM('api_rate','voice_call_session', 'device') NOT NULL,
 quantity INTEGER NOT NULL,
 PRIMARY KEY (service_provider_limits_sid)
+);
+
+CREATE TABLE signup_history
+(
+email VARCHAR(255) NOT NULL,
+name VARCHAR(255),
+signed_up_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY (email)
 );
 
 CREATE TABLE smpp_addresses
@@ -452,12 +461,12 @@ CREATE INDEX account_static_ip_sid_idx ON account_static_ips (account_static_ip_
 CREATE INDEX account_sid_idx ON account_static_ips (account_sid);
 ALTER TABLE account_static_ips ADD FOREIGN KEY account_sid_idxfk (account_sid) REFERENCES accounts (account_sid);
 
+CREATE INDEX account_sid_idx ON account_limits (account_sid);
+ALTER TABLE account_limits ADD FOREIGN KEY account_sid_idxfk_1 (account_sid) REFERENCES accounts (account_sid) ON DELETE CASCADE;
+
 CREATE INDEX account_subscription_sid_idx ON account_subscriptions (account_subscription_sid);
 CREATE INDEX account_sid_idx ON account_subscriptions (account_sid);
-ALTER TABLE account_subscriptions ADD FOREIGN KEY account_sid_idxfk_1 (account_sid) REFERENCES accounts (account_sid);
-
-CREATE INDEX account_sid_idx ON account_limits (account_sid);
-ALTER TABLE account_limits ADD FOREIGN KEY account_sid_idxfk_2 (account_sid) REFERENCES accounts (account_sid) ON DELETE CASCADE;
+ALTER TABLE account_subscriptions ADD FOREIGN KEY account_sid_idxfk_2 (account_sid) REFERENCES accounts (account_sid);
 
 CREATE INDEX invite_code_idx ON beta_invite_codes (invite_code);
 CREATE INDEX call_route_sid_idx ON call_routes (call_route_sid);
@@ -512,10 +521,10 @@ ALTER TABLE ms_teams_tenants ADD FOREIGN KEY account_sid_idxfk_7 (account_sid) R
 ALTER TABLE ms_teams_tenants ADD FOREIGN KEY application_sid_idxfk_1 (application_sid) REFERENCES applications (application_sid);
 
 CREATE INDEX tenant_fqdn_idx ON ms_teams_tenants (tenant_fqdn);
-CREATE INDEX email_idx ON signup_history (email);
 CREATE INDEX service_provider_sid_idx ON service_provider_limits (service_provider_sid);
 ALTER TABLE service_provider_limits ADD FOREIGN KEY service_provider_sid_idxfk_3 (service_provider_sid) REFERENCES service_providers (service_provider_sid) ON DELETE CASCADE;
 
+CREATE INDEX email_idx ON signup_history (email);
 CREATE INDEX smpp_address_sid_idx ON smpp_addresses (smpp_address_sid);
 CREATE INDEX service_provider_sid_idx ON smpp_addresses (service_provider_sid);
 ALTER TABLE smpp_addresses ADD FOREIGN KEY service_provider_sid_idxfk_4 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
