@@ -140,9 +140,12 @@ PRIMARY KEY (lcr_route_sid)
 
 CREATE TABLE password_settings
 (
+password_settings_sid CHAR(36) NOT NULL UNIQUE ,
+account_sid CHAR(36) NOT NULL,
 min_password_length INTEGER NOT NULL DEFAULT 8,
 require_digit BOOLEAN NOT NULL DEFAULT false,
-require_special_character BOOLEAN NOT NULL DEFAULT false
+require_special_character BOOLEAN NOT NULL DEFAULT false,
+PRIMARY KEY (password_settings_sid)
 );
 
 CREATE TABLE predefined_carriers
