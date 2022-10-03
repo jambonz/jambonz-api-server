@@ -242,66 +242,6 @@ test('account tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully deleted a call session limit for an account');
 
-    /* Post New Password settings*/
-    result = await request.post(`/Accounts/${sid}/PasswordSettings`, {
-      auth: authAdmin,
-      json: true,
-      resolveWithFullResponse: true,
-      body: {
-        min_password_length: 1,
-        require_digit: 1,
-        require_special_character: 1
-      }
-    });
-
-    t.ok(result.statusCode === 201 && result.body.sid, 'successfully added a password settings to an account');
-
-    /* Check Password Settings*/
-    result = await request.get(`/Accounts/${sid}/PasswordSettings`, {
-      auth: authAdmin,
-      json: true,
-    });
-
-    t.ok(result.min_password_length === 1 && 
-      result.require_digit === 1 &&
-      result.require_special_character === 1, 'successfully queried account password settings');
-
-    /* Update Password settings*/
-    result = await request.post(`/Accounts/${sid}/PasswordSettings`, {
-      auth: authAdmin,
-      json: true,
-      resolveWithFullResponse: true,
-      body: {
-        min_password_length: 5,
-        require_special_character: 0
-      }
-    });
-
-    t.ok(result.statusCode === 201 && result.body.sid, 'successfully updated a password settings for an account');
-
-    /* Check Password Settings After update*/
-    result = await request.get(`/Accounts/${sid}/PasswordSettings`, {
-      auth: authAdmin,
-      json: true,
-    });
-    t.ok(result.min_password_length === 5 && 
-      result.require_digit === 1 &&
-      result.require_special_character === 0, 'successfully queried account password settings after updated');
-
-    /* delete password settings for an account */
-    result = await request.delete(`/Accounts/${sid}/PasswordSettings`, {
-      auth: authAdmin,
-      resolveWithFullResponse: true
-    });
-    t.ok(result.statusCode === 204, 'successfully deleted a password settings for an account');
-
-    /* Check Password Settings After delete*/
-    result = await request.get(`/Accounts/${sid}/PasswordSettings`, {
-      auth: authAdmin,
-      json: true,
-    });
-    t.ok(!result.min_password_length, "Account password settings is gone!")
-
     /* delete account */
     result = await request.delete(`/Accounts/${sid}`, {
       auth: authAdmin,
