@@ -3645,7 +3645,50 @@ paths:
                   smpp_err_code:
                     type: string
         400:
-          description: bad request         
+          description: bad request
+  /PasswordSettings:
+    post:
+      summary: create a Password Settings
+      operationId: addPasswordSettingsForAdmin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordSettings'
+      responses:
+        201:
+          description: PasswordSettings successfully created or updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+        400:
+          description: Invalid value for reqired properties
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      summary: retrieve password settings
+      operationId: getPasswordSettingsForAdmin
+      responses:
+        200:
+          description: Password settings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PasswordSettings'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
 components:
   securitySchemes:
     bearerAuth:
@@ -3686,6 +3729,8 @@ components:
           type: string
       example:
         sid: 9d26a637-1679-471f-8da8-7150266e1254
+    EmptyResponse:
+      type: object
     GeneralError:
       type: object
       required:
@@ -4534,6 +4579,17 @@ components:
             - voice_call_session
             - api_limit
             - devices
+    PasswordSettings:
+      type: object
+      properties:
+        min_password_length:
+          type: integer
+          minimum: 8
+          maximum: 20
+        require_digit:
+          type: boolean
+        require_special_character:
+          type: boolean
 
 security:
   - bearerAuth: []
