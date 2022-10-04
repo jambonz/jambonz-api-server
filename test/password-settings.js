@@ -22,12 +22,13 @@ test('password settings tests', async(t) => {
     !result.require_special_character, "default password settings is correct!")
 
   /* Post New Password settings*/
+
   result = await request.post('/PasswordSettings', {
     auth: authAdmin,
     json: true,
     resolveWithFullResponse: true,
     body: {
-      min_password_length: 1,
+      min_password_length: 15,
       require_digit: 1,
       require_special_character: 1
     }
@@ -41,7 +42,7 @@ test('password settings tests', async(t) => {
     json: true,
   });
 
-  t.ok(result.min_password_length === 1 && 
+  t.ok(result.min_password_length === 15 && 
     result.require_digit === 1 &&
     result.require_special_character === 1, 'successfully queried password settings');
 
@@ -51,7 +52,7 @@ test('password settings tests', async(t) => {
     json: true,
     resolveWithFullResponse: true,
     body: {
-      min_password_length: 5,
+      min_password_length: 10,
       require_special_character: 0
     }
   });
@@ -64,7 +65,7 @@ test('password settings tests', async(t) => {
     json: true,
   });
 
-  t.ok(result.min_password_length === 5 && 
+  t.ok(result.min_password_length === 10 && 
     result.require_digit === 1 &&
     result.require_special_character === 0, 'successfully queried password settings after updated');
 });
