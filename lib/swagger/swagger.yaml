@@ -3679,7 +3679,6 @@ paths:
           content:
             application/json:
               schema:
-                type: object
                 $ref: '#/components/schemas/PasswordSettings'
         500:
           description: system error
