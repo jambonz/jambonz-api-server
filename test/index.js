@@ -15,4 +15,5 @@ require('./recent-calls');
 require('./webapp_tests');
 // require('./homer');
 require('./call-test');
+require('./password-settings');
 require('./docker_stop');

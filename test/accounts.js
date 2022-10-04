@@ -232,7 +232,7 @@ test('account tests', async(t) => {
       auth: authAdmin,
       json: true,
     });
-    //console.log(result);
+    // console.log(result);
     t.ok(result.length === 1  && result[0].quantity === 205, 'successfully queried account limits by category');
 
     /* delete call session limits for a service provider */
