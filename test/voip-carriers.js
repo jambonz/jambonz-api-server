@@ -54,7 +54,9 @@ test('voip carrier tests', async(t) => {
         requires_register: true,
         register_username: 'foo',
         register_sip_realm: 'bar',
-        register_password: 'baz'
+        register_password: 'baz',
+        register_from_user: 'fromme',
+        register_from_domain: 'fromdomain'
       }
     });
     t.ok(result.statusCode === 204, 'successfully updated voip carrier');

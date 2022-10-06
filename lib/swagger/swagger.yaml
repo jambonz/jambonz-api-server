@@ -909,6 +909,15 @@ paths:
                   type: string
                   description: sip password to authenticate with, if registration is required
                   example: bar
+                register_from_user:
+                  type: string
+                  description: optional username to apply in From header
+                register_from_domain:
+                  type: string
+                  description: optional domain to apply in From header
+                register_public_ip_in_contact:
+                  type: boolean
+                  description: if true, use our public ip in Contact header; otherwise, use sip realm
                 tech_prefix:
                   type: string
                   description: prefix to be applied to the called number for outbound call attempts
@@ -4511,6 +4520,12 @@ components:
           type: string
         register_password:
           type: string
+        register_from_user:
+          type: string
+        register_from_domain:
+          type: string
+        register_public_ip_in_contact:
+          type: boolean
         tech_prefix:
           type: string
         inbound_auth_username:
