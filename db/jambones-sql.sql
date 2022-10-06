@@ -332,6 +332,9 @@ smpp_password VARCHAR(64),
 smpp_enquire_link_interval INTEGER DEFAULT 0,
 smpp_inbound_system_id VARCHAR(255),
 smpp_inbound_password VARCHAR(64),
+register_from_user VARCHAR(128),
+register_from_domain VARBINARY(255),
+register_public_ip_in_contact BOOLEAN NOT NULL DEFAULT false,
 PRIMARY KEY (voip_carrier_sid)
 ) COMMENT='A Carrier or customer PBX that can send or receive calls';
 

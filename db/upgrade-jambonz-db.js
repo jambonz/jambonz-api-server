@@ -26,7 +26,10 @@ const opts = {
 const sql = {
   '7006': [
     'ALTER TABLE `accounts` ADD COLUMN `siprec_hook_sid` CHAR(36)',
-    'ALTER TABLE accounts ADD FOREIGN KEY siprec_hook_sid_idxfk (siprec_hook_sid) REFERENCES applications (application_sid)'
+    'ALTER TABLE accounts ADD FOREIGN KEY siprec_hook_sid_idxfk (siprec_hook_sid) REFERENCES applications (application_sid)',
+    'ALTER TABLE `voip_carriers` ADD COLUMN `register_from_user` VARCHAR(128)',
+    'ALTER TABLE `voip_carriers` ADD COLUMN `register_from_domain` VARCHAR(256)',
+    'ALTER TABLE `voip_carriers` ADD COLUMN `register_public_domain_in_contact` BOOLEAN NOT NULL DEFAULT false'
   ],
   '7007': [
     `CREATE TABLE service_provider_limits 
