@@ -22,7 +22,7 @@
     "@google-cloud/text-to-speech": "^3.4.0",
     "@jambonz/db-helpers": "^0.6.18",
     "@jambonz/realtimedb-helpers": "^0.4.29",
-    "@jambonz/time-series": "^0.2.1",
+    "@jambonz/time-series": "^0.2.5",
     "argon2-ffi": "^2.0.0",
     "aws-sdk": "^2.1152.0",
     "bent": "^7.3.12",
