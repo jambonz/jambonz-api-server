@@ -56,7 +56,7 @@ const sql = {
     ON DELETE CASCADE`,
     'ALTER TABLE `voip_carriers` ADD COLUMN `register_from_user` VARCHAR(128)',
     'ALTER TABLE `voip_carriers` ADD COLUMN `register_from_domain` VARCHAR(256)',
-    'ALTER TABLE `voip_carriers` ADD COLUMN `register_ip_domain_in_contact` BOOLEAN NOT NULL DEFAULT false'
+    'ALTER TABLE `voip_carriers` ADD COLUMN `register_public_ip_in_contact` BOOLEAN NOT NULL DEFAULT false'
   ]
 };
 
