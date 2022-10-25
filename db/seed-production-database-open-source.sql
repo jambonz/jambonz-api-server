@@ -1,5 +1,12 @@
 SET FOREIGN_KEY_CHECKS=0;
 
+-- create standard permissions 
+insert into permissions (permission_sid, name, description)
+values 
+('ffbc342a-546a-11ed-bdc3-0242ac120002', 'VIEW_ONLY', 'Can view data but not make changes'),
+('ffbc3a10-546a-11ed-bdc3-0242ac120002', 'PROVISION_SERVICES', 'Can provision services'),
+('ffbc3c5e-546a-11ed-bdc3-0242ac120002', 'PROVISION_USERS', 'Can provision users');
+
 -- create one service provider and account
 insert into api_keys (api_key_sid, token) 
 values ('3f35518f-5a0d-4c2e-90a5-2407bb3b36f0', '38700987-c7a4-4685-a5bb-af378f9734de');

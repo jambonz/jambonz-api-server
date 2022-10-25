@@ -12,6 +12,9 @@ values (?, ?)`;
 const sqlQueryAccount = 'SELECT * from accounts LEFT JOIN api_keys ON api_keys.account_sid = accounts.account_sid';
 const sqlAddAccountToken = `INSERT into api_keys (api_key_sid, token, account_sid) 
 VALUES (?, ?, ?)`;
+const sqlInsertPermissions = `
+INSERT into user_permissions (user_permissions_sid, user_sid, permission_sid) 
+VALUES (?,?,?)`;
 
 const password = process.env.JAMBONES_ADMIN_INITIAL_PASSWORD || 'admin';
 console.log(`reset_admin_password, initial admin password is ${password}`);
@@ -21,6 +24,7 @@ const doIt = async() => {
   const sid = uuidv4();
   await promisePool.execute('DELETE from users where name = "admin"');
   await promisePool.execute('DELETE from api_keys where account_sid is null and service_provider_sid is null');
+
   await promisePool.execute(sqlInsert,
     [
       sid,
@@ -33,6 +37,12 @@ const doIt = async() => {
     ]
   );
   await promisePool.execute(sqlInsertAdminToken, [uuidv4(), uuidv4()]);
+
+  /* assign all permissions to the admin user */
+  const [p] = await promisePool.query('SELECT * from permissions');
+  for (const perm of p) {
+    await promisePool.execute(sqlInsertPermissions, [uuidv4(), sid, perm.permission_sid]);
+  }
 
   /* create admin token for single account */
   const [r] = await promisePool.query({sql: sqlQueryAccount, nestTables: true});
