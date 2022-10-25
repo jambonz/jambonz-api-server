@@ -3419,6 +3419,10 @@ paths:
                   type: string
                   description: The calling party number
                   example: "16172375089"
+                fromHost:
+                  type: string
+                  description: The hostname to put in the SIP From header of the INVITE
+                  example: "blf.finotel.com"
                 timeout:
                   type: integer
                   description: the number of seconds to wait for call to be answered.  Defaults to 60.
