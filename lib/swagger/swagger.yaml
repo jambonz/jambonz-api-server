@@ -517,8 +517,8 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
   /Users:
     get: 
-      summary: get a list of users
-      operationId: getUsersList
+      summary: list all users
+      operationId: listUsers
       responses:
         200:
           description: list of users
