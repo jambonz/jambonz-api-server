@@ -306,6 +306,14 @@ test('webapp tests', async(t) => {
     await createApiKey(request, account_sid);
     await createApiKey(request, account_sid);
 
+    // /* retrieve list of users */
+    //   result = await request.get(`/Users`, {
+    //     resolveWithFullResponse: true,
+    //     json: true,
+    //     auth: authUser,
+    //   });
+    //     t.ok(result.statusCode === 200 && result.body.length > 0, 'successfully retrieved list of users');
+
     /* retrieve my own user info */
     result = await request.get(`/Users/me`, {
       resolveWithFullResponse: true,

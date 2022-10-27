@@ -518,7 +518,7 @@ paths:
   /Users:
     get: 
       summary: get a list of users
-      operationId: listUsers
+      operationId: getUsersList
       responses:
         200:
           description: list of users
