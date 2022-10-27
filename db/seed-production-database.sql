@@ -1,5 +1,12 @@
 SET FOREIGN_KEY_CHECKS=0;
 
+-- create standard permissions 
+insert into permissions (permission_sid, name, description)
+values 
+('ffbc342a-546a-11ed-bdc3-0242ac120002', 'VIEW_ONLY', 'Can view data but not make changes'),
+('ffbc3a10-546a-11ed-bdc3-0242ac120002', 'PROVISION_SERVICES', 'Can provision services'),
+('ffbc3c5e-546a-11ed-bdc3-0242ac120002', 'PROVISION_USERS', 'Can provision users');
+
 -- create one service provider
 insert into service_providers (service_provider_sid, name, description, root_domain) 
 values ('2708b1b3-2736-40ea-b502-c53d8396247f', 'sip.jambonz.xyz', 'jambonz.xyz service provider', 'sip.jambonz.xyz');

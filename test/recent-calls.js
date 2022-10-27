@@ -24,12 +24,16 @@ test('recent calls tests', async(t) => {
     const account_sid = await createAccount(request, service_provider_sid);
 
     const token = jwt.sign({
-      account_sid
+      account_sid,
+      scope: "account",
+      permissions: ["PROVISION_USERS", "PROVISION_SERVICES", "VIEW_ONLY"]
     }, process.env.JWT_SECRET, { expiresIn: '1h' });
     const authUser = {bearer: token};
 
     const tokenSP = jwt.sign({
-      service_provider_sid
+      service_provider_sid,
+      scope: "account",
+      permissions: ["PROVISION_USERS", "PROVISION_SERVICES", "VIEW_ONLY"]
     }, process.env.JWT_SECRET, { expiresIn: '1h' });
     const authUserSP = {bearer: token};
 
