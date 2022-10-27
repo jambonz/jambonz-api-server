@@ -51,8 +51,7 @@ test('speech credentials tests', async(t) => {
 
     const token = jwt.sign({
       account_sid,
-      account_sid,
-      scope: "account",
+      scope: 'account',
       permissions: ["PROVISION_USERS", "PROVISION_SERVICES", "VIEW_ONLY"]
     }, process.env.JWT_SECRET, { expiresIn: '1h' });
     const authUser = {bearer: token};
