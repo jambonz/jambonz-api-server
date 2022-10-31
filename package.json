@@ -18,8 +18,8 @@
     "url": "https://github.com/jambonz/jambonz-api-server.git"
   },
   "dependencies": {
-    "@google-cloud/speech": "^4.10.2",
-    "@google-cloud/text-to-speech": "^3.4.0",
+    "@google-cloud/speech": "^5.1.0",
+    "@google-cloud/text-to-speech": "^4.0.3",
     "@jambonz/db-helpers": "^0.6.19",
     "@jambonz/realtimedb-helpers": "^0.4.35",
     "@jambonz/time-series": "^0.2.5",
