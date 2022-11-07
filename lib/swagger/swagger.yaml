@@ -515,6 +515,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
+  /Users:
+    get: 
+      summary: list all users
+      operationId: listUsers
+      responses:
+        200:
+          description: list of users
+          content:
+            application/json:
+              schema:
+                type:
+                  array
+                items:
+                  $ref: '#/components/schemas/Users'
+        403:
+          description: unauthorized
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
   /Users/{UserSid}:
     parameters:
       - name: UserSid

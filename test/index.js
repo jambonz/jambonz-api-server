@@ -12,6 +12,7 @@ require('./sbcs');
 require('./ms-teams');
 require('./speech-credentials');
 require('./recent-calls');
+require('./users');
 require('./webapp_tests');
 // require('./homer');
 require('./call-test');
