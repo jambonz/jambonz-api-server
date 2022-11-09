@@ -50,7 +50,9 @@ test('speech credentials tests', async(t) => {
     await deleteObjectBySid(request, `/ServiceProviders/${service_provider_sid}/SpeechCredentials`, speech_credential_sid);
 
     const token = jwt.sign({
-      account_sid
+      account_sid,
+      scope: 'account',
+      permissions: ["PROVISION_USERS", "PROVISION_SERVICES", "VIEW_ONLY"]
     }, process.env.JWT_SECRET, { expiresIn: '1h' });
     const authUser = {bearer: token};
 

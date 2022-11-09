@@ -18,7 +18,9 @@ test('Create Call Success With Synthesizer in Payload', async (t) => {
   const service_provider_sid = await createServiceProvider(request, 'account_has_synthesizer');
   const account_sid = await createAccount(request, service_provider_sid, 'account_has_synthesizer');
   const token = jwt.sign({
-    account_sid
+    account_sid,
+    scope: "account",
+    permissions: ["PROVISION_USERS", "PROVISION_SERVICES", "VIEW_ONLY"]
   }, process.env.JWT_SECRET, { expiresIn: '1h' });
   const authUser = { bearer: token };
   const speech_sid = await createGoogleSpeechCredentials(request, account_sid, null, authUser, true, true)
@@ -58,7 +60,9 @@ test('Create Call Success Without Synthesizer in Payload', async (t) => {
   const service_provider_sid = await createServiceProvider(request, 'account2_has_synthesizer');
   const account_sid = await createAccount(request, service_provider_sid, 'account2_has_synthesizer');
   const token = jwt.sign({
-    account_sid
+    account_sid,
+    scope: "account",
+    permissions: ["PROVISION_USERS", "PROVISION_SERVICES", "VIEW_ONLY"]
   }, process.env.JWT_SECRET, { expiresIn: '1h' });
   const authUser = { bearer: token };
   const speech_sid = await createGoogleSpeechCredentials(request, account_sid, null, authUser, true, true)

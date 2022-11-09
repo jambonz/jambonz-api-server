@@ -40,7 +40,8 @@ const {
   retrieveSet,
   addKey,
   retrieveKey,
-  deleteKey
+  deleteKey,
+  getTtsVoices
 } = require('@jambonz/realtimedb-helpers')({
   host: process.env.JAMBONES_REDIS_HOST || 'localhost',
   port: process.env.JAMBONES_REDIS_PORT || 6379
@@ -78,6 +79,7 @@ app.locals = {
   addKey,
   retrieveKey,
   deleteKey,
+  getTtsVoices,
   lookupAppBySid,
   lookupAccountBySid,
   lookupAccountByPhoneNumber,
