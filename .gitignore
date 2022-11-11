@@ -1,6 +1,7 @@
 # Logs
 logs
 *.log
+run-tests.sh
 
 # Runtime data
 pids
