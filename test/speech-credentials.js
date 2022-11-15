@@ -234,6 +234,38 @@ test('speech credentials tests', async(t) => {
       });
       t.ok(result.statusCode === 204, 'successfully deleted speech credential');
     }
+    /* add a credential for ibm */
+    if (process.env.IBM_TTS_API_KEY && process.env.IBM_TTS_REGION) {
+      result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+        resolveWithFullResponse: true,
+        auth: authUser,
+        json: true,
+        body: {
+          vendor: 'ibm',
+          use_for_tts: true,
+          tts_api_key: process.env.IBM_TTS_API_KEY,
+          tts_region: process.env.IBM_TTS_REGION
+        }
+      });
+      t.ok(result.statusCode === 201, 'successfully added speech credential for ibm');
+      const ms_sid = result.body.sid;
+
+      /* test the speech credential */
+      result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/${ms_sid}/test`, {
+        resolveWithFullResponse: true,
+        auth: authUser,
+        json: true,   
+      });
+      //console.log(JSON.stringify(result));
+      t.ok(result.statusCode === 200 && result.body.tts.status === 'ok', 'successfully tested speech credential for ibm tts');
+
+      /* delete the credential */
+      result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${ms_sid}`, {
+        auth: authUser,
+        resolveWithFullResponse: true,
+      });
+      t.ok(result.statusCode === 204, 'successfully deleted speech credential');
+    }
 
 
     await deleteObjectBySid(request, '/Accounts', account_sid);
