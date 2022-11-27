@@ -826,7 +826,7 @@
             <y>325.00</y>
         </location>
         <size>
-            <width>783.00</width>
+            <width>770.00</width>
             <height>100.00</height>
         </size>
         <zorder>30</zorder>
@@ -856,7 +856,7 @@
         </SQLField>
         <SQLField>
             <name><![CDATA[category]]></name>
-            <type><![CDATA[ENUM('api_rate','voice_call_session', 'device','voice_call_minutes','voice_call_session_licensed', 'voice_call_minutes_licensed')]]></type>
+            <type><![CDATA[ENUM('api_rate','voice_call_session', 'device','voice_call_minutes','voice_call_session_license', 'voice_call_minutes_license')]]></type>
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[9724C27F-3B51-453A-99B8-313480D4A63A]]></uid>
         </SQLField>
@@ -1087,7 +1087,7 @@
             <y>205.00</y>
         </location>
         <size>
-            <width>783.00</width>
+            <width>770.00</width>
             <height>100.00</height>
         </size>
         <zorder>29</zorder>
@@ -1117,7 +1117,7 @@
         </SQLField>
         <SQLField>
             <name><![CDATA[category]]></name>
-            <type><![CDATA[ENUM('api_rate','voice_call_session', 'device','voice_call_minutes','voice_call_session_licensed', 'voice_call_minutes_licensed')]]></type>
+            <type><![CDATA[ENUM('api_rate','voice_call_session', 'device','voice_call_minutes','voice_call_session_license', 'voice_call_minutes_license')]]></type>
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[72BFA408-371D-4B21-8DA0-A56644FCD92C]]></uid>
         </SQLField>
