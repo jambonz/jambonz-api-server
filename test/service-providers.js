@@ -79,13 +79,14 @@ test('service provider tests', async(t) => {
       }
     });
     //console.log(`result: ${JSON.stringify(result)}`);
-    t.ok(result.statusCode === 422, 'cannot add two service providers with the same name');
+    t.ok(result.statusCode === 422, 'cannot add two service providers with the same root domain');
     
     /* query all service providers */
     result = await request.get('/ServiceProviders', {
       auth: authAdmin,
       json: true,
     });
+    console.log(JSON.stringify(result));
     t.ok(result.length === 2 , 'successfully queried all service providers');
 
     /* query one service providers */
