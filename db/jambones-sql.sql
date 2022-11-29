@@ -22,10 +22,6 @@ DROP TABLE IF EXISTS lcr_routes;
 
 DROP TABLE IF EXISTS password_settings;
 
-DROP TABLE IF EXISTS user_permissions;
-
-DROP TABLE IF EXISTS permissions;
-
 DROP TABLE IF EXISTS predefined_sip_gateways;
 
 DROP TABLE IF EXISTS predefined_smpp_gateways;
@@ -83,7 +79,7 @@ CREATE TABLE account_limits
 (
 account_limits_sid CHAR(36) NOT NULL UNIQUE ,
 account_sid CHAR(36) NOT NULL,
-category ENUM('api_rate','voice_call_session', 'device') NOT NULL,
+category ENUM('api_rate','voice_call_session', 'device','voice_call_minutes','voice_call_session_licensed', 'voice_call_minutes_licensed') NOT NULL,
 quantity INTEGER NOT NULL,
 PRIMARY KEY (account_limits_sid)
 );
@@ -147,14 +143,6 @@ CREATE TABLE password_settings
 min_password_length INTEGER NOT NULL DEFAULT 8,
 require_digit BOOLEAN NOT NULL DEFAULT false,
 require_special_character BOOLEAN NOT NULL DEFAULT false
-);
-
-CREATE TABLE permissions
-(
-permission_sid CHAR(36) NOT NULL UNIQUE ,
-name VARCHAR(32) NOT NULL UNIQUE ,
-description VARCHAR(255),
-PRIMARY KEY (permission_sid)
 );
 
 CREATE TABLE predefined_carriers
@@ -266,7 +254,7 @@ CREATE TABLE service_provider_limits
 (
 service_provider_limits_sid CHAR(36) NOT NULL UNIQUE ,
 service_provider_sid CHAR(36) NOT NULL,
-category ENUM('api_rate','voice_call_session', 'device') NOT NULL,
+category ENUM('api_rate','voice_call_session', 'device','voice_call_minutes','voice_call_session_licensed', 'voice_call_minutes_licensed') NOT NULL,
 quantity INTEGER NOT NULL,
 PRIMARY KEY (service_provider_limits_sid)
 );
@@ -328,14 +316,6 @@ phone_validated BOOLEAN NOT NULL DEFAULT false,
 email_content_opt_out BOOLEAN NOT NULL DEFAULT false,
 is_active BOOLEAN NOT NULL DEFAULT true,
 PRIMARY KEY (user_sid)
-);
-
-CREATE TABLE user_permissions
-(
-user_permissions_sid CHAR(36) NOT NULL UNIQUE ,
-user_sid CHAR(36) NOT NULL,
-permission_sid CHAR(36) NOT NULL,
-PRIMARY KEY (user_permissions_sid)
 );
 
 CREATE TABLE voip_carriers
@@ -501,7 +481,6 @@ ALTER TABLE call_routes ADD FOREIGN KEY application_sid_idxfk (application_sid) 
 CREATE INDEX dns_record_sid_idx ON dns_records (dns_record_sid);
 ALTER TABLE dns_records ADD FOREIGN KEY account_sid_idxfk_4 (account_sid) REFERENCES accounts (account_sid);
 
-CREATE INDEX permission_sid_idx ON permissions (permission_sid);
 CREATE INDEX predefined_carrier_sid_idx ON predefined_carriers (predefined_carrier_sid);
 CREATE INDEX predefined_sip_gateway_sid_idx ON predefined_sip_gateways (predefined_sip_gateway_sid);
 CREATE INDEX predefined_carrier_sid_idx ON predefined_sip_gateways (predefined_carrier_sid);
@@ -573,12 +552,6 @@ CREATE INDEX service_provider_sid_idx ON users (service_provider_sid);
 ALTER TABLE users ADD FOREIGN KEY service_provider_sid_idxfk_6 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
 
 CREATE INDEX email_activation_code_idx ON users (email_activation_code);
-CREATE INDEX user_permissions_sid_idx ON user_permissions (user_permissions_sid);
-CREATE INDEX user_sid_idx ON user_permissions (user_sid);
-ALTER TABLE user_permissions ADD FOREIGN KEY user_sid_idxfk (user_sid) REFERENCES users (user_sid) ON DELETE CASCADE;
-
-ALTER TABLE user_permissions ADD FOREIGN KEY permission_sid_idxfk (permission_sid) REFERENCES permissions (permission_sid);
-
 CREATE INDEX voip_carrier_sid_idx ON voip_carriers (voip_carrier_sid);
 CREATE INDEX account_sid_idx ON voip_carriers (account_sid);
 ALTER TABLE voip_carriers ADD FOREIGN KEY account_sid_idxfk_10 (account_sid) REFERENCES accounts (account_sid);
