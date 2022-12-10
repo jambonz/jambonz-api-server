@@ -546,6 +546,42 @@ paths:
         explode: false
         schema:
           type: string
+    get:
+      summary: retrieve user information
+      operationId: getUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email: 
+                  type: string
+                is_active:
+                  type: boolean
+                force_change:
+                  type: boolean
+                scope:
+                  type: string
+                permissions:
+                  type: array
+      responses:
+        204:
+          description: user information
+        403:
+          description: user information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
     put:
       summary: update user information
       operationId: updateUser
@@ -567,15 +603,82 @@ paths:
                 new_password:
                   type: string
                   description: new password
+                name:
+                  type: string
+                is_active:
+                  type: boolean
+                force_change:
+                  type: boolean
+                scope:
+                  type: string
+                permissions:
+                  type: array
       responses:
         204:
           description: user updated
         403:
-          description: password change failed
+          description: user update failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    post:
+      summary: create a new user
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email: 
+                  type: string
+                is_active:
+                  type: boolean
+                force_change:
+                  type: boolean
+                scope:
+                  type: string
+                permissions:
+                  type: array
+                force_change:
+                  type: boolean
+                old_password:
+                  type: string
+                  description: existing password, which is to be replaced
+      responses:
+        204:
+          description: user created
+        403:
+          description: user creation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    delete:
+      summary: delete a user
+      operationId: deleteUser
+      responses:
+        204:
+          description: user deleted
+        404:
+          description: user not found
+        403:
+          description: unauthorized
         500:
           description: system error
           content:
