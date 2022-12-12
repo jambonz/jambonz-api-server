@@ -57,6 +57,20 @@ const sql = {
     'ALTER TABLE `voip_carriers` ADD COLUMN `register_from_user` VARCHAR(128)',
     'ALTER TABLE `voip_carriers` ADD COLUMN `register_from_domain` VARCHAR(256)',
     'ALTER TABLE `voip_carriers` ADD COLUMN `register_public_ip_in_contact` BOOLEAN NOT NULL DEFAULT false'
+  ],
+  '8000': [
+    'alter table phone_numbers modify number varchar(132) NOT NULL UNIQUE',
+    `CREATE TABLE user_permissions
+    (
+    user_permissions_sid CHAR(36) NOT NULL UNIQUE ,
+    user_sid CHAR(36) NOT NULL,
+    permission_sid CHAR(36) NOT NULL,
+    PRIMARY KEY (user_permissions_sid)
+    )`,
+    'CREATE INDEX user_permissions_sid_idx ON user_permissions (user_permissions_sid)',
+    'CREATE INDEX user_sid_idx ON user_permissions (user_sid)',
+    'ALTER TABLE user_permissions ADD FOREIGN KEY user_sid_idxfk (user_sid) REFERENCES users (user_sid) ON DELETE CASCADE',
+    'ALTER TABLE user_permissions ADD FOREIGN KEY permission_sid_idxfk (permission_sid) REFERENCES permissions (permission_sid)'
   ]
 };
 
@@ -85,6 +99,7 @@ const doIt = async() => {
 
         if (val < 7006) upgrades.push(...sql['7006']);
         if (val < 7007) upgrades.push(...sql['7007']);
+        if (val < 8000) upgrades.push(...sql['8000']);
 
         // perform all upgrades
         logger.info({upgrades}, 'applying schema upgrades..');

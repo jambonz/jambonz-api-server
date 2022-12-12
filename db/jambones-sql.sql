@@ -330,14 +330,6 @@ is_active BOOLEAN NOT NULL DEFAULT true,
 PRIMARY KEY (user_sid)
 );
 
-CREATE TABLE user_permissions
-(
-user_permissions_sid CHAR(36) NOT NULL UNIQUE ,
-user_sid CHAR(36) NOT NULL,
-permission_sid CHAR(36) NOT NULL,
-PRIMARY KEY (user_permissions_sid)
-);
-
 CREATE TABLE voip_carriers
 (
 voip_carrier_sid CHAR(36) NOT NULL UNIQUE ,
@@ -368,6 +360,14 @@ register_public_ip_in_contact BOOLEAN NOT NULL DEFAULT false,
 PRIMARY KEY (voip_carrier_sid)
 ) COMMENT='A Carrier or customer PBX that can send or receive calls';
 
+CREATE TABLE user_permissions
+(
+user_permissions_sid CHAR(36) NOT NULL UNIQUE ,
+user_sid CHAR(36) NOT NULL,
+permission_sid CHAR(36) NOT NULL,
+PRIMARY KEY (user_permissions_sid)
+);
+
 CREATE TABLE smpp_gateways
 (
 smpp_gateway_sid CHAR(36) NOT NULL UNIQUE ,
@@ -385,7 +385,7 @@ PRIMARY KEY (smpp_gateway_sid)
 CREATE TABLE phone_numbers
 (
 phone_number_sid CHAR(36) UNIQUE ,
-number VARCHAR(32) NOT NULL UNIQUE ,
+number VARCHAR(132) NOT NULL UNIQUE ,
 voip_carrier_sid CHAR(36),
 account_sid CHAR(36),
 application_sid CHAR(36),
@@ -573,12 +573,6 @@ CREATE INDEX service_provider_sid_idx ON users (service_provider_sid);
 ALTER TABLE users ADD FOREIGN KEY service_provider_sid_idxfk_6 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
 
 CREATE INDEX email_activation_code_idx ON users (email_activation_code);
-CREATE INDEX user_permissions_sid_idx ON user_permissions (user_permissions_sid);
-CREATE INDEX user_sid_idx ON user_permissions (user_sid);
-ALTER TABLE user_permissions ADD FOREIGN KEY user_sid_idxfk (user_sid) REFERENCES users (user_sid) ON DELETE CASCADE;
-
-ALTER TABLE user_permissions ADD FOREIGN KEY permission_sid_idxfk (permission_sid) REFERENCES permissions (permission_sid);
-
 CREATE INDEX voip_carrier_sid_idx ON voip_carriers (voip_carrier_sid);
 CREATE INDEX account_sid_idx ON voip_carriers (account_sid);
 ALTER TABLE voip_carriers ADD FOREIGN KEY account_sid_idxfk_10 (account_sid) REFERENCES accounts (account_sid);
@@ -587,6 +581,12 @@ CREATE INDEX service_provider_sid_idx ON voip_carriers (service_provider_sid);
 ALTER TABLE voip_carriers ADD FOREIGN KEY service_provider_sid_idxfk_7 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
 
 ALTER TABLE voip_carriers ADD FOREIGN KEY application_sid_idxfk_2 (application_sid) REFERENCES applications (application_sid);
+
+CREATE INDEX user_permissions_sid_idx ON user_permissions (user_permissions_sid);
+CREATE INDEX user_sid_idx ON user_permissions (user_sid);
+ALTER TABLE user_permissions ADD FOREIGN KEY user_sid_idxfk (user_sid) REFERENCES users (user_sid) ON DELETE CASCADE;
+
+ALTER TABLE user_permissions ADD FOREIGN KEY permission_sid_idxfk (permission_sid) REFERENCES permissions (permission_sid);
 
 CREATE INDEX smpp_gateway_sid_idx ON smpp_gateways (smpp_gateway_sid);
 CREATE INDEX voip_carrier_sid_idx ON smpp_gateways (voip_carrier_sid);
