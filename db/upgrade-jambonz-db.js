@@ -60,6 +60,13 @@ const sql = {
   ],
   '8000': [
     'alter table phone_numbers modify number varchar(132) NOT NULL UNIQUE',
+    `CREATE TABLE permissions
+    (
+    permission_sid CHAR(36) NOT NULL UNIQUE ,
+    name VARCHAR(32) NOT NULL UNIQUE ,
+    description VARCHAR(255),
+    PRIMARY KEY (permission_sid)
+    )`,
     `CREATE TABLE user_permissions
     (
     user_permissions_sid CHAR(36) NOT NULL UNIQUE ,
