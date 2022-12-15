@@ -83,7 +83,7 @@ CREATE TABLE account_limits
 (
 account_limits_sid CHAR(36) NOT NULL UNIQUE ,
 account_sid CHAR(36) NOT NULL,
-category ENUM('api_rate','voice_call_session', 'device') NOT NULL,
+category ENUM('api_rate','voice_call_session', 'device','voice_call_minutes','voice_call_session_license', 'voice_call_minutes_license') NOT NULL,
 quantity INTEGER NOT NULL,
 PRIMARY KEY (account_limits_sid)
 );
@@ -266,7 +266,7 @@ CREATE TABLE service_provider_limits
 (
 service_provider_limits_sid CHAR(36) NOT NULL UNIQUE ,
 service_provider_sid CHAR(36) NOT NULL,
-category ENUM('api_rate','voice_call_session', 'device') NOT NULL,
+category ENUM('api_rate','voice_call_session', 'device','voice_call_minutes','voice_call_session_license', 'voice_call_minutes_license') NOT NULL,
 quantity INTEGER NOT NULL,
 PRIMARY KEY (service_provider_limits_sid)
 );
