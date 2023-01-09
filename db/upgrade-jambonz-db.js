@@ -78,7 +78,7 @@ const sql = {
     'CREATE INDEX user_sid_idx ON user_permissions (user_sid)',
     'ALTER TABLE user_permissions ADD FOREIGN KEY user_sid_idxfk (user_sid) REFERENCES users (user_sid) ON DELETE CASCADE',
     'ALTER TABLE user_permissions ADD FOREIGN KEY permission_sid_idxfk (permission_sid) REFERENCES permissions (permission_sid)',
-    'ALTER TABLE `users` ADD COLUMN `is_active` BOOLEAN NOT NULL TRUE',
+    'ALTER TABLE `users` ADD COLUMN `is_active` BOOLEAN NOT NULL true',
   ]
 };
 
