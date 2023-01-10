@@ -59,6 +59,7 @@ const sql = {
     'ALTER TABLE `voip_carriers` ADD COLUMN `register_public_ip_in_contact` BOOLEAN NOT NULL DEFAULT false'
   ],
   '8000': [
+    'ALTER TABLE voip_carriers CHANGE register_public_domain_in_contact register_public_ip_in_contact BOOLEAN',
     'alter table phone_numbers modify number varchar(132) NOT NULL UNIQUE',
     `CREATE TABLE permissions
     (
@@ -73,6 +74,12 @@ const sql = {
     user_sid CHAR(36) NOT NULL,
     permission_sid CHAR(36) NOT NULL,
     PRIMARY KEY (user_permissions_sid)
+    )`,
+    `CREATE TABLE password_settings
+    (
+    min_password_length INTEGER NOT NULL DEFAULT 8,
+    require_digit BOOLEAN NOT NULL DEFAULT false,
+    require_special_character BOOLEAN NOT NULL DEFAULT false
     )`,
     'CREATE INDEX user_permissions_sid_idx ON user_permissions (user_permissions_sid)',
     'CREATE INDEX user_sid_idx ON user_permissions (user_sid)',
