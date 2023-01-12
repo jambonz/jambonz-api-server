@@ -85,9 +85,6 @@ VALUES
 -- simwood gateways
 insert into predefined_sip_gateways (predefined_sip_gateway_sid, predefined_carrier_sid, ipv4, netmask, port, inbound, outbound)
 VALUES
-('91cb050f-9826-4ac9-b736-84a10372a9fe', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '149.91.14.0', 24, 5060, 1, 0),
-('58700fad-98bf-4d31-b61e-888c54911b35', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '154.51.137.96', 27, 5060, 1, 0),
-('d020fd9e-7fdb-4bca-ae0d-e61b38142873', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '78.40.245.160', 27, 5060, 1, 0),
 ('441fd2e7-c845-459c-963d-6e917063ed9a', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '178.22.136.24', 29, 5060, 1, 0),
 ('1e0d3e80-9973-4184-9bec-07ae564f983f', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '178.22.136.28', 28, 5060, 1, 0),
 ('e56ec745-5f37-443f-afb4-7bbda31ae7ac', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '178.22.140.48', 28, 5060, 1, 0),
@@ -98,7 +95,7 @@ VALUES
 ('b6ae6240-55ac-4c11-892f-a71b2155ea60', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '185.63.142.0', 26, 5060, 1, 0),
 ('5a976337-164b-408e-8748-d8bfb4bd5d76', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '185.63.143.0', 26, 5060, 1, 0),
 ('ed0434ca-7f26-4624-9523-0419d0d2924d', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '178.22.139.0', 26, 5060, 1, 0),
-('d1a594c2-c14f-4ead-b621-96129bc87886', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '172.86.224.0', 24, 5060, 1, 0),
+('6bfb55e5-e248-48dc-a104-4f3eedd7d7de', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '172.86.225.0', 24, 5060, 1, 0),
 ('5f431d42-48e4-44ce-a311-d946f0b475b6', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', 'out.simwood.com', 32, 5060, 0, 1);
 
 
