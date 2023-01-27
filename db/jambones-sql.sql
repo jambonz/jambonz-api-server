@@ -390,6 +390,7 @@ voip_carrier_sid CHAR(36),
 account_sid CHAR(36),
 application_sid CHAR(36),
 service_provider_sid CHAR(36) COMMENT 'if not null, this number is a test number for the associated service provider',
+app_json VARCHAR(4096),
 PRIMARY KEY (phone_number_sid)
 ) COMMENT='A phone number that has been assigned to an account';
 
@@ -646,5 +647,6 @@ ALTER TABLE accounts ADD FOREIGN KEY queue_event_hook_sid_idxfk (queue_event_hoo
 ALTER TABLE accounts ADD FOREIGN KEY device_calling_application_sid_idxfk (device_calling_application_sid) REFERENCES applications (application_sid);
 
 ALTER TABLE accounts ADD FOREIGN KEY siprec_hook_sid_idxfk (siprec_hook_sid) REFERENCES applications (application_sid);
+
 
 SET FOREIGN_KEY_CHECKS=1;
