@@ -59,6 +59,7 @@ const sql = {
     'ALTER TABLE `voip_carriers` ADD COLUMN `register_public_ip_in_contact` BOOLEAN NOT NULL DEFAULT false'
   ],
   '8000': [
+    'ALTER TABLE `applications` ADD COLUMN `app_json` VARCHAR(16384)',
     'ALTER TABLE voip_carriers CHANGE register_public_domain_in_contact register_public_ip_in_contact BOOLEAN',
     'alter table phone_numbers modify number varchar(132) NOT NULL UNIQUE',
     `CREATE TABLE permissions
