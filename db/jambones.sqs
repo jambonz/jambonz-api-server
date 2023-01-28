@@ -1841,8 +1841,8 @@
         <name><![CDATA[predefined_carriers]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>47.00</x>
-            <y>1103.00</y>
+            <x>35.00</x>
+            <y>1194.00</y>
         </location>
         <size>
             <width>302.00</width>
@@ -2187,7 +2187,7 @@
         </location>
         <size>
             <width>345.00</width>
-            <height>300.00</height>
+            <height>320.00</height>
         </size>
         <zorder>0</zorder>
         <SQLField>
@@ -2280,6 +2280,11 @@
             <referencesTableUID><![CDATA[64D64CB9-0990-4C68-BE71-F9FD43C2BE19]]></referencesTableUID>
             <objectComment><![CDATA[webhook to call for inbound SMS/MMS ]]></objectComment>
             <uid><![CDATA[4690A98A-2F67-4205-A5C1-D9523F6B3282]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[app_json]]></name>
+            <type><![CDATA[VARCHAR(16384)]]></type>
+            <uid><![CDATA[B3BB24D3-DDA7-418F-A8CE-FD0E3E8B25C7]]></uid>
         </SQLField>
         <SQLField>
             <name><![CDATA[speech_synthesis_vendor]]></name>
@@ -2705,17 +2710,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1235.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1864.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[870.000000]]></windowHeight>
-        <windowLocationX><![CDATA[0.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[74.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{432, 18.5}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1512.000000]]></windowWidth>
+        <windowHeight><![CDATA[969.000000]]></windowHeight>
+        <windowLocationX><![CDATA[-1164.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[1068.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{0, 138.5}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[2141.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>

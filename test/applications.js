@@ -23,6 +23,37 @@ test('application tests', async(t) => {
     const service_provider_sid = await createServiceProvider(request);
     const phone_number_sid = await createPhoneNumber(request, voip_carrier_sid);
     const account_sid = await createAccount(request, service_provider_sid);
+
+    /* add an invalid application app_json */
+    result = await request.post('/Applications', {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'daveh',
+        account_sid,
+        call_hook: {
+          url: 'http://example.com'
+        },
+        call_status_hook: {
+          url: 'http://example.com/status',
+          method: 'POST'
+        },
+        messaging_hook: {
+          url: 'http://example.com/sms'
+        },
+        app_json : '[\
+            {\
+              "verb": "play",\
+              "timeoutSecs": 10,\
+              "seekOffset": 8000,\
+              "actionHook": "/play/action"\
+          }\
+        ]'
+      }
+    });
+    t.ok(result.statusCode === 400, 'Cant create application with invalid app_josn');
     
     /* add an application */
     result = await request.post('/Applications', {
@@ -41,7 +72,16 @@ test('application tests', async(t) => {
         },
         messaging_hook: {
           url: 'http://example.com/sms'
-        }
+        },
+        app_json : '[\
+            {\
+              "verb": "play",\
+              "url": "https://example.com/example.mp3",\
+              "timeoutSecs": 10,\
+              "seekOffset": 8000,\
+              "actionHook": "/play/action"\
+          }\
+        ]'
       }
     });
     t.ok(result.statusCode === 201, 'successfully created application');
@@ -62,6 +102,9 @@ test('application tests', async(t) => {
     });
     t.ok(result.name === 'daveh' , 'successfully retrieved application by sid');
     t.ok(result.messaging_hook.url === 'http://example.com/sms' , 'successfully retrieved messaging_hook from application');
+    let app_json = JSON.parse(result.app_json);
+    t.ok(app_json[0].verb === 'play', 'successfully retrieved app_json from application')
+
 
     /* update applications */
     result = await request.put(`/Applications/${sid}`, {
@@ -74,7 +117,15 @@ test('application tests', async(t) => {
         },
         messaging_hook: {
           url: 'http://example2.com/mms'
-        }
+        },
+        app_json : '[\
+          {\
+            "verb": "hangup",\
+            "headers": {\
+              "X-Reason" : "maximum call duration exceeded"\
+            }\
+          }\
+        ]'
       }
     });
     t.ok(result.statusCode === 204, 'successfully updated application');
@@ -85,6 +136,57 @@ test('application tests', async(t) => {
       json: true,
     });
     t.ok(result.messaging_hook.url === 'http://example2.com/mms' , 'successfully updated messaging_hook');
+    app_json = JSON.parse(result.app_json);
+    t.ok(app_json[0].verb === 'hangup', 'successfully updated app_json from application')
+
+    /* remove applications app_json*/
+    result = await request.put(`/Applications/${sid}`, {
+      auth: authAdmin,
+      json: true,
+      resolveWithFullResponse: true,
+      body: {
+        call_hook: {
+          url: 'http://example2.com'
+        },
+        messaging_hook: {
+          url: 'http://example2.com/mms'
+        },
+        app_json : null
+      }
+    });
+    t.ok(result.statusCode === 204, 'successfully updated application');
+
+    /* validate messaging hook was updated */
+    result = await request.get(`/Applications/${sid}`, {
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.app_json == undefined, 'successfully removed app_json from application')
+
+    /* Update invalid applications app_json*/
+    result = await request.put(`/Applications/${sid}`, {
+      auth: authAdmin,
+      json: true,
+      resolveWithFullResponse: true,
+      simple: false,
+      body: {
+        call_hook: {
+          url: 'http://example2.com'
+        },
+        messaging_hook: {
+          url: 'http://example2.com/mms'
+        },
+        app_json : '[\
+          {\
+            "verb": "play",\
+            "timeoutSecs": 10,\
+            "seekOffset": 8000,\
+            "actionHook": "/play/action"\
+        }\
+      ]'
+      }
+    });
+    t.ok(result.statusCode === 400, 'Cant update invalid application app_json');
     
     /* assign phone number to application */
     result = await request.put(`/PhoneNumbers/${phone_number_sid}`, {

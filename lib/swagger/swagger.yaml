@@ -3382,6 +3382,9 @@ paths:
                 messaging_hook:
                   $ref: '#/components/schemas/Webhook'
                   description: application webhook to handle inbound SMS/MMS messages
+                app_json:
+                   type: string
+                   description: Voice Application Json, call_hook will not be invoked if app_json is provided
                 speech_synthesis_vendor:
                   type: string
                 speech_synthesis_voice:
