@@ -86,7 +86,7 @@ test('service provider tests', async(t) => {
       auth: authAdmin,
       json: true,
     });
-    console.log(JSON.stringify(result));
+    //console.log(JSON.stringify(result));
     t.ok(result.length === 2 , 'successfully queried all service providers');
 
     /* query one service providers */
