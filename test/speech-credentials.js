@@ -300,6 +300,39 @@ test('speech credentials tests', async(t) => {
       t.ok(result.statusCode === 204, 'successfully deleted speech credential');
     }
 
+    /* add a credential for nvidia */
+    if (!process.env.NVIDIA_SPEECH_ENDPOINT) {
+      result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+        resolveWithFullResponse: true,
+        auth: authUser,
+        json: true,
+        body: {
+          vendor: 'nvidia',
+          use_for_stt: true,
+          use_for_tts: true,
+          nvidia_speech_endpoint: process.env.NVIDIA_SPEECH_ENDPOINT || "192.168.1.9:5060"
+        }
+      });
+      t.ok(result.statusCode === 201, 'successfully added speech credential for nvidia');
+      const ms_sid = result.body.sid;
+
+      /* test the speech credential */
+      result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/${ms_sid}/test`, {
+        resolveWithFullResponse: true,
+        auth: authUser,
+        json: true,   
+      });
+      // TODO Nvidia test.
+      t.ok(result.statusCode === 200 && result.body.stt.status === 'not tested', 'successfully tested speech credential for nvida stt');
+
+      /* delete the credential */
+      result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${ms_sid}`, {
+        auth: authUser,
+        resolveWithFullResponse: true,
+      });
+      t.ok(result.statusCode === 204, 'successfully deleted speech credential');
+    }
+
     await deleteObjectBySid(request, '/Accounts', account_sid);
     await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid);
     //t.end();

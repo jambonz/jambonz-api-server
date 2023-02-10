@@ -4262,6 +4262,8 @@ components:
           type: boolean
         stt_tested_ok:
           type: boolean
+        nvidia_speech_endpoint:
+          type: string
     SpeechCredentialUpdate:
       properties:
         use_for_tts:
