@@ -4262,7 +4262,7 @@ components:
           type: boolean
         stt_tested_ok:
           type: boolean
-        nvidia_speech_endpoint:
+        riva_server_uri:
           type: string
     SpeechCredentialUpdate:
       properties:
