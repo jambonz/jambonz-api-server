@@ -4262,6 +4262,8 @@ components:
           type: boolean
         stt_tested_ok:
           type: boolean
+        riva_server_uri:
+          type: string
     SpeechCredentialUpdate:
       properties:
         use_for_tts:
