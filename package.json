@@ -24,6 +24,7 @@
     "@jambonz/db-helpers": "^0.7.3",
     "@jambonz/realtimedb-helpers": "^0.6.0",
     "@jambonz/time-series": "^0.2.5",
+    "verb-specifications": "^0.0.1",
     "argon2-ffi": "^2.0.0",
     "aws-sdk": "^2.1152.0",
     "bent": "^7.3.12",
