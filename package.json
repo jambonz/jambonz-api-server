@@ -18,7 +18,7 @@
     "url": "https://github.com/jambonz/jambonz-api-server.git"
   },
   "dependencies": {
-    "@deepgram/sdk": "^1.10.2",
+    "@deepgram/sdk": "^1.15.0",
     "@google-cloud/speech": "^5.1.0",
     "@google-cloud/text-to-speech": "^4.0.3",
     "@jambonz/db-helpers": "^0.7.3",
