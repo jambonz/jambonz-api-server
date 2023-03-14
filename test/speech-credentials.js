@@ -224,7 +224,7 @@ test('speech credentials tests', async(t) => {
         auth: authUser,
         json: true,   
       });
-      //console.log(JSON.stringify(result));
+      console.log(JSON.stringify(result));
       t.ok(result.statusCode === 200 && result.body.stt.status === 'ok', 'successfully tested speech credential for deepgram');
 
       /* delete the credential */
