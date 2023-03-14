@@ -18,6 +18,8 @@
     "url": "https://github.com/jambonz/jambonz-api-server.git"
   },
   "dependencies": {
+    "@aws-sdk/client-polly": "^3.290.0",
+    "@aws-sdk/client-transcribe": "^3.290.0",
     "@deepgram/sdk": "^1.10.2",
     "@google-cloud/speech": "^5.1.0",
     "@google-cloud/text-to-speech": "^4.0.3",
@@ -28,7 +30,6 @@
     "@jambonz/verb-specifications": "^0.0.3",
     "@soniox/soniox-node": "^1.1.0",
     "argon2-ffi": "^2.0.0",
-    "aws-sdk": "^2.1302.0",
     "bent": "^7.3.12",
     "cors": "^2.8.5",
     "debug": "^4.3.4",

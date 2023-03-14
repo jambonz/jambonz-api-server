@@ -171,6 +171,35 @@ test('speech credentials tests', async(t) => {
       t.ok(result.statusCode === 200 && result.body.stt.status === 'ok', 'successfully tested speech credential for microsoft stt');
     }
 
+    /* add / test a credential for AWS */
+    if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY && process.env.AWS_REGION) {
+      result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+        resolveWithFullResponse: true,
+        auth: authUser,
+        json: true,
+        body: {
+          vendor: 'aws',
+          use_for_tts: true,
+          use_for_stt: true,
+          access_key_id: process.env.AWS_ACCESS_KEY_ID,
+          secret_access_key: process.env.AWS_SECRET_ACCESS_KEY,
+          aws_region: process.env.AWS_REGION
+        }
+      });
+      t.ok(result.statusCode === 201, 'successfully added speech credential for AWS');
+      const ms_sid = result.body.sid;
+
+      /* test the speech credential */
+      result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/${ms_sid}/test`, {
+        resolveWithFullResponse: true,
+        auth: authUser,
+        json: true,   
+      });
+      //console.log(JSON.stringify(result));
+      t.ok(result.statusCode === 200 && result.body.tts.status === 'ok', 'successfully tested speech credential for AWS tts');
+      t.ok(result.statusCode === 200 && result.body.stt.status === 'ok', 'successfully tested speech credential for AWS stt');
+    }
+
     /* add a credential for wellsaid */
     if (process.env.WELLSAID_API_KEY) {
       result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
@@ -224,7 +253,7 @@ test('speech credentials tests', async(t) => {
         auth: authUser,
         json: true,   
       });
-      console.log(JSON.stringify(result));
+      //console.log(JSON.stringify(result));
       t.ok(result.statusCode === 200 && result.body.stt.status === 'ok', 'successfully tested speech credential for deepgram');
 
       /* delete the credential */
