@@ -29,7 +29,7 @@
     "@jambonz/time-series": "^0.2.5",
     "@jambonz/verb-specifications": "^0.0.3",
     "@soniox/soniox-node": "^1.1.0",
-    "argon2-ffi": "^2.0.0",
+    "argon2": "^0.30.3",
     "bent": "^7.3.12",
     "cors": "^2.8.5",
     "debug": "^4.3.4",
