@@ -10,7 +10,34 @@ info:
   version: 1.0.0
 servers:
   - url: /v1
-    description: development server
+    description: jambonz API server
+tags:
+  - name: Authentication
+    description: Authentication operations
+  - name: Accounts
+    description: Accounts operations
+  - name: Users
+    description: Users operations
+  - name: Applications
+    description: Applications operations
+  - name: Phone Numbers
+    description: Phone Numbers operations
+  - name: Api Keys
+    description: Api Keys operations
+  - name: Service Providers
+    description: Service Providers operations
+  - name: SBCs
+    description: SBCs operations
+  - name: Voip Carriers
+    description: Voip Carriers operations   
+  - name: Sip Gateways
+    description: Sip Gateways operations
+  - name: Smpp Gateways
+    description: Smpp Gateways operations   
+  - name: Webhooks
+    description: Webhooks operations
+  - name: Microsoft Teams Tenants
+    description: Microsoft Teams Tenants operations
 paths:
   /BetaInviteCodes:
     post:
@@ -79,6 +106,8 @@ paths:
           type: string
           format: uuid
     post:
+      tags:
+       - Accounts
       summary: add a VoiPCarrier to an account based on PredefinedCarrier template
       operationId: createVoipCarrierFromTemplate
       responses:
@@ -96,6 +125,8 @@ paths:
                 $ref: '#/components/schemas/GeneralError'      
   /Sbcs:
     post:
+      tags:
+        - SBCs
       summary: add an SBC address
       operationId: createSbc
       requestBody:
@@ -134,7 +165,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
-      summary: retrieve public IP addresses of the jambonz Sbcs
+      tags:
+        - SBCs
+      summary: retrieve public IP addresses of the jambonz SBCs
       operationId: listSbcs
       parameters:
         - in: query
@@ -171,7 +204,9 @@ paths:
         schema:
           type: string
       delete:
-        summary: delete sbc address
+        tags:
+          - SBCs
+        summary: delete SBC address
         operationId: deleteSbcAddress      
         responses:
           200:
@@ -240,6 +275,8 @@ paths:
         
   /ApiKeys:
     post:
+      tags:
+        - Api Keys
       summary: create an api key
       operationId: createApikey
       requestBody:
@@ -277,7 +314,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-  /Apikeys/{ApiKeySid}:
+  /ApiKeys/{ApiKeySid}:
       parameters:
       - name: ApiKeySid
         in: path
@@ -285,6 +322,8 @@ paths:
         schema:
           type: string
       delete:
+        tags:
+          - Api Keys
         summary: delete api key
         operationId: deleteApiKey          
         responses:
@@ -294,6 +333,8 @@ paths:
             description: api key or account not found
   /signin:
     post:
+      tags:
+        - Authentication
       summary: sign in using email and password
       operationId: loginUser
       requestBody:
@@ -335,6 +376,8 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
   /logout:
     post:
+      tags:
+        - Authentication
       summary: log out and deactivate jwt
       operationId: logoutUser
       responses:
@@ -348,6 +391,8 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
   /forgot-password:
     post:
+      tags:
+        - Authentication
       summary: send link to reset password
       operationId: forgotPassword
       requestBody:
@@ -377,6 +422,8 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
   /change-password:
     post:
+      tags:
+        - Authentication
       summary: changePassword
       operationId: changePassword
       requestBody:
@@ -408,6 +455,8 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
   /register:
     post:
+      tags:
+        - Authentication
       summary: create a new user and account
       operationId: registerUser
       requestBody:
@@ -516,7 +565,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
   /Users:
-    get: 
+    get:
+      tags:
+        - Users
       summary: list all users
       operationId: listUsers
       responses:
@@ -547,6 +598,8 @@ paths:
         schema:
           type: string
     get:
+      tags:
+        - Users
       summary: retrieve user information
       operationId: getUser
       requestBody:
@@ -583,6 +636,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     put:
+      tags:
+        - Users
       summary: update user information
       operationId: updateUser
       requestBody:
@@ -603,8 +658,6 @@ paths:
                 new_password:
                   type: string
                   description: new password
-                name:
-                  type: string
                 is_active:
                   type: boolean
                 force_change:
@@ -629,6 +682,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     post:
+      tags:
+        - Users
       summary: create a new user
       operationId: createUser
       requestBody:
@@ -649,8 +704,6 @@ paths:
                   type: string
                 permissions:
                   type: array
-                force_change:
-                  type: boolean
                 old_password:
                   type: string
                   description: existing password, which is to be replaced
@@ -670,6 +723,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     delete:
+      tags:
+        - Users
       summary: delete a user
       operationId: deleteUser
       responses:
@@ -687,6 +742,8 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
   /Users/me:
     get:
+      tags:
+        - Users
       summary: retrieve details about logged-in user and associated account
       operationId: getMyDetails
       responses:
@@ -852,6 +909,8 @@ paths:
     
   /ActivationCode:
     post:
+      tags:
+        - Authentication
       summary: send an activation code to the user
       operationId: sendActivationCode
       requestBody:
@@ -897,6 +956,8 @@ paths:
         schema:
           type: string
     put:
+      tags:
+        - Authentication
       summary: validate an activation code
       operationId: validateActivationCode
       requestBody:
@@ -976,6 +1037,8 @@ paths:
         schema:
           type: string
     get:
+      tags:
+        - Webhooks
       summary: retrieve webhook
       operationId: getWebhook
       responses:
@@ -996,6 +1059,8 @@ paths:
 
   /VoipCarriers:
     post:
+      tags:
+        - Voip Carriers
       summary: create voip carrier
       operationId: createVoipCarrier
       requestBody:
@@ -1083,6 +1148,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
+      tags:
+        - Voip Carriers
       summary: list voip carriers
       operationId: listVoipCarriers
       responses:
@@ -1110,6 +1177,8 @@ paths:
         schema:
           type: string
     delete:
+      tags:
+        - Voip Carriers
       summary: delete a voip carrier
       operationId: deleteVoipCarrier
       responses:
@@ -1132,6 +1201,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
+      tags:
+        - Voip Carriers
       summary: retrieve voip carrier
       operationId: getVoipCarrier
       responses:
@@ -1150,6 +1221,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     put:
+      tags:
+        - Voip Carriers
       summary: update voip carrier
       operationId: updateVoipCarrier
       parameters:
@@ -1189,6 +1262,8 @@ paths:
 
   /SipGateways:
     post:
+      tags:
+        - Sip Gateways
       summary: create sip gateway
       operationId: createSipGateway
       requestBody:
@@ -1240,6 +1315,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
+      tags:
+        - Sip Gateways
       summary: list sip gateways
       operationId: listSipGateways
       parameters:
@@ -1274,6 +1351,8 @@ paths:
         schema:
           type: string
     delete:
+      tags:
+        - Sip Gateways
       summary: delete a sip gateway
       operationId: deleteSipGateway
       responses:
@@ -1288,6 +1367,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
+      tags:
+        - Sip Gateways
       summary: retrieve sip gateway
       operationId: getSipGateway
       responses:
@@ -1306,6 +1387,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     put:
+      tags:
+        - Sip Gateways
       summary: update sip gateway
       operationId: updateSipGateway
       requestBody:
@@ -1332,6 +1415,8 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
   /SmppGateways:
     post:
+      tags:
+        - Smpp Gateways
       summary: create smpp gateway
       operationId: createSmppGateway
       requestBody:
@@ -1387,6 +1472,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
+      tags:
+        - Smpp Gateways
       summary: list smpp gateways
       operationId: listSmppGateways
       responses:
@@ -1414,6 +1501,8 @@ paths:
         schema:
           type: string
     delete:
+      tags:
+        - Smpp Gateways
       summary: delete a smpp gateway
       operationId: deleteSmppGateway
       responses:
@@ -1428,6 +1517,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
+      tags:
+        - Smpp Gateways
       summary: retrieve smpp gateway
       operationId: getSmppGateway
       responses:
@@ -1446,7 +1537,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     put:
-      summary: update sip gateway
+      tags:
+        - Smpp Gateways
+      summary: update smpp gateway
       operationId: updateSmppGateway
       requestBody:
         content:
@@ -1472,6 +1565,8 @@ paths:
                 $ref: '#/components/schemas/GeneralError' 
   /PhoneNumbers:
     post:
+      tags:
+        - Phone Numbers
       summary: provision a phone number into inventory from a Voip Carrier
       operationId: provisionPhoneNumber
       requestBody:
@@ -1527,6 +1622,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
+      tags:
+        - Phone Numbers
       summary: list phone numbers
       operationId: listProvisionedPhoneNumbers
       responses:
@@ -1554,6 +1651,8 @@ paths:
         schema:
           type: string
     delete:
+      tags:
+        - Phone Numbers
       summary: delete a phone number
       operationId: deletePhoneNumber
       responses:
@@ -1576,6 +1675,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
+      tags:
+        - Phone Numbers
       summary: retrieve phone number
       operationId: getPhoneNumber
       responses:
@@ -1594,6 +1695,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     put:
+      tags:
+        - Phone Numbers
       summary: update phone number
       operationId: updatePhoneNumber
       requestBody:
@@ -1625,6 +1728,8 @@ paths:
   
   /ServiceProviders:
     post:
+      tags:
+        - Service Providers
       summary: create service provider
       operationId: createServiceProvider
       requestBody:
@@ -1667,6 +1772,8 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
 
     get:
+      tags:
+        - Service Providers
       summary: list service providers
       operationId: listServiceProviders
       responses:
@@ -1695,6 +1802,8 @@ paths:
       schema:
         type: string
     delete:
+      tags:
+        - Service Providers
       summary: delete a service provider
       operationId: deleteServiceProvider
       responses:
@@ -1716,6 +1825,8 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
 
     get:
+      tags:
+        - Service Providers
       summary: retrieve service provider
       operationId: getServiceProvider
       responses:
@@ -1733,8 +1844,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-
+                
     put:
+      tags:
+        - Service Providers
       summary: update service provider
       operationId: updateServiceProvider
       requestBody:
@@ -1769,6 +1882,8 @@ paths:
           type: string
           format: uuid
     get:
+      tags:
+        - Service Providers
       summary: get all accounts for a service provider
       operationId: getServiceProviderAccounts
       responses:
@@ -1794,6 +1909,8 @@ paths:
           type: string
           format: uuid
     get:
+      tags:
+        - Service Providers
       summary: get all carriers for a service provider
       operationId: getServiceProviderCarriers
       responses:
@@ -1810,6 +1927,8 @@ paths:
         404:
           description: service provider not found
     post:
+      tags:
+        - Service Providers
       summary: create a carrier
       operationId: createCarrierForServiceProvider
       requestBody:
@@ -1841,6 +1960,8 @@ paths:
           type: string
           format: uuid
     post:
+      tags:
+        - Service Providers
       summary: add a VoiPCarrier to a service provider based on PredefinedCarrier template
       operationId: createVoipCarrierFromTemplate
       responses:
@@ -1866,6 +1987,8 @@ paths:
           type: string
           format: uuid
     post:
+      tags:
+        - Service Providers
       summary: create a speech credential for a service provider
       operationId: addSpeechCredentialForSeerviceProvider
       requestBody:
@@ -1897,6 +2020,8 @@ paths:
           type: string
           format: uuid
     get:
+      tags:
+        - Service Providers
       summary: get a specific speech credential
       operationId: getSpeechCredential
       responses:
@@ -1909,6 +2034,8 @@ paths:
         404:
           description: credential not found
     put:
+      tags:
+        - Service Providers
       summary: update a speech credential
       operationId: updateSpeechCredential
       requestBody:
@@ -1928,6 +2055,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     delete:
+      tags:
+        - Service Providers
       summary: delete a speech credential
       operationId: deleteSpeechCredential
       responses:
@@ -1937,6 +2066,8 @@ paths:
           description: credential not found
   /ServiceProviders/{ServiceProviderSid}/SpeechCredentials/{SpeechCredentialSid}/test:
     get:
+      tags:
+        - Service Providers
       summary: test a speech credential
       operationId: testSpeechCredential
       parameters:
@@ -1991,6 +2122,8 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
   /ServiceProviders/{ServiceProviderSid}/Limits:
     post:
+      tags:
+        - Service Providers
       summary: create a limit for a service provider
       operationId: addLimitForServiceProvider
       parameters:
@@ -2021,6 +2154,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
+      tags:
+        - Service Providers
       summary: retrieve call capacity and other limits from the service provider
       operationId: getServiceProviderLimits
       parameters:
@@ -2049,6 +2184,8 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
   /Accounts/{AccountSid}/Limits:
     post:
+      tags:
+        - Accounts
       summary: create a limit for an account
       operationId: addLimitForAccount
       parameters:
@@ -2079,6 +2216,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
+      tags:
+        - Accounts
       summary: retrieve call capacity and other limits from the account
       operationId: getAccountLimits
       parameters:
@@ -2107,6 +2246,8 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
   /MicrosoftTeamsTenants:
     post:
+      tags: 
+        - Microsoft Teams Tenants
       summary: provision a customer tenant for MS Teams
       operationId: createMsTeamsTenant
       requestBody:
@@ -2154,6 +2295,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
+      tags: 
+        - Microsoft Teams Tenants
       summary: list MS Teams tenants
       operationId: listMsTeamsTenants
       responses:
@@ -2180,6 +2323,8 @@ paths:
           type: string
           format: uuid
     delete:
+      tags: 
+        - Microsoft Teams Tenants
       summary: delete an MS Teams tenant
       operationId: deleteTenant
       responses:
@@ -2194,6 +2339,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
+      tags: 
+        - Microsoft Teams Tenants
       summary: retrieve an MS Teams tenant
       operationId: getTenant
       responses:
@@ -2213,7 +2360,9 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
 
     put:
-      summary: update tenant
+      tags: 
+        - Microsoft Teams Tenants
+      summary: update an MS Teams tenant
       operationId: putTenant
       requestBody:
         content:
@@ -2241,6 +2390,8 @@ paths:
 
   /Accounts:
     post:
+      tags:
+        - Accounts
       summary: create an account
       operationId: createAccount
       requestBody:
@@ -2408,6 +2559,8 @@ paths:
                               address should be blacklisted by the platform (0 means forever).
 
     get:
+      tags:
+        - Accounts
       summary: list accounts
       operationId: listAccounts
       responses:
@@ -2435,6 +2588,8 @@ paths:
           type: string
           format: uuid
     delete:
+      tags:
+        - Accounts
       summary: delete an account
       operationId: deleteAccount
       responses:
@@ -2455,6 +2610,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
+      tags:
+        - Accounts
       summary: retrieve account
       operationId: getAccount
       responses:
@@ -2474,6 +2631,8 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
 
     put:
+      tags:
+        - Accounts
       summary: update account
       operationId: updateAccount
       requestBody:
@@ -2512,6 +2671,8 @@ paths:
         schema:
           type: boolean
     get:
+      tags:
+        - Accounts
       summary: get webhook signing secret, regenerating if requested
       operationId: getWebhookSecret
       responses:
@@ -2542,6 +2703,8 @@ paths:
           type: string
           format: uuid
     get:
+      tags:
+        - Accounts
       summary: get all api keys for an account
       operationId: getAccountApiKeys
       responses:
@@ -2576,6 +2739,8 @@ paths:
         schema:
           type: string
     post:
+      tags:
+        - Accounts
       summary: add or change the sip realm
       operationId: createSipRealm
       responses:
@@ -2604,6 +2769,8 @@ paths:
           format: uuid
 
     post:
+      tags:
+        - Accounts
       summary: add a speech credential
       operationId: createSpeechCredential
       requestBody:
@@ -2631,6 +2798,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
+      tags:
+        - Accounts
       summary: retrieve all speech credentials for an account
       operationId: listSpeechCredentials
       responses:
@@ -2659,6 +2828,8 @@ paths:
           type: string
           format: uuid
     get:
+      tags:
+        - Accounts
       summary: get a specific speech credential
       operationId: getSpeechCredential
       responses:
@@ -2671,6 +2842,8 @@ paths:
         404:
           description: credential not found
     put:
+      tags:
+        - Accounts
       summary: update a speech credential
       operationId: updateSpeechCredential
       requestBody:
@@ -2690,6 +2863,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     delete:
+      tags:
+        - Accounts
       summary: delete a speech credential
       operationId: deleteSpeechCredential
       responses:
@@ -2699,6 +2874,8 @@ paths:
           description: credential not found
   /Accounts/{AccountSid}/SpeechCredentials/{SpeechCredentialSid}/test:
     get:
+      tags:
+        - Accounts
       summary: test a speech credential
       operationId: testSpeechCredential
       parameters:
@@ -2812,6 +2989,8 @@ paths:
             - inbound
             - outbound
     get:
+      tags:
+        - Accounts
       summary: retrieve recent calls for an account
       operationId: listRecentCalls
       responses:
@@ -2908,6 +3087,8 @@ paths:
         schema:
           type: string
     get:
+      tags:
+        - Accounts
       summary: retrieve sip trace detail for a call
       operationId: getRecentCallTrace
       responses:
@@ -2933,6 +3114,8 @@ paths:
         schema:
           type: string
     get:
+      tags:
+        - Service Providers
       summary: retrieve pcap for a call
       operationId: getRecentCallTrace
       responses:
@@ -3005,6 +3188,8 @@ paths:
             - inbound
             - outbound
     get:
+      tags:
+        - Service Providers
       summary: retrieve recent calls for an account
       operationId: listRecentCalls
       responses:
@@ -3104,6 +3289,8 @@ paths:
         schema:
           type: string
     get:
+      tags:
+        - Service Providers
       summary: retrieve sip trace detail for a call
       operationId: getRecentCallTrace
       responses:
@@ -3129,6 +3316,8 @@ paths:
         schema:
           type: string
     get:
+      tags:
+        - Accounts
       summary: retrieve pcap for a call
       operationId: getRecentCallTrace
       responses:
@@ -3201,6 +3390,8 @@ paths:
             - device-limit
             - api-limit
     get:
+      tags:
+        - Service Providers
       summary: retrieve alerts for a service provider
       operationId: listAlerts
       responses:
@@ -3311,6 +3502,8 @@ paths:
             - device-limit
             - api-limit
     get:
+      tags:
+       - Accounts
       summary: retrieve alerts for an account
       operationId: listAlerts
       responses:
@@ -3359,6 +3552,8 @@ paths:
           description: account not found
   /Applications:
     post:
+      tags:
+       - Applications
       summary: create application
       operationId: createApplication
       requestBody:
@@ -3424,6 +3619,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
+      tags:
+       - Applications
       summary: list applications
       operationId: listApplications
       responses:
@@ -3452,6 +3649,8 @@ paths:
         schema:
           type: string
     delete:
+      tags:
+       - Applications
       summary: delete an application
       operationId: deleteApplication
       responses:
@@ -3472,6 +3671,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
+      tags:
+       - Applications
       summary: retrieve an application
       responses:
         200:
@@ -3489,6 +3690,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     put:
+      tags:
+       - Applications
       summary: update application
       operationId: updateApplication
       requestBody:
@@ -3517,6 +3720,8 @@ paths:
   
   /Accounts/{AccountSid}/Calls:
     post:
+      tags:
+       - Accounts
       summary: create a call
       operationId: createCall
       parameters:
@@ -3578,6 +3783,8 @@ paths:
         400:
           description: bad request
     get:
+      tags:
+       - Accounts
       summary: list calls
       operationId: listCalls
       parameters:
@@ -3618,6 +3825,8 @@ paths:
         schema:
           type: string
     delete:
+      tags:
+       - Accounts
       summary: delete a call
       operationId: deleteCall
       responses:
@@ -3638,6 +3847,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
+      tags:
+       - Accounts
       summary: retrieve a call
       operationId: getCall
       responses:
@@ -3656,6 +3867,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     post:
+      tags:
+       - Accounts
       summary: update a call
       operationId: updateCall
       requestBody:
@@ -3741,6 +3954,8 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
   /Accounts/{AccountSid}/Messages:
     post:
+      tags:
+       - Accounts
       summary: create an outgoing SMS message
       operationId: createMessage
       parameters:
