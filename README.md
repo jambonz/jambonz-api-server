@@ -15,15 +15,17 @@ JAMBONES_MYSQL_CONNECTION_LIMIT   # defaults to 10
 JAMBONES_REDIS_HOST
 JAMBONES_REDIS_PORT
 JAMBONES_LOGLEVEL                 # defaults to info
-JAMBONES_API_VERSION              # defaults to v1
+JAMBONES_API_VERSION              # defaults to v1               
+JAMBONES_TIME_SERIES_HOST
+JWT_SECRET
 HTTP_PORT                         # defaults to 3000
 ```
 
 #### Database dependency
 A mysql database is used to store long-lived objects such as Accounts, Applications, etc. To create the database schema, use or review the scripts in the 'db' folder, particularly:
-- [create_db.sql](db/create_db.sql), which creates the database and associated user (you may want to edit the username and password),
 - [jambones-sql.sql](db/jambones-sql.sql), which creates the schema,
-- [create-admin-token.sql](db/create-admin-token.sql), which creates an admin-level auth token that can be used for testing/exercising the API.
+- [seed-production-database-open-source.sql](db/seed-production-database-open-source.sql), which seeds the database with initial dataset(accounts, permissions, api keys, applications etc).
+- [create-admin-user.sql](db/create-admin-user.sql), which creates admin user with password set to "admin". The password will be forced to change after the first login.
 
 > Note: due to the dependency on the npmjs [mysql](https://www.npmjs.com/package/mysql) package, the mysql database must be configured to use sql [native authentication](https://medium.com/@crmcmullen/how-to-run-mysql-8-0-with-native-password-authentication-502de5bac661).
 
