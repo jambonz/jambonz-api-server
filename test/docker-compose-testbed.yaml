@@ -134,3 +134,13 @@ services:
     networks:
       jambonz-api:
         ipv4_address: 172.58.0.9
+
+  webhook-tts-scaffold:
+    image: jambonz/webhook-tts-test-scaffold:latest
+    ports:
+      - "3101:3000/tcp"
+    volumes:
+      - ./test-apps:/tmp
+    networks:
+      jambonz-api:
+        ipv4_address: 172.58.0.10
