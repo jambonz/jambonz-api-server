@@ -392,9 +392,34 @@ test('speech credentials tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully deleted speech credential');
 
+    /* add a credential for nuance */
+    result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        vendor: 'nuance',
+        use_for_stt: true,
+        use_for_tts: true,
+        client_id: 'client_id',
+        secret: 'secret',
+        nuance_tts_uri: "192.168.1.2:5060",
+        nuance_stt_uri: "192.168.1.2:5061"
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully added speech credential for nuance');
+    const nuance_sid = result.body.sid;
+
+    /* delete the credential */
+    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${nuance_sid}`, {
+      auth: authUser,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 204, 'successfully deleted speech credential');
+
     await deleteObjectBySid(request, '/Accounts', account_sid);
     await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid);
-    //t.end();
+    t.end();
   }
   catch (err) {
     console.error(err);
