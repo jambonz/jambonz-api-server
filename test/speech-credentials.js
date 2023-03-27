@@ -73,8 +73,8 @@ test('speech credentials tests', async(t) => {
     t.ok(result.statusCode === 201, 'successfully added speech credential');
     const sid1 = result.body.sid;
 
-    /* return 403 if invalid account is used  */
-    result = await request.post(`/Accounts/foobarbaz/SpeechCredentials`, {
+    /* return 403 if invalid account is used - randomSid: bed7ae17-f8b4-4b74-9e5b-4f6318aae9c9 */
+    result = await request.post(`/Accounts/bed7ae17-f8b4-4b74-9e5b-4f6318aae9c9/SpeechCredentials`, {
       resolveWithFullResponse: true,
       simple: false,
       auth: authUser,
