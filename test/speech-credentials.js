@@ -73,6 +73,19 @@ test('speech credentials tests', async(t) => {
     t.ok(result.statusCode === 201, 'successfully added speech credential');
     const sid1 = result.body.sid;
 
+    /* return 400 if invalid sid param is used */
+    result = await request.post(`/Accounts/foobarbaz/SpeechCredentials`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authUser,
+      json: true,
+      body: {
+        vendor: 'google',
+        service_key: jsonKey
+      }
+    });
+    t.ok(result.statusCode === 400, 'returns 400 Bad Request if sid param is not a valid uuid');
+
     /* return 403 if invalid account is used - randomSid: bed7ae17-f8b4-4b74-9e5b-4f6318aae9c9 */
     result = await request.post(`/Accounts/bed7ae17-f8b4-4b74-9e5b-4f6318aae9c9/SpeechCredentials`, {
       resolveWithFullResponse: true,
