@@ -27,6 +27,15 @@ values ('2708b1b3-2736-40ea-b502-c53d8396247f', 'default service provider', 'sip
 insert into accounts (account_sid, service_provider_sid, name, webhook_secret) 
 values ('9351f46a-678c-43f5-b8a6-d4eb58d131af','2708b1b3-2736-40ea-b502-c53d8396247f', 'default account', 'wh_secret_cJqgtMDPzDhhnjmaJH6Mtk');
 
+-- create account level api key
+insert into api_keys (api_key_sid, token, service_provider_sid) 
+values ('3f35518f-5a0d-4c2e-90a5-2407bb3b36f0', '38700987-c7a4-4685-a5bb-af378f9734da', '9351f46a-678c-43f5-b8a6-d4eb58d131af');
+
+-- create SP level api key
+insert into api_keys (api_key_sid, token, account_sid) 
+values ('3f35518f-5a0d-4c2e-90a5-2407bb3b36f0', '38700987-c7a4-4685-a5bb-af378f9734ds', '2708b1b3-2736-40ea-b502-c53d8396247f');
+
+
 -- create two applications
 insert into webhooks(webhook_sid, url, method)
 values 

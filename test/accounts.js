@@ -1,6 +1,10 @@
 const test = require('tape') ;
 const ADMIN_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734de';
+const ACCOUNT_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734da';
+const SP_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734ds';
 const authAdmin = {bearer: ADMIN_TOKEN};
+const authAccount = {bearer: ACCOUNT_TOKEN};
+const authSP = {bearer: SP_TOKEN};
 const request = require('request-promise-native').defaults({
   baseUrl: 'http://127.0.0.1:3000/v1'
 });
@@ -267,6 +271,14 @@ test('account tests', async(t) => {
     await deleteObjectBySid(request, '/VoipCarriers', voip_carrier_sid);
     await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid);
     //t.end();
+
+    /* query all limits for an account */
+    result = await request.get(`/Accounts/some-sid`, {
+      auth: authAccount,
+      json: true,
+    });
+    console.log(result);
+    t.ok(result.statusCode, 'some-sid will return insufficient permissions');
   }
   catch (err) {
     console.error(err);
