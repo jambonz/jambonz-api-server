@@ -21,6 +21,9 @@ assert.ok(process.env.JAMBONES_MYSQL_HOST &&
   process.env.JAMBONES_MYSQL_DATABASE, 'missing JAMBONES_MYSQL_XXX env vars');
 assert.ok(process.env.JAMBONES_REDIS_HOST, 'missing JAMBONES_REDIS_HOST env var');
 assert.ok(process.env.JAMBONES_TIME_SERIES_HOST, 'missing JAMBONES_TIME_SERIES_HOST env var');
+assert.ok(process.env.ENCRYPTION_SECRET || process.env.JWT_SECRET, 'missing ENCRYPTION_SECRET env var');
+assert.ok(process.env.JWT_SECRET, 'missing JWT_SECRET env var');
+
 const {
   queryCdrs,
   queryCdrsSP,
@@ -42,13 +45,13 @@ const {
   retrieveKey,
   deleteKey,
 } = require('@jambonz/realtimedb-helpers')({
-  host: process.env.JAMBONES_REDIS_HOST || 'localhost',
+  host: process.env.JAMBONES_REDIS_HOST,
   port: process.env.JAMBONES_REDIS_PORT || 6379
 }, logger);
 const {
   getTtsVoices
 } = require('@jambonz/speech-utils')({
-  host: process.env.JAMBONES_REDIS_HOST || 'localhost',
+  host: process.env.JAMBONES_REDIS_HOST,
   port: process.env.JAMBONES_REDIS_PORT || 6379
 }, logger);
 const {
