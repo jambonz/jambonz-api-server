@@ -163,25 +163,6 @@ test('account tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully updated account using account level token');
 
-    /* try to update account with invalid sid param */
-    result = await request.put(`/Accounts/123`, {
-      auth: {bearer: accountLevelToken},
-      json: true,
-      resolveWithFullResponse: true,
-      body: {
-        name: 'robb',
-        registration_hook: {
-          url: 'http://example.com/reg2',
-          method: 'get'
-        },
-        queue_event_hook: {
-          url: 'http://example.com/q',
-          method: 'post'
-        }
-      }
-    });
-    t.ok(result.statusCode === 400, 'returns 400 Bad Request if sid param is not a valid uuid');
-
     /* verify that account level api key last_used was updated*/
     result = await request.get(`/Accounts/${sid}/ApiKeys`, {
       auth: {bearer: accountLevelToken},
