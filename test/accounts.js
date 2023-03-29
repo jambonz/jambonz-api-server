@@ -219,6 +219,21 @@ test('account tests', async(t) => {
     });
     t.ok(result.statusCode === 201, 'successfully updated a call session limit to an account');
 
+    /* try to update an existing limit for an account giving a invalid sid */
+    try {
+      result = await request.post(`/Accounts/invalid-sid/Limits`, {
+        auth: authAdmin,
+        json: true,
+        resolveWithFullResponse: true,
+        body: {
+          category: 'voice_call_session',
+          quantity: 205
+        }
+      });
+    } catch (err) {
+      t.ok(err.statusCode === 400, 'returns 400 bad request if sid param is not a valid uuid');
+    }
+
     /* query all limits for an account */
     result = await request.get(`/Accounts/${sid}/Limits`, {
       auth: authAdmin,
