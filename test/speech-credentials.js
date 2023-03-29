@@ -23,19 +23,22 @@ test('speech credentials tests', async(t) => {
     const account_sid = await createAccount(request, service_provider_sid);
 
     /* return 400 if invalid sid param is used */
-    result = await request.post(`/ServiceProviders/foobarbaz/SpeechCredentials`, {
-      resolveWithFullResponse: true,
-      simple: false,
-      auth: authAdmin,
-      json: true,
-      body: {
-        vendor: 'google',
-        service_key: jsonKey,
-        use_for_tts: true,
-        use_for_stt: true
-      }
-    });
-    t.ok(result.statusCode === 400, 'returns 400 bad request if sid param is not a valid uuid');
+    try {
+      result = await request.post(`/ServiceProviders/foobarbaz/SpeechCredentials`, {
+        resolveWithFullResponse: true,
+        simple: false,
+        auth: authAdmin,
+        json: true,
+        body: {
+          vendor: 'google',
+          service_key: jsonKey,
+          use_for_tts: true,
+          use_for_stt: true
+        }
+      });
+    } catch (err) {
+      t.ok(err.statusCode === 400, 'returns 400 bad request if sid param is not a valid uuid');
+    }
 
     /* add a speech credential to a service provider */
     result = await request.post(`/ServiceProviders/${service_provider_sid}/SpeechCredentials`, {

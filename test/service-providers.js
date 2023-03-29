@@ -107,6 +107,20 @@ test('service provider tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully updated service provider');
 
+    /* try to update service providers with invalid sid format*/
+    try {
+      result = await request.put(`/ServiceProviders/123`, {
+        auth: authAdmin,
+        json: true,
+        resolveWithFullResponse: true,
+        body: {
+          name: 'robb'
+        }
+      });
+    } catch (err) {
+      t.ok(err.statusCode === 400, 'returns 400 bad request if sid param is not a valid uuid');
+    }
+
     /* add an api key for a service provider */
     result = await request.post(`/ApiKeys`, {
       auth: authAdmin,
