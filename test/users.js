@@ -23,7 +23,7 @@ test('add an admin user', (t) => {
 
 test('user tests', async(t) => {
   const app = require('../app');
-  const password = await generateHashedPassword('abcd1234-');
+  const password = 'abcde12345-';
   try {
     let result;
 

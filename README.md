@@ -1,25 +1,38 @@
 # jambonz-api-server ![Build Status](https://github.com/jambonz/jambonz-api-server/workflows/CI/badge.svg)
 
-Jambones REST API server.
+Jambones REST API server of the jambones platform.
 
 ## Configuration
 
-This process requires the following environment variables to be set.
+Configuration is provided via environment variables:
 
-```
-JAMBONES_MYSQL_HOST
-JAMBONES_MYSQL_USER
-JAMBONES_MYSQL_PASSWORD
-JAMBONES_MYSQL_DATABASE
-JAMBONES_MYSQL_CONNECTION_LIMIT   # defaults to 10
-JAMBONES_REDIS_HOST
-JAMBONES_REDIS_PORT
-JAMBONES_LOGLEVEL                 # defaults to info
-JAMBONES_API_VERSION              # defaults to v1               
-JAMBONES_TIME_SERIES_HOST
-JWT_SECRET
-HTTP_PORT                         # defaults to 3000
-```
+| variable | meaning | required?|
+|----------|----------|---------|
+|JWT_SECRET| secret for signing JWT token |yes|
+|JWT_EXPIRES_IN| expiration time for JWT token(in minutes) |no|
+|ENCRYPTION_SECRET| secret for credential encryption(JWT_SECRET is deprecated) |yes|
+|HTTP_PORT| tcp port to listen on for API requests from jambonz-api-server |no|
+|JAMBONES_LOGLEVEL| log level for application, 'info' or 'debug' |no|
+|JAMBONES_MYSQL_HOST| mysql host |yes|
+|JAMBONES_MYSQL_USER| mysql username |yes|
+|JAMBONES_MYSQL_PASSWORD|  mysql password |yes|
+|JAMBONES_MYSQL_DATABASE| mysql data |yes|
+|JAMBONES_MYSQL_PORT| mysql port |no|
+|JAMBONES_MYSQL_CONNECTION_LIMIT| mysql connection limit |no|
+|JAMBONES_REDIS_HOST| redis host |yes|
+|JAMBONES_REDIS_PORT| redis port |no|
+|RATE_LIMIT_WINDOWS_MINS| rate limit window |no|
+|RATE_LIMIT_MAX_PER_WINDOW| number of requests per window |no|
+|JAMBONES_TRUST_PROXY| trust proxies, must be a number |no|
+|JAMBONES_API_VERSION| api version |no|
+|JAMBONES_TIME_SERIES_HOST| influxdb host |yes|
+|JAMBONES_CLUSTER_ID| cluster id |no|
+|HOMER_BASE_URL| HOMER URL |no|
+|HOMER_USERNAME| HOMER username |no|
+|HOMER_PASSWORD| HOMER password |no|
+|K8S| service running as kubernetes service |no|
+|K8S_FEATURE_SERVER_SERVICE_NAME| feature server name(required for K8S) |no|
+|K8S_FEATURE_SERVER_SERVICE_PORT| feature server port(required for K8S) |no|
 
 #### Database dependency
 A mysql database is used to store long-lived objects such as Accounts, Applications, etc. To create the database schema, use or review the scripts in the 'db' folder, particularly:
