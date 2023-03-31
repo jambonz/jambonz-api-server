@@ -61,6 +61,16 @@ test('phone number tests', async(t) => {
     });
     t.ok(result.number === '16173333456' , 'successfully retrieved phone number by sid');
 
+    /* fail to query one phone number with invalid uuid */
+    try {
+      result = await request.get(`/PhoneNumbers/foobar`, {
+        auth: authAdmin,
+        json: true,
+      });
+    } catch (err) {
+      t.ok(err.statusCode === 400, 'returns 400 bad request if phone number sid param is not a valid uuid');
+    }
+
     /* delete phone number */
     result = await request.delete(`/PhoneNumbers/${sid}`, {
       auth: authAdmin,
