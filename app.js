@@ -44,10 +44,7 @@ const {
   addKey,
   retrieveKey,
   deleteKey,
-} = require('@jambonz/realtimedb-helpers')({
-  host: process.env.JAMBONES_REDIS_HOST,
-  port: process.env.JAMBONES_REDIS_PORT || 6379
-}, logger);
+} = require('./lib/helpers/realtimedb-helpers');
 const {
   getTtsVoices
 } = require('@jambonz/speech-utils')({
