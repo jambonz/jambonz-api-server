@@ -37,7 +37,7 @@ test('speech credentials tests', async(t) => {
         }
       });
     } catch (err) {
-      t.ok(err.statusCode === 400, 'returns 400 bad request if sid param is not a valid uuid');
+      t.ok(err.statusCode === 400, 'returns 400 bad request if service provider sid param is not a valid uuid');
     }
 
     /* add a speech credential to a service provider */
@@ -119,8 +119,16 @@ test('speech credentials tests', async(t) => {
     t.ok(result[0].vendor === 'google' && result.length === 1, 'successfully retrieved all speech credentials');
     
     
-    /* return 404 when deleting unknown credentials */
+    /* return 400 when deleting credentials with invalid uuid */
     result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/foobarbaz`, {
+      auth: authUser,
+      resolveWithFullResponse: true,
+      simple: false
+    });
+    t.ok(result.statusCode === 400, 'return 400 when attempting to delete credential with invalid uuid');
+
+    /* return 404 when deleting unknown credentials - randomSid: bed7ae17-f8b4-4b74-9e5b-4f6318aae9c9 */
+    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/`, {
       auth: authUser,
       resolveWithFullResponse: true,
       simple: false

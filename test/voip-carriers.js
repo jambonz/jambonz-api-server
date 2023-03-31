@@ -43,6 +43,15 @@ test('voip carrier tests', async(t) => {
     });
     t.ok(result.name === 'daveh' , 'successfully retrieved voip carrier by sid');
 
+    /* fail to query one voip carriers with invalid uuid */
+    try {
+      result = await request.get(`/VoipCarriers/123`, {
+        auth: authAdmin,
+        json: true,
+      });
+    } catch (err) {
+      t.ok(err.statusCode === 400, 'returns 400 bad request if voip carrier sid param is not a valid uuid');
+    }
 
     /* update voip carriers */
     result = await request.put(`/VoipCarriers/${sid}`, {

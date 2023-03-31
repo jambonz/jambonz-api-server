@@ -231,7 +231,7 @@ test('account tests', async(t) => {
         }
       });
     } catch (err) {
-      t.ok(err.statusCode === 400, 'returns 400 bad request if sid param is not a valid uuid');
+      t.ok(err.statusCode === 400, 'returns 400 bad request if account sid param is not a valid uuid');
     }
 
     /* query all limits for an account */
