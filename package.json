@@ -10,6 +10,7 @@
     "upgrade-db": "node ./db/upgrade-jambonz-db.js",
     "coverage": "./node_modules/.bin/nyc --reporter html --report-dir ./coverage npm run test",
     "jslint": "eslint app.js lib",
+    "jslint:fix": "eslint app.js lib --fix",
     "prepare": "husky install"
   },
   "author": "Dave Horton",
