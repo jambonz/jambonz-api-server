@@ -1,12 +1,5 @@
 const assert = require('assert');
-const opts = Object.assign({
-  timestamp: () => {
-    return `, "time": "${new Date().toISOString()}"`;
-  }
-}, {
-  level: process.env.JAMBONES_LOGLEVEL || 'info'
-});
-const logger = require('pino')(opts);
+const logger = require('./lib/logger');
 const express = require('express');
 const app = express();
 const helmet = require('helmet');
@@ -44,10 +37,7 @@ const {
   addKey,
   retrieveKey,
   deleteKey,
-} = require('@jambonz/realtimedb-helpers')({
-  host: process.env.JAMBONES_REDIS_HOST,
-  port: process.env.JAMBONES_REDIS_PORT || 6379
-}, logger);
+} = require('./lib/helpers/realtimedb-helpers');
 const {
   getTtsVoices
 } = require('@jambonz/speech-utils')({
