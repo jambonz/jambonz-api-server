@@ -1,12 +1,5 @@
 const assert = require('assert');
-const opts = Object.assign({
-  timestamp: () => {
-    return `, "time": "${new Date().toISOString()}"`;
-  }
-}, {
-  level: process.env.JAMBONES_LOGLEVEL || 'info'
-});
-const logger = require('pino')(opts);
+const logger = require('./lib/logger');
 const express = require('express');
 const app = express();
 const helmet = require('helmet');
