@@ -207,7 +207,7 @@ test('application tests', async(t) => {
       simple: false,
       json: true
     });
-    //console.log(results);
+    console.log(results);
     t.ok(result.statusCode === 422, 'cannot delete application with phone numbers');
 
     /* delete application */
