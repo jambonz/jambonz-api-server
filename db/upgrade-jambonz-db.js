@@ -87,6 +87,9 @@ const sql = {
     'ALTER TABLE user_permissions ADD FOREIGN KEY user_sid_idxfk (user_sid) REFERENCES users (user_sid) ON DELETE CASCADE',
     'ALTER TABLE user_permissions ADD FOREIGN KEY permission_sid_idxfk (permission_sid) REFERENCES permissions (permission_sid)',
     'ALTER TABLE `users` ADD COLUMN `is_active` BOOLEAN NOT NULL default true',
+  ],
+  8003: [
+    'ALTER TABLE `voip_carriers` ADD COLUMN `register_status` VARCHAR(4096)',
   ]
 };
 
