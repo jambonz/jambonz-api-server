@@ -37,6 +37,7 @@ const {
   addKey,
   retrieveKey,
   deleteKey,
+  incrKey
 } = require('./lib/helpers/realtimedb-helpers');
 const {
   getTtsVoices
@@ -75,6 +76,7 @@ app.locals = {
   purgeCalls,
   retrieveSet,
   addKey,
+  incrKey,
   retrieveKey,
   deleteKey,
   getTtsVoices,
