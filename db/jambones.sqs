@@ -734,7 +734,7 @@
         </SQLField>
         <SQLField>
             <name><![CDATA[register_status]]></name>
-            <type><![CDATA[VARCHAR(1024)]]></type>
+            <type><![CDATA[VARCHAR(4096)]]></type>
             <uid><![CDATA[7C7DFE92-D7AC-4447-A1C2-E0F10C1EA26A]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[24]]></labelWindowIndex>
@@ -2722,8 +2722,8 @@
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
         <windowHeight><![CDATA[868.000000]]></windowHeight>
-        <windowLocationX><![CDATA[0.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[76.000000]]></windowLocationY>
+        <windowLocationX><![CDATA[-1164.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[1169.000000]]></windowLocationY>
         <windowScrollOrigin><![CDATA[{0, 170}]]></windowScrollOrigin>
         <windowWidth><![CDATA[1512.000000]]></windowWidth>
     </SQLDocumentInfo>
