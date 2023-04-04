@@ -3,6 +3,7 @@ const logger = require('./lib/logger');
 const express = require('express');
 const app = express();
 const helmet = require('helmet');
+const nocache = require('nocache');
 const rateLimit = require('express-rate-limit');
 const cors = require('cors');
 const passport = require('passport');
@@ -122,6 +123,7 @@ if (process.env.JAMBONES_TRUST_PROXY) {
 app.use(limiter);
 app.use(helmet());
 app.use(helmet.hidePoweredBy());
+app.use(nocache());
 app.use(passport.initialize());
 app.use(cors());
 app.use(express.urlencoded({extended: true}));
