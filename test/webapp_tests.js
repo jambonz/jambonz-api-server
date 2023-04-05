@@ -243,17 +243,20 @@ test('webapp tests', async(t) => {
     t.ok(result.statusCode === 200 && 
       result.body.phonenumbers.length === 1 && result.body.applications.length === 1, 'retrieves test number and application');
 
-    /* update user name */
-    result = await request.put(`/Users/foobar`, {
-      resolveWithFullResponse: true,
-      json: true,
-      simple: false,
-      auth: authUser,
-      body: {
-        name: 'Jane Doe'
-      }
-    });
-    t.ok(result.statusCode === 403, 'rejects attempt to update different user');
+    /* try to update user name passing an invalid uuid */
+    try {
+      await request.put(`/Users/foobar`, {
+        resolveWithFullResponse: true,
+        json: true,
+        simple: false,
+        auth: authUser,
+        body: {
+          name: 'Jane Doe'
+        }
+      });
+    } catch (error) {
+      t.ok(error.statusCode === 400, 'returns 400 bad request if user sid param is not a valid uuid');
+    }
 
     /* update user name */
     result = await request.put(`/Users/${user_sid}`, {

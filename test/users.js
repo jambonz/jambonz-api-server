@@ -83,7 +83,7 @@ test('user tests', async(t) => {
       }
     });
     t.ok(result.statusCode === 201 && result.body.user_sid, 'service_provider scope user created');
-    const sp_user_sid = result.body.sid;
+    const sp_user_sid = result.body.user_sid;
 
     /* add an account */
     result = await request.post('/Accounts', {
@@ -119,7 +119,7 @@ test('user tests', async(t) => {
       }
     });
     t.ok(result.statusCode === 201 && result.body.user_sid, 'account scope user created');
-    const account_user_sid = result.body.sid;
+    const account_user_sid = result.body.user_sid;
 
     /* retrieve list of users */
     result = await request.get(`/Users`, {
