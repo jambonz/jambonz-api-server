@@ -71,6 +71,7 @@ test('speech credentials tests', async(t) => {
 
     const token = jwt.sign({
       account_sid,
+      service_provider_sid,
       scope: 'account',
       permissions: ["PROVISION_USERS", "PROVISION_SERVICES", "VIEW_ONLY"]
     }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -393,6 +394,7 @@ test('speech credentials tests', async(t) => {
       auth: authUser,
       json: true,
       body: {
+        service_provider_sid: service_provider_sid,
         vendor: 'nvidia',
         use_for_stt: true,
         use_for_tts: true,
