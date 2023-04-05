@@ -127,7 +127,7 @@ test('authentication tests', async(t) => {
         sip_realm: 'sip.foo.bar'
       }
     });
-    t.ok(result.statusCode === 422 && result.body.msg === 'cannot update account from different service provider',
+    t.ok(result.statusCode === 403 && result.body.msg === 'insufficient permissions',
       'service provider token B cannot be used to update account from service provider A');
 
     /* cannot delete account from different service provider */
@@ -137,7 +137,7 @@ test('authentication tests', async(t) => {
       simple: false,
       json: true,
     });
-    t.ok(result.statusCode === 422 && result.body.msg === 'cannot delete account from different service provider',
+    t.ok(result.statusCode === 403 && result.body.msg === 'insufficient permissions',
       'service provider token B cannot be used to delete account from service provider A');
 
     /* service provider token A can update account A1 */
@@ -179,7 +179,7 @@ test('authentication tests', async(t) => {
       }
     });
     //console.log(`result: ${JSON.stringify(result)}`);
-    t.ok(result.statusCode === 422 && result.body.msg === 'insufficient permissions to create accounts',
+    t.ok(result.statusCode === 403 && result.body.msg === 'insufficient permissions',
       'cannot create an account using an account-level token');
 
     /* using account token we see one account */
@@ -200,8 +200,7 @@ test('authentication tests', async(t) => {
         sip_realm: 'sip.foo.bar'
       }
     });
-    //console.log(`result: ${JSON.stringify(result)}`);
-    t.ok(result.statusCode === 422 && result.body.msg === 'insufficient privileges to update this account',
+    t.ok(result.statusCode === 403 && result.body.msg === 'insufficient permissions',
       'cannot update account A2 using auth token for account A1');
 
     /* can update an account using an appropriate account-level token */
@@ -251,7 +250,8 @@ test('authentication tests', async(t) => {
         }
       }
     });
-    t.ok(result.statusCode === 400 && result.body.msg === 'insufficient privileges to create an application under the specified account',
+    //console.log(`result: ${JSON.stringify(result)}`);
+    t.ok(result.statusCode === 403 && result.body.msg === 'insufficient privileges',
       'cannot create application for account A2 using service provider token B');
 
     result = await request.post('/Applications', {
