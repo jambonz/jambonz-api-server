@@ -64,6 +64,7 @@ const {
 }, logger);
 const PORT = process.env.HTTP_PORT || 3000;
 const authStrategy = require('./lib/auth')(logger, retrieveKey);
+const {delayLoginMiddleware} = require('./lib/middleware');
 
 passport.use(authStrategy);
 
@@ -129,6 +130,7 @@ app.use(nocache());
 app.use(passport.initialize());
 app.use(cors());
 app.use(express.urlencoded({extended: true}));
+app.use(delayLoginMiddleware);
 app.use(unless(['/stripe'], express.json()));
 app.use('/v1', unless(
   [
