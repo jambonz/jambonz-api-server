@@ -90,6 +90,7 @@ const sql = {
   ],
   8003: [
     'ALTER TABLE `voip_carriers` ADD COLUMN `register_status` VARCHAR(4096)',
+    'ALTER TABLE `sbc_addresses` ADD COLUMN `last_updated` DATETIME',
   ]
 };
 
