@@ -546,8 +546,8 @@
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[A Carrier or customer PBX that can send or receive calls]]></comment>
         <location>
-            <x>20.00</x>
-            <y>287.00</y>
+            <x>16.00</x>
+            <y>390.00</y>
         </location>
         <size>
             <width>293.00</width>
@@ -1292,8 +1292,8 @@
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[a regex-based pattern match for call routing]]></comment>
         <location>
-            <x>18.00</x>
-            <y>864.00</y>
+            <x>31.00</x>
+            <y>963.00</y>
         </location>
         <size>
             <width>254.00</width>
@@ -1546,8 +1546,8 @@
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[An entry in the LCR routing list]]></comment>
         <location>
-            <x>22.00</x>
-            <y>155.00</y>
+            <x>24.00</x>
+            <y>237.00</y>
         </location>
         <size>
             <width>259.00</width>
@@ -1558,6 +1558,7 @@
             <name><![CDATA[lcr_carrier_set_entry_sid]]></name>
             <type><![CDATA[CHAR(36)]]></type>
             <primaryKey>1</primaryKey>
+            <forcedUnique><![CDATA[1]]></forcedUnique>
             <uid><![CDATA[7F8F912B-6596-4068-8C4D-9C790A2DEC8C]]></uid>
         </SQLField>
         <SQLField>
@@ -1621,7 +1622,7 @@
         </location>
         <size>
             <width>318.00</width>
-            <height>440.00</height>
+            <height>460.00</height>
         </size>
         <zorder>4</zorder>
         <SQLField>
@@ -1799,6 +1800,19 @@
             <referencesTableUID><![CDATA[E97EE4F0-7ED7-4E8C-862E-D98192D6EAE0]]></referencesTableUID>
             <uid><![CDATA[4B8283B4-5E16-4846-A79D-12C6B2E73C86]]></uid>
         </SQLField>
+        <SQLField>
+            <name><![CDATA[lcr_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>lcr_sid</referencesField>
+            <referencesTable>lcr</referencesTable>
+            <referencesField><![CDATA[lcr_sid]]></referencesField>
+            <referencesTable><![CDATA[lcr]]></referencesTable>
+            <sourceCardinality>2</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[35D5D70B-A42A-44FB-9897-458AE12C65DE]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[AFD51FD4-44C8-4442-94C2-0DFA93CD48AE]]></referencesTableUID>
+            <uid><![CDATA[00D38B41-B447-46FB-89DF-526EFAADF829]]></uid>
+        </SQLField>
         <labelWindowIndex><![CDATA[30]]></labelWindowIndex>
         <objectComment><![CDATA[An enterprise that uses the platform for comm services]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
@@ -1846,8 +1860,8 @@
         <name><![CDATA[predefined_carriers]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>35.00</x>
-            <y>1194.00</y>
+            <x>27.00</x>
+            <y>1370.00</y>
         </location>
         <size>
             <width>302.00</width>
@@ -1935,6 +1949,53 @@
         <uid><![CDATA[AF34726D-EDFD-414E-9B44-5243DA9D9497]]></uid>
     </SQLTable>
     <SQLTable>
+        <name><![CDATA[lcr]]></name>
+        <schema><![CDATA[]]></schema>
+        <comment><![CDATA[An LCR (least cost routing) table that is used by a service provider or account to make decisions about routing outbound calls when multiple carriers are available.]]></comment>
+        <location>
+            <x>41.00</x>
+            <y>12.00</y>
+        </location>
+        <size>
+            <width>309.00</width>
+            <height>80.00</height>
+        </size>
+        <zorder>34</zorder>
+        <SQLField>
+            <name><![CDATA[lcr_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <primaryKey>1</primaryKey>
+            <forcedUnique><![CDATA[1]]></forcedUnique>
+            <indexed><![CDATA[1]]></indexed>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[35D5D70B-A42A-44FB-9897-458AE12C65DE]]></uid>
+            <unique><![CDATA[1]]></unique>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[name]]></name>
+            <type><![CDATA[VARCHAR(64)]]></type>
+            <objectComment><![CDATA[User-assigned name for this LCR table]]></objectComment>
+            <uid><![CDATA[36037B81-0FE7-4047-8352-554A5936357A]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[default_carrier_set_entry_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>lcr_carrier_set_entry_sid</referencesField>
+            <referencesTable>lcr_carrier_set_entry</referencesTable>
+            <referencesField><![CDATA[lcr_carrier_set_entry_sid]]></referencesField>
+            <referencesTable><![CDATA[lcr_carrier_set_entry]]></referencesTable>
+            <sourceCardinality>4</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[7F8F912B-6596-4068-8C4D-9C790A2DEC8C]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[956025F5-0798-47F7-B76C-457814C7B52E]]></referencesTableUID>
+            <notNull><![CDATA[1]]></notNull>
+            <objectComment><![CDATA[default carrier/route to use when no digit match based results are found.]]></objectComment>
+            <uid><![CDATA[3029D066-4206-4058-B8B3-54652CA4DDE5]]></uid>
+        </SQLField>
+        <objectComment><![CDATA[An LCR (least cost routing) table that is used by a service provider or account to make decisions about routing outbound calls when multiple carriers are available.]]></objectComment>
+        <uid><![CDATA[AFD51FD4-44C8-4442-94C2-0DFA93CD48AE]]></uid>
+    </SQLTable>
+    <SQLTable>
         <name><![CDATA[dns_records]]></name>
         <schema><![CDATA[]]></schema>
         <location>
@@ -1990,8 +2051,8 @@
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[A phone number that has been assigned to an account]]></comment>
         <location>
-            <x>17.00</x>
-            <y>1010.00</y>
+            <x>16.00</x>
+            <y>1128.00</y>
         </location>
         <size>
             <width>265.00</width>
@@ -2541,14 +2602,14 @@
     <SQLTable>
         <name><![CDATA[lcr_routes]]></name>
         <schema><![CDATA[]]></schema>
-        <comment><![CDATA[Least cost routing table]]></comment>
+        <comment><![CDATA[An ordered list of  digit patterns in an LCR table.  The patterns are tested in sequence until one matches]]></comment>
         <location>
-            <x>24.00</x>
-            <y>32.00</y>
+            <x>55.00</x>
+            <y>105.00</y>
         </location>
         <size>
-            <width>233.00</width>
-            <height>100.00</height>
+            <width>192.00</width>
+            <height>120.00</height>
         </size>
         <zorder>8</zorder>
         <SQLField>
@@ -2558,6 +2619,21 @@
             <forcedUnique><![CDATA[1]]></forcedUnique>
             <indexed><![CDATA[0]]></indexed>
             <uid><![CDATA[B558A3B9-2F3E-40E0-B78E-997350021A6B]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[lcr_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>lcr_sid</referencesField>
+            <referencesTable>lcr</referencesTable>
+            <referencesField><![CDATA[lcr_sid]]></referencesField>
+            <referencesTable><![CDATA[lcr]]></referencesTable>
+            <sourceCardinality>4</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[35D5D70B-A42A-44FB-9897-458AE12C65DE]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[AFD51FD4-44C8-4442-94C2-0DFA93CD48AE]]></referencesTableUID>
+            <indexed><![CDATA[1]]></indexed>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[B2401824-B0C5-447A-A947-F696F764592B]]></uid>
         </SQLField>
         <SQLField>
             <name><![CDATA[regex]]></name>
@@ -2580,7 +2656,7 @@
             <unique><![CDATA[1]]></unique>
         </SQLField>
         <labelWindowIndex><![CDATA[26]]></labelWindowIndex>
-        <objectComment><![CDATA[Least cost routing table]]></objectComment>
+        <objectComment><![CDATA[An ordered list of  digit patterns in an LCR table.  The patterns are tested in sequence until one matches]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[F283D572-F670-4571-91FD-A665A9D3E15D]]></uid>
     </SQLTable>
@@ -2594,7 +2670,7 @@
         </location>
         <size>
             <width>293.00</width>
-            <height>140.00</height>
+            <height>160.00</height>
         </size>
         <zorder>3</zorder>
         <SQLField>
@@ -2645,6 +2721,19 @@
             <name><![CDATA[ms_teams_fqdn]]></name>
             <type><![CDATA[VARCHAR(255)]]></type>
             <uid><![CDATA[FA39B463-61C7-4654-BE9C-D1AC39AB1B97]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[lcr_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>lcr_sid</referencesField>
+            <referencesTable>lcr</referencesTable>
+            <referencesField><![CDATA[lcr_sid]]></referencesField>
+            <referencesTable><![CDATA[lcr]]></referencesTable>
+            <sourceCardinality>4</sourceCardinality>
+            <destinationCardinality>2</destinationCardinality>
+            <referencesFieldUID><![CDATA[35D5D70B-A42A-44FB-9897-458AE12C65DE]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[AFD51FD4-44C8-4442-94C2-0DFA93CD48AE]]></referencesTableUID>
+            <uid><![CDATA[3AAFD39F-BE5A-4369-B706-0169635054F2]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[20]]></labelWindowIndex>
         <objectComment><![CDATA[A partition of the platform used by one service provider]]></objectComment>
@@ -2727,9 +2816,9 @@
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
         <windowHeight><![CDATA[868.000000]]></windowHeight>
-        <windowLocationX><![CDATA[11.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[54.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{461, 0}]]></windowScrollOrigin>
+        <windowLocationX><![CDATA[0.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[76.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{4, 0}]]></windowScrollOrigin>
         <windowWidth><![CDATA[1512.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
