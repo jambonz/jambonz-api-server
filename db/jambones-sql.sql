@@ -1,6 +1,5 @@
 /* SQLEditor (MySQL (2))*/
 
-SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS account_static_ips;
 
@@ -15,10 +14,6 @@ DROP TABLE IF EXISTS beta_invite_codes;
 DROP TABLE IF EXISTS call_routes;
 
 DROP TABLE IF EXISTS dns_records;
-
-DROP TABLE IF EXISTS lcr_carrier_set_entry;
-
-DROP TABLE IF EXISTS lcr_routes;
 
 DROP TABLE IF EXISTS api_keys;
 
@@ -49,10 +44,15 @@ DROP TABLE IF EXISTS account_offers;
 DROP TABLE IF EXISTS accounts;
 
 DROP TABLE IF EXISTS applications;
+SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS service_providers;
 
 DROP TABLE IF EXISTS lcr;
+
+DROP TABLE IF EXISTS lcr_carrier_set_entry;
+
+DROP TABLE IF EXISTS lcr_routes;
 
 DROP TABLE IF EXISTS password_settings;
 
@@ -135,14 +135,6 @@ record_id INTEGER NOT NULL,
 PRIMARY KEY (dns_record_sid)
 );
 
-CREATE TABLE lcr
-(
-lcr_sid CHAR(36) NOT NULL UNIQUE ,
-name VARCHAR(64) COMMENT 'User-assigned name for this LCR table',
-default_carrier_set_entry_sid CHAR(36) NOT NULL COMMENT 'default carrier/route to use when no digit match based results are found.',
-PRIMARY KEY (lcr_sid)
-) COMMENT='An LCR (least cost routing) table that is used by a service ';
-
 CREATE TABLE lcr_routes
 (
 lcr_route_sid CHAR(36),
@@ -152,6 +144,16 @@ description VARCHAR(1024),
 priority INTEGER NOT NULL UNIQUE  COMMENT 'lower priority routes are attempted first',
 PRIMARY KEY (lcr_route_sid)
 ) COMMENT='An ordered list of  digit patterns in an LCR table.  The pat';
+
+CREATE TABLE lcr
+(
+lcr_sid CHAR(36) NOT NULL UNIQUE ,
+name VARCHAR(64) COMMENT 'User-assigned name for this LCR table',
+default_carrier_set_entry_sid CHAR(36) NOT NULL COMMENT 'default carrier/route to use when no digit match based results are found.',
+service_provider_sid CHAR(36) UNIQUE ,
+account_sid CHAR(36) UNIQUE ,
+PRIMARY KEY (lcr_sid)
+) COMMENT='An LCR (least cost routing) table that is used by a service ';
 
 CREATE TABLE password_settings
 (
@@ -466,7 +468,6 @@ description VARCHAR(255),
 root_domain VARCHAR(128) UNIQUE ,
 registration_hook_sid CHAR(36),
 ms_teams_fqdn VARCHAR(255),
-lcr_sid CHAR(36),
 PRIMARY KEY (service_provider_sid)
 ) COMMENT='A partition of the platform used by one service provider';
 
@@ -493,7 +494,6 @@ subspace_client_secret VARCHAR(255),
 subspace_sip_teleport_id VARCHAR(255),
 subspace_sip_teleport_destinations VARCHAR(255),
 siprec_hook_sid CHAR(36),
-lcr_sid CHAR(36),
 PRIMARY KEY (account_sid)
 ) COMMENT='An enterprise that uses the platform for comm services';
 
@@ -517,12 +517,14 @@ ALTER TABLE call_routes ADD FOREIGN KEY application_sid_idxfk (application_sid) 
 CREATE INDEX dns_record_sid_idx ON dns_records (dns_record_sid);
 ALTER TABLE dns_records ADD FOREIGN KEY account_sid_idxfk_4 (account_sid) REFERENCES accounts (account_sid);
 
-CREATE INDEX lcr_sid_idx ON lcr (lcr_sid);
-ALTER TABLE lcr ADD FOREIGN KEY default_carrier_set_entry_sid_idxfk (default_carrier_set_entry_sid) REFERENCES lcr_carrier_set_entry (lcr_carrier_set_entry_sid);
-
 CREATE INDEX lcr_sid_idx ON lcr_routes (lcr_sid);
 ALTER TABLE lcr_routes ADD FOREIGN KEY lcr_sid_idxfk (lcr_sid) REFERENCES lcr (lcr_sid);
 
+CREATE INDEX lcr_sid_idx ON lcr (lcr_sid);
+ALTER TABLE lcr ADD FOREIGN KEY default_carrier_set_entry_sid_idxfk (default_carrier_set_entry_sid) REFERENCES lcr_carrier_set_entry (lcr_carrier_set_entry_sid);
+
+CREATE INDEX service_provider_sid_idx ON lcr (service_provider_sid);
+CREATE INDEX account_sid_idx ON lcr (account_sid);
 CREATE INDEX permission_sid_idx ON permissions (permission_sid);
 CREATE INDEX predefined_carrier_sid_idx ON predefined_carriers (predefined_carrier_sid);
 CREATE INDEX predefined_sip_gateway_sid_idx ON predefined_sip_gateways (predefined_sip_gateway_sid);
@@ -652,16 +654,18 @@ ALTER TABLE applications ADD FOREIGN KEY call_status_hook_sid_idxfk (call_status
 ALTER TABLE applications ADD FOREIGN KEY messaging_hook_sid_idxfk (messaging_hook_sid) REFERENCES webhooks (webhook_sid);
 
 CREATE INDEX service_provider_sid_idx ON service_providers (service_provider_sid);
+ALTER TABLE service_providers ADD FOREIGN KEY service_provider_sid_idxfk_10 (service_provider_sid) REFERENCES lcr (service_provider_sid);
+
 CREATE INDEX name_idx ON service_providers (name);
 CREATE INDEX root_domain_idx ON service_providers (root_domain);
 ALTER TABLE service_providers ADD FOREIGN KEY registration_hook_sid_idxfk (registration_hook_sid) REFERENCES webhooks (webhook_sid);
 
-ALTER TABLE service_providers ADD FOREIGN KEY lcr_sid_idxfk_1 (lcr_sid) REFERENCES lcr (lcr_sid);
-
 CREATE INDEX account_sid_idx ON accounts (account_sid);
+ALTER TABLE accounts ADD FOREIGN KEY account_sid_idxfk_13 (account_sid) REFERENCES lcr (account_sid);
+
 CREATE INDEX sip_realm_idx ON accounts (sip_realm);
 CREATE INDEX service_provider_sid_idx ON accounts (service_provider_sid);
-ALTER TABLE accounts ADD FOREIGN KEY service_provider_sid_idxfk_10 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
+ALTER TABLE accounts ADD FOREIGN KEY service_provider_sid_idxfk_11 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
 
 ALTER TABLE accounts ADD FOREIGN KEY registration_hook_sid_idxfk_1 (registration_hook_sid) REFERENCES webhooks (webhook_sid);
 
@@ -670,7 +674,5 @@ ALTER TABLE accounts ADD FOREIGN KEY queue_event_hook_sid_idxfk (queue_event_hoo
 ALTER TABLE accounts ADD FOREIGN KEY device_calling_application_sid_idxfk (device_calling_application_sid) REFERENCES applications (application_sid);
 
 ALTER TABLE accounts ADD FOREIGN KEY siprec_hook_sid_idxfk (siprec_hook_sid) REFERENCES applications (application_sid);
-
-ALTER TABLE accounts ADD FOREIGN KEY lcr_sid_idxfk_2 (lcr_sid) REFERENCES lcr (lcr_sid);
 
 SET FOREIGN_KEY_CHECKS=1;
