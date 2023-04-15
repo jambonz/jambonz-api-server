@@ -37,6 +37,8 @@ DROP TABLE IF EXISTS phone_numbers;
 
 DROP TABLE IF EXISTS sip_gateways;
 
+SET FOREIGN_KEY_CHECKS=0;
+
 DROP TABLE IF EXISTS voip_carriers;
 
 DROP TABLE IF EXISTS account_offers;
@@ -44,7 +46,6 @@ DROP TABLE IF EXISTS account_offers;
 DROP TABLE IF EXISTS accounts;
 
 DROP TABLE IF EXISTS applications;
-SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS service_providers;
 
