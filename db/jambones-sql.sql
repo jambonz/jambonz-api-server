@@ -150,7 +150,7 @@ CREATE TABLE lcr
 (
 lcr_sid CHAR(36) NOT NULL UNIQUE ,
 name VARCHAR(64) COMMENT 'User-assigned name for this LCR table',
-default_carrier_set_entry_sid CHAR(36) NOT NULL COMMENT 'default carrier/route to use when no digit match based results are found.',
+default_carrier_set_entry_sid CHAR(36) NULL COMMENT 'default carrier/route to use when no digit match based results are found.',
 service_provider_sid CHAR(36) UNIQUE ,
 account_sid CHAR(36) UNIQUE ,
 PRIMARY KEY (lcr_sid)

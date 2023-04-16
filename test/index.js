@@ -19,4 +19,7 @@ require('./webapp_tests');
 require('./call-test');
 require('./password-settings');
 require('./email_utils');
+require('./lcr-carriers-set-entries');
+require('./lcr-routes');
+require('./lcrs');
 require('./docker_stop');

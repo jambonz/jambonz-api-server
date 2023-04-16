@@ -75,7 +75,7 @@ test('sip gateway tests', async(t) => {
     
     await deleteObjectBySid(request, '/VoipCarriers', voip_carrier_sid);
 
-    //t.end();
+    t.end();
   }
   catch (err) {
     console.error(err);
