@@ -1,5 +1,6 @@
 /* SQLEditor (MySQL (2))*/
 
+SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS account_static_ips;
 
@@ -36,8 +37,6 @@ DROP TABLE IF EXISTS smpp_gateways;
 DROP TABLE IF EXISTS phone_numbers;
 
 DROP TABLE IF EXISTS sip_gateways;
-
-SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS voip_carriers;
 
@@ -150,7 +149,8 @@ CREATE TABLE lcr
 (
 lcr_sid CHAR(36) NOT NULL UNIQUE ,
 name VARCHAR(64) COMMENT 'User-assigned name for this LCR table',
-default_carrier_set_entry_sid CHAR(36) NULL COMMENT 'default carrier/route to use when no digit match based results are found.',
+is_active BOOLEAN NOT NULL DEFAULT 1,
+default_carrier_set_entry_sid CHAR(36) NOT NULL COMMENT 'default carrier/route to use when no digit match based results are found.',
 service_provider_sid CHAR(36) UNIQUE ,
 account_sid CHAR(36) UNIQUE ,
 PRIMARY KEY (lcr_sid)
@@ -469,7 +469,6 @@ description VARCHAR(255),
 root_domain VARCHAR(128) UNIQUE ,
 registration_hook_sid CHAR(36),
 ms_teams_fqdn VARCHAR(255),
-lcr_sid CHAR(36) COMMENT 'lest cost routing sid',
 PRIMARY KEY (service_provider_sid)
 ) COMMENT='A partition of the platform used by one service provider';
 
@@ -496,7 +495,6 @@ subspace_client_secret VARCHAR(255),
 subspace_sip_teleport_id VARCHAR(255),
 subspace_sip_teleport_destinations VARCHAR(255),
 siprec_hook_sid CHAR(36),
-lcr_sid CHAR(36) COMMENT 'lest cost routing sid',
 PRIMARY KEY (account_sid)
 ) COMMENT='An enterprise that uses the platform for comm services';
 
@@ -657,14 +655,14 @@ ALTER TABLE applications ADD FOREIGN KEY call_status_hook_sid_idxfk (call_status
 ALTER TABLE applications ADD FOREIGN KEY messaging_hook_sid_idxfk (messaging_hook_sid) REFERENCES webhooks (webhook_sid);
 
 CREATE INDEX service_provider_sid_idx ON service_providers (service_provider_sid);
-ALTER TABLE service_providers ADD FOREIGN KEY lcr_sid_idxfk_10 (lcr_sid) REFERENCES lcr (lcr_sid);
+ALTER TABLE service_providers ADD FOREIGN KEY service_provider_sid_idxfk_10 (service_provider_sid) REFERENCES lcr (service_provider_sid);
 
 CREATE INDEX name_idx ON service_providers (name);
 CREATE INDEX root_domain_idx ON service_providers (root_domain);
 ALTER TABLE service_providers ADD FOREIGN KEY registration_hook_sid_idxfk (registration_hook_sid) REFERENCES webhooks (webhook_sid);
 
 CREATE INDEX account_sid_idx ON accounts (account_sid);
-ALTER TABLE accounts ADD FOREIGN KEY lcr_idxfk_13 (lcr_sid) REFERENCES lcr (lcr_sid);
+ALTER TABLE accounts ADD FOREIGN KEY account_sid_idxfk_13 (account_sid) REFERENCES lcr (account_sid);
 
 CREATE INDEX sip_realm_idx ON accounts (sip_realm);
 CREATE INDEX service_provider_sid_idx ON accounts (service_provider_sid);

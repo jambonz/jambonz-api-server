@@ -1546,8 +1546,8 @@
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[An entry in the LCR routing list]]></comment>
         <location>
-            <x>23.00</x>
-            <y>276.00</y>
+            <x>22.00</x>
+            <y>296.00</y>
         </location>
         <size>
             <width>259.00</width>
@@ -1953,7 +1953,7 @@
         </location>
         <size>
             <width>309.00</width>
-            <height>120.00</height>
+            <height>140.00</height>
         </size>
         <zorder>34</zorder>
         <SQLField>
@@ -1973,6 +1973,13 @@
             <uid><![CDATA[36037B81-0FE7-4047-8352-554A5936357A]]></uid>
         </SQLField>
         <SQLField>
+            <name><![CDATA[is_active]]></name>
+            <type><![CDATA[BOOLEAN]]></type>
+            <defaultValue><![CDATA[1]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[958CAE39-99BB-42C1-9ACE-668A2FA2372E]]></uid>
+        </SQLField>
+        <SQLField>
             <name><![CDATA[default_carrier_set_entry_sid]]></name>
             <type><![CDATA[CHAR(36)]]></type>
             <referencesField>lcr_carrier_set_entry_sid</referencesField>
@@ -1983,6 +1990,7 @@
             <destinationCardinality>1</destinationCardinality>
             <referencesFieldUID><![CDATA[7F8F912B-6596-4068-8C4D-9C790A2DEC8C]]></referencesFieldUID>
             <referencesTableUID><![CDATA[956025F5-0798-47F7-B76C-457814C7B52E]]></referencesTableUID>
+            <forcedUnique><![CDATA[0]]></forcedUnique>
             <notNull><![CDATA[1]]></notNull>
             <objectComment><![CDATA[default carrier/route to use when no digit match based results are found.]]></objectComment>
             <uid><![CDATA[3029D066-4206-4058-B8B3-54652CA4DDE5]]></uid>
@@ -2616,7 +2624,7 @@
         <comment><![CDATA[An ordered list of  digit patterns in an LCR table.  The patterns are tested in sequence until one matches]]></comment>
         <location>
             <x>41.00</x>
-            <y>149.00</y>
+            <y>168.00</y>
         </location>
         <size>
             <width>192.00</width>
