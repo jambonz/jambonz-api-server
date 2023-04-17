@@ -1629,14 +1629,6 @@
             <name><![CDATA[account_sid]]></name>
             <type><![CDATA[CHAR(36)]]></type>
             <primaryKey>1</primaryKey>
-            <referencesField>account_sid</referencesField>
-            <referencesTable>lcr</referencesTable>
-            <referencesField><![CDATA[account_sid]]></referencesField>
-            <referencesTable><![CDATA[lcr]]></referencesTable>
-            <sourceCardinality>2</sourceCardinality>
-            <destinationCardinality>2</destinationCardinality>
-            <referencesFieldUID><![CDATA[EA936343-89D3-4E3F-BD92-9F8967DC27C4]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[AFD51FD4-44C8-4442-94C2-0DFA93CD48AE]]></referencesTableUID>
             <autoIncrement><![CDATA[0]]></autoIncrement>
             <forcedUnique><![CDATA[1]]></forcedUnique>
             <indexed><![CDATA[1]]></indexed>
@@ -1952,7 +1944,7 @@
             <y>16.00</y>
         </location>
         <size>
-            <width>309.00</width>
+            <width>290.00</width>
             <height>140.00</height>
         </size>
         <zorder>34</zorder>
@@ -1991,21 +1983,21 @@
             <referencesFieldUID><![CDATA[7F8F912B-6596-4068-8C4D-9C790A2DEC8C]]></referencesFieldUID>
             <referencesTableUID><![CDATA[956025F5-0798-47F7-B76C-457814C7B52E]]></referencesTableUID>
             <forcedUnique><![CDATA[0]]></forcedUnique>
-            <notNull><![CDATA[1]]></notNull>
+            <notNull><![CDATA[0]]></notNull>
             <objectComment><![CDATA[default carrier/route to use when no digit match based results are found.]]></objectComment>
             <uid><![CDATA[3029D066-4206-4058-B8B3-54652CA4DDE5]]></uid>
         </SQLField>
         <SQLField>
             <name><![CDATA[service_provider_sid]]></name>
             <type><![CDATA[CHAR(36)]]></type>
-            <forcedUnique><![CDATA[1]]></forcedUnique>
+            <forcedUnique><![CDATA[0]]></forcedUnique>
             <indexed><![CDATA[1]]></indexed>
             <uid><![CDATA[0C8D97E1-19D7-48BC-B7E5-F0709F498E3F]]></uid>
         </SQLField>
         <SQLField>
             <name><![CDATA[account_sid]]></name>
             <type><![CDATA[CHAR(36)]]></type>
-            <forcedUnique><![CDATA[1]]></forcedUnique>
+            <forcedUnique><![CDATA[0]]></forcedUnique>
             <indexed><![CDATA[1]]></indexed>
             <uid><![CDATA[EA936343-89D3-4E3F-BD92-9F8967DC27C4]]></uid>
         </SQLField>
@@ -2688,7 +2680,7 @@
             <y>160.00</y>
         </location>
         <size>
-            <width>312.00</width>
+            <width>293.00</width>
             <height>140.00</height>
         </size>
         <zorder>3</zorder>
@@ -2696,14 +2688,6 @@
             <name><![CDATA[service_provider_sid]]></name>
             <type><![CDATA[CHAR(36)]]></type>
             <primaryKey>1</primaryKey>
-            <referencesField>service_provider_sid</referencesField>
-            <referencesTable>lcr</referencesTable>
-            <referencesField><![CDATA[service_provider_sid]]></referencesField>
-            <referencesTable><![CDATA[lcr]]></referencesTable>
-            <sourceCardinality>2</sourceCardinality>
-            <destinationCardinality>2</destinationCardinality>
-            <referencesFieldUID><![CDATA[0C8D97E1-19D7-48BC-B7E5-F0709F498E3F]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[AFD51FD4-44C8-4442-94C2-0DFA93CD48AE]]></referencesTableUID>
             <autoIncrement><![CDATA[0]]></autoIncrement>
             <forcedUnique><![CDATA[1]]></forcedUnique>
             <indexed><![CDATA[1]]></indexed>

@@ -16,6 +16,30 @@ DROP TABLE IF EXISTS call_routes;
 
 DROP TABLE IF EXISTS dns_records;
 
+DROP TABLE IF EXISTS lcr;
+
+DROP TABLE IF EXISTS lcr_carrier_set_entry;
+
+DROP TABLE IF EXISTS lcr_routes;
+
+DROP TABLE IF EXISTS password_settings;
+
+DROP TABLE IF EXISTS user_permissions;
+
+DROP TABLE IF EXISTS permissions;
+
+DROP TABLE IF EXISTS predefined_sip_gateways;
+
+DROP TABLE IF EXISTS predefined_smpp_gateways;
+
+DROP TABLE IF EXISTS predefined_carriers;
+
+DROP TABLE IF EXISTS account_offers;
+
+DROP TABLE IF EXISTS products;
+
+DROP TABLE IF EXISTS schema_version;
+
 DROP TABLE IF EXISTS api_keys;
 
 DROP TABLE IF EXISTS sbc_addresses;
@@ -24,11 +48,11 @@ DROP TABLE IF EXISTS ms_teams_tenants;
 
 DROP TABLE IF EXISTS service_provider_limits;
 
+DROP TABLE IF EXISTS signup_history;
+
 DROP TABLE IF EXISTS smpp_addresses;
 
 DROP TABLE IF EXISTS speech_credentials;
-
-DROP TABLE IF EXISTS user_permissions;
 
 DROP TABLE IF EXISTS users;
 
@@ -40,35 +64,11 @@ DROP TABLE IF EXISTS sip_gateways;
 
 DROP TABLE IF EXISTS voip_carriers;
 
-DROP TABLE IF EXISTS account_offers;
-
 DROP TABLE IF EXISTS accounts;
 
 DROP TABLE IF EXISTS applications;
 
 DROP TABLE IF EXISTS service_providers;
-
-DROP TABLE IF EXISTS lcr;
-
-DROP TABLE IF EXISTS lcr_carrier_set_entry;
-
-DROP TABLE IF EXISTS lcr_routes;
-
-DROP TABLE IF EXISTS password_settings;
-
-DROP TABLE IF EXISTS permissions;
-
-DROP TABLE IF EXISTS predefined_sip_gateways;
-
-DROP TABLE IF EXISTS predefined_smpp_gateways;
-
-DROP TABLE IF EXISTS predefined_carriers;
-
-DROP TABLE IF EXISTS products;
-
-DROP TABLE IF EXISTS schema_version;
-
-DROP TABLE IF EXISTS signup_history;
 
 DROP TABLE IF EXISTS webhooks;
 
@@ -150,9 +150,9 @@ CREATE TABLE lcr
 lcr_sid CHAR(36) NOT NULL UNIQUE ,
 name VARCHAR(64) COMMENT 'User-assigned name for this LCR table',
 is_active BOOLEAN NOT NULL DEFAULT 1,
-default_carrier_set_entry_sid CHAR(36) NOT NULL COMMENT 'default carrier/route to use when no digit match based results are found.',
-service_provider_sid CHAR(36) UNIQUE ,
-account_sid CHAR(36) UNIQUE ,
+default_carrier_set_entry_sid CHAR(36) COMMENT 'default carrier/route to use when no digit match based results are found.',
+service_provider_sid CHAR(36),
+account_sid CHAR(36),
 PRIMARY KEY (lcr_sid)
 ) COMMENT='An LCR (least cost routing) table that is used by a service ';
 
@@ -655,18 +655,14 @@ ALTER TABLE applications ADD FOREIGN KEY call_status_hook_sid_idxfk (call_status
 ALTER TABLE applications ADD FOREIGN KEY messaging_hook_sid_idxfk (messaging_hook_sid) REFERENCES webhooks (webhook_sid);
 
 CREATE INDEX service_provider_sid_idx ON service_providers (service_provider_sid);
-ALTER TABLE service_providers ADD FOREIGN KEY service_provider_sid_idxfk_10 (service_provider_sid) REFERENCES lcr (service_provider_sid);
-
 CREATE INDEX name_idx ON service_providers (name);
 CREATE INDEX root_domain_idx ON service_providers (root_domain);
 ALTER TABLE service_providers ADD FOREIGN KEY registration_hook_sid_idxfk (registration_hook_sid) REFERENCES webhooks (webhook_sid);
 
 CREATE INDEX account_sid_idx ON accounts (account_sid);
-ALTER TABLE accounts ADD FOREIGN KEY account_sid_idxfk_13 (account_sid) REFERENCES lcr (account_sid);
-
 CREATE INDEX sip_realm_idx ON accounts (sip_realm);
 CREATE INDEX service_provider_sid_idx ON accounts (service_provider_sid);
-ALTER TABLE accounts ADD FOREIGN KEY service_provider_sid_idxfk_11 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
+ALTER TABLE accounts ADD FOREIGN KEY service_provider_sid_idxfk_10 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
 
 ALTER TABLE accounts ADD FOREIGN KEY registration_hook_sid_idxfk_1 (registration_hook_sid) REFERENCES webhooks (webhook_sid);
 
