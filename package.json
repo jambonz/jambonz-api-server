@@ -23,7 +23,7 @@
     "@deepgram/sdk": "^1.10.2",
     "@google-cloud/speech": "^5.1.0",
     "@jambonz/db-helpers": "^0.7.3",
-    "@jambonz/realtimedb-helpers": "^0.7.0",
+    "@jambonz/realtimedb-helpers": "^0.7.1",
     "@jambonz/speech-utils": "^0.0.8",
     "@jambonz/time-series": "^0.2.5",
     "@jambonz/verb-specifications": "^0.0.3",

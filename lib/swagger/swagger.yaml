@@ -3793,6 +3793,43 @@ paths:
         required: true
         schema:
           type: string
+      - in: query
+        name: direction
+        required: false
+        schema:
+          type: string
+          enum:
+            - inbound
+            - outbound
+        description: call direction to retrieve
+      - in: query
+        name: from
+        required: false
+        schema:
+          type: string
+        description: calling number to retrieve
+      - in: query
+        name: to
+        required: false
+        schema:
+          type: string
+        description: called number to retrieve
+      - in: query
+        name: callStatus
+        required: false
+        schema:
+          type: string
+          enum:
+            - trying
+            - ringing
+            - early-media
+            - in-progress
+            - completed
+            - failed
+            - busy
+            - no-answer
+            - queued
+        description: call status to retrieve
       responses:
         200:
           description: list of calls for a specified account
