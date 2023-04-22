@@ -13,6 +13,12 @@ const {
   createServiceProvider, 
   createPhoneNumber, 
   deleteObjectBySid} = require('./utils');
+const logger = require('../lib/logger');
+const { pushBack } = require('@jambonz/realtimedb-helpers')({
+  host: process.env.JAMBONES_REDIS_HOST,
+  port: process.env.JAMBONES_REDIS_PORT || 6379
+}, logger);
+
 
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
@@ -260,6 +266,31 @@ test('account tests', async(t) => {
       resolveWithFullResponse: true
     });
     t.ok(result.statusCode === 204, 'successfully deleted a call session limit for an account');
+
+    /* query account queues */
+    await pushBack(`queue:${sid}:test`, 'url1');
+    await pushBack(`queue:${sid}:dummy`, 'url2');
+
+    result = await request.get(`/Accounts/${sid}/Queues`, {
+      auth: authAdmin,
+      resolveWithFullResponse: true,
+      json: true,
+    });
+    t.ok(result.statusCode === 200 && result.body.length === 2, 'successfully queried account queues info for an account');
+
+    result = await request.get(`/Accounts/${sid}/Queues?search=test`, {
+      auth: authAdmin,
+      resolveWithFullResponse: true,
+      json: true,
+    });
+    t.ok(result.statusCode === 200 && result.body.length === 1, 'successfully queried account queue info with search for an account');
+
+    result = await request.get(`/Accounts/29d41725-9d3a-4f89-9f0b-f32b3e4d3159/Queues`, {
+      auth: authAdmin,
+      resolveWithFullResponse: true,
+      json: true,
+    });
+    t.ok(result.statusCode === 200 && result.body.length === 0, 'successfully queried account queue info with for an invalid account');
 
     /* delete account */
     result = await request.delete(`/Accounts/${sid}`, {

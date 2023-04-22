@@ -4038,7 +4038,46 @@ paths:
                   smpp_err_code:
                     type: string
         400:
-          description: bad request         
+          description: bad request
+  /Accounts/{AccountSid}/Queues:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: search
+        required: false
+        schema:
+          type: string
+          description: queue name of data to retrieve
+    get:
+      tags:
+        - Accounts
+      summary: retrieve active queues for an account
+      operationId: listQueues
+      responses:
+        200:
+          description: retrieve active queues records for a specified account
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    length:
+                      type: string
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'       
 components:
   securitySchemes:
     bearerAuth:
