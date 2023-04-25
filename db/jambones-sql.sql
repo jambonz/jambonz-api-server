@@ -140,7 +140,7 @@ CREATE TABLE lcr_routes
 lcr_route_sid CHAR(36),
 regex VARCHAR(32) NOT NULL COMMENT 'regex-based pattern match against dialed number, used for LCR routing of PSTN calls',
 description VARCHAR(1024),
-priority INTEGER NOT NULL UNIQUE COMMENT 'lower priority routes are attempted first',
+priority INTEGER NOT NULL UNIQUE  COMMENT 'lower priority routes are attempted first',
 PRIMARY KEY (lcr_route_sid)
 ) COMMENT='An ordered list of  digit patterns in an LCR table.  The pat';
 
