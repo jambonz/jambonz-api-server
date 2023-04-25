@@ -518,7 +518,7 @@ CREATE INDEX dns_record_sid_idx ON dns_records (dns_record_sid);
 ALTER TABLE dns_records ADD FOREIGN KEY account_sid_idxfk_4 (account_sid) REFERENCES accounts (account_sid);
 
 ALTER TABLE lcr_routes DROP INDEX priority;
-ALter TABLE lcr_routes ADD lcr_sid VARCHAR(36) AFTER lcr_route_sid;
+ALTER TABLE lcr_routes ADD lcr_sid VARCHAR(36) AFTER lcr_route_sid;
 CREATE INDEX lcr_sid_idx ON lcr_routes (lcr_sid);
 ALTER TABLE lcr_routes ADD FOREIGN KEY lcr_sid_idxfk (lcr_sid) REFERENCES lcr (lcr_sid);
 
