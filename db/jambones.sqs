@@ -2664,7 +2664,7 @@
             <notNull><![CDATA[1]]></notNull>
             <objectComment><![CDATA[lower priority routes are attempted first]]></objectComment>
             <uid><![CDATA[B73773BA-AB1B-47AA-B995-2D2FE006198F]]></uid>
-            <unique><![CDATA[1]]></unique>
+            <unique><![CDATA[0]]></unique>
         </SQLField>
         <labelWindowIndex><![CDATA[27]]></labelWindowIndex>
         <objectComment><![CDATA[An ordered list of  digit patterns in an LCR table.  The patterns are tested in sequence until one matches]]></objectComment>
