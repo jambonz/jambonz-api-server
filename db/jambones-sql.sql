@@ -54,6 +54,8 @@ DROP TABLE IF EXISTS smpp_addresses;
 
 DROP TABLE IF EXISTS speech_credentials;
 
+DROP TABLE IF EXISTS system_information;
+
 DROP TABLE IF EXISTS users;
 
 DROP TABLE IF EXISTS smpp_gateways;
@@ -322,6 +324,13 @@ tts_tested_ok BOOLEAN,
 stt_tested_ok BOOLEAN,
 created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (speech_credential_sid)
+);
+
+CREATE TABLE system_information
+(
+domain_name VARCHAR(255),
+sip_domain_name VARCHAR(255),
+monitoring_domain_name VARCHAR(255)
 );
 
 CREATE TABLE users

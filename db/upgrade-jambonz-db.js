@@ -93,6 +93,12 @@ const sql = {
     'ALTER TABLE `sbc_addresses` ADD COLUMN `last_updated` DATETIME',
     'ALTER TABLE `sbc_addresses` ADD COLUMN `tls_port` INTEGER',
     'ALTER TABLE `sbc_addresses` ADD COLUMN `wss_port` INTEGER',
+    `CREATE TABLE system_information
+    (
+    domain_name VARCHAR(255),
+    sip_domain_name VARCHAR(255),
+    monitoring_domain_name VARCHAR(255)
+    )`,
   ]
 };
 
