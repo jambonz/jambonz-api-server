@@ -24,9 +24,9 @@
     "@google-cloud/speech": "^5.1.0",
     "@jambonz/db-helpers": "^0.7.3",
     "@jambonz/realtimedb-helpers": "^0.7.1",
-    "@jambonz/speech-utils": "^0.0.8",
+    "@jambonz/speech-utils": "^0.0.12",
     "@jambonz/time-series": "^0.2.5",
-    "@jambonz/verb-specifications": "^0.0.3",
+    "@jambonz/verb-specifications": "^0.0.17",
     "@soniox/soniox-node": "^1.1.0",
     "argon2": "^0.30.3",
     "bent": "^7.3.12",
@@ -52,8 +52,8 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "eslint": "^7.32.0",
-    "eslint-plugin-promise": "^4.2.1",
+    "eslint": "^8.39.0",
+    "eslint-plugin-promise": "^6.1.1",
     "husky": "7.0.4",
     "nyc": "^15.1.0",
     "request": "^2.88.2",
