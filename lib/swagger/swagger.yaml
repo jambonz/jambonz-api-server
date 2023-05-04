@@ -3801,8 +3801,13 @@ paths:
                   type: string
                   format: uuid
                   description: The application to use to control this call.  Either applicationSid or url is required.
+                answerOnBridge:
+                  type: boolean
+                  description: If set to true, the inbound call will ring until the number that was dialed answers the call, and at that point a 200 OK will be sent on the inbound leg.  If false, the inbound call will be answered immediately as the outbound call is placed.
+                  example: false
                 call_hook:
                   $ref: '#/components/schemas/Webhook'
+                  example: {"url": "https://acme.com/callhook", "method": "POST"}
                 call_status_hook:
                   $ref: '#/components/schemas/Webhook'
                   example: {"url": "https://acme.com/status", "method": "POST"}
@@ -3816,15 +3821,23 @@ paths:
                   example: "blf.finotel.com"
                 timeout:
                   type: integer
-                  description: the number of seconds to wait for call to be answered.  Defaults to 60.
+                  description: The number of seconds to wait for call to be answered.  Defaults to 60.
                   example: 30
+                timeLimit:
+                  type: integer
+                  description: The max length of call in seconds
+                  example: 60
                 tag:
                   type: object
-                  description: initial set of customer-supplied metadata to associate with the call (see jambonz 'tag' verb)
+                  description: Initial set of customer-supplied metadata to associate with the call (see jambonz 'tag' verb)
                   example: {"callCount": 10}
                 to:
                   $ref: '#/components/schemas/Target'
-                  description: destination for call
+                  description: Destination for call
+                headers:
+                  type: object
+                  description: The customer SIP headers to associate with the call
+                  example: {"X-Custom-Header": "Hello"}
       responses:
         201:
           description: call successfully created
@@ -3974,6 +3987,8 @@ paths:
               properties:
                 call_hook:
                   $ref: '#/components/schemas/Webhook'
+                child_call_hook:
+                  $ref: '#/components/schemas/Webhook'
                 call_status:
                   type: string
                   enum:
@@ -3993,6 +4008,7 @@ paths:
                   type: string
                   enum:
                     - pause
+                    - silence
                     - resume
                 mute_status:
                   type: string
@@ -4977,9 +4993,20 @@ components:
             - phone
             - sip
             - user
+            - teams
         number:
           type: string
         sipUri:
+          type: string
+        tenant:
+          type: string
+          description: Microsoft Teams customer tenant domain name
+        trunk:
+          type: string
+        vmail:
+          type: boolean
+          description: Dial directly into user's voicemail to leave a message
+        overrideTo:
           type: string
         name:
           type: string

@@ -287,8 +287,8 @@
         <name><![CDATA[password_settings]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>2690.00</x>
-            <y>260.00</y>
+            <x>2521.00</x>
+            <y>360.00</y>
         </location>
         <size>
             <width>276.00</width>
@@ -1007,8 +1007,8 @@
         <name><![CDATA[schema_version]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>2769.00</x>
-            <y>28.00</y>
+            <x>2519.00</x>
+            <y>192.00</y>
         </location>
         <size>
             <width>159.00</width>
@@ -1361,8 +1361,8 @@
         <name><![CDATA[signup_history]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>2752.00</x>
-            <y>129.00</y>
+            <x>2519.00</x>
+            <y>259.00</y>
         </location>
         <size>
             <width>215.00</width>
@@ -1617,8 +1617,8 @@
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[An enterprise that uses the platform for comm services]]></comment>
         <location>
-            <x>827.00</x>
-            <y>327.00</y>
+            <x>838.00</x>
+            <y>368.00</y>
         </location>
         <size>
             <width>318.00</width>
@@ -2536,6 +2536,35 @@
         <uid><![CDATA[EB4BC5F9-CC10-4C8C-AB31-6D942256AEFB]]></uid>
     </SQLTable>
     <SQLTable>
+        <name><![CDATA[system_information]]></name>
+        <schema><![CDATA[]]></schema>
+        <location>
+            <x>2552.00</x>
+            <y>61.00</y>
+        </location>
+        <size>
+            <width>266.00</width>
+            <height>80.00</height>
+        </size>
+        <zorder>35</zorder>
+        <SQLField>
+            <name><![CDATA[domain_name]]></name>
+            <type><![CDATA[VARCHAR(255)]]></type>
+            <uid><![CDATA[C7897324-FE6E-4534-B4BB-736070825D04]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[sip_domain_name]]></name>
+            <type><![CDATA[VARCHAR(255)]]></type>
+            <uid><![CDATA[ED76F31F-B9BF-497D-A862-5D5E8661965C]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[monitoring_domain_name]]></name>
+            <type><![CDATA[VARCHAR(255)]]></type>
+            <uid><![CDATA[0A8DB34E-76C9-4D40-9E31-786E0228DCEE]]></uid>
+        </SQLField>
+        <uid><![CDATA[F0C2DC80-CBA7-4BE7-8856-D10B062A7B17]]></uid>
+    </SQLTable>
+    <SQLTable>
         <name><![CDATA[sbc_addresses]]></name>
         <schema><![CDATA[]]></schema>
         <location>
@@ -2544,7 +2573,7 @@
         </location>
         <size>
             <width>281.00</width>
-            <height>140.00</height>
+            <height>180.00</height>
         </size>
         <zorder>13</zorder>
         <SQLField>
@@ -2569,6 +2598,16 @@
             <defaultValue><![CDATA[5060]]></defaultValue>
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[707EF28F-F4AF-4B7E-AB04-C128C894ECE9]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[tls_port]]></name>
+            <type><![CDATA[INTEGER]]></type>
+            <uid><![CDATA[89D52E8F-73BF-4A40-8FBD-617C7BA6AB63]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[wss_port]]></name>
+            <type><![CDATA[INTEGER]]></type>
+            <uid><![CDATA[22B35E87-249A-4E4A-8FB0-CD37B7A19A9F]]></uid>
         </SQLField>
         <SQLIndex>
             <name><![CDATA[sbc_addresses_idx_host_port]]></name>
@@ -2676,8 +2715,8 @@
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[A partition of the platform used by one service provider]]></comment>
         <location>
-            <x>837.00</x>
-            <y>160.00</y>
+            <x>838.00</x>
+            <y>207.00</y>
         </location>
         <size>
             <width>293.00</width>
@@ -2807,17 +2846,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1235.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[2487.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[884.000000]]></windowHeight>
-        <windowLocationX><![CDATA[0.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[60.000000]]></windowLocationY>
+        <windowHeight><![CDATA[1001.000000]]></windowHeight>
+        <windowLocationX><![CDATA[-1642.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[1036.000000]]></windowLocationY>
         <windowScrollOrigin><![CDATA[{0, 0}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1512.000000]]></windowWidth>
+        <windowWidth><![CDATA[2764.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>

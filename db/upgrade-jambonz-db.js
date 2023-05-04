@@ -91,6 +91,14 @@ const sql = {
   8003: [
     'ALTER TABLE `voip_carriers` ADD COLUMN `register_status` VARCHAR(4096)',
     'ALTER TABLE `sbc_addresses` ADD COLUMN `last_updated` DATETIME',
+    'ALTER TABLE `sbc_addresses` ADD COLUMN `tls_port` INTEGER',
+    'ALTER TABLE `sbc_addresses` ADD COLUMN `wss_port` INTEGER',
+    `CREATE TABLE system_information
+    (
+    domain_name VARCHAR(255),
+    sip_domain_name VARCHAR(255),
+    monitoring_domain_name VARCHAR(255)
+    )`,
   ]
 };
 
@@ -120,6 +128,7 @@ const doIt = async() => {
         if (val < 7006) upgrades.push(...sql['7006']);
         if (val < 7007) upgrades.push(...sql['7007']);
         if (val < 8000) upgrades.push(...sql['8000']);
+        if (val < 8003) upgrades.push(...sql['8003']);
 
         // perform all upgrades
         logger.info({upgrades}, 'applying schema upgrades..');
