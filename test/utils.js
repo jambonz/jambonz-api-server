@@ -29,6 +29,31 @@ async function createVoipCarrier(request, name = 'daveh') {
   return result.sid;
 }
 
+async function createLcr(request, name = 'lcr') {
+  const result = await request.post('/Lcrs', {
+    auth: authAdmin,
+    json: true,
+    body: {
+      name
+    }
+  });
+  return result.sid;
+}
+
+async function createLcrRoute(request, lcr_name= 'lcr', lcr_route_regex = "1*", lcr_route_priority = 1) {
+  const lcr = await createLcr(request, lcr_name);
+  const result = await request.post('/LcrRoutes', {
+    auth: authAdmin,
+    json: true,
+    body: {
+      lcr_sid: lcr,
+      regex: lcr_route_regex,
+      priority: lcr_route_priority
+    }
+  });
+  return {lcr_sid: lcr, lcr_route_sid: result.sid};
+}
+
 async function createPhoneNumber(request, voip_carrier_sid, number = '15083333456') {
   const result = await request.post('/PhoneNumbers', {
     auth: authAdmin,
@@ -136,5 +161,7 @@ module.exports = {
   createApiKey,
   deleteObjectBySid,
   createGoogleSpeechCredentials,
-  getLastRequestFromFeatureServer
+  getLastRequestFromFeatureServer,
+  createLcr,
+  createLcrRoute
 };

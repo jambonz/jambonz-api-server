@@ -38,6 +38,12 @@ tags:
     description: Webhooks operations
   - name: Microsoft Teams Tenants
     description: Microsoft Teams Tenants operations
+  - name: Lcrs
+    description: Least Cost Routing operations
+  - name: LcrRoutes
+    description: Least Cost Routing Routes operations
+  - name: LcrCarrierSetEntries
+    description: Least Cost Routing Carrier Set Entries operation
 paths:
   /BetaInviteCodes:
     post:
@@ -2182,6 +2188,58 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
+  /ServiceProviders/{ServiceProviderSid}/Lcrs:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - Service Providers
+      summary: get all Least Cost Routings for a service provider
+      operationId: getServiceProviderLcrs
+      responses:
+        200:
+          description: Least cost routing listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lcr'
+        403:
+          description: unauthorized
+        404:
+          description: service provider not found
+    post:
+      tags:
+        - Service Providers
+      summary: create a Lest cost routing
+      operationId: createLcrForServiceProvider
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: name or Least Cost Routing
+                  example: twilioLcr
+              required:
+                - name
+      responses:
+        201:
+          description: service provider Lcr successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        404:
+          description: service provider not found
   /Accounts/{AccountSid}/Limits:
     post:
       tags:
@@ -4088,12 +4146,445 @@ paths:
                       type: string
                     length:
                       type: string
+  /Lcrs:
+    post:
+      tags:
+        - Lcrs
+      summary: create a Least Cost Routing
+      operationId: createLcr
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: name or Least Cost Routing
+                  example: twilioLcr
+              required:
+                - name
+      responses:
+        201:
+          description: Least Cost Routing successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
         500:
           description: system error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GeneralError'       
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - Lcrs
+      summary: list least cost routings
+      operationId: listLeastCostRoutings
+      responses:
+        200:
+          description: list of least cost routings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lcr'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /Lcrs/{LcrSid}:
+    parameters:
+      - name: LcrSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    delete:
+      tags:
+        - Lcrs
+      summary: delete a least cost routing
+      operationId: deleteLeastCostRouting
+      responses:
+        204:
+          description: least cost routing successfully deleted
+        404:
+          description: least cost routing not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+                example:
+                  msg: a service provider with active accounts can not be deleted
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - Lcrs
+      summary: retrieve least cost routing
+      operationId: getLeastCostRouting
+      responses:
+        200:
+          description: least cost routing found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lcr'
+        404:
+          description: least cost routing not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    put:
+      tags:
+        - Lcrs
+      summary: update least cost routing
+      operationId: updateLeastCostRouting
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lcr'
+      responses:
+        204:
+          description: least cost routing updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lcr'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        404:
+          description: least cost routing not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /LcrRoutes:
+    post:
+      tags:
+        - LcrRoutes
+      summary: create a Least Cost Routing Routes
+      operationId: createLcrRoutes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/LcrRoute'
+              required:
+                - lcr_sid
+                - regex
+                - priority
+      responses:
+        201:
+          description: Least Cost Routing Route successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - LcrRoutes
+      summary: list least cost routings routes
+      operationId: listLeastCostRoutingRoutes
+      responses:
+        200:
+          description: list of least cost routing routes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LcrRoute'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /LcrRoutes/{LcrRouteSid}:
+    parameters:
+      - name: LcrRouteSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    delete:
+      tags:
+        - LcrRoutes
+      summary: delete a least cost routing route
+      operationId: deleteLeastCostRoutingRoute
+      responses:
+        204:
+          description: least cost routing route successfully deleted
+        404:
+          description: least cost routing route not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+                example:
+                  msg: a service provider with active accounts can not be deleted
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - LcrRoutes
+      summary: retrieve least cost routing route
+      operationId: getLeastCostRoutingRoute
+      responses:
+        200:
+          description: least cost routing route found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LcrRoute'
+        404:
+          description: least cost routing route not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    put:
+      tags:
+        - LcrRoutes
+      summary: update least cost routing route
+      operationId: updateLeastCostRoutingRoute
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LcrRoute'
+      responses:
+        204:
+          description: least cost routing route updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LcrRoute'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        404:
+          description: least cost routing route not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /LcrCarrierSetEntries:
+    post:
+      tags:
+        - LcrCarrierSetEntries
+      summary: create a Least Cost Routing Carrier Set Entry
+      operationId: createLcrCarrierSetEntry
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/LcrCarrierSetEntry'
+              required:
+                - lcr_route_sid
+                - voip_carrier_sid
+                - priority
+      responses:
+        201:
+          description: Least Cost Routing Carrier Set Entry successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - LcrCarrierSetEntries
+      summary: list least cost routings routes
+      operationId: listLeastCostRoutingCarrierSetEntries
+      responses:
+        200:
+          description: list of least cost routing carrier set entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LcrCarrierSetEntry'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /LcrCarrierSetEntries/{LcrCarrierSetEntrySid}:
+    parameters:
+      - name: LcrCarrierSetEntrySid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    delete:
+      tags:
+        - LcrCarrierSetEntries
+      summary: delete a least cost routing carrier set entry
+      operationId: deleteLeastCostRoutingCarrierSetEntry
+      responses:
+        204:
+          description: least cost routing carrier set entry successfully deleted
+        404:
+          description: least cost routing carrier set entry not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+                example:
+                  msg: a service provider with active accounts can not be deleted
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - LcrCarrierSetEntries
+      summary: retrieve least cost routing carrier set entry
+      operationId: getLeastCostRoutingCarrierSetEntry
+      responses:
+        200:
+          description: least cost routing carrier set entry found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LcrCarrierSetEntry'
+        404:
+          description: least cost routing carrier set entry not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    put:
+      tags:
+        - LcrCarrierSetEntries
+      summary: update least cost routing carrier set entry
+      operationId: updateLeastCostRoutingCarrierSetEntry
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LcrCarrierSetEntry'
+      responses:
+        204:
+          description: least cost routing carrier set entry updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LcrCarrierSetEntry'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        404:
+          description: least cost routing carrier set entry not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
 components:
   securitySchemes:
     bearerAuth:
@@ -5001,6 +5492,57 @@ components:
             - voice_call_session
             - api_limit
             - devices
+    Lcr:
+      type: object
+      properties:
+        name:
+          type: string
+          example: twilioLcr
+        default_carrier_set_entry_sid:
+          type: string
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      required:
+        - name
+    LcrRoute:
+      type: object
+      properties:
+        lcr_sid:
+          type: string
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        regex:
+          type: string
+          description: out going call Phone number regex
+          example: 1*
+        priority:
+          type: number
+          example: 1
+        description:
+          type: string
+          example: this is example description
+      required:
+        - lcr_sid
+        - regex
+        - priority
+    LcrCarrierSetEntry:
+      type: object
+      properties:
+        workload:
+          type: number
+          example: 90
+          description: traffic distribution value
+        lcr_route_sid:
+          type: string
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        voip_carrier_sid:
+          type: string
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        priority:
+          type: number
+          example: 1
+      required:
+      - lcr_route_sid
+      - voip_carrier_sid
+      - priority
 
 security:
   - bearerAuth: []
