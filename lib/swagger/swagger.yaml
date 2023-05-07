@@ -3831,10 +3831,6 @@ paths:
                   type: object
                   description: Initial set of customer-supplied metadata to associate with the call (see jambonz 'tag' verb)
                   example: {"callCount": 10}
-                metadata:
-                  type: object
-                  description: Customer-supplied metadata to associate with the call that to be included in customerData for call_hook and call_status_hook.
-                  example: {"customer": "jambonz"}
                 to:
                   $ref: '#/components/schemas/Target'
                   description: Destination for call
