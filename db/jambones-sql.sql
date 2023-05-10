@@ -1,5 +1,5 @@
 /* SQLEditor (MySQL (2))*/
-SET FOREIGN_KEY_CHECKS=0;
+
 
 DROP TABLE IF EXISTS account_static_ips;
 
@@ -429,7 +429,7 @@ inbound BOOLEAN NOT NULL COMMENT 'if true, whitelist this IP to allow inbound ca
 outbound BOOLEAN NOT NULL COMMENT 'if true, include in least-cost routing when placing calls to the PSTN',
 voip_carrier_sid CHAR(36) NOT NULL,
 is_active BOOLEAN NOT NULL DEFAULT 1,
-protocol ENUM('udp','tcp','tls') DEFAULT 'udp' COMMENT 'Outbound call protocol',
+protocol ENUM('udp','tcp','tls', 'tls/srtp') DEFAULT 'udp' COMMENT 'Outbound call protocol',
 PRIMARY KEY (sip_gateway_sid)
 ) COMMENT='A whitelisted sip gateway used for origination/termination';
 
@@ -682,5 +682,3 @@ ALTER TABLE accounts ADD FOREIGN KEY queue_event_hook_sid_idxfk (queue_event_hoo
 ALTER TABLE accounts ADD FOREIGN KEY device_calling_application_sid_idxfk (device_calling_application_sid) REFERENCES applications (application_sid);
 
 ALTER TABLE accounts ADD FOREIGN KEY siprec_hook_sid_idxfk (siprec_hook_sid) REFERENCES applications (application_sid);
-
-SET FOREIGN_KEY_CHECKS=1;

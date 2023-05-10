@@ -2163,7 +2163,7 @@
             <y>17.00</y>
         </location>
         <size>
-            <width>260.00</width>
+            <width>281.00</width>
             <height>220.00</height>
         </size>
         <zorder>7</zorder>
@@ -2251,7 +2251,7 @@
         </SQLIndex>
         <SQLField>
             <name><![CDATA[protocol]]></name>
-            <type><![CDATA[ENUM('udp','tcp','tls')]]></type>
+            <type><![CDATA[ENUM('udp','tcp','tls', 'tls/srtp')]]></type>
             <defaultValue><![CDATA[udp]]></defaultValue>
             <objectComment><![CDATA[Outbound call protocol]]></objectComment>
             <uid><![CDATA[30661D66-96EC-4B02-995C-5E7EB8A3BD70]]></uid>
