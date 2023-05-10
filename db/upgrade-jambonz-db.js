@@ -89,6 +89,7 @@ const sql = {
     'ALTER TABLE `users` ADD COLUMN `is_active` BOOLEAN NOT NULL default true',
   ],
   8003: [
+    'SET FOREIGN_KEY_CHECKS=0',
     'ALTER TABLE `voip_carriers` ADD COLUMN `register_status` VARCHAR(4096)',
     'ALTER TABLE `sbc_addresses` ADD COLUMN `last_updated` DATETIME',
     'ALTER TABLE `sbc_addresses` ADD COLUMN `tls_port` INTEGER',
@@ -99,6 +100,44 @@ const sql = {
     sip_domain_name VARCHAR(255),
     monitoring_domain_name VARCHAR(255)
     )`,
+    'DROP TABLE IF EXISTS `lcr_routes`',
+    'DROP TABLE IF EXISTS `lcr_carrier_set_entry`',
+    `CREATE TABLE lcr_routes
+    (
+    lcr_route_sid CHAR(36),
+    lcr_sid CHAR(36) NOT NULL,
+    regex VARCHAR(32) NOT NULL COMMENT 'regex-based pattern match against dialed number, used for LCR routing of PSTN calls',
+    description VARCHAR(1024),
+    priority INTEGER NOT NULL COMMENT 'lower priority routes are attempted first',
+    PRIMARY KEY (lcr_route_sid)
+    )`,
+    `CREATE TABLE lcr
+    (
+    lcr_sid CHAR(36) NOT NULL UNIQUE ,
+    name VARCHAR(64) COMMENT 'User-assigned name for this LCR table',
+    is_active BOOLEAN NOT NULL DEFAULT 1,
+    default_carrier_set_entry_sid CHAR(36) COMMENT 'default carrier/route to use when no digit match based results are found.',
+    service_provider_sid CHAR(36),
+    account_sid CHAR(36),
+    PRIMARY KEY (lcr_sid)
+    )`,
+    `CREATE TABLE lcr_carrier_set_entry
+    (
+    lcr_carrier_set_entry_sid CHAR(36),
+    workload INTEGER NOT NULL DEFAULT 1 COMMENT 'represents a proportion of traffic to send through the associated carrier; can be used for load balancing traffic across carriers with a common priority for a destination',
+    lcr_route_sid CHAR(36) NOT NULL,
+    voip_carrier_sid CHAR(36) NOT NULL,
+    priority INTEGER NOT NULL DEFAULT 0 COMMENT 'lower priority carriers are attempted first',
+    PRIMARY KEY (lcr_carrier_set_entry_sid)
+    )`,
+    'CREATE INDEX lcr_sid_idx ON lcr_routes (lcr_sid)',
+    'ALTER TABLE lcr_routes ADD FOREIGN KEY lcr_sid_idxfk (lcr_sid) REFERENCES lcr (lcr_sid)',
+    'CREATE INDEX lcr_sid_idx ON lcr (lcr_sid)',
+    'ALTER TABLE lcr ADD FOREIGN KEY default_carrier_set_entry_sid_idxfk (default_carrier_set_entry_sid) REFERENCES lcr_carrier_set_entry (lcr_carrier_set_entry_sid)',
+    'CREATE INDEX service_provider_sid_idx ON lcr (service_provider_sid)',
+    'CREATE INDEX account_sid_idx ON lcr (account_sid)',
+    'ALTER TABLE lcr_carrier_set_entry ADD FOREIGN KEY lcr_route_sid_idxfk (lcr_route_sid) REFERENCES lcr_routes (lcr_route_sid)',
+    'ALTER TABLE lcr_carrier_set_entry ADD FOREIGN KEY voip_carrier_sid_idxfk_3 (voip_carrier_sid) REFERENCES voip_carriers (voip_carrier_sid)',
   ]
 };
 
