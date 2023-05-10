@@ -27,7 +27,8 @@ test('sip gateway tests', async(t) => {
         ipv4: '192.168.1.1',
         netmask: 32,
         inbound: true,
-        outbound: true
+        outbound: true,
+        protocol: 'tcp'
       }
     });
     t.ok(result.statusCode === 201, 'successfully created sip gateway ');
@@ -48,6 +49,7 @@ test('sip gateway tests', async(t) => {
     });
     //console.log(`result: ${JSON.stringify(result)}`);
     t.ok(result.ipv4 === '192.168.1.1' , 'successfully retrieved voip carrier by sid');
+    t.ok(result.protocol === 'tcp' , 'successfully retrieved voip carrier by sid');
 
 
     /* update sip gateway */
@@ -58,7 +60,8 @@ test('sip gateway tests', async(t) => {
       body: {
         port: 5061,
         netmask:24,
-        outbound: false
+        outbound: false,
+        protocol: 'udp'
       }
     });
     t.ok(result.statusCode === 204, 'successfully updated voip carrier');
