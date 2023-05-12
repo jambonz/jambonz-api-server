@@ -469,7 +469,7 @@ speech_synthesis_voice VARCHAR(64),
 speech_recognizer_vendor VARCHAR(64) NOT NULL DEFAULT 'google',
 speech_recognizer_language VARCHAR(64) NOT NULL DEFAULT 'en-US',
 created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-record_all_calls BOOLEAN,
+record_all_calls BOOLEAN NOT NULL DEFAULT false,
 PRIMARY KEY (application_sid)
 ) COMMENT='A defined set of behaviors to be applied to phone calls ';
 
@@ -507,7 +507,7 @@ subspace_client_secret VARCHAR(255),
 subspace_sip_teleport_id VARCHAR(255),
 subspace_sip_teleport_destinations VARCHAR(255),
 siprec_hook_sid CHAR(36),
-record_all_calls BOOLEAN,
+record_all_calls BOOLEAN NOT NULL DEFAULT false,
 bucket_vendor VARCHAR(32),
 bucket_credential VARCHAR(8192) COMMENT 'bucket\'s credential to upload call record',
 PRIMARY KEY (account_sid)
@@ -686,5 +686,4 @@ ALTER TABLE accounts ADD FOREIGN KEY queue_event_hook_sid_idxfk (queue_event_hoo
 ALTER TABLE accounts ADD FOREIGN KEY device_calling_application_sid_idxfk (device_calling_application_sid) REFERENCES applications (application_sid);
 
 ALTER TABLE accounts ADD FOREIGN KEY siprec_hook_sid_idxfk (siprec_hook_sid) REFERENCES applications (application_sid);
-
 SET FOREIGN_KEY_CHECKS=1;

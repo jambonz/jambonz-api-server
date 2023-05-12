@@ -1803,6 +1803,8 @@
         <SQLField>
             <name><![CDATA[record_all_calls]]></name>
             <type><![CDATA[BOOLEAN]]></type>
+            <defaultValue><![CDATA[false]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[F4154533-AE5B-48FE-9435-A37FA2632752]]></uid>
         </SQLField>
         <SQLField>
@@ -2431,6 +2433,8 @@
         <SQLField>
             <name><![CDATA[record_all_calls]]></name>
             <type><![CDATA[BOOLEAN]]></type>
+            <defaultValue><![CDATA[false]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[0AAA3997-9E40-47CC-976D-5EC1B82AD290]]></uid>
         </SQLField>
         <SQLIndex>
@@ -2885,7 +2889,7 @@
         <windowHeight><![CDATA[1055.000000]]></windowHeight>
         <windowLocationX><![CDATA[1728.000000]]></windowLocationX>
         <windowLocationY><![CDATA[37.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{0, 463}]]></windowScrollOrigin>
+        <windowScrollOrigin><![CDATA[{366, 447}]]></windowScrollOrigin>
         <windowWidth><![CDATA[1874.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
