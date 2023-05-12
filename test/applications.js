@@ -125,7 +125,8 @@ test('application tests', async(t) => {
               "X-Reason" : "maximum call duration exceeded"\
             }\
           }\
-        ]'
+        ]',
+        record_all_calls: true
       }
     });
     t.ok(result.statusCode === 204, 'successfully updated application');
@@ -138,6 +139,7 @@ test('application tests', async(t) => {
     t.ok(result.messaging_hook.url === 'http://example2.com/mms' , 'successfully updated messaging_hook');
     app_json = JSON.parse(result.app_json);
     t.ok(app_json[0].verb === 'hangup', 'successfully updated app_json from application')
+    t.ok(result.record_all_calls === 1, 'successfully updated record_all_calls from application')
 
     /* remove applications app_json*/
     result = await request.put(`/Applications/${sid}`, {
