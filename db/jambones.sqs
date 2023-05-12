@@ -1622,7 +1622,7 @@
         </location>
         <size>
             <width>318.00</width>
-            <height>440.00</height>
+            <height>500.00</height>
         </size>
         <zorder>4</zorder>
         <SQLField>
@@ -1799,6 +1799,22 @@
             <referencesFieldUID><![CDATA[EF943D13-DCB0-43C1-B03F-550612E20F9D]]></referencesFieldUID>
             <referencesTableUID><![CDATA[E97EE4F0-7ED7-4E8C-862E-D98192D6EAE0]]></referencesTableUID>
             <uid><![CDATA[4B8283B4-5E16-4846-A79D-12C6B2E73C86]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[record_all_calls]]></name>
+            <type><![CDATA[BOOLEAN]]></type>
+            <uid><![CDATA[F4154533-AE5B-48FE-9435-A37FA2632752]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[bucket_vendor]]></name>
+            <type><![CDATA[VARCHAR(32)]]></type>
+            <uid><![CDATA[AEC6F733-FD10-4BE5-B18F-0766F8862210]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[bucket_credential]]></name>
+            <type><![CDATA[VARCHAR(8192)]]></type>
+            <objectComment><![CDATA[bucket's credential to upload call record]]></objectComment>
+            <uid><![CDATA[E81859C0-DCBD-4FF3-BEEF-FA575394326B]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[32]]></labelWindowIndex>
         <objectComment><![CDATA[An enterprise that uses the platform for comm services]]></objectComment>
@@ -2010,8 +2026,8 @@
         <name><![CDATA[dns_records]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>960.00</x>
-            <y>1155.00</y>
+            <x>947.00</x>
+            <y>1303.00</y>
         </location>
         <size>
             <width>262.00</width>
@@ -2266,12 +2282,12 @@
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[A defined set of behaviors to be applied to phone calls ]]></comment>
         <location>
-            <x>841.00</x>
-            <y>824.00</y>
+            <x>840.00</x>
+            <y>917.00</y>
         </location>
         <size>
             <width>345.00</width>
-            <height>320.00</height>
+            <height>340.00</height>
         </size>
         <zorder>0</zorder>
         <SQLField>
@@ -2411,6 +2427,11 @@
             <noQuoteDefault><![CDATA[1]]></noQuoteDefault>
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[C09B1BDB-8390-4B8A-B70A-642EC5E12899]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[record_all_calls]]></name>
+            <type><![CDATA[BOOLEAN]]></type>
+            <uid><![CDATA[0AAA3997-9E40-47CC-976D-5EC1B82AD290]]></uid>
         </SQLField>
         <SQLIndex>
             <name><![CDATA[applications_idx_name]]></name>
@@ -2864,7 +2885,7 @@
         <windowHeight><![CDATA[1055.000000]]></windowHeight>
         <windowLocationX><![CDATA[1728.000000]]></windowLocationX>
         <windowLocationY><![CDATA[37.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{0, 0}]]></windowScrollOrigin>
+        <windowScrollOrigin><![CDATA[{0, 463}]]></windowScrollOrigin>
         <windowWidth><![CDATA[1874.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
