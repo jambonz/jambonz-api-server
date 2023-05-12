@@ -469,6 +469,7 @@ speech_synthesis_voice VARCHAR(64),
 speech_recognizer_vendor VARCHAR(64) NOT NULL DEFAULT 'google',
 speech_recognizer_language VARCHAR(64) NOT NULL DEFAULT 'en-US',
 created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+record_all_calls BOOLEAN,
 PRIMARY KEY (application_sid)
 ) COMMENT='A defined set of behaviors to be applied to phone calls ';
 
@@ -506,6 +507,9 @@ subspace_client_secret VARCHAR(255),
 subspace_sip_teleport_id VARCHAR(255),
 subspace_sip_teleport_destinations VARCHAR(255),
 siprec_hook_sid CHAR(36),
+record_all_calls BOOLEAN,
+bucket_vendor VARCHAR(32),
+bucket_credential VARCHAR(8192) COMMENT 'bucket\'s credential to upload call record',
 PRIMARY KEY (account_sid)
 ) COMMENT='An enterprise that uses the platform for comm services';
 
