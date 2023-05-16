@@ -165,7 +165,7 @@ app.listen(PORT);
 
 
 const isValidWsKey = (hdr) => {
-  const token = Buffer.from(`${process.env.JAMBONZ_RECORD_WS_USERNAME}:
+  const token = Buffer.from(`${process.env.JAMBONZ_RECORD_WS_USERNAME}:\
   ${process.env.JAMBONZ_RECORD_WS_PASSWORD}}`).toString('base64');
   const arr = /^Basic (.*)$/.exec(hdr);
   return !arr || arr[1] === token;
