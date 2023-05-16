@@ -164,9 +164,11 @@ logger.info(`listening for HTTP traffic on port ${PORT}`);
 app.listen(PORT);
 
 
-const isValidWsKey = (hdr, apiKey) => {
-  const arr = /^Bearer (.*)$/.exec(hdr);
-  return !arr || arr[1] === apiKey;
+const isValidWsKey = (hdr) => {
+  const token = Buffer.from(`${process.env.JAMBONZ_REORD_WS_USERNAME}:
+  ${process.env.JAMBONZ_REORD_WS_PASSWORD}}`).toString('base64');
+  const arr = /^Basic (.*)$/.exec(hdr);
+  return !arr || arr[1] === token;
 };
 
 app.on('upgrade', (request, socket, head) => {
@@ -182,7 +184,7 @@ app.on('upgrade', (request, socket, head) => {
   }
 
   /* verify the api key */
-  if (!isValidWsKey(request.headers['authorization'], process.env.JAMBONZ_REORD_WS_KEY)) {
+  if (!isValidWsKey(request.headers['authorization'])) {
     logger.info(`invalid auth header: ${request.headers['authorization']}`);
     return socket.write('HTTP/1.1 403 Forbidden \r\n\r\n', () => socket.destroy());
   }
