@@ -1622,7 +1622,7 @@
         </location>
         <size>
             <width>318.00</width>
-            <height>540.00</height>
+            <height>480.00</height>
         </size>
         <zorder>4</zorder>
         <SQLField>
@@ -1808,25 +1808,10 @@
             <uid><![CDATA[F4154533-AE5B-48FE-9435-A37FA2632752]]></uid>
         </SQLField>
         <SQLField>
-            <name><![CDATA[bucket_vendor]]></name>
-            <type><![CDATA[VARCHAR(32)]]></type>
-            <uid><![CDATA[AEC6F733-FD10-4BE5-B18F-0766F8862210]]></uid>
-        </SQLField>
-        <SQLField>
             <name><![CDATA[bucket_credential]]></name>
             <type><![CDATA[VARCHAR(8192)]]></type>
             <objectComment><![CDATA[bucket's credential to upload call record]]></objectComment>
             <uid><![CDATA[E81859C0-DCBD-4FF3-BEEF-FA575394326B]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[bucket_tested_ok]]></name>
-            <type><![CDATA[BOOLEAN]]></type>
-            <uid><![CDATA[B4AF8BC0-9AD8-4D88-813F-5A60CE76997C]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[bucket_last_tested]]></name>
-            <type><![CDATA[DATETIME]]></type>
-            <uid><![CDATA[F7A16744-2BDE-4BC5-A47B-198756337AC5]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[32]]></labelWindowIndex>
         <objectComment><![CDATA[An enterprise that uses the platform for comm services]]></objectComment>
@@ -2899,7 +2884,7 @@
         <windowHeight><![CDATA[1055.000000]]></windowHeight>
         <windowLocationX><![CDATA[1728.000000]]></windowLocationX>
         <windowLocationY><![CDATA[37.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{366, 417}]]></windowScrollOrigin>
+        <windowScrollOrigin><![CDATA[{388, 7}]]></windowScrollOrigin>
         <windowWidth><![CDATA[1874.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>

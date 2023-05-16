@@ -508,10 +508,7 @@ subspace_sip_teleport_id VARCHAR(255),
 subspace_sip_teleport_destinations VARCHAR(255),
 siprec_hook_sid CHAR(36),
 record_all_calls BOOLEAN NOT NULL DEFAULT false,
-bucket_vendor VARCHAR(32),
 bucket_credential VARCHAR(8192) COMMENT 'bucket\'s credential to upload call record',
-bucket_tested_ok BOOLEAN,
-bucket_last_tested DATETIME,
 PRIMARY KEY (account_sid)
 ) COMMENT='An enterprise that uses the platform for comm services';
 
