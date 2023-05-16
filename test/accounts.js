@@ -170,10 +170,13 @@ test('account tests', async(t) => {
           method: 'post'
         },
         record_all_calls: true,
-        bucket_vendor: 'aws_s3',
-        bucket_name: 'recordings',
-        bucket_access_key_id: 'access_key_id',
-        bucket_secret_access_key: 'secret access key'
+        bucket_credential: {
+          vendor: 'aws_s3',
+          name: 'recordings',
+          access_key_id: 'access_key_id',
+          secret_access_key: 'secret access key'
+        }
+        
       }
     });
     t.ok(result.statusCode === 204, 'successfully updated account using account level token');
@@ -184,9 +187,9 @@ test('account tests', async(t) => {
       json: true,
     });
 
-    t.ok(result.bucket_vendor === 'aws_s3', 'bucket_vendor was updated');
-    t.ok(result.bucket_name === 'recordings', 'bucket_name was updated');
-    t.ok(result.bucket_access_key_id === 'access_key_id', 'bucket_access_key_id was updated');
+    t.ok(result.bucket_credential.vendor === 'aws_s3', 'bucket_vendor was updated');
+    t.ok(result.bucket_credential.name === 'recordings', 'bucket_name was updated');
+    t.ok(result.bucket_credential.access_key_id === 'access_key_id', 'bucket_access_key_id was updated');
     t.ok(result.record_all_calls === 1, 'record_all_calls was updated');
 
     /* verify that account level api key last_used was updated*/
