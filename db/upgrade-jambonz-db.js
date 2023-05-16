@@ -138,6 +138,7 @@ const sql = {
     'CREATE INDEX account_sid_idx ON lcr (account_sid)',
     'ALTER TABLE lcr_carrier_set_entry ADD FOREIGN KEY lcr_route_sid_idxfk (lcr_route_sid) REFERENCES lcr_routes (lcr_route_sid)',
     'ALTER TABLE lcr_carrier_set_entry ADD FOREIGN KEY voip_carrier_sid_idxfk_3 (voip_carrier_sid) REFERENCES voip_carriers (voip_carrier_sid)',
+    'SET FOREIGN_KEY_CHECKS=1',
   ]
 };
 
