@@ -161,7 +161,7 @@ app.use((err, req, res, next) => {
   });
 });
 logger.info(`listening for HTTP traffic on port ${PORT}`);
-app.listen(PORT);
+const server = app.listen(PORT);
 
 
 const isValidWsKey = (hdr) => {
@@ -171,14 +171,14 @@ const isValidWsKey = (hdr) => {
   return !arr || arr[1] === token;
 };
 
-app.on('upgrade', (request, socket, head) => {
+server.on('upgrade', (request, socket, head) => {
   logger.debug({
     url: request.url,
     headers: request.headers,
   }, 'received upgrade request');
 
   /* verify the path starts with /transcribe */
-  if (!request.url.startsWith('/record')) {
+  if (!request.url.includes('/record/')) {
     logger.info(`unhandled path: ${request.url}`);
     return socket.write('HTTP/1.1 404 Not Found \r\n\r\n', () => socket.destroy());
   }
