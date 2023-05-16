@@ -6,7 +6,7 @@ process.on('SIGINT', async() => {
   if (stopping) return;
   stopping = true;
   console.log('shutting down');
-  // await stopDocker();
+  await stopDocker();
   process.exit(0);
 });
 
@@ -85,21 +85,18 @@ const stopDocker = () => {
   })
 };
 
-console.log('ready for testing!');
+startDocker()
+  .then(createDb)
+  .then(createSchema)
+  .then(seedDb)
+  .then(resetAdminPassword)
+  .then(generateSipTrace)
+  .then(() => {
+    console.log('ready for testing!');
     require('..');
-
-// startDocker()
-//   .then(createDb)
-//   .then(createSchema)
-//   .then(seedDb)
-//   .then(resetAdminPassword)
-//   .then(generateSipTrace)
-//   .then(() => {
-//     console.log('ready for testing!');
-//     require('..');
-//   })
-//   .catch(async(err) => {
-//     console.error({err}, 'Error running integration test');
-//     await stopDocker();
-//     process.exit(-1);
-//   });
+  })
+  .catch(async(err) => {
+    console.error({err}, 'Error running integration test');
+    await stopDocker();
+    process.exit(-1);
+  });
