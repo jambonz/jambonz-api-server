@@ -30,6 +30,7 @@
     "@jambonz/time-series": "^0.2.5",
     "@jambonz/verb-specifications": "^0.0.21",
     "@soniox/soniox-node": "^1.1.0",
+    "audiobuffer-to-wav": "^1.0.0",
     "argon2": "^0.30.3",
     "bent": "^7.3.12",
     "cors": "^2.8.5",
