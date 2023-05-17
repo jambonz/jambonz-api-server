@@ -31,6 +31,7 @@
     "@jambonz/verb-specifications": "^0.0.21",
     "@soniox/soniox-node": "^1.1.0",
     "audiobuffer-to-wav": "^1.0.0",
+    "web-audio-engine": "^0.13.4",
     "argon2": "^0.30.3",
     "bent": "^7.3.12",
     "cors": "^2.8.5",
