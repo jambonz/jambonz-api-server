@@ -172,6 +172,7 @@ test('account tests', async(t) => {
         record_all_calls: true,
         bucket_credential: {
           vendor: 'aws_s3',
+          region: 'us-east-1',
           name: 'recordings',
           access_key_id: 'access_key_id',
           secret_access_key: 'secret access key'
