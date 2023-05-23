@@ -54,7 +54,7 @@
     "yamljs": "^0.3.0",
     "ws": "^8.12.1",
     "s3-upload-stream": "^1.0.7",
-    "wav": "^1.0.2"
+    "lamejs": "github:zhuker/lamejs"
   },
   "devDependencies": {
     "eslint": "^8.39.0",
