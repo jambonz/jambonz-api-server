@@ -139,6 +139,11 @@ const sql = {
     'ALTER TABLE lcr_carrier_set_entry ADD FOREIGN KEY lcr_route_sid_idxfk (lcr_route_sid) REFERENCES lcr_routes (lcr_route_sid)',
     'ALTER TABLE lcr_carrier_set_entry ADD FOREIGN KEY voip_carrier_sid_idxfk_3 (voip_carrier_sid) REFERENCES voip_carriers (voip_carrier_sid)',
     'SET FOREIGN_KEY_CHECKS=1',
+  ],
+  8004: [
+    'alter table accounts add column record_all_calls BOOLEAN NOT NULL DEFAULT false',
+    'alter table accounts add column bucket_credential VARCHAR(8192)',
+    'alter table applications add column record_all_calls BOOLEAN NOT NULL DEFAULT false'
   ]
 };
 

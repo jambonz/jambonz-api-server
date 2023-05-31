@@ -1810,7 +1810,7 @@
         <SQLField>
             <name><![CDATA[bucket_credential]]></name>
             <type><![CDATA[VARCHAR(8192)]]></type>
-            <objectComment><![CDATA[bucket's credential to upload call record]]></objectComment>
+            <objectComment><![CDATA[credential used to authenticate with storage service]]></objectComment>
             <uid><![CDATA[E81859C0-DCBD-4FF3-BEEF-FA575394326B]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[32]]></labelWindowIndex>
@@ -2875,17 +2875,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1873.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1607.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[312.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[1055.000000]]></windowHeight>
-        <windowLocationX><![CDATA[1728.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[37.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{388, 7}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1874.000000]]></windowWidth>
+        <windowHeight><![CDATA[870.000000]]></windowHeight>
+        <windowLocationX><![CDATA[-971.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[1167.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{387.5, 130}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[1884.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>
