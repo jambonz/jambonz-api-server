@@ -42,7 +42,9 @@ const {
   incrKey
 } = require('./lib/helpers/realtimedb-helpers');
 const {
-  getTtsVoices
+  getTtsVoices,
+  getTtsSize,
+  purgeTtsCache
 } = require('@jambonz/speech-utils')({
   host: process.env.JAMBONES_REDIS_HOST,
   port: process.env.JAMBONES_REDIS_PORT || 6379
@@ -84,6 +86,8 @@ app.locals = {
   retrieveKey,
   deleteKey,
   getTtsVoices,
+  getTtsSize,
+  purgeTtsCache,
   lookupAppBySid,
   lookupAccountBySid,
   lookupAccountByPhoneNumber,
