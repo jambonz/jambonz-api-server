@@ -23,4 +23,5 @@ require('./system-information');
 require('./lcr-carriers-set-entries');
 require('./lcr-routes');
 require('./lcrs');
+require('./tts-cache');
 require('./docker_stop');
