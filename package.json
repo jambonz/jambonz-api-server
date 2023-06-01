@@ -28,6 +28,7 @@
     "@jambonz/speech-utils": "^0.0.12",
     "@jambonz/time-series": "^0.2.5",
     "@jambonz/verb-specifications": "^0.0.21",
+    "@jambonz/lamejs": "^1.2.2",
     "@soniox/soniox-node": "^1.1.0",
     "argon2": "^0.30.3",
     "bent": "^7.3.12",
@@ -51,8 +52,7 @@
     "swagger-ui-express": "^4.4.0",
     "uuid": "^8.3.2",
     "yamljs": "^0.3.0",
-    "ws": "^8.12.1",
-    "lamejs": "github:zhuker/lamejs"
+    "ws": "^8.12.1"
   },
   "devDependencies": {
     "eslint": "^8.39.0",
