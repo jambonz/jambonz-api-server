@@ -84,3 +84,73 @@ test('Create Call Success Without Synthesizer in Payload', async (t) => {
   }).then(data => { t.ok(false, 'Create Call should not be success') })
     .catch(error => { t.ok(error.response.statusCode === 400, 'Call failed for no synthesizer') });
 });
+
+test("Create call with application sid and app_json", async(t) => {
+  const app = require('../app');
+
+  const service_provider_sid = await createServiceProvider(request, 'account3_has_synthesizer');
+  const account_sid = await createAccount(request, service_provider_sid, 'account3_has_synthesizer');
+
+  const token = jwt.sign({
+    account_sid,
+    scope: "account",
+    permissions: ["PROVISION_USERS", "PROVISION_SERVICES", "VIEW_ONLY"]
+  }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  const authUser = { bearer: token };
+  const speech_sid = await createGoogleSpeechCredentials(request, account_sid, null, authUser, true, true);
+
+  // GIVEN
+/* add an application */
+
+const app_json = '[\
+  {\
+    "verb": "play",\
+    "url": "https://example.com/example.mp3",\
+    "timeoutSecs": 10,\
+    "seekOffset": 8000,\
+    "actionHook": "/play/action"\
+}\
+]';
+let result = await request.post('/Applications', {
+  resolveWithFullResponse: true,
+  auth: authUser,
+  json: true,
+  body: {
+    name: 'daveh',
+    account_sid,
+    call_hook: {
+      url: 'http://example.com'
+    },
+    call_status_hook: {
+      url: 'http://example.com/status',
+      method: 'POST'
+    },
+    messaging_hook: {
+      url: 'http://example.com/sms'
+    },
+    app_json
+  }
+});
+t.ok(result.statusCode === 201, 'successfully created application');
+const sid = result.body.sid;
+
+// WHEN
+result = await request.post(`/Accounts/${account_sid}/Calls`, {
+  resolveWithFullResponse: true,
+  auth: authUser,
+  json: true,
+  body: {
+    application_sid: sid,
+    from: "15083778299",
+    to: {
+      type: "phone",
+      number: "15089084809"
+    },
+  }
+});
+// THEN
+t.ok(result.statusCode === 201, 'successfully created Call without Synthesizer && application_sid');
+const fs_request = await getLastRequestFromFeatureServer('15083778299_createCall');
+const obj = JSON.parse(fs_request);
+t.ok(obj.body.app_json == app_json, 'app_json successfully added')
+});
