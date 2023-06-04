@@ -144,7 +144,7 @@ regex VARCHAR(32) NOT NULL COMMENT 'regex-based pattern match against dialed num
 description VARCHAR(1024),
 priority INTEGER NOT NULL COMMENT 'lower priority routes are attempted first',
 PRIMARY KEY (lcr_route_sid)
-) COMMENT='An ordered list of  digit patterns in an LCR table.  The pat';
+) COMMENT='An ordered list of  digit patterns in an LCR table.  The patterns are tested in sequence until one matches';
 
 CREATE TABLE lcr
 (
@@ -155,7 +155,7 @@ default_carrier_set_entry_sid CHAR(36) COMMENT 'default carrier/route to use whe
 service_provider_sid CHAR(36),
 account_sid CHAR(36),
 PRIMARY KEY (lcr_sid)
-) COMMENT='An LCR (least cost routing) table that is used by a service ';
+) COMMENT='An LCR (least cost routing) table that is used by a service provider or account to make decisions about routing outbound calls when multiple carriers are available.';
 
 CREATE TABLE password_settings
 (
@@ -508,6 +508,7 @@ subspace_sip_teleport_id VARCHAR(255),
 subspace_sip_teleport_destinations VARCHAR(255),
 siprec_hook_sid CHAR(36),
 record_all_calls BOOLEAN NOT NULL DEFAULT false,
+record_format VARCHAR(16) NOT NULL DEFAULT 'mp3',
 bucket_credential VARCHAR(8192) COMMENT 'credential used to authenticate with storage service',
 PRIMARY KEY (account_sid)
 ) COMMENT='An enterprise that uses the platform for comm services';
