@@ -170,6 +170,7 @@ test('account tests', async(t) => {
           method: 'post'
         },
         record_all_calls: true,
+        record_format: 'wav',
         bucket_credential: {
           vendor: 'aws_s3',
           region: 'us-east-1',
@@ -192,6 +193,7 @@ test('account tests', async(t) => {
     t.ok(result.bucket_credential.name === 'recordings', 'bucket_name was updated');
     t.ok(result.bucket_credential.access_key_id === 'access_key_id', 'bucket_access_key_id was updated');
     t.ok(result.record_all_calls === 1, 'record_all_calls was updated');
+    t.ok(result.record_format === 'wav', 'record_format was updated');
 
     /* verify that account level api key last_used was updated*/
     result = await request.get(`/Accounts/${sid}/ApiKeys`, {
