@@ -143,6 +143,7 @@ const sql = {
   8004: [
     'alter table accounts add column record_all_calls BOOLEAN NOT NULL DEFAULT false',
     'alter table accounts add column bucket_credential VARCHAR(8192)',
+    'alter table accounts add column record_format VARCHAR(16) NOT NULL DEFAULT `mp3`',
     'alter table applications add column record_all_calls BOOLEAN NOT NULL DEFAULT false'
   ]
 };
