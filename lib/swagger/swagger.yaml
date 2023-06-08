@@ -3046,6 +3046,18 @@ paths:
           enum:
             - inbound
             - outbound
+      - in: query
+        name: from
+        required: false
+        schema:
+          type: string
+        description: calling number to retrieve
+      - in: query
+        name: to
+        required: false
+        schema:
+          type: string
+        description: called number to retrieve
     get:
       tags:
         - Accounts
@@ -3245,6 +3257,18 @@ paths:
           enum:
             - inbound
             - outbound
+      - in: query
+        name: from
+        required: false
+        schema:
+          type: string
+        description: calling number to retrieve
+      - in: query
+        name: to
+        required: false
+        schema:
+          type: string
+        description: called number to retrieve
     get:
       tags:
         - Service Providers
