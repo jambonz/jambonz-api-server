@@ -14,7 +14,7 @@ const {
   createPhoneNumber, 
   deleteObjectBySid} = require('./utils');
 const logger = require('../lib/logger');
-const { pushBack } = require('@jambonz/realtimedb-helpers')({
+const { addToSortedSet } = require('@jambonz/realtimedb-helpers')({
   host: process.env.JAMBONES_REDIS_HOST,
   port: process.env.JAMBONES_REDIS_PORT || 6379
 }, logger);
@@ -290,8 +290,8 @@ test('account tests', async(t) => {
     t.ok(result.statusCode === 204, 'successfully deleted a call session limit for an account');
 
     /* query account queues */
-    await pushBack(`queue:${sid}:test`, 'url1');
-    await pushBack(`queue:${sid}:dummy`, 'url2');
+    await addToSortedSet(`queue:${sid}:test`, 'url1');
+    await addToSortedSet(`queue:${sid}:dummy`, 'url2');
 
     result = await request.get(`/Accounts/${sid}/Queues`, {
       auth: authAdmin,
