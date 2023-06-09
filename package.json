@@ -19,8 +19,8 @@
     "url": "https://github.com/jambonz/jambonz-api-server.git"
   },
   "dependencies": {
-    "@aws-sdk/client-transcribe": "^3.290.0",
-    "@aws-sdk/client-s3": "^3.332.0",
+    "@aws-sdk/client-transcribe": "^3.348.0",
+    "@aws-sdk/client-s3": "^3.348.0",
     "@deepgram/sdk": "^1.10.2",
     "@google-cloud/speech": "^5.1.0",
     "@jambonz/db-helpers": "^0.9.0",
