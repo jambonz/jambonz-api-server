@@ -74,6 +74,7 @@ const {
 const PORT = process.env.HTTP_PORT || 3000;
 const authStrategy = require('./lib/auth')(logger, retrieveKey);
 const {delayLoginMiddleware} = require('./lib/middleware');
+const Websocket = require('ws');
 
 passport.use(authStrategy);
 
@@ -124,6 +125,12 @@ const limiter = rateLimit({
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
+// Setup websocket for recording audio
+const recordWsServer = require('./lib/record');
+const wsServer = new Websocket.Server({ noServer: true });
+wsServer.setMaxListeners(0);
+wsServer.on('connection', recordWsServer.bind(null, logger));
+
 if (process.env.JAMBONES_TRUST_PROXY) {
   const proxyCount = parseInt(process.env.JAMBONES_TRUST_PROXY);
   if (!isNaN(proxyCount) && proxyCount > 0) {
@@ -164,7 +171,41 @@ app.use((err, req, res, next) => {
   });
 });
 logger.info(`listening for HTTP traffic on port ${PORT}`);
-app.listen(PORT);
+const server = app.listen(PORT);
+
+
+const isValidWsKey = (hdr) => {
+  const username = process.env.JAMBONZ_RECORD_WS_USERNAME;
+  const password = process.env.JAMBONZ_RECORD_WS_PASSWORD;
+  const token = Buffer.from(`${username}:${password}`).toString('base64');
+  const arr = /^Basic (.*)$/.exec(hdr);
+  return arr[1] === token;
+};
+
+server.on('upgrade', (request, socket, head) => {
+  logger.debug({
+    url: request.url,
+    headers: request.headers,
+  }, 'received upgrade request');
+
+  /* verify the path starts with /transcribe */
+  if (!request.url.includes('/record/')) {
+    logger.info(`unhandled path: ${request.url}`);
+    return socket.write('HTTP/1.1 404 Not Found \r\n\r\n', () => socket.destroy());
+  }
+
+  /* verify the api key */
+  if (!isValidWsKey(request.headers['authorization'])) {
+    logger.info(`invalid auth header: ${request.headers['authorization']}`);
+    return socket.write('HTTP/1.1 403 Forbidden \r\n\r\n', () => socket.destroy());
+  }
+
+  /* complete the upgrade */
+  wsServer.handleUpgrade(request, socket, head, (ws) => {
+    logger.info(`upgraded to websocket, url: ${request.url}`);
+    wsServer.emit('connection', ws, request.url);
+  });
+});
 
 // purge old calls from active call set every 10 mins
 async function purge() {
