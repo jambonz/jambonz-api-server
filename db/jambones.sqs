@@ -2087,8 +2087,8 @@
             <y>1128.00</y>
         </location>
         <size>
-            <width>265.00</width>
-            <height>140.00</height>
+            <width>522.00</width>
+            <height>160.00</height>
         </size>
         <zorder>2</zorder>
         <SQLField>
@@ -2108,7 +2108,7 @@
             <indexed><![CDATA[1]]></indexed>
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[159B82ED-C6B0-4FC6-957B-5C354AF9E783]]></uid>
-            <unique><![CDATA[1]]></unique>
+            <unique><![CDATA[0]]></unique>
         </SQLField>
         <SQLField>
             <name><![CDATA[voip_carrier_sid]]></name>
@@ -2170,6 +2170,24 @@
             <objectComment><![CDATA[if not null, this number is a test number for the associated service provider]]></objectComment>
             <uid><![CDATA[D2D46B75-F9C7-42A5-8D8C-4A8412C75ECA]]></uid>
         </SQLField>
+        <SQLIndex>
+            <name><![CDATA[phone_numbers_unique_idx_voip_carrier_number]]></name>
+            <fieldName><![CDATA[number]]></fieldName>
+            <fieldName><![CDATA[voip_carrier_sid]]></fieldName>
+            <SQLIndexEntry>
+                <name><![CDATA[number]]></name>
+                <prefixSize><![CDATA[]]></prefixSize>
+                <fieldUid><![CDATA[159B82ED-C6B0-4FC6-957B-5C354AF9E783]]></fieldUid>
+            </SQLIndexEntry>
+            <SQLIndexEntry>
+                <name><![CDATA[voip_carrier_sid]]></name>
+                <prefixSize><![CDATA[]]></prefixSize>
+                <fieldUid><![CDATA[58A047B9-C1C9-4697-9FE8-08E3BFF91660]]></fieldUid>
+            </SQLIndexEntry>
+            <indexNamePrefix><![CDATA[phone_numbers]]></indexNamePrefix>
+            <indexType><![CDATA[UNIQUE]]></indexType>
+            <uid><![CDATA[4E84523A-7F30-4A5D-A0A8-578652102BD0]]></uid>
+        </SQLIndex>
         <labelWindowIndex><![CDATA[33]]></labelWindowIndex>
         <objectComment><![CDATA[A phone number that has been assigned to an account]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
@@ -2883,17 +2901,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1681.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1235.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
-        <SourceSidebarWidth><![CDATA[312.000000]]></SourceSidebarWidth>
+        <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[1055.000000]]></windowHeight>
+        <windowHeight><![CDATA[870.000000]]></windowHeight>
         <windowLocationX><![CDATA[0.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[24.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{387.5, 130}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1682.000000]]></windowWidth>
+        <windowLocationY><![CDATA[74.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{0, 692.5}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[1512.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>
