@@ -1,4 +1,5 @@
 /* SQLEditor (MySQL (2))*/
+
 SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS account_static_ips;
@@ -144,7 +145,7 @@ regex VARCHAR(32) NOT NULL COMMENT 'regex-based pattern match against dialed num
 description VARCHAR(1024),
 priority INTEGER NOT NULL COMMENT 'lower priority routes are attempted first',
 PRIMARY KEY (lcr_route_sid)
-) COMMENT='An ordered list of  digit patterns in an LCR table.  The patterns are tested in sequence until one matches';
+) COMMENT='An ordered list of  digit patterns in an LCR table.  The pat';
 
 CREATE TABLE lcr
 (
@@ -155,7 +156,7 @@ default_carrier_set_entry_sid CHAR(36) COMMENT 'default carrier/route to use whe
 service_provider_sid CHAR(36),
 account_sid CHAR(36),
 PRIMARY KEY (lcr_sid)
-) COMMENT='An LCR (least cost routing) table that is used by a service provider or account to make decisions about routing outbound calls when multiple carriers are available.';
+) COMMENT='An LCR (least cost routing) table that is used by a service ';
 
 CREATE TABLE password_settings
 (
@@ -411,7 +412,7 @@ PRIMARY KEY (smpp_gateway_sid)
 CREATE TABLE phone_numbers
 (
 phone_number_sid CHAR(36) UNIQUE ,
-number VARCHAR(132) NOT NULL UNIQUE ,
+number VARCHAR(132) NOT NULL,
 voip_carrier_sid CHAR(36),
 account_sid CHAR(36),
 application_sid CHAR(36),
@@ -632,6 +633,8 @@ CREATE INDEX smpp_gateway_sid_idx ON smpp_gateways (smpp_gateway_sid);
 CREATE INDEX voip_carrier_sid_idx ON smpp_gateways (voip_carrier_sid);
 ALTER TABLE smpp_gateways ADD FOREIGN KEY voip_carrier_sid_idxfk (voip_carrier_sid) REFERENCES voip_carriers (voip_carrier_sid);
 
+CREATE UNIQUE INDEX phone_numbers_unique_idx_voip_carrier_number ON phone_numbers (number,voip_carrier_sid);
+
 CREATE INDEX phone_number_sid_idx ON phone_numbers (phone_number_sid);
 CREATE INDEX number_idx ON phone_numbers (number);
 CREATE INDEX voip_carrier_sid_idx ON phone_numbers (voip_carrier_sid);
@@ -686,4 +689,5 @@ ALTER TABLE accounts ADD FOREIGN KEY queue_event_hook_sid_idxfk (queue_event_hoo
 ALTER TABLE accounts ADD FOREIGN KEY device_calling_application_sid_idxfk (device_calling_application_sid) REFERENCES applications (application_sid);
 
 ALTER TABLE accounts ADD FOREIGN KEY siprec_hook_sid_idxfk (siprec_hook_sid) REFERENCES applications (application_sid);
+
 SET FOREIGN_KEY_CHECKS=1;
