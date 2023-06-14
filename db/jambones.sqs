@@ -2225,6 +2225,7 @@
             <destinationCardinality>1</destinationCardinality>
             <referencesFieldUID><![CDATA[1342FAFA-C15C-429B-809B-C6C55F9FA5B6]]></referencesFieldUID>
             <referencesTableUID><![CDATA[985D6997-B1A7-4AB3-80F4-4D59B45480C8]]></referencesTableUID>
+            <foreignKeyName><![CDATA[account_sid_idxfk_13]]></foreignKeyName>
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[AEB7E64F-A890-483D-946E-B0EFC640B017]]></uid>
         </SQLField>
@@ -2956,7 +2957,7 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1681.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1405.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[312.000000]]></SourceSidebarWidth>
