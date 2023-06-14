@@ -52,7 +52,7 @@ test('client test', async(t) => {
       json: true,
       body: {
         account_sid,
-        user_name: 'client1',
+        username: 'client1',
         password: 'sdf12412',
         is_active: 1
       }
@@ -74,7 +74,7 @@ test('client test', async(t) => {
     });
     t.ok(result.account_sid === account_sid , 'successfully retrieved Client by sid');
     t.ok(result.client_sid, 'successfully retrieved Client by sid');
-    t.ok(result.user_name ===  'client1', 'successfully retrieved Client by sid');
+    t.ok(result.username ===  'client1', 'successfully retrieved Client by sid');
     t.ok(result.is_active === 1 , 'successfully retrieved Client by sid');
 
     /* update the entity */

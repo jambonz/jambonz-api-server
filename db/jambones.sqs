@@ -2219,7 +2219,7 @@
             <uid><![CDATA[99DF1C00-1E63-4FBC-849B-1EEB09F3F94B]]></uid>
         </SQLField>
         <SQLField>
-            <name><![CDATA[user_name]]></name>
+            <name><![CDATA[username]]></name>
             <type><![CDATA[VARCHAR(255)]]></type>
             <indexed><![CDATA[1]]></indexed>
             <notNull><![CDATA[1]]></notNull>
@@ -2954,7 +2954,7 @@
         <windowHeight><![CDATA[1055.000000]]></windowHeight>
         <windowLocationX><![CDATA[1728.000000]]></windowLocationX>
         <windowLocationY><![CDATA[37.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{711, 119}]]></windowScrollOrigin>
+        <windowScrollOrigin><![CDATA[{356, 628}]]></windowScrollOrigin>
         <windowWidth><![CDATA[1682.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>

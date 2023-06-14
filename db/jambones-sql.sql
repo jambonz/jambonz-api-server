@@ -134,7 +134,7 @@ CREATE TABLE clients
 client_sid CHAR(36) NOT NULL UNIQUE ,
 account_sid CHAR(36) NOT NULL,
 is_active BOOLEAN NOT NULL DEFAULT true,
-user_name VARCHAR(255) NOT NULL,
+username VARCHAR(255) NOT NULL,
 hashed_password VARCHAR(1024),
 PRIMARY KEY (client_sid)
 );
@@ -545,7 +545,7 @@ ALTER TABLE call_routes ADD FOREIGN KEY application_sid_idxfk (application_sid) 
 CREATE INDEX client_sid_idx ON clients (client_sid);
 ALTER TABLE clients ADD FOREIGN KEY account_sid_idxfk_4 (account_sid) REFERENCES accounts (account_sid);
 
-CREATE INDEX user_name_idx ON clients (user_name);
+CREATE INDEX username_idx ON clients (username);
 CREATE INDEX dns_record_sid_idx ON dns_records (dns_record_sid);
 ALTER TABLE dns_records ADD FOREIGN KEY account_sid_idxfk_5 (account_sid) REFERENCES accounts (account_sid);
 
