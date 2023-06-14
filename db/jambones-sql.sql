@@ -133,9 +133,9 @@ CREATE TABLE clients
 (
 client_sid CHAR(36) NOT NULL UNIQUE ,
 account_sid CHAR(36) NOT NULL,
-is_active BOOLEAN NOT NULL DEFAULT true,
-username VARCHAR(255) NOT NULL,
-password VARCHAR(255),
+is_active BOOLEAN NOT NULL DEFAULT 1,
+username VARCHAR(64),
+password VARCHAR(64),
 PRIMARY KEY (client_sid)
 );
 
@@ -423,7 +423,7 @@ PRIMARY KEY (smpp_gateway_sid)
 CREATE TABLE phone_numbers
 (
 phone_number_sid CHAR(36) UNIQUE ,
-number VARCHAR(132) NOT NULL UNIQUE ,
+number VARCHAR(132) NOT NULL,
 voip_carrier_sid CHAR(36),
 account_sid CHAR(36),
 application_sid CHAR(36),
@@ -545,7 +545,6 @@ ALTER TABLE call_routes ADD FOREIGN KEY application_sid_idxfk (application_sid) 
 CREATE INDEX client_sid_idx ON clients (client_sid);
 ALTER TABLE clients ADD FOREIGN KEY account_sid_idxfk_4 (account_sid) REFERENCES accounts (account_sid);
 
-CREATE INDEX username_idx ON clients (username);
 CREATE INDEX dns_record_sid_idx ON dns_records (dns_record_sid);
 ALTER TABLE dns_records ADD FOREIGN KEY account_sid_idxfk_5 (account_sid) REFERENCES accounts (account_sid);
 
@@ -647,6 +646,8 @@ ALTER TABLE user_permissions ADD FOREIGN KEY permission_sid_idxfk (permission_si
 CREATE INDEX smpp_gateway_sid_idx ON smpp_gateways (smpp_gateway_sid);
 CREATE INDEX voip_carrier_sid_idx ON smpp_gateways (voip_carrier_sid);
 ALTER TABLE smpp_gateways ADD FOREIGN KEY voip_carrier_sid_idxfk (voip_carrier_sid) REFERENCES voip_carriers (voip_carrier_sid);
+
+CREATE UNIQUE INDEX phone_numbers_unique_idx_voip_carrier_number ON phone_numbers (number,voip_carrier_sid);
 
 CREATE INDEX phone_number_sid_idx ON phone_numbers (phone_number_sid);
 CREATE INDEX number_idx ON phone_numbers (number);
