@@ -135,7 +135,7 @@ client_sid CHAR(36) NOT NULL UNIQUE ,
 account_sid CHAR(36) NOT NULL,
 is_active BOOLEAN NOT NULL DEFAULT true,
 username VARCHAR(255) NOT NULL,
-hashed_password VARCHAR(1024),
+password VARCHAR(255),
 PRIMARY KEY (client_sid)
 );
 

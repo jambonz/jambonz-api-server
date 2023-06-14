@@ -2184,7 +2184,7 @@
             <y>1426.00</y>
         </location>
         <size>
-            <width>231.00</width>
+            <width>228.00</width>
             <height>120.00</height>
         </size>
         <zorder>36</zorder>
@@ -2227,8 +2227,8 @@
             <unique><![CDATA[0]]></unique>
         </SQLField>
         <SQLField>
-            <name><![CDATA[hashed_password]]></name>
-            <type><![CDATA[VARCHAR(1024)]]></type>
+            <name><![CDATA[password]]></name>
+            <type><![CDATA[VARCHAR(255)]]></type>
             <notNull><![CDATA[0]]></notNull>
             <uid><![CDATA[6BB4ECFC-6EB2-40F2-8EA7-0FE03742C40D]]></uid>
         </SQLField>
@@ -2954,7 +2954,7 @@
         <windowHeight><![CDATA[1055.000000]]></windowHeight>
         <windowLocationX><![CDATA[1728.000000]]></windowLocationX>
         <windowLocationY><![CDATA[37.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{356, 628}]]></windowScrollOrigin>
+        <windowScrollOrigin><![CDATA[{2, 676}]]></windowScrollOrigin>
         <windowWidth><![CDATA[1682.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
