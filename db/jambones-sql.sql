@@ -1,5 +1,4 @@
 /* SQLEditor (MySQL (2))*/
-
 SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS account_static_ips;
@@ -13,6 +12,8 @@ DROP TABLE IF EXISTS account_subscriptions;
 DROP TABLE IF EXISTS beta_invite_codes;
 
 DROP TABLE IF EXISTS call_routes;
+
+DROP TABLE IF EXISTS clients;
 
 DROP TABLE IF EXISTS dns_records;
 
@@ -128,6 +129,16 @@ application_sid CHAR(36) NOT NULL,
 PRIMARY KEY (call_route_sid)
 ) COMMENT='a regex-based pattern match for call routing';
 
+CREATE TABLE clients
+(
+client_sid CHAR(36) NOT NULL UNIQUE ,
+account_sid CHAR(36) NOT NULL,
+is_active BOOLEAN NOT NULL DEFAULT 1,
+username VARCHAR(64),
+password VARCHAR(64),
+PRIMARY KEY (client_sid)
+);
+
 CREATE TABLE dns_records
 (
 dns_record_sid CHAR(36) NOT NULL UNIQUE ,
@@ -145,7 +156,7 @@ regex VARCHAR(32) NOT NULL COMMENT 'regex-based pattern match against dialed num
 description VARCHAR(1024),
 priority INTEGER NOT NULL COMMENT 'lower priority routes are attempted first',
 PRIMARY KEY (lcr_route_sid)
-) COMMENT='An ordered list of  digit patterns in an LCR table.  The pat';
+) COMMENT='An ordered list of  digit patterns in an LCR table.  The patterns are tested in sequence until one matches';
 
 CREATE TABLE lcr
 (
@@ -156,7 +167,7 @@ default_carrier_set_entry_sid CHAR(36) COMMENT 'default carrier/route to use whe
 service_provider_sid CHAR(36),
 account_sid CHAR(36),
 PRIMARY KEY (lcr_sid)
-) COMMENT='An LCR (least cost routing) table that is used by a service ';
+) COMMENT='An LCR (least cost routing) table that is used by a service provider or account to make decisions about routing outbound calls when multiple carriers are available.';
 
 CREATE TABLE password_settings
 (
@@ -531,6 +542,9 @@ ALTER TABLE call_routes ADD FOREIGN KEY account_sid_idxfk_3 (account_sid) REFERE
 
 ALTER TABLE call_routes ADD FOREIGN KEY application_sid_idxfk (application_sid) REFERENCES applications (application_sid);
 
+CREATE INDEX client_sid_idx ON clients (client_sid);
+ALTER TABLE clients ADD CONSTRAINT account_sid_idxfk_13 FOREIGN KEY account_sid_idxfk_13 (account_sid) REFERENCES accounts (account_sid);
+
 CREATE INDEX dns_record_sid_idx ON dns_records (dns_record_sid);
 ALTER TABLE dns_records ADD FOREIGN KEY account_sid_idxfk_4 (account_sid) REFERENCES accounts (account_sid);
 
@@ -689,5 +703,4 @@ ALTER TABLE accounts ADD FOREIGN KEY queue_event_hook_sid_idxfk (queue_event_hoo
 ALTER TABLE accounts ADD FOREIGN KEY device_calling_application_sid_idxfk (device_calling_application_sid) REFERENCES applications (application_sid);
 
 ALTER TABLE accounts ADD FOREIGN KEY siprec_hook_sid_idxfk (siprec_hook_sid) REFERENCES applications (application_sid);
-
 SET FOREIGN_KEY_CHECKS=1;
