@@ -153,7 +153,7 @@ const sql = {
     account_sid CHAR(36) NOT NULL,
     is_active BOOLEAN NOT NULL DEFAULT 1,
     username VARCHAR(64),
-    password VARCHAR(64),
+    password VARCHAR(1024),
     PRIMARY KEY (client_sid)
     )`,
     'CREATE INDEX client_sid_idx ON clients (client_sid)',
