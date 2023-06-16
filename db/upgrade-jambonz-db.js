@@ -146,16 +146,14 @@ const sql = {
     'alter table accounts add column record_format VARCHAR(16) NOT NULL DEFAULT `mp3`',
     'alter table applications add column record_all_calls BOOLEAN NOT NULL DEFAULT false',
     'alter table phone_numbers DROP INDEX number',
-    'create unique index phone_numbers_unique_idx_voip_carrier_number ON phone_numbers (number,voip_carrier_sid)'
-  ],
-  8005: [
+    'create unique index phone_numbers_unique_idx_voip_carrier_number ON phone_numbers (number,voip_carrier_sid)',
     `CREATE TABLE clients
     (
     client_sid CHAR(36) NOT NULL UNIQUE ,
     account_sid CHAR(36) NOT NULL,
     is_active BOOLEAN NOT NULL DEFAULT 1,
     username VARCHAR(64),
-    password VARCHAR(64),
+    password VARCHAR(1024),
     PRIMARY KEY (client_sid)
     )`,
     'CREATE INDEX client_sid_idx ON clients (client_sid)',
