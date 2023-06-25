@@ -143,7 +143,7 @@ const sql = {
   8004: [
     'alter table accounts add column record_all_calls BOOLEAN NOT NULL DEFAULT false',
     'alter table accounts add column bucket_credential VARCHAR(8192)',
-    'alter table accounts add column record_format VARCHAR(16) NOT NULL DEFAULT `mp3`',
+    'alter table accounts add column record_format VARCHAR(16) NOT NULL DEFAULT \'mp3\'',
     'alter table applications add column record_all_calls BOOLEAN NOT NULL DEFAULT false',
     'alter table phone_numbers DROP INDEX number',
     'create unique index phone_numbers_unique_idx_voip_carrier_number ON phone_numbers (number,voip_carrier_sid)',
