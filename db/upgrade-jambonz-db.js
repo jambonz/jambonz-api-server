@@ -188,6 +188,7 @@ const doIt = async() => {
         if (val < 7007) upgrades.push(...sql['7007']);
         if (val < 8000) upgrades.push(...sql['8000']);
         if (val < 8003) upgrades.push(...sql['8003']);
+        if (val < 8004) upgrades.push(...sql['8004']);
 
         // perform all upgrades
         logger.info({upgrades}, 'applying schema upgrades..');
