@@ -143,7 +143,7 @@ const sql = {
   8004: [
     'alter table accounts add column record_all_calls BOOLEAN NOT NULL DEFAULT false',
     'alter table accounts add column bucket_credential VARCHAR(8192)',
-    'alter table accounts add column record_format VARCHAR(16) NOT NULL DEFAULT `mp3`',
+    'alter table accounts add column record_format VARCHAR(16) NOT NULL DEFAULT \'mp3\'',
     'alter table applications add column record_all_calls BOOLEAN NOT NULL DEFAULT false',
     'alter table phone_numbers DROP INDEX number',
     'create unique index phone_numbers_unique_idx_voip_carrier_number ON phone_numbers (number,voip_carrier_sid)',
@@ -157,7 +157,8 @@ const sql = {
     PRIMARY KEY (client_sid)
     )`,
     'CREATE INDEX client_sid_idx ON clients (client_sid)',
-    'ALTER TABLE clients ADD CONSTRAINT account_sid_idxfk_13 FOREIGN KEY account_sid_idxfk_13 (account_sid) REFERENCES accounts (account_sid)'
+    'ALTER TABLE clients ADD CONSTRAINT account_sid_idxfk_13 FOREIGN KEY account_sid_idxfk_13 (account_sid) REFERENCES accounts (account_sid)',
+    'ALTER TABLE sip_gateways ADD COLUMN protocol ENUM(\'udp\',\'tcp\',\'tls\', \'tls/srtp\') DEFAULT \'udp\''
   ]
 };
 
@@ -188,6 +189,7 @@ const doIt = async() => {
         if (val < 7007) upgrades.push(...sql['7007']);
         if (val < 8000) upgrades.push(...sql['8000']);
         if (val < 8003) upgrades.push(...sql['8003']);
+        if (val < 8004) upgrades.push(...sql['8004']);
 
         // perform all upgrades
         logger.info({upgrades}, 'applying schema upgrades..');
