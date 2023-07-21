@@ -3047,17 +3047,11 @@ paths:
             - inbound
             - outbound
       - in: query
-        name: from
+        name: filter
         required: false
         schema:
           type: string
-        description: calling number to retrieve
-      - in: query
-        name: to
-        required: false
-        schema:
-          type: string
-        description: called number to retrieve
+        description: Filter value can be caller ID, callee ID or call Sid
     get:
       tags:
         - Accounts
