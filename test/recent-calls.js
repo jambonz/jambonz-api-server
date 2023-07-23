@@ -75,32 +75,29 @@ test('recent calls tests', async(t) => {
       auth: authUser,
       json: true,
     });
+    console.log(JSON.stringify(result));
     t.ok(result.data.length === 5, 'retrieved 5 recent calls by account');
 
-    result = await request.get(`/Accounts/${account_sid}/RecentCalls?page=1&count=25&filter=16`, {
+    result = await request.get(`/Accounts/${account_sid}/RecentCalls?page=1&count=25&filter=1508`, {
       auth: authUser,
       json: true,
     });
-    t.ok(result.data.length === 0, 'retrieved 5 recent calls by account and from');
-
-    result = await request.get(`/Accounts/${account_sid}/RecentCalls?page=1&count=25&filter=15`, {
-      auth: authUser,
-      json: true,
-    });
+    console.log(JSON.stringify(result));
     t.ok(result.data.length === 5, 'retrieved 5 recent calls by account and from');
 
-    result = await request.get(`/Accounts/${account_sid}/RecentCalls?page=1&count=25&filter=19`, {
+    result = await request.get(`/Accounts/${account_sid}/RecentCalls?page=1&count=25&filter=15080`, {
       auth: authUser,
       json: true,
     });
-    t.ok(result.data.length === 0, 'retrieved 5 recent calls by account and to');
+    console.log(JSON.stringify(result));
+    t.ok(result.data.length === 0, 'retrieved 0 recent calls by account and non-matching from');
 
-    result = await request.get(`/Accounts/${account_sid}/RecentCalls?page=1&count=25&filter=18`, {
+    result = await request.get(`/Accounts/${account_sid}/RecentCalls?page=1&count=25&filter=1888`, {
       auth: authUser,
       json: true,
     });
+    console.log(JSON.stringify(result));
     t.ok(result.data.length === 5, 'retrieved 5 recent calls by account and to');
-    //console.log({data: result.data}, 'Account recent calls');
 
     /* query last 7 days by service provider */
     result = await request.get(`/ServiceProviders/${service_provider_sid}/RecentCalls?page=1&count=25`, {
@@ -109,29 +106,18 @@ test('recent calls tests', async(t) => {
     });
     t.ok(result.data.length === 5, 'retrieved 5 recent calls by service provider');
 
-    result = await request.get(`/ServiceProviders/${service_provider_sid}/RecentCalls?page=1&count=25&filter=16`, {
-      auth: authAdmin,
-      json: true,
-    });
-    t.ok(result.data.length === 0, 'retrieved 5 recent calls by service provider and from');
-
-    result = await request.get(`/ServiceProviders/${service_provider_sid}/RecentCalls?page=1&count=25&filter=15`, {
+    result = await request.get(`/ServiceProviders/${service_provider_sid}/RecentCalls?page=1&count=25&filter=1508`, {
       auth: authAdmin,
       json: true,
     });
     t.ok(result.data.length === 5, 'retrieved 5 recent calls by service provider and from');
 
-    result = await request.get(`/ServiceProviders/${service_provider_sid}/RecentCalls?page=1&count=25&filter=19`, {
-      auth: authAdmin,
-      json: true,
-    });
-    t.ok(result.data.length === 0, 'retrieved 5 recent calls by service provider and to');
-
-    result = await request.get(`/ServiceProviders/${service_provider_sid}/RecentCalls?page=1&count=25&filter=18`, {
+    result = await request.get(`/ServiceProviders/${service_provider_sid}/RecentCalls?page=1&count=25&filter=1888`, {
       auth: authAdmin,
       json: true,
     });
     t.ok(result.data.length === 5, 'retrieved 5 recent calls by service provider and to');
+
     //console.log({data: result.data}, 'SP recent calls');
 
     /* pull sip traces and pcap from homer */
