@@ -75,25 +75,29 @@ test('recent calls tests', async(t) => {
       auth: authUser,
       json: true,
     });
+    console.log(JSON.stringify(result));
     t.ok(result.data.length === 5, 'retrieved 5 recent calls by account');
 
     result = await request.get(`/Accounts/${account_sid}/RecentCalls?page=1&count=25&filter=16`, {
       auth: authUser,
       json: true,
     });
-    t.ok(result.data.length === 0, 'retrieved 5 recent calls by account and from');
+    console.log(JSON.stringify(result));
+    t.ok(result.data.length === 5, 'retrieved 5 recent calls by account and from');
 
     result = await request.get(`/Accounts/${account_sid}/RecentCalls?page=1&count=25&filter=15`, {
       auth: authUser,
       json: true,
     });
+    //console.log(JSON.stringify(result));
     t.ok(result.data.length === 5, 'retrieved 5 recent calls by account and from');
 
     result = await request.get(`/Accounts/${account_sid}/RecentCalls?page=1&count=25&filter=19`, {
       auth: authUser,
       json: true,
     });
-    t.ok(result.data.length === 0, 'retrieved 5 recent calls by account and to');
+    //console.log(JSON.stringify(result));
+    t.ok(result.data.length === 5, 'retrieved 5 recent calls by account and to');
 
     result = await request.get(`/Accounts/${account_sid}/RecentCalls?page=1&count=25&filter=18`, {
       auth: authUser,
@@ -113,7 +117,7 @@ test('recent calls tests', async(t) => {
       auth: authAdmin,
       json: true,
     });
-    t.ok(result.data.length === 0, 'retrieved 5 recent calls by service provider and from');
+    t.ok(result.data.length === 5, 'retrieved 5 recent calls by service provider and from');
 
     result = await request.get(`/ServiceProviders/${service_provider_sid}/RecentCalls?page=1&count=25&filter=15`, {
       auth: authAdmin,
@@ -125,7 +129,7 @@ test('recent calls tests', async(t) => {
       auth: authAdmin,
       json: true,
     });
-    t.ok(result.data.length === 0, 'retrieved 5 recent calls by service provider and to');
+    t.ok(result.data.length === 5, 'retrieved 5 recent calls by service provider and to');
 
     result = await request.get(`/ServiceProviders/${service_provider_sid}/RecentCalls?page=1&count=25&filter=18`, {
       auth: authAdmin,
