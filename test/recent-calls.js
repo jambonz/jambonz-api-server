@@ -82,21 +82,21 @@ test('recent calls tests', async(t) => {
       auth: authUser,
       json: true,
     });
-    //console.log(JSON.stringify(result));
+    console.log(JSON.stringify(result));
     t.ok(result.data.length === 5, 'retrieved 5 recent calls by account and from');
 
     result = await request.get(`/Accounts/${account_sid}/RecentCalls?page=1&count=25&filter=15`, {
       auth: authUser,
       json: true,
     });
-    //console.log(JSON.stringify(result));
+    console.log(JSON.stringify(result));
     t.ok(result.data.length === 5, 'retrieved 5 recent calls by account and from');
 
     result = await request.get(`/Accounts/${account_sid}/RecentCalls?page=1&count=25&filter=19`, {
       auth: authUser,
       json: true,
     });
-    //console.log(JSON.stringify(result));
+    console.log(JSON.stringify(result));
     t.ok(result.data.length === 5, 'retrieved 5 recent calls by account and to');
 
     result = await request.get(`/Accounts/${account_sid}/RecentCalls?page=1&count=25&filter=18`, {
