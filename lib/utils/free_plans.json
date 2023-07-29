@@ -2,11 +2,11 @@
   "trial": [
     {
       "category": "voice_call_session",
-      "quantity": 20
+      "quantity": 5
     },
     {
       "category": "device",
-      "quantity": 0
+      "quantity": 5
     }
   ],
   "free": [
