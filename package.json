@@ -40,7 +40,7 @@
     "helmet": "^5.1.0",
     "ibm-watson": "^7.1.2",
     "jsonwebtoken": "^9.0.0",
-    "mailgun.js": "^3.7.3",
+    "mailgun.js": "^9.1.2",
     "microsoft-cognitiveservices-speech-sdk": "^1.24.1",
     "mysql2": "^2.3.3",
     "nocache": "3.0.4",
