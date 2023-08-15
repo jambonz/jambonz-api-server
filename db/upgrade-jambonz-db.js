@@ -159,6 +159,12 @@ const sql = {
     'CREATE INDEX client_sid_idx ON clients (client_sid)',
     'ALTER TABLE clients ADD CONSTRAINT account_sid_idxfk_13 FOREIGN KEY account_sid_idxfk_13 (account_sid) REFERENCES accounts (account_sid)',
     'ALTER TABLE sip_gateways ADD COLUMN protocol ENUM(\'udp\',\'tcp\',\'tls\', \'tls/srtp\') DEFAULT \'udp\''
+  ],
+  8005: [
+    'DROP INDEX speech_credentials_idx_1 ON speech_credentials',
+    'ALTER TABLE speech_credentials ADD COLUMN label VARCHAR(64)',
+    'ALTER TABLE applications ADD COLUMN speech_synthesis_label VARCHAR(64)',
+    'ALTER TABLE applications ADD COLUMN speech_recognizer_label VARCHAR(64)'
   ]
 };
 
@@ -190,6 +196,7 @@ const doIt = async() => {
         if (val < 8000) upgrades.push(...sql['8000']);
         if (val < 8003) upgrades.push(...sql['8003']);
         if (val < 8004) upgrades.push(...sql['8004']);
+        if (val < 8005) upgrades.push(...sql['8005']);
 
         // perform all upgrades
         logger.info({upgrades}, 'applying schema upgrades..');

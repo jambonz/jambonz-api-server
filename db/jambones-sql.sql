@@ -334,6 +334,7 @@ last_tested DATETIME,
 tts_tested_ok BOOLEAN,
 stt_tested_ok BOOLEAN,
 created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+label VARCHAR(64),
 PRIMARY KEY (speech_credential_sid)
 );
 
@@ -478,8 +479,10 @@ app_json TEXT,
 speech_synthesis_vendor VARCHAR(64) NOT NULL DEFAULT 'google',
 speech_synthesis_language VARCHAR(12) NOT NULL DEFAULT 'en-US',
 speech_synthesis_voice VARCHAR(64),
+speech_synthesis_label VARCHAR(64),
 speech_recognizer_vendor VARCHAR(64) NOT NULL DEFAULT 'google',
 speech_recognizer_language VARCHAR(64) NOT NULL DEFAULT 'en-US',
+speech_recognizer_label VARCHAR(64),
 created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 record_all_calls BOOLEAN NOT NULL DEFAULT false,
 PRIMARY KEY (application_sid)
@@ -608,8 +611,6 @@ CREATE INDEX email_idx ON signup_history (email);
 CREATE INDEX smpp_address_sid_idx ON smpp_addresses (smpp_address_sid);
 CREATE INDEX service_provider_sid_idx ON smpp_addresses (service_provider_sid);
 ALTER TABLE smpp_addresses ADD FOREIGN KEY service_provider_sid_idxfk_4 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
-
-CREATE UNIQUE INDEX speech_credentials_idx_1 ON speech_credentials (vendor,account_sid);
 
 CREATE INDEX speech_credential_sid_idx ON speech_credentials (speech_credential_sid);
 CREATE INDEX service_provider_sid_idx ON speech_credentials (service_provider_sid);

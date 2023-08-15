@@ -884,7 +884,7 @@
             <y>958.00</y>
         </location>
         <size>
-            <width>368.00</width>
+            <width>302.00</width>
             <height>280.00</height>
         </size>
         <zorder>14</zorder>
@@ -981,24 +981,11 @@
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[8860648C-4790-4A01-9E2E-60DC52A287FA]]></uid>
         </SQLField>
-        <SQLIndex>
-            <name><![CDATA[speech_credentials_idx_1]]></name>
-            <fieldName><![CDATA[vendor]]></fieldName>
-            <fieldName><![CDATA[account_sid]]></fieldName>
-            <SQLIndexEntry>
-                <name><![CDATA[vendor]]></name>
-                <prefixSize><![CDATA[]]></prefixSize>
-                <fieldUid><![CDATA[9D8FCF55-D68E-44D3-90DF-27B5ABD1D0BE]]></fieldUid>
-            </SQLIndexEntry>
-            <SQLIndexEntry>
-                <name><![CDATA[account_sid]]></name>
-                <prefixSize><![CDATA[]]></prefixSize>
-                <fieldUid><![CDATA[7E964ED2-EC2E-4BCB-8DEC-C455B87FAC07]]></fieldUid>
-            </SQLIndexEntry>
-            <indexNamePrefix><![CDATA[speech_credentials]]></indexNamePrefix>
-            <indexType><![CDATA[UNIQUE]]></indexType>
-            <uid><![CDATA[554ABEC2-3E1B-41B1-BF07-25F403D5E3B4]]></uid>
-        </SQLIndex>
+        <SQLField>
+            <name><![CDATA[label]]></name>
+            <type><![CDATA[VARCHAR(64)]]></type>
+            <uid><![CDATA[0D42A22C-DF14-42A1-BDE2-A53AC8B0D8D6]]></uid>
+        </SQLField>
         <labelWindowIndex><![CDATA[21]]></labelWindowIndex>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[49A68E1C-DEE2-446C-A4EB-9850E16155CC]]></uid>
@@ -2368,7 +2355,7 @@
         </location>
         <size>
             <width>345.00</width>
-            <height>340.00</height>
+            <height>380.00</height>
         </size>
         <zorder>0</zorder>
         <SQLField>
@@ -2488,6 +2475,12 @@
             <uid><![CDATA[929D66F0-64B9-4D7C-AB4B-24F131E1178F]]></uid>
         </SQLField>
         <SQLField>
+            <name><![CDATA[speech_synthesis_label]]></name>
+            <type><![CDATA[VARCHAR(64)]]></type>
+            <notNull><![CDATA[0]]></notNull>
+            <uid><![CDATA[BFA24DF2-9CF5-47B0-848D-8B685B7C6750]]></uid>
+        </SQLField>
+        <SQLField>
             <name><![CDATA[speech_recognizer_vendor]]></name>
             <type><![CDATA[VARCHAR(64)]]></type>
             <defaultValue><![CDATA[google]]></defaultValue>
@@ -2500,6 +2493,12 @@
             <defaultValue><![CDATA[en-US]]></defaultValue>
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[A03AFB7B-492F-48E3-AE3C-B1416D5B6B12]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[speech_recognizer_label]]></name>
+            <type><![CDATA[VARCHAR(64)]]></type>
+            <notNull><![CDATA[0]]></notNull>
+            <uid><![CDATA[A247A784-CCD6-40B4-9D0A-2F0EF8F8AFD2]]></uid>
         </SQLField>
         <SQLField>
             <name><![CDATA[created_at]]></name>
@@ -2966,9 +2965,9 @@
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
         <windowHeight><![CDATA[1055.000000]]></windowHeight>
-        <windowLocationX><![CDATA[0.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[24.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{157, 832}]]></windowScrollOrigin>
+        <windowLocationX><![CDATA[1728.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[37.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{157, 830}]]></windowScrollOrigin>
         <windowWidth><![CDATA[1682.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
