@@ -884,8 +884,8 @@
             <y>958.00</y>
         </location>
         <size>
-            <width>368.00</width>
-            <height>300.00</height>
+            <width>302.00</width>
+            <height>280.00</height>
         </size>
         <zorder>14</zorder>
         <SQLField>
@@ -981,24 +981,6 @@
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[8860648C-4790-4A01-9E2E-60DC52A287FA]]></uid>
         </SQLField>
-        <SQLIndex>
-            <name><![CDATA[speech_credentials_idx_1]]></name>
-            <fieldName><![CDATA[vendor]]></fieldName>
-            <fieldName><![CDATA[account_sid]]></fieldName>
-            <SQLIndexEntry>
-                <name><![CDATA[vendor]]></name>
-                <prefixSize><![CDATA[]]></prefixSize>
-                <fieldUid><![CDATA[9D8FCF55-D68E-44D3-90DF-27B5ABD1D0BE]]></fieldUid>
-            </SQLIndexEntry>
-            <SQLIndexEntry>
-                <name><![CDATA[account_sid]]></name>
-                <prefixSize><![CDATA[]]></prefixSize>
-                <fieldUid><![CDATA[7E964ED2-EC2E-4BCB-8DEC-C455B87FAC07]]></fieldUid>
-            </SQLIndexEntry>
-            <indexNamePrefix><![CDATA[speech_credentials]]></indexNamePrefix>
-            <indexType><![CDATA[UNIQUE]]></indexType>
-            <uid><![CDATA[554ABEC2-3E1B-41B1-BF07-25F403D5E3B4]]></uid>
-        </SQLIndex>
         <SQLField>
             <name><![CDATA[label]]></name>
             <type><![CDATA[VARCHAR(64)]]></type>

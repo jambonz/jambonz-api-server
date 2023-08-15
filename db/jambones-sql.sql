@@ -610,8 +610,6 @@ CREATE INDEX smpp_address_sid_idx ON smpp_addresses (smpp_address_sid);
 CREATE INDEX service_provider_sid_idx ON smpp_addresses (service_provider_sid);
 ALTER TABLE smpp_addresses ADD FOREIGN KEY service_provider_sid_idxfk_4 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
 
-CREATE UNIQUE INDEX speech_credentials_idx_1 ON speech_credentials (vendor,account_sid);
-
 CREATE INDEX speech_credential_sid_idx ON speech_credentials (speech_credential_sid);
 CREATE INDEX service_provider_sid_idx ON speech_credentials (service_provider_sid);
 ALTER TABLE speech_credentials ADD FOREIGN KEY service_provider_sid_idxfk_5 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
