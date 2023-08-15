@@ -159,6 +159,12 @@ const sql = {
     'CREATE INDEX client_sid_idx ON clients (client_sid)',
     'ALTER TABLE clients ADD CONSTRAINT account_sid_idxfk_13 FOREIGN KEY account_sid_idxfk_13 (account_sid) REFERENCES accounts (account_sid)',
     'ALTER TABLE sip_gateways ADD COLUMN protocol ENUM(\'udp\',\'tcp\',\'tls\', \'tls/srtp\') DEFAULT \'udp\''
+  ],
+  8005: [
+    'DROP INDEX speech_credentials_idx_1 ON speech_credentials',
+    'ALTER TABLE speech_credentials ADD COLUMN label VARCHAR(64)',
+    'ALTER TABLE applications ADD COLUMN speech_synthesis_label VARCHAR(64)',
+    'ALTER TABLE applications ADD COLUMN speech_recognizer_label VARCHAR(64)'
   ]
 };
 
