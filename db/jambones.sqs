@@ -885,7 +885,7 @@
         </location>
         <size>
             <width>368.00</width>
-            <height>280.00</height>
+            <height>300.00</height>
         </size>
         <zorder>14</zorder>
         <SQLField>
@@ -999,6 +999,11 @@
             <indexType><![CDATA[UNIQUE]]></indexType>
             <uid><![CDATA[554ABEC2-3E1B-41B1-BF07-25F403D5E3B4]]></uid>
         </SQLIndex>
+        <SQLField>
+            <name><![CDATA[label]]></name>
+            <type><![CDATA[VARCHAR(64)]]></type>
+            <uid><![CDATA[0D42A22C-DF14-42A1-BDE2-A53AC8B0D8D6]]></uid>
+        </SQLField>
         <labelWindowIndex><![CDATA[21]]></labelWindowIndex>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[49A68E1C-DEE2-446C-A4EB-9850E16155CC]]></uid>
@@ -2966,8 +2971,8 @@
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
         <windowHeight><![CDATA[1055.000000]]></windowHeight>
-        <windowLocationX><![CDATA[0.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[24.000000]]></windowLocationY>
+        <windowLocationX><![CDATA[1728.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[37.000000]]></windowLocationY>
         <windowScrollOrigin><![CDATA[{157, 832}]]></windowScrollOrigin>
         <windowWidth><![CDATA[1682.000000]]></windowWidth>
     </SQLDocumentInfo>

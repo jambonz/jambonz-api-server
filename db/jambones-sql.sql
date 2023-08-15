@@ -334,6 +334,7 @@ last_tested DATETIME,
 tts_tested_ok BOOLEAN,
 stt_tested_ok BOOLEAN,
 created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+label VARCHAR(64),
 PRIMARY KEY (speech_credential_sid)
 );
 
