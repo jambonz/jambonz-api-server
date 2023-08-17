@@ -165,7 +165,7 @@ const sql = {
     'ALTER TABLE speech_credentials ADD COLUMN label VARCHAR(64)',
     'ALTER TABLE applications ADD COLUMN speech_synthesis_label VARCHAR(64)',
     'ALTER TABLE applications ADD COLUMN speech_recognizer_label VARCHAR(64)',
-    'ALTER TABLE applications ADD COLUMN use_fallback_speech BOOLEAN DEFAULT false',
+    'ALTER TABLE applications ADD COLUMN use_for_fallback_speech BOOLEAN DEFAULT false',
     'ALTER TABLE applications ADD COLUMN fallback_speech_synthesis_vendor VARCHAR(64)',
     'ALTER TABLE applications ADD COLUMN fallback_speech_synthesis_language VARCHAR(12)',
     'ALTER TABLE applications ADD COLUMN fallback_speech_synthesis_voice VARCHAR(64)',
