@@ -31,8 +31,8 @@ test('Create Call Success With Synthesizer in Payload', async (t) => {
     auth: authUser,
     json: true,
     body: {
-      call_hook: "https://public-apps.jambonz.us/hello-world",
-      call_status_hook: "https://public-apps.jambonz.us/call-status",
+      call_hook: "https://public-apps.jambonz.cloud/hello-world",
+      call_status_hook: "https://public-apps.jambonz.cloud/call-status",
       from: "15083778299",
       to: {
         type: "phone",
@@ -73,8 +73,8 @@ test('Create Call Success Without Synthesizer in Payload', async (t) => {
     auth: authUser,
     json: true,
     body: {
-      call_hook: "https://public-apps.jambonz.us/hello-world",
-      call_status_hook: "https://public-apps.jambonz.us/call-status",
+      call_hook: "https://public-apps.jambonz.cloud/hello-world",
+      call_status_hook: "https://public-apps.jambonz.cloud/call-status",
       from: "15083778299",
       to: {
         type: "phone",

@@ -192,7 +192,7 @@ test('webapp tests', async(t) => {
     t.ok(result.statusCode === 200 && result.body.available === true, 'indicates when email is available');
    
     /* check if a subdomain is available */
-    result = await request.get('/Availability?type=subdomain&value=mycompany.sip.jambonz.us', {
+    result = await request.get('/Availability?type=subdomain&value=mycompany.sip.jambonz.cloud', {
       resolveWithFullResponse: true,
       auth: authUser,
       json: true,

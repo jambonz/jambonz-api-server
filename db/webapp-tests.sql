@@ -2,7 +2,7 @@ SET FOREIGN_KEY_CHECKS=0;
 
 -- create one service provider
 insert into service_providers (service_provider_sid, name, description, root_domain) 
-values ('2708b1b3-2736-40ea-b502-c53d8396247f', 'jambonz.us', 'jambonz.us service provider', 'sip.yakeeda.com');
+values ('2708b1b3-2736-40ea-b502-c53d8396247f', 'jambonz.cloud', 'jambonz.cloud service provider', 'sip.yakeeda.com');
 insert into api_keys (api_key_sid, token) 
 values ('3f35518f-5a0d-4c2e-90a5-2407bb3b36f0', '38700987-c7a4-4685-a5bb-af378f9734de');
 
@@ -19,8 +19,8 @@ insert into sip_gateways (sip_gateway_sid, voip_carrier_sid, ipv4, port, inbound
 values ('46b727eb-c7dc-44fa-b063-96e48d408e4a', '5145b436-2f38-4029-8d4c-fd8c67831c7a', '3.3.3.3', 5060, 1, 1, 1);
 
 -- create the test application and test phone number
-insert into webhooks (webhook_sid, url, method) values ('d9c205c6-a129-443e-a9c0-d1bb437d4bb7', 'https://flows.jambonz.us/testCall', 'POST');
-insert into webhooks (webhook_sid, url, method) values ('6ac36aeb-6bd0-428a-80a1-aed95640a296', 'https://flows.jambonz.us/callStatus', 'POST');
+insert into webhooks (webhook_sid, url, method) values ('d9c205c6-a129-443e-a9c0-d1bb437d4bb7', 'https://flows.jambonz.cloud/testCall', 'POST');
+insert into webhooks (webhook_sid, url, method) values ('6ac36aeb-6bd0-428a-80a1-aed95640a296', 'https://flows.jambonz.cloud/callStatus', 'POST');
 insert into applications (application_sid, name, service_provider_sid, call_hook_sid, call_status_hook_sid, 
 speech_synthesis_vendor, speech_synthesis_language, speech_synthesis_voice, speech_recognizer_vendor, speech_recognizer_language)
 values ('7a489343-02ed-471e-8df0-fc5e1b98ce8f', 'Test application', '2708b1b3-2736-40ea-b502-c53d8396247f', 

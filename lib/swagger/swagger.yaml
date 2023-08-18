@@ -786,7 +786,7 @@ paths:
           required: true
           schema:
             type: string
-            example: mycorp.sip.jambonz.us
+            example: mycorp.sip.jambonz.cloud
       responses:
         200:
           description: indicates whether value is already in use
