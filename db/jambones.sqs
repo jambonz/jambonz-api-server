@@ -2354,7 +2354,7 @@
             <y>917.00</y>
         </location>
         <size>
-            <width>363.00</width>
+            <width>345.00</width>
             <height>540.00</height>
         </size>
         <zorder>0</zorder>
@@ -2509,15 +2509,13 @@
         <SQLField>
             <name><![CDATA[fallback_speech_synthesis_vendor]]></name>
             <type><![CDATA[VARCHAR(64)]]></type>
-            <defaultValue><![CDATA[google]]></defaultValue>
-            <notNull><![CDATA[1]]></notNull>
+            <notNull><![CDATA[0]]></notNull>
             <uid><![CDATA[26BBDEEF-E179-4280-9917-6F2BD6367459]]></uid>
         </SQLField>
         <SQLField>
             <name><![CDATA[fallback_speech_synthesis_language]]></name>
             <type><![CDATA[VARCHAR(12)]]></type>
-            <defaultValue><![CDATA[en-US]]></defaultValue>
-            <notNull><![CDATA[1]]></notNull>
+            <notNull><![CDATA[0]]></notNull>
             <uid><![CDATA[E008D6D7-9BB7-4372-8B46-F92C0EB15082]]></uid>
         </SQLField>
         <SQLField>
@@ -2535,15 +2533,13 @@
         <SQLField>
             <name><![CDATA[fallback_speech_recognizer_vendor]]></name>
             <type><![CDATA[VARCHAR(64)]]></type>
-            <defaultValue><![CDATA[google]]></defaultValue>
-            <notNull><![CDATA[1]]></notNull>
+            <notNull><![CDATA[0]]></notNull>
             <uid><![CDATA[14ECF5EA-81C5-4EAE-9575-9785CEB672E6]]></uid>
         </SQLField>
         <SQLField>
             <name><![CDATA[fallback_speech_recognizer_language]]></name>
             <type><![CDATA[VARCHAR(64)]]></type>
-            <defaultValue><![CDATA[en-US]]></defaultValue>
-            <notNull><![CDATA[1]]></notNull>
+            <notNull><![CDATA[0]]></notNull>
             <uid><![CDATA[EC792500-6B2B-4E54-AA89-43E7A0FD8642]]></uid>
         </SQLField>
         <SQLField>
