@@ -84,6 +84,7 @@ test('speech credentials tests', async(t) => {
       json: true,
       body: {
         vendor: 'google',
+        label: 'label1',
         service_key: jsonKey,
         use_for_tts: true,
         use_for_stt: true
@@ -111,6 +112,7 @@ test('speech credentials tests', async(t) => {
       json: true,
     });
     t.ok(result.vendor === 'google' , 'successfully retrieved speech credential by sid');
+    t.ok(result.label === 'label1' , 'label is successfully created');
     
     /* query all credentials */
     result = await request.get(`/Accounts/${account_sid}/SpeechCredentials`, {

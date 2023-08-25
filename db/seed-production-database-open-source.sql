@@ -24,9 +24,9 @@ values ('09e92f3c-9d73-4303-b63f-3668574862ce', '1cf2f4f4-64c4-4249-9a3e-5bb4cb5
 -- create two applications
 insert into webhooks(webhook_sid, url, method)
 values 
-('84e3db00-b172-4e46-b54b-a503fdb19e4a', 'https://public-apps.jambonz.us/call-status', 'POST'),
-('d31568d0-b193-4a05-8ff6-778369bc6efe', 'https://public-apps.jambonz.us/hello-world', 'POST'),
-('81844b05-714d-4295-8bf3-3b0640a4bf02', 'https://public-apps.jambonz.us/dial-time', 'POST');
+('84e3db00-b172-4e46-b54b-a503fdb19e4a', 'https://public-apps.jambonz.cloud/call-status', 'POST'),
+('d31568d0-b193-4a05-8ff6-778369bc6efe', 'https://public-apps.jambonz.cloud/hello-world', 'POST'),
+('81844b05-714d-4295-8bf3-3b0640a4bf02', 'https://public-apps.jambonz.cloud/dial-time', 'POST');
 
 insert into applications (application_sid, account_sid, name, call_hook_sid, call_status_hook_sid, speech_synthesis_vendor, speech_synthesis_language, speech_synthesis_voice, speech_recognizer_vendor, speech_recognizer_language)
 VALUES

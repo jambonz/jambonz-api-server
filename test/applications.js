@@ -53,7 +53,7 @@ test('application tests', async(t) => {
         ]'
       }
     });
-    t.ok(result.statusCode === 400, 'Cant create application with invalid app_josn');
+    t.ok(result.statusCode === 400, 'Cant create application with invalid app_json');
     
     /* add an application */
     result = await request.post('/Applications', {
@@ -81,7 +81,15 @@ test('application tests', async(t) => {
               "seekOffset": 8000,\
               "actionHook": "/play/action"\
           }\
-        ]'
+        ]',
+        use_for_fallback_speech: 1,
+        fallback_speech_synthesis_vendor: 'google',
+        fallback_speech_synthesis_language: 'en-US',
+        fallback_speech_synthesis_voice: 'man',
+        fallback_speech_synthesis_label: 'label1',
+        fallback_speech_recognizer_vendor: 'google',
+        fallback_speech_recognizer_language: 'en-US',
+        fallback_speech_recognizer_label: 'label1'
       }
     });
     t.ok(result.statusCode === 201, 'successfully created application');
@@ -102,6 +110,14 @@ test('application tests', async(t) => {
     });
     t.ok(result.name === 'daveh' , 'successfully retrieved application by sid');
     t.ok(result.messaging_hook.url === 'http://example.com/sms' , 'successfully retrieved messaging_hook from application');
+    t.ok(result.use_for_fallback_speech === 1, 'successfully create use_for_fallback_speech');
+    t.ok(result.fallback_speech_synthesis_vendor === 'google', 'successfully create fallback_speech_synthesis_vendor');
+    t.ok(result.fallback_speech_synthesis_language === 'en-US', 'successfully create fallback_speech_synthesis_language');
+    t.ok(result.fallback_speech_synthesis_voice === 'man', 'successfully create fallback_speech_synthesis_voice');
+    t.ok(result.fallback_speech_synthesis_label === 'label1', 'successfully create fallback_speech_synthesis_label');
+    t.ok(result.fallback_speech_recognizer_vendor === 'google', 'successfully create fallback_speech_recognizer_vendor');
+    t.ok(result.fallback_speech_recognizer_language === 'en-US', 'successfully create fallback_speech_recognizer_language');
+    t.ok(result.fallback_speech_recognizer_label === 'label1', 'successfully create fallback_speech_recognizer_label');
     let app_json = JSON.parse(result.app_json);
     t.ok(app_json[0].verb === 'play', 'successfully retrieved app_json from application')
 
@@ -126,7 +142,15 @@ test('application tests', async(t) => {
             }\
           }\
         ]',
-        record_all_calls: true
+        record_all_calls: true,
+        use_for_fallback_speech: 0,
+        fallback_speech_synthesis_vendor: 'microsoft',
+        fallback_speech_synthesis_language: 'en-US',
+        fallback_speech_synthesis_voice: 'woman',
+        fallback_speech_synthesis_label: 'label2',
+        fallback_speech_recognizer_vendor: 'microsoft',
+        fallback_speech_recognizer_language: 'en-US',
+        fallback_speech_recognizer_label: 'label2'
       }
     });
     t.ok(result.statusCode === 204, 'successfully updated application');
@@ -140,6 +164,14 @@ test('application tests', async(t) => {
     app_json = JSON.parse(result.app_json);
     t.ok(app_json[0].verb === 'hangup', 'successfully updated app_json from application')
     t.ok(result.record_all_calls === 1, 'successfully updated record_all_calls from application')
+    t.ok(result.use_for_fallback_speech === 0, 'successfully update use_for_fallback_speech');
+    t.ok(result.fallback_speech_synthesis_vendor === 'microsoft', 'successfully update fallback_speech_synthesis_vendor');
+    t.ok(result.fallback_speech_synthesis_language === 'en-US', 'successfully update fallback_speech_synthesis_language');
+    t.ok(result.fallback_speech_synthesis_voice === 'woman', 'successfully update fallback_speech_synthesis_voice');
+    t.ok(result.fallback_speech_synthesis_label === 'label2', 'successfully update fallback_speech_synthesis_label');
+    t.ok(result.fallback_speech_recognizer_vendor === 'microsoft', 'successfully update fallback_speech_recognizer_vendor');
+    t.ok(result.fallback_speech_recognizer_language === 'en-US', 'successfully update fallback_speech_recognizer_language');
+    t.ok(result.fallback_speech_recognizer_label === 'label2', 'successfully update fallback_speech_recognizer_label');
 
     /* remove applications app_json*/
     result = await request.put(`/Applications/${sid}`, {
