@@ -2275,7 +2275,7 @@
             <name><![CDATA[port]]></name>
             <type><![CDATA[INTEGER]]></type>
             <defaultValue><![CDATA[5060]]></defaultValue>
-            <notNull><![CDATA[1]]></notNull>
+            <notNull><![CDATA[0]]></notNull>
             <objectComment><![CDATA[sip signaling port]]></objectComment>
             <uid><![CDATA[26B20F1E-4DB0-48C0-90F7-CA90A06A1070]]></uid>
         </SQLField>
@@ -3020,11 +3020,11 @@
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[870.000000]]></windowHeight>
-        <windowLocationX><![CDATA[0.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[74.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{0, 0.5}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1512.000000]]></windowWidth>
+        <windowHeight><![CDATA[1055.000000]]></windowHeight>
+        <windowLocationX><![CDATA[1832.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[37.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{90, 0}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[1682.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>
