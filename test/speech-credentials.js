@@ -447,6 +447,28 @@ test('speech credentials tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully deleted speech credential');
 
+    /* add a credential for nuance */
+    result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        vendor: 'cobalt',
+        use_for_stt: true,
+        use_for_tts: false,
+        cobalt_server_uri: 'http://cobalt.com',
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully added speech credential for Cobalt');
+    const cobalt_sid = result.body.sid;
+
+    /* delete the credential */
+    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${cobalt_sid}`, {
+      auth: authUser,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 204, 'successfully deleted speech credential for Cobalt');
+
     await deleteObjectBySid(request, '/Accounts', account_sid);
     await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid);
     t.end();
