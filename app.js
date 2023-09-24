@@ -175,11 +175,22 @@ const server = app.listen(PORT);
 
 
 const isValidWsKey = (hdr) => {
-  const username = process.env.JAMBONZ_RECORD_WS_USERNAME;
-  const password = process.env.JAMBONZ_RECORD_WS_PASSWORD;
-  const token = Buffer.from(`${username}:${password}`).toString('base64');
-  const arr = /^Basic (.*)$/.exec(hdr);
-  return arr[1] === token;
+  const username = process.env.JAMBONZ_RECORD_WS_USERNAME || process.env.JAMBONES_RECORD_WS_USERNAME;
+  const password = process.env.JAMBONZ_RECORD_WS_PASSWORD || process.env.JAMBONES_RECORD_WS_PASSWORD;
+  if (username && password) {
+    if (!hdr) {
+      // auth header is missing
+      return false;
+    }
+    const token = Buffer.from(`${username}:${password}`).toString('base64');
+    const arr = /^Basic (.*)$/.exec(hdr);
+    if (!Array.isArray(arr)) {
+      // malformed auth header
+      return false;
+    }
+    return arr[1] === token;
+  }
+  return true;
 };
 
 server.on('upgrade', (request, socket, head) => {
@@ -196,7 +207,7 @@ server.on('upgrade', (request, socket, head) => {
 
   /* verify the api key */
   if (!isValidWsKey(request.headers['authorization'])) {
-    logger.info(`invalid auth header: ${request.headers['authorization']}`);
+    logger.info(`invalid auth header: ${request.headers['authorization'] || 'authorization header missing'}`);
     return socket.write('HTTP/1.1 403 Forbidden \r\n\r\n', () => socket.destroy());
   }
 
