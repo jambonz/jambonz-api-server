@@ -174,7 +174,7 @@ const sql = {
     'ALTER TABLE applications ADD COLUMN fallback_speech_recognizer_language VARCHAR(64)',
     'ALTER TABLE applications ADD COLUMN fallback_speech_recognizer_label VARCHAR(64)',
     'ALTER TABLE sip_gateways ADD COLUMN pad_crypto BOOLEAN NOT NULL DEFAULT 0',
-    'ALTER TABLE sip_gateways MODIFY port INTEGER DEFAULT 5060'
+    'ALTER TABLE sip_gateways MODIFY port INTEGER'
   ]
 };
 

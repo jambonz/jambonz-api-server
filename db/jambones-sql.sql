@@ -1,5 +1,5 @@
 /* SQLEditor (MySQL (2))*/
-SET FOREIGN_KEY_CHECKS=0;
+
 
 DROP TABLE IF EXISTS account_static_ips;
 
@@ -437,7 +437,7 @@ CREATE TABLE sip_gateways
 sip_gateway_sid CHAR(36),
 ipv4 VARCHAR(128) NOT NULL COMMENT 'ip address or DNS name of the gateway.  For gateways providing inbound calling service, ip address is required.',
 netmask INTEGER NOT NULL DEFAULT 32,
-port INTEGER DEFAULT 5060 COMMENT 'sip signaling port',
+port INTEGER COMMENT 'sip signaling port',
 inbound BOOLEAN NOT NULL COMMENT 'if true, whitelist this IP to allow inbound calls from the gateway',
 outbound BOOLEAN NOT NULL COMMENT 'if true, include in least-cost routing when placing calls to the PSTN',
 voip_carrier_sid CHAR(36) NOT NULL,
@@ -713,5 +713,3 @@ ALTER TABLE accounts ADD FOREIGN KEY queue_event_hook_sid_idxfk (queue_event_hoo
 ALTER TABLE accounts ADD FOREIGN KEY device_calling_application_sid_idxfk (device_calling_application_sid) REFERENCES applications (application_sid);
 
 ALTER TABLE accounts ADD FOREIGN KEY siprec_hook_sid_idxfk (siprec_hook_sid) REFERENCES applications (application_sid);
-
-SET FOREIGN_KEY_CHECKS=1;
