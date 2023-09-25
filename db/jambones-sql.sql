@@ -1,5 +1,5 @@
 /* SQLEditor (MySQL (2))*/
-SET FOREIGN_KEY_CHECKS=0;
+
 
 DROP TABLE IF EXISTS account_static_ips;
 
@@ -156,7 +156,7 @@ regex VARCHAR(32) NOT NULL COMMENT 'regex-based pattern match against dialed num
 description VARCHAR(1024),
 priority INTEGER NOT NULL COMMENT 'lower priority routes are attempted first',
 PRIMARY KEY (lcr_route_sid)
-) COMMENT='An ordered list of  digit patterns in an LCR table.  The pat';
+) COMMENT='An ordered list of  digit patterns in an LCR table.  The patterns are tested in sequence until one matches';
 
 CREATE TABLE lcr
 (
@@ -167,7 +167,7 @@ default_carrier_set_entry_sid CHAR(36) COMMENT 'default carrier/route to use whe
 service_provider_sid CHAR(36),
 account_sid CHAR(36),
 PRIMARY KEY (lcr_sid)
-) COMMENT='An LCR (least cost routing) table that is used by a service ';
+) COMMENT='An LCR (least cost routing) table that is used by a service provider or account to make decisions about routing outbound calls when multiple carriers are available.';
 
 CREATE TABLE password_settings
 (
@@ -437,7 +437,7 @@ CREATE TABLE sip_gateways
 sip_gateway_sid CHAR(36),
 ipv4 VARCHAR(128) NOT NULL COMMENT 'ip address or DNS name of the gateway.  For gateways providing inbound calling service, ip address is required.',
 netmask INTEGER NOT NULL DEFAULT 32,
-port INTEGER NOT NULL DEFAULT 5060 COMMENT 'sip signaling port',
+port INTEGER COMMENT 'sip signaling port',
 inbound BOOLEAN NOT NULL COMMENT 'if true, whitelist this IP to allow inbound calls from the gateway',
 outbound BOOLEAN NOT NULL COMMENT 'if true, include in least-cost routing when placing calls to the PSTN',
 voip_carrier_sid CHAR(36) NOT NULL,
@@ -713,5 +713,3 @@ ALTER TABLE accounts ADD FOREIGN KEY queue_event_hook_sid_idxfk (queue_event_hoo
 ALTER TABLE accounts ADD FOREIGN KEY device_calling_application_sid_idxfk (device_calling_application_sid) REFERENCES applications (application_sid);
 
 ALTER TABLE accounts ADD FOREIGN KEY siprec_hook_sid_idxfk (siprec_hook_sid) REFERENCES applications (application_sid);
-
-SET FOREIGN_KEY_CHECKS=1;
