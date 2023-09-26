@@ -33,6 +33,8 @@ Configuration is provided via environment variables:
 |K8S| service running as kubernetes service |no|
 |K8S_FEATURE_SERVER_SERVICE_NAME| feature server name(required for K8S) |no|
 |K8S_FEATURE_SERVER_SERVICE_PORT| feature server port(required for K8S) |no|
+|JAMBONZ_RECORD_WS_USERNAME| recording websocket username|no|
+|JAMBONZ_RECORD_WS_PASSWORD| recording websocket password|no|
 
 #### Database dependency
 A mysql database is used to store long-lived objects such as Accounts, Applications, etc. To create the database schema, use or review the scripts in the 'db' folder, particularly:
