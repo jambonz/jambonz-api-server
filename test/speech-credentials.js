@@ -447,7 +447,7 @@ test('speech credentials tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully deleted speech credential');
 
-    /* add a credential for nuance */
+    /* add a credential for cobalt */
     result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
       resolveWithFullResponse: true,
       auth: authUser,
@@ -456,7 +456,7 @@ test('speech credentials tests', async(t) => {
         vendor: 'cobalt',
         use_for_stt: true,
         use_for_tts: false,
-        cobalt_server_uri: 'http://cobalt.com',
+        cobalt_server_uri: '32.32.32.32:2727',
       }
     });
     t.ok(result.statusCode === 201, 'successfully added speech credential for Cobalt');
