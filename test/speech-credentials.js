@@ -469,6 +469,29 @@ test('speech credentials tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully deleted speech credential for Cobalt');
 
+    /* add a credential for elevenlabs */
+    result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        vendor: 'elevenlabs',
+        use_for_stt: true,
+        use_for_tts: false,
+        api_key: 'asdasdasdasddsadasda',
+        model_id: 'eleven_multilingual_v2'
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully added speech credential for Cobalt');
+    const elevenlabs_sid = result.body.sid;
+
+    /* delete the credential */
+    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${elevenlabs_sid}`, {
+      auth: authUser,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 204, 'successfully deleted speech credential for Cobalt');
+
     await deleteObjectBySid(request, '/Accounts', account_sid);
     await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid);
     t.end();
