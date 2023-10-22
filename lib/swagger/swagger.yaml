@@ -4164,6 +4164,28 @@ paths:
                       type: string
                     length:
                       type: string
+  /Accounts/{AccountSid}/RegisteredSipUsers:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - Accounts
+      summary: retrieve online sip users for an account
+      operationId: listQueues
+      responses:
+        200:
+          description: retrieve online sip users for an account
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
   /Lcrs:
     post:
       tags:
