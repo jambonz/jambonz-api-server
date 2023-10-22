@@ -8,6 +8,7 @@ const rateLimit = require('express-rate-limit');
 const cors = require('cors');
 const passport = require('passport');
 const routes = require('./lib/routes');
+const Registrar = require('@jambonz/mw-registrar');
 
 assert.ok(process.env.JAMBONES_MYSQL_HOST &&
   process.env.JAMBONES_MYSQL_USER &&
@@ -35,6 +36,7 @@ const {
   logger, process.env.JAMBONES_TIME_SERIES_HOST
 );
 const {
+  client,
   retrieveCall,
   deleteCall,
   listCalls,
@@ -81,6 +83,7 @@ passport.use(authStrategy);
 app.locals = app.locals || {};
 app.locals = {
   ...app.locals,
+  registrar: new Registrar(logger, client),
   logger,
   retrieveCall,
   deleteCall,
