@@ -492,6 +492,52 @@ test('speech credentials tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully deleted speech credential for Cobalt');
 
+
+    /* add a credential for custom voices google */
+    result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        vendor: 'google',
+        use_for_stt: true,
+        use_for_tts: false,
+        service_key: jsonKey
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully added speech credential for custom voice google');
+    const customvoice_google_speech_credential_sid = result.body.sid;
+
+    result = await request.post(`/GoogleCustomVoices`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        speech_credential_sid: customvoice_google_speech_credential_sid,
+        voice: "Sally",
+        language: "English",
+        reported_usage: 0,
+        model: "path/to/modelId"
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully added custom voice google');
+    const customvoice_google_sid = result.body.sid;
+
+    /* delete the credential */
+    result = await request.delete(`/GoogleCustomVoices/${customvoice_google_sid}`, {
+      auth: authUser,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 204, 'successfully deleted custom voice google');
+
+
+    /* delete the credential */
+    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${customvoice_google_sid}`, {
+      auth: authUser,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 204, 'successfully deleted speech credential for custom voice google');
+
     await deleteObjectBySid(request, '/Accounts', account_sid);
     await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid);
     t.end();
