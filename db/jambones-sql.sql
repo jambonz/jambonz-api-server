@@ -345,9 +345,8 @@ CREATE TABLE google_custom_voices
 google_custom_voice_sid CHAR(36) NOT NULL UNIQUE ,
 speech_credential_sid CHAR(36) NOT NULL,
 model VARCHAR(512) NOT NULL,
-reported_usage TINYINT DEFAULT 0,
-language VARCHAR(64) NOT NULL,
-voice VARCHAR(64) NOT NULL,
+reported_usage ENUM('REPORTED_USAGE_UNSPECIFIED','REALTIME','OFFLINE') DEFAULT 'REALTIME',
+name VARCHAR(64) NOT NULL,
 PRIMARY KEY (google_custom_voice_sid)
 );
 

@@ -2074,8 +2074,8 @@
             <y>1036.00</y>
         </location>
         <size>
-            <width>323.00</width>
-            <height>140.00</height>
+            <width>521.00</width>
+            <height>120.00</height>
         </size>
         <zorder>37</zorder>
         <SQLField>
@@ -2113,19 +2113,13 @@
         </SQLField>
         <SQLField>
             <name><![CDATA[reported_usage]]></name>
-            <type><![CDATA[TINYINT]]></type>
-            <defaultValue><![CDATA[0]]></defaultValue>
+            <type><![CDATA[ENUM('REPORTED_USAGE_UNSPECIFIED','REALTIME','OFFLINE')]]></type>
+            <defaultValue><![CDATA[REALTIME]]></defaultValue>
             <notNull><![CDATA[0]]></notNull>
             <uid><![CDATA[A17005D7-81E3-4E12-91EB-6DB23DEAA618]]></uid>
         </SQLField>
         <SQLField>
-            <name><![CDATA[language]]></name>
-            <type><![CDATA[VARCHAR(64)]]></type>
-            <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[C94507FF-477B-41D4-A87F-6DEBBDDED9FF]]></uid>
-        </SQLField>
-        <SQLField>
-            <name><![CDATA[voice]]></name>
+            <name><![CDATA[name]]></name>
             <type><![CDATA[VARCHAR(64)]]></type>
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[D22EED9A-3502-489E-BE0A-5609B76697A8]]></uid>
@@ -3091,7 +3085,7 @@
         <windowHeight><![CDATA[1055.000000]]></windowHeight>
         <windowLocationX><![CDATA[1728.000000]]></windowLocationX>
         <windowLocationY><![CDATA[37.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{1563, 406}]]></windowScrollOrigin>
+        <windowScrollOrigin><![CDATA[{1397, 626}]]></windowScrollOrigin>
         <windowWidth><![CDATA[1682.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
