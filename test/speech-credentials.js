@@ -514,9 +514,8 @@ test('speech credentials tests', async(t) => {
       json: true,
       body: {
         speech_credential_sid: customvoice_google_speech_credential_sid,
-        voice: "Sally",
-        language: "English",
-        reported_usage: 0,
+        name: "Sally",
+        reported_usage: 'REALTIME',
         model: "path/to/modelId"
       }
     });
@@ -532,7 +531,7 @@ test('speech credentials tests', async(t) => {
 
 
     /* delete the credential */
-    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${customvoice_google_sid}`, {
+    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${customvoice_google_speech_credential_sid}`, {
       auth: authUser,
       resolveWithFullResponse: true,
     });
