@@ -53,6 +53,8 @@ DROP TABLE IF EXISTS signup_history;
 
 DROP TABLE IF EXISTS smpp_addresses;
 
+DROP TABLE IF EXISTS google_custom_voices;
+
 DROP TABLE IF EXISTS speech_credentials;
 
 DROP TABLE IF EXISTS system_information;
@@ -336,6 +338,16 @@ stt_tested_ok BOOLEAN,
 created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 label VARCHAR(64),
 PRIMARY KEY (speech_credential_sid)
+);
+
+CREATE TABLE google_custom_voices
+(
+google_custom_voice_sid CHAR(36) NOT NULL UNIQUE ,
+speech_credential_sid CHAR(36) NOT NULL,
+model VARCHAR(512) NOT NULL,
+reported_usage ENUM('REPORTED_USAGE_UNSPECIFIED','REALTIME','OFFLINE') DEFAULT 'REALTIME',
+name VARCHAR(64) NOT NULL,
+PRIMARY KEY (google_custom_voice_sid)
 );
 
 CREATE TABLE system_information
@@ -627,6 +639,10 @@ ALTER TABLE speech_credentials ADD FOREIGN KEY service_provider_sid_idxfk_5 (ser
 
 CREATE INDEX account_sid_idx ON speech_credentials (account_sid);
 ALTER TABLE speech_credentials ADD FOREIGN KEY account_sid_idxfk_8 (account_sid) REFERENCES accounts (account_sid);
+
+CREATE INDEX google_custom_voice_sid_idx ON google_custom_voices (google_custom_voice_sid);
+CREATE INDEX speech_credential_sid_idx ON google_custom_voices (speech_credential_sid);
+ALTER TABLE google_custom_voices ADD FOREIGN KEY speech_credential_sid_idxfk (speech_credential_sid) REFERENCES speech_credentials (speech_credential_sid) ON DELETE CASCADE;
 
 CREATE INDEX user_sid_idx ON users (user_sid);
 CREATE INDEX email_idx ON users (email);
