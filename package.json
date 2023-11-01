@@ -34,6 +34,7 @@
     "@jambonz/verb-specifications": "^0.0.29",
     "@soniox/soniox-node": "^1.1.1",
     "argon2": "^0.30.3",
+    "assemblyai": "^3.0.1",
     "bent": "^7.3.12",
     "cors": "^2.8.5",
     "debug": "^4.3.4",
