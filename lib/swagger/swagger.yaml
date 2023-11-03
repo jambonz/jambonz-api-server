@@ -44,7 +44,7 @@ tags:
     description: Least Cost Routing Routes operations
   - name: LcrCarrierSetEntries
     description: Least Cost Routing Carrier Set Entries operation
-  - name: GoogleCustomVOices
+  - name: GoogleCustomVoices
     description: Google Custom voices operation
 paths:
   /BetaInviteCodes:
@@ -4188,6 +4188,27 @@ paths:
                 type: array
                 items:
                   type: string
+  /Accounts/{AccountSid}/RegisteredSipUsers/{Client}:
+    parameters:
+      - name: Client
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    get:
+      tags:
+        - Accounts
+      summary: retrieve registered client registration
+      operationId: getRegisteredClient
+      responses:
+        200:
+          description: registered client found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisteredClient'
   /Lcrs:
     post:
       tags:
@@ -5767,6 +5788,31 @@ components:
         model:
           type: string
           example: projects/12412312/locations/global/models/2134124123-2dbf-43be-9593-12314123
+      required:
+      - speech_credential_sid
+      - name
+      - reported_usage
+      - model
+    RegisteredClient:
+      type: object
+      properties:
+        name:
+          type: string
+          example: xhoaluu
+        contact:
+          type: string
+          example: sip:0dluqjt6@od41sl9jfc9m.invalid;transport=ws
+        expiryTime:
+          type: number
+          example: 1698981449173
+        protocol:
+          type: string
+          example: wss
+        registered_status:
+          type: string
+          enum:
+            - active
+            - inactive
       required:
       - speech_credential_sid
       - name
