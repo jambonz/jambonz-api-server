@@ -52,7 +52,8 @@ const {
 const {
   getTtsVoices,
   getTtsSize,
-  purgeTtsCache
+  purgeTtsCache,
+  synthAudio
 } = require('@jambonz/speech-utils')(JAMBONES_REDIS_SENTINELS || {
   host: process.env.JAMBONES_REDIS_HOST,
   port: process.env.JAMBONES_REDIS_PORT || 6379
@@ -98,6 +99,7 @@ app.locals = {
   getTtsVoices,
   getTtsSize,
   purgeTtsCache,
+  synthAudio,
   lookupAppBySid,
   lookupAccountBySid,
   lookupAccountByPhoneNumber,
