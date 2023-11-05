@@ -187,7 +187,10 @@ const sql = {
     `,
     'CREATE INDEX google_custom_voice_sid_idx ON google_custom_voices (google_custom_voice_sid)',
     'CREATE INDEX speech_credential_sid_idx ON google_custom_voices (speech_credential_sid)',
-    'ALTER TABLE google_custom_voices ADD FOREIGN KEY speech_credential_sid_idxfk (speech_credential_sid) REFERENCES speech_credentials (speech_credential_sid) ON DELETE CASCADE'
+    'ALTER TABLE google_custom_voices ADD FOREIGN KEY speech_credential_sid_idxfk (speech_credential_sid) REFERENCES speech_credentials (speech_credential_sid) ON DELETE CASCADE',
+    'ALTER TABLE CLIENTS ADD COLUMN allow_direct_queue_calling BOOLEAN NOT NULL DEFAULT 1',
+    'ALTER TABLE CLIENTS ADD COLUMN allow_direct_user_calling BOOLEAN NOT NULL DEFAULT 1',
+    'ALTER TABLE CLIENTS ADD COLUMN allow_direct_app_calling BOOLEAN NOT NULL DEFAULT 1'
   ]
 };
 
