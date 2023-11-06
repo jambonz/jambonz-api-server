@@ -56,7 +56,10 @@ test('client test', async(t) => {
         account_sid,
         username: 'client1',
         password: 'sdf12412',
-        is_active: 1
+        is_active: 1,
+        allow_direct_app_calling: 0,
+        allow_direct_queue_calling: 1,
+        allow_direct_user_calling: 1,
       }
     });
     t.ok(result.statusCode === 201, 'successfully created Client');
@@ -99,6 +102,7 @@ test('client test', async(t) => {
     t.ok(result.username ===  'client1', 'successfully retrieved Client by sid');
     t.ok(result.is_active === 1 , 'successfully retrieved Client by sid');
     t.ok(result.password === 'sXXXXXXX' , 'successfully retrieved Client by sid');
+    t.ok(result.allow_direct_app_calling === 0 , 'successfully retrieved Client by sid');
 
     /* update the entity */
     result = await request.put(`/Clients/${sid}`, {
