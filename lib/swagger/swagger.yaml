@@ -4209,6 +4209,65 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RegisteredClient'
+  /Accounts/{AccountSid}/TtsCache/Synthesize:
+    post:
+      tags:
+        - Accounts
+      summary: get TTS from provider
+      operationId: Synthesize
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                speech_credential_sid:
+                  type: string
+                  description: Speech credential Sid
+                  example: 553b4b6b-8918-4394-a46d-1e3c5a3c717b
+                text:
+                  type: string
+                  description: the text to convert to audio
+                  example: Hello How are you
+                language:
+                  type: string
+                  description: language is used in text
+                  example: en-US
+                voice:
+                  type: string
+                  description: voice ID
+                  example: en-US-Standard-C
+              required:
+                - speech_credential_sid
+                - text
+                - language
+                - voice
+      responses:
+        200:
+          description: Audio is created
+          content:
+            audio/mpeg:
+              schema:
+                type: string
+                format: binary
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
   /Lcrs:
     post:
       tags:
