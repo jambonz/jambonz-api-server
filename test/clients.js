@@ -12,6 +12,7 @@ process.on('unhandledRejection', (reason, p) => {
 
 test('client test', async(t) => {
   const app = require('../app');
+  const {registrar} = app.locals;
 
   try {
     let result;
@@ -35,6 +36,7 @@ test('client test', async(t) => {
       body: {
         name: 'sample_account',
         service_provider_sid: sp_sid,
+        sip_realm: 'drachtio.org',
         registration_hook: {
           url: 'http://example.com/reg',
           method: 'get'
@@ -54,11 +56,34 @@ test('client test', async(t) => {
         account_sid,
         username: 'client1',
         password: 'sdf12412',
-        is_active: 1
+        is_active: 1,
+        allow_direct_app_calling: 0,
+        allow_direct_queue_calling: 1,
+        allow_direct_user_calling: 1,
       }
     });
     t.ok(result.statusCode === 201, 'successfully created Client');
     const sid = result.body.sid;
+
+    /* register the client */
+    const r = await registrar.add(
+      "dhorton@drachtio.org",
+      {
+        contact: "10.10.1.1",
+        sbcAddress: "192.168.1.1",
+        protocol: "udp",
+      },
+      5
+    );
+    t.ok(r, 'successfully registered Client');
+
+    /* query all registered clients */
+    result = await request.get(`/Accounts/${account_sid}/RegisteredSipUsers`, {
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.length === 1 && result[0] === 'dhorton@drachtio.org', 
+      'successfully queried all registered clients');
 
     /* query all entity */
     result = await request.get('/Clients', {
@@ -77,6 +102,7 @@ test('client test', async(t) => {
     t.ok(result.username ===  'client1', 'successfully retrieved Client by sid');
     t.ok(result.is_active === 1 , 'successfully retrieved Client by sid');
     t.ok(result.password === 'sXXXXXXX' , 'successfully retrieved Client by sid');
+    t.ok(result.allow_direct_app_calling === 0 , 'successfully retrieved Client by sid');
 
     /* update the entity */
     result = await request.put(`/Clients/${sid}`, {

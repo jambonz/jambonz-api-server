@@ -44,6 +44,8 @@ tags:
     description: Least Cost Routing Routes operations
   - name: LcrCarrierSetEntries
     description: Least Cost Routing Carrier Set Entries operation
+  - name: GoogleCustomVoices
+    description: Google Custom voices operation
 paths:
   /BetaInviteCodes:
     post:
@@ -4164,6 +4166,108 @@ paths:
                       type: string
                     length:
                       type: string
+  /Accounts/{AccountSid}/RegisteredSipUsers:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - Accounts
+      summary: retrieve online sip users for an account
+      operationId: listQueues
+      responses:
+        200:
+          description: retrieve online sip users for an account
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /Accounts/{AccountSid}/RegisteredSipUsers/{Client}:
+    parameters:
+      - name: Client
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    get:
+      tags:
+        - Accounts
+      summary: retrieve registered client registration
+      operationId: getRegisteredClient
+      responses:
+        200:
+          description: registered client found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisteredClient'
+  /Accounts/{AccountSid}/TtsCache/Synthesize:
+    post:
+      tags:
+        - Accounts
+      summary: get TTS from provider
+      operationId: Synthesize
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                speech_credential_sid:
+                  type: string
+                  description: Speech credential Sid
+                  example: 553b4b6b-8918-4394-a46d-1e3c5a3c717b
+                text:
+                  type: string
+                  description: the text to convert to audio
+                  example: Hello How are you
+                language:
+                  type: string
+                  description: language is used in text
+                  example: en-US
+                voice:
+                  type: string
+                  description: voice ID
+                  example: en-US-Standard-C
+              required:
+                - speech_credential_sid
+                - text
+                - language
+                - voice
+      responses:
+        200:
+          description: Audio is created
+          content:
+            audio/mpeg:
+              schema:
+                type: string
+                format: binary
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
   /Lcrs:
     post:
       tags:
@@ -4589,6 +4693,173 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LcrCarrierSetEntry'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        404:
+          description: least cost routing carrier set entry not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /GoogleCustomVoices:
+    post:
+      tags:
+        - GoogleCustomVoices
+      summary: create a Google custom voice
+      operationId: createGoogleCustomVoice
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/GoogleCustomVoice'
+              required:
+                - speech_credential_sid
+                - name
+                - reported_usage
+                - model
+      responses:
+        201:
+          description: Least Cost Routing Carrier Set Entry successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - GoogleCustomVoices
+      parameters:
+        - in: query
+          name: service_provider_sid
+          required: false
+          schema:
+            type: string
+            description: return only the google voice custom operated belong to this service provider
+        - in: query
+          name: account_sid
+          required: false
+          schema:
+            type: string
+            description: return only the google voice custom operated belong to this account_sid
+            
+        - in: query
+          name: speech_credential_sid
+          required: false
+          schema:
+            type: string
+            description: return only the google voice custom operated belong to this speech credential
+      summary: list google custom voices
+      operationId: listGoogleCustomVoices
+      responses:
+        200:
+          description: list oflist google custom voices
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GoogleCustomVoice'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /GoogleCustomVoices/{GoogleCustomVoiceSid}:
+    parameters:
+      - name: GoogleCustomVoiceSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    delete:
+      tags:
+        - GoogleCustomVoices
+      summary: delete a google custom voice
+      operationId: deleteGoogleCustomVoice
+      responses:
+        204:
+          description: google custom voice successfully deleted
+        404:
+          description: google custom voice not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+                example:
+                  msg: a service provider with active accounts can not be deleted
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - GoogleCustomVoices
+      summary: retrieve google custom voice
+      operationId: getGoogleCustomVoice
+      responses:
+        200:
+          description: google custom voice found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GoogleCustomVoice'
+        404:
+          description: google custom voice not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    put:
+      tags:
+        - GoogleCustomVoices
+      summary: update google custom voice
+      operationId: updateGoogleCustomVoice
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GoogleCustomVoice'
+      responses:
+        204:
+          description: google custom voice updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GoogleCustomVoice'
         400:
           description: bad request
           content:
@@ -5561,6 +5832,51 @@ components:
       - lcr_route_sid
       - voip_carrier_sid
       - priority
+    GoogleCustomVoice:
+      type: object
+      properties:
+        speech_credential_sid:
+          type: string
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        name:
+          type: string
+          example: Sally
+        reported_usage:
+          type: string
+          example: REALTIME
+        model:
+          type: string
+          example: projects/12412312/locations/global/models/2134124123-2dbf-43be-9593-12314123
+      required:
+      - speech_credential_sid
+      - name
+      - reported_usage
+      - model
+    RegisteredClient:
+      type: object
+      properties:
+        name:
+          type: string
+          example: xhoaluu
+        contact:
+          type: string
+          example: sip:0dluqjt6@od41sl9jfc9m.invalid;transport=ws
+        expiryTime:
+          type: number
+          example: 1698981449173
+        protocol:
+          type: string
+          example: wss
+        registered_status:
+          type: string
+          enum:
+            - active
+            - inactive
+      required:
+      - speech_credential_sid
+      - name
+      - reported_usage
+      - model
 
 security:
   - bearerAuth: []

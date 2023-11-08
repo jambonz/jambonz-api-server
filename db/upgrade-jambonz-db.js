@@ -174,7 +174,23 @@ const sql = {
     'ALTER TABLE applications ADD COLUMN fallback_speech_recognizer_language VARCHAR(64)',
     'ALTER TABLE applications ADD COLUMN fallback_speech_recognizer_label VARCHAR(64)',
     'ALTER TABLE sip_gateways ADD COLUMN pad_crypto BOOLEAN NOT NULL DEFAULT 0',
-    'ALTER TABLE sip_gateways MODIFY port INTEGER'
+    'ALTER TABLE sip_gateways MODIFY port INTEGER',
+    `CREATE TABLE google_custom_voices
+    (
+    google_custom_voice_sid CHAR(36) NOT NULL UNIQUE ,
+    speech_credential_sid CHAR(36) NOT NULL,
+    model VARCHAR(512) NOT NULL,
+    reported_usage ENUM('REPORTED_USAGE_UNSPECIFIED','REALTIME','OFFLINE') DEFAULT 'REALTIME',
+    name VARCHAR(64) NOT NULL,
+    PRIMARY KEY (google_custom_voice_sid)
+    )
+    `,
+    'CREATE INDEX google_custom_voice_sid_idx ON google_custom_voices (google_custom_voice_sid)',
+    'CREATE INDEX speech_credential_sid_idx ON google_custom_voices (speech_credential_sid)',
+    'ALTER TABLE google_custom_voices ADD FOREIGN KEY speech_credential_sid_idxfk (speech_credential_sid) REFERENCES speech_credentials (speech_credential_sid) ON DELETE CASCADE',
+    'ALTER TABLE clients ADD COLUMN allow_direct_queue_calling BOOLEAN NOT NULL DEFAULT 1',
+    'ALTER TABLE clients ADD COLUMN allow_direct_user_calling BOOLEAN NOT NULL DEFAULT 1',
+    'ALTER TABLE clients ADD COLUMN allow_direct_app_calling BOOLEAN NOT NULL DEFAULT 1'
   ]
 };
 
