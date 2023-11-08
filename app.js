@@ -65,7 +65,8 @@ const {
   lookupAppByPhoneNumber,
   lookupCarrierBySid,
   lookupSipGatewayBySid,
-  lookupSmppGatewayBySid
+  lookupSmppGatewayBySid,
+  lookupClientByAccountAndUsername
 } = require('@jambonz/db-helpers')({
   host: process.env.JAMBONES_MYSQL_HOST,
   user: process.env.JAMBONES_MYSQL_USER,
@@ -107,6 +108,7 @@ app.locals = {
   lookupCarrierBySid,
   lookupSipGatewayBySid,
   lookupSmppGatewayBySid,
+  lookupClientByAccountAndUsername,
   queryCdrs,
   queryCdrsSP,
   queryAlerts,

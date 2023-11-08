@@ -5867,6 +5867,15 @@ components:
         protocol:
           type: string
           example: wss
+        allow_direct_app_calling:
+          type: number
+          example: 1
+        allow_direct_queue_calling:
+          type: number
+          example: 1
+        allow_direct_user_calling:
+          type: number
+          example: 1
         registered_status:
           type: string
           enum:
