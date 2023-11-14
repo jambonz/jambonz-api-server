@@ -4415,6 +4415,69 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
+  /Lcrs/{LcrSid}/Routes:
+    parameters:
+      - name: LcrSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    post:
+      tags:
+        - Lcrs
+      summary: Create least cost routing routes and carrier set entries
+      operationId: createLeastCostRoutingRoutesAndCarrierEntries
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LcrRoutes'
+      responses:
+        204:
+          description: least cost routing routes and carrier set entries created
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        404:
+          description: least cost routing not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    put:
+      tags:
+        - Lcrs
+      summary: update least cost routing routes and carrier set entries
+      operationId: updateLeastCostRoutingRoutesAndCarrierEntries
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LcrRoutes'
+      responses:
+        204:
+          description: least cost routing ruoutes and carrier entries updated
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        404:
+          description: least cost routing not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
   /LcrRoutes:
     post:
       tags:
@@ -5832,6 +5895,19 @@ components:
       - lcr_route_sid
       - voip_carrier_sid
       - priority
+    LcrRouteAndCarrierEntries:
+      allOf:
+        - $ref: '#/components/schemas/LcrRoute'
+        - type: object
+          properties:
+            lcr_carrier_set_entries:
+              type: array
+              items:
+                $ref: '#/components/schemas/LcrCarrierSetEntry'
+    LcrRoutes:
+      type: array
+      items:
+        $ref: '#/components/schemas/LcrRouteAndCarrierEntries'
     GoogleCustomVoice:
       type: object
       properties:
