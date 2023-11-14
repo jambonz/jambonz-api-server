@@ -46,18 +46,14 @@ const {
   addKey,
   retrieveKey,
   deleteKey,
-  incrKey,
-  JAMBONES_REDIS_SENTINELS
+  incrKey
 } = require('./lib/helpers/realtimedb-helpers');
 const {
   getTtsVoices,
   getTtsSize,
   purgeTtsCache,
   synthAudio
-} = require('@jambonz/speech-utils')(JAMBONES_REDIS_SENTINELS || {
-  host: process.env.JAMBONES_REDIS_HOST,
-  port: process.env.JAMBONES_REDIS_PORT || 6379
-}, logger);
+} = require('@jambonz/speech-utils')({redis_client: client}, logger);
 const {
   lookupAppBySid,
   lookupAccountBySid,
