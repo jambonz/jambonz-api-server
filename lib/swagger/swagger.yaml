@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: jambonz REST API
-  description: jambonz REST API
+  title: Jambonz REST API
+  description: Jambonz REST API specification
   contact:
     email: daveh@drachtio.org
   license:
@@ -3799,7 +3799,7 @@ paths:
   /Accounts/{AccountSid}/Calls:
     post:
       tags:
-       - Accounts
+      - Accounts
       summary: create a call
       operationId: createCall
       parameters:
@@ -3858,6 +3858,10 @@ paths:
                   type: object
                   description: The customer SIP headers to associate with the call
                   example: {"X-Custom-Header": "Hello"}
+                sipRequestWithinDialogHook:
+                  type: string
+                  description: The sip indialog hook to receive session messages
+                  example: '/customHook'
       responses:
         201:
           description: call successfully created
