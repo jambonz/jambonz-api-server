@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: jambonz REST API
-  description: jambonz REST API
+  title: Jambonz REST API
+  description: Jambonz REST API specification
   contact:
     email: daveh@drachtio.org
   license:
@@ -3799,7 +3799,7 @@ paths:
   /Accounts/{AccountSid}/Calls:
     post:
       tags:
-       - Accounts
+      - Accounts
       summary: create a call
       operationId: createCall
       parameters:
@@ -3858,6 +3858,10 @@ paths:
                   type: object
                   description: The customer SIP headers to associate with the call
                   example: {"X-Custom-Header": "Hello"}
+                sipRequestWithinDialogHook:
+                  type: string
+                  description: The sip indialog hook to receive session messages
+                  example: '/customHook'
       responses:
         201:
           description: call successfully created
@@ -4401,6 +4405,69 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Lcr'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        404:
+          description: least cost routing not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /Lcrs/{LcrSid}/Routes:
+    parameters:
+      - name: LcrSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    post:
+      tags:
+        - Lcrs
+      summary: Create least cost routing routes and carrier set entries
+      operationId: createLeastCostRoutingRoutesAndCarrierEntries
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LcrRoutes'
+      responses:
+        204:
+          description: least cost routing routes and carrier set entries created
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        404:
+          description: least cost routing not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    put:
+      tags:
+        - Lcrs
+      summary: update least cost routing routes and carrier set entries
+      operationId: updateLeastCostRoutingRoutesAndCarrierEntries
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LcrRoutes'
+      responses:
+        204:
+          description: least cost routing ruoutes and carrier entries updated
         400:
           description: bad request
           content:
@@ -5832,6 +5899,19 @@ components:
       - lcr_route_sid
       - voip_carrier_sid
       - priority
+    LcrRouteAndCarrierEntries:
+      allOf:
+        - $ref: '#/components/schemas/LcrRoute'
+        - type: object
+          properties:
+            lcr_carrier_set_entries:
+              type: array
+              items:
+                $ref: '#/components/schemas/LcrCarrierSetEntry'
+    LcrRoutes:
+      type: array
+      items:
+        $ref: '#/components/schemas/LcrRouteAndCarrierEntries'
     GoogleCustomVoice:
       type: object
       properties:
