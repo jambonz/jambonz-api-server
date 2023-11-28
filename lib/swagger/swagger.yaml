@@ -4192,6 +4192,27 @@ paths:
                 type: array
                 items:
                   type: string
+    post:
+      tags:
+        - Accounts
+      summary: retrieve online sip users for an account by list of sip username
+      operationId: listRegisteredSipUsers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        200:
+          description: retrieve online sip users for an account
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RegisteredClient'
   /Accounts/{AccountSid}/RegisteredSipUsers/{Client}:
     parameters:
       - name: Client

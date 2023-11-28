@@ -85,6 +85,24 @@ test('client test', async(t) => {
     t.ok(result.length === 1 && result[0] === 'dhorton@drachtio.org', 
       'successfully queried all registered clients');
 
+    result = await request.post(`/Accounts/${account_sid}/RegisteredSipUsers`, {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+      body: ['dhorton']
+    });
+    t.ok(result.body.length === 1 && result.body[0].name === 'dhorton', 
+      'successfully queried all registered clients');
+
+      result = await request.post(`/Accounts/${account_sid}/RegisteredSipUsers`, {
+        resolveWithFullResponse: true,
+        auth: authAdmin,
+        json: true,
+        body: []
+      });
+      t.ok(result.body.length === 1 && result.body[0].name === 'dhorton', 
+        'successfully queried all registered clients');
+
     /* query all entity */
     result = await request.get('/Clients', {
       auth: authAdmin,
