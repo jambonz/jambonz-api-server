@@ -53,7 +53,7 @@ const {
   getTtsSize,
   purgeTtsCache,
   synthAudio
-} = require('@jambonz/speech-utils')({redis_client: client}, logger);
+} = require('@jambonz/speech-utils')({}, logger);
 const {
   lookupAppBySid,
   lookupAccountBySid,
