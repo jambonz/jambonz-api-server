@@ -28,7 +28,8 @@ test('sip gateway tests', async(t) => {
         netmask: 32,
         inbound: true,
         outbound: true,
-        protocol: 'tcp'
+        protocol: 'tcp',
+        send_options_ping: true,
       }
     });
     t.ok(result.statusCode === 201, 'successfully created sip gateway ');
@@ -41,6 +42,7 @@ test('sip gateway tests', async(t) => {
       json: true,
     });
     t.ok(result.length === 1 , 'successfully queried all sip gateways');
+    t.ok(result[0].send_options_ping === 1 , 'successfully queried all sip gateways');
 
     /* query one sip gateway */
     result = await request.get(`/SipGateways/${sid}`, {
