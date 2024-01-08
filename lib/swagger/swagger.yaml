@@ -2072,6 +2072,35 @@ paths:
           description: credential successfully deleted
         404:
           description: credential not found
+  /ServiceProviders/{ServiceProviderSid}/SpeechCredentials/speech/supportedLanguagesAndVoices:
+    get:
+      tags:
+        - Service Providers
+      summary: get supported languages, voices and models
+      operationId: supportedLanguagesAndVoices
+      parameters:
+        - name: vendor
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: label
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: get supported languages, voices and models
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpeechLanguagesVoices'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
   /ServiceProviders/{ServiceProviderSid}/SpeechCredentials/{SpeechCredentialSid}/test:
     get:
       tags:
@@ -2932,6 +2961,35 @@ paths:
           description: credential successfully deleted
         404:
           description: credential not found
+  /Accounts/{AccountSid}/SpeechCredentials/speech/supportedLanguagesAndVoices:
+    get:
+      tags:
+        - Accounts
+      summary: get supported languages, voices and models
+      operationId: supportedLanguagesAndVoices
+      parameters:
+        - name: vendor
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: label
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: get supported languages, voices and models
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpeechLanguagesVoices'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
   /Accounts/{AccountSid}/SpeechCredentials/{SpeechCredentialSid}/test:
     get:
       tags:
@@ -5987,6 +6045,55 @@ components:
       - name
       - reported_usage
       - model
+    TtsModel:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Turbo v2
+        value:
+          type: string
+          example: eleven_turbo_v2
+    LanguageVoice:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Standard-A (Female)
+        value:
+          type: string
+          example: ar-XA-Standard-A
+    LanguageVoices:
+      type: object
+      properties:
+        name:
+          type: string
+          example: English (US)
+        value:
+          type: string
+          example: en-US
+        voices:
+          type: array
+          items:
+            $ref: '#/components/schemas/LanguageVoice'
+        
+    SpeechLanguagesVoices:
+      type: object
+      properties:
+        tts:
+          type: array
+          items:
+            $ref: '#/components/schemas/LanguageVoices'
+        stt:
+          type: array
+          items:
+            $ref: '#/components/schemas/LanguageVoice'
+        ttsModel:
+          type: array
+          items:
+            $ref: '#/components/schemas/TtsModel'
+        
+
 
 security:
   - bearerAuth: []
