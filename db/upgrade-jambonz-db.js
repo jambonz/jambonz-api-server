@@ -88,7 +88,7 @@ const sql = {
     'ALTER TABLE user_permissions ADD FOREIGN KEY permission_sid_idxfk (permission_sid) REFERENCES permissions (permission_sid)',
     'ALTER TABLE `users` ADD COLUMN `is_active` BOOLEAN NOT NULL default true',
   ],
-  8003: [
+  '8003': [
     'SET FOREIGN_KEY_CHECKS=0',
     'ALTER TABLE `voip_carriers` ADD COLUMN `register_status` VARCHAR(4096)',
     'ALTER TABLE `sbc_addresses` ADD COLUMN `last_updated` DATETIME',
@@ -140,7 +140,7 @@ const sql = {
     'ALTER TABLE lcr_carrier_set_entry ADD FOREIGN KEY voip_carrier_sid_idxfk_3 (voip_carrier_sid) REFERENCES voip_carriers (voip_carrier_sid)',
     'SET FOREIGN_KEY_CHECKS=1',
   ],
-  8004: [
+  '8004': [
     'alter table accounts add column record_all_calls BOOLEAN NOT NULL DEFAULT false',
     'alter table accounts add column bucket_credential VARCHAR(8192)',
     'alter table accounts add column record_format VARCHAR(16) NOT NULL DEFAULT \'mp3\'',
@@ -160,7 +160,7 @@ const sql = {
     'ALTER TABLE clients ADD CONSTRAINT account_sid_idxfk_13 FOREIGN KEY account_sid_idxfk_13 (account_sid) REFERENCES accounts (account_sid)',
     'ALTER TABLE sip_gateways ADD COLUMN protocol ENUM(\'udp\',\'tcp\',\'tls\', \'tls/srtp\') DEFAULT \'udp\''
   ],
-  8005: [
+  '8005': [
     'DROP INDEX speech_credentials_idx_1 ON speech_credentials',
     'ALTER TABLE speech_credentials ADD COLUMN label VARCHAR(64)',
     'ALTER TABLE applications ADD COLUMN speech_synthesis_label VARCHAR(64)',
