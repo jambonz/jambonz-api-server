@@ -4320,6 +4320,10 @@ paths:
                   type: string
                   description: voice ID
                   example: en-US-Standard-C
+                encodingMp3:
+                  type: boolean
+                  description: convert audio to mp3.
+                  example: true
               required:
                 - speech_credential_sid
                 - text
