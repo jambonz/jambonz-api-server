@@ -301,8 +301,8 @@ test('speech credentials tests', async(t) => {
         vendor: 'deepgram',
         use_for_stt: true,
         api_key: "Deepgram_fake_ai_key",
-        deepgram_uri: "127.0.0.1:50002",
-        deepgram_use_tls: true
+        deepgram_stt_uri: "127.0.0.1:50002",
+        deepgram_stt_use_tls: true
       }
     });
     t.ok(result.statusCode === 201, 'successfully added speech credential for deepgram');
@@ -315,8 +315,8 @@ test('speech credentials tests', async(t) => {
     });
     //console.log(JSON.stringify(result));
     t.ok(result.statusCode === 200, 'successfully get speech credential for deepgram');
-    t.ok(result.body.deepgram_uri === '127.0.0.1:50002', "deepgram_uri is correct for deepgram");
-    t.ok(result.body.deepgram_use_tls === true, "deepgram_use_tls is correct for deepgram");
+    t.ok(result.body.deepgram_stt_uri === '127.0.0.1:50002', "deepgram_stt_uri is correct for deepgram");
+    t.ok(result.body.deepgram_stt_use_tls === true, "deepgram_stt_use_tls is correct for deepgram");
 
     result = await request.put(`/Accounts/${account_sid}/SpeechCredentials/${dg_sid}`, {
       resolveWithFullResponse: true,
@@ -326,8 +326,8 @@ test('speech credentials tests', async(t) => {
         vendor: 'deepgram',
         use_for_stt: true,
         api_key: "Deepgram_fake_ai_key",
-        deepgram_uri: "127.0.0.2:50002",
-        deepgram_use_tls: false
+        deepgram_stt_uri: "127.0.0.2:50002",
+        deepgram_stt_use_tls: false
       }
     });
     t.ok(result.statusCode === 204, 'successfully updated speech credential for deepgram onprem');
@@ -339,8 +339,8 @@ test('speech credentials tests', async(t) => {
     });
     //console.log(JSON.stringify(result));
     t.ok(result.statusCode === 200, 'successfully get speech credential for deepgram onprem');
-    t.ok(result.body.deepgram_uri === '127.0.0.2:50002', "deepgram_uri is correct for deepgram onprem");
-    t.ok(result.body.deepgram_use_tls === false, "deepgram_use_tls is correct for deepgram onprem");
+    t.ok(result.body.deepgram_stt_uri === '127.0.0.2:50002', "deepgram_stt_uri is correct for deepgram onprem");
+    t.ok(result.body.deepgram_stt_use_tls === false, "deepgram_stt_use_tls is correct for deepgram onprem");
 
     result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${dg_sid}`, {
       auth: authUser,
