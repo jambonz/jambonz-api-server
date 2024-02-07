@@ -300,7 +300,6 @@ test('speech credentials tests', async(t) => {
       body: {
         vendor: 'deepgram',
         use_for_stt: true,
-        api_key: "Deepgram_fake_ai_key",
         deepgram_stt_uri: "127.0.0.1:50002",
         deepgram_stt_use_tls: true
       }
@@ -325,7 +324,6 @@ test('speech credentials tests', async(t) => {
       body: {
         vendor: 'deepgram',
         use_for_stt: true,
-        api_key: "Deepgram_fake_ai_key",
         deepgram_stt_uri: "127.0.0.2:50002",
         deepgram_stt_use_tls: false
       }
