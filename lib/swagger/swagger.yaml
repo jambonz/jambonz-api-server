@@ -382,11 +382,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
+  /login:
+    post:
+      tags:
+        - Authentication
+      summary: login and retrieve a JWT
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        200:
+          description: user logged in
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulLogin' 
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
   /logout:
     post:
       tags:
         - Authentication
-      summary: log out and deactivate jwt
+      summary: log out and deactivate the JWT
       operationId: logoutUser
       responses:
         204:
@@ -584,10 +608,9 @@ paths:
           content:
             application/json:
               schema:
-                type:
-                  array
+                type: array
                 items:
-                  $ref: '#/components/schemas/Users'
+                  $ref: '#/components/schemas/UserList'
         403:
           description: unauthorized
         500:
@@ -610,27 +633,13 @@ paths:
         - Users
       summary: retrieve user information
       operationId: getUser
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                email: 
-                  type: string
-                is_active:
-                  type: boolean
-                force_change:
-                  type: boolean
-                scope:
-                  type: string
-                permissions:
-                  type: array
       responses:
-        204:
+        200:
           description: user information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
         403:
           description: user information
           content:
@@ -674,6 +683,8 @@ paths:
                   type: string
                 permissions:
                   type: array
+                  items:
+                    type: string
       responses:
         204:
           description: user updated
@@ -712,6 +723,8 @@ paths:
                   type: string
                 permissions:
                   type: array
+                  items:
+                    type: string
                 old_password:
                   type: string
                   description: existing password, which is to be replaced
@@ -998,7 +1011,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-  /AccountTest/:ServiceProviderSid:
+  /AccountTest/{ServiceProviderSid}:
     parameters:
     - name: ServiceProviderSid
       in: path
@@ -1971,7 +1984,7 @@ paths:
       tags:
         - Service Providers
       summary: add a VoiPCarrier to a service provider based on PredefinedCarrier template
-      operationId: createVoipCarrierFromTemplate
+      operationId: createVoipCarrierFromTemplateBySP
       responses:
         201:
           description:  voip carrier successfully created
@@ -2079,6 +2092,12 @@ paths:
       summary: get supported languages, voices and models
       operationId: supportedLanguagesAndVoices
       parameters:
+        - name: ServiceProviderSid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
         - name: vendor
           in: query
           required: true
@@ -2920,7 +2939,7 @@ paths:
       tags:
         - Accounts
       summary: get a specific speech credential
-      operationId: getSpeechCredential
+      operationId: getSpeechCredentialByAccount
       responses:
         200:
           description: retrieve speech credentials for a specified account
@@ -2934,7 +2953,7 @@ paths:
       tags:
         - Accounts
       summary: update a speech credential
-      operationId: updateSpeechCredential
+      operationId: updateSpeechCredentialByAccount
       requestBody:
         content:
           application/json:
@@ -2955,7 +2974,7 @@ paths:
       tags:
         - Accounts
       summary: delete a speech credential
-      operationId: deleteSpeechCredential
+      operationId: deleteSpeechCredentialByAccount
       responses:
         204:
           description: credential successfully deleted
@@ -2966,8 +2985,14 @@ paths:
       tags:
         - Accounts
       summary: get supported languages, voices and models
-      operationId: supportedLanguagesAndVoices
+      operationId: supportedLanguagesAndVoicesByAccount
       parameters:
+        - name: AccountSid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
         - name: vendor
           in: query
           required: true
@@ -2995,7 +3020,7 @@ paths:
       tags:
         - Accounts
       summary: test a speech credential
-      operationId: testSpeechCredential
+      operationId: testSpeechCredentialByAccount
       parameters:
         - name: AccountSid
           in: path
@@ -3241,7 +3266,7 @@ paths:
       tags:
         - Service Providers
       summary: retrieve pcap for a call
-      operationId: getRecentCallTrace
+      operationId: getRecentCallTraceBySP
       responses:
         200:
           description: retrieve sip trace data
@@ -3327,7 +3352,7 @@ paths:
       tags:
         - Service Providers
       summary: retrieve recent calls for an account
-      operationId: listRecentCalls
+      operationId: listRecentCallsBySP
       responses:
         200:
           description: retrieve recent call records for a specified account
@@ -3428,7 +3453,7 @@ paths:
       tags:
         - Service Providers
       summary: retrieve sip trace detail for a call
-      operationId: getRecentCallTrace
+      operationId: getRecentCallTraceByCallId
       responses:
         200:
           description: retrieve sip trace data
@@ -3455,7 +3480,7 @@ paths:
       tags:
         - Accounts
       summary: retrieve pcap for a call
-      operationId: getRecentCallTrace
+      operationId: getRecentCallTraceByAccount
       responses:
         200:
           description: retrieve sip trace data
@@ -3641,7 +3666,7 @@ paths:
       tags:
        - Accounts
       summary: retrieve alerts for an account
-      operationId: listAlerts
+      operationId: listAlertsByAccount
       responses:
         200:
           description: retrieve alerts for a specified account
@@ -4240,7 +4265,7 @@ paths:
       tags:
         - Accounts
       summary: retrieve online sip users for an account
-      operationId: listQueues
+      operationId: listRegisteredSipUsers
       responses:
         200:
           description: retrieve online sip users for an account
@@ -4254,7 +4279,7 @@ paths:
       tags:
         - Accounts
       summary: retrieve online sip users for an account by list of sip username
-      operationId: listRegisteredSipUsers
+      operationId: listRegisteredSipUsersByUsername
       requestBody:
         content:
           application/json:
@@ -4273,6 +4298,12 @@ paths:
                   $ref: '#/components/schemas/RegisteredClient'
   /Accounts/{AccountSid}/RegisteredSipUsers/{Client}:
     parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
       - name: Client
         in: path
         required: true
@@ -4293,6 +4324,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/RegisteredClient'
   /Accounts/{AccountSid}/TtsCache/Synthesize:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
     post:
       tags:
         - Accounts
@@ -5031,17 +5069,32 @@ components:
       scheme: bearer
       bearerFormat: token
   schemas:
+    SuccessfulLogin:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        token: 
+          type: string
+        user_sid:
+          type: string
+        scope:
+          type: string
+        force_change:
+          type: boolean
+    
     Login:
       type: object
       properties:
-        user_sid: 
+        username: 
           type: string
-        api_token:
-          type: string
-        change_password:
-          type: boolean
+        password:
+          type: string        
       required:
-        - user_sid
+        - username
+        - password
+    
     SuccessfulApiKeyAdd:
       type: object
       required:
@@ -6096,8 +6149,23 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TtsModel'
-        
-
+    UserList:
+      type: object
+      properties:      
+        name:
+          type: string
+        email: 
+          type: string
+        is_active:
+          type: boolean
+        force_change:
+          type: boolean
+        scope:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: string
 
 security:
   - bearerAuth: []
