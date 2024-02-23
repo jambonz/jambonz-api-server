@@ -33,7 +33,7 @@
     "@jambonz/time-series": "^0.2.8",
     "@jambonz/verb-specifications": "^0.0.45",
     "@soniox/soniox-node": "^1.1.1",
-    "argon2": "^0.30.3",
+    "argon2": "^0.40.1",
     "assemblyai": "^3.0.1",
     "bent": "^7.3.12",
     "cors": "^2.8.5",
