@@ -4149,6 +4149,23 @@ paths:
                       type: string 
                     siprecServerURL:
                       type: string
+                conferenceParticipantState:
+                  type: object
+                  properties:
+                    action:
+                      type: string
+                      enum:
+                        - mute
+                        - unmute
+                        - hold
+                        - unhold
+                        - kick
+                        - setTag 
+                        - clearTag 
+                        - coach 
+                        - uncoach
+                    tag:
+                      type: string
       responses:
         200:
           description: Accepted
