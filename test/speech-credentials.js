@@ -292,6 +292,60 @@ test('speech credentials tests', async(t) => {
       });
       t.ok(result.statusCode === 204, 'successfully deleted speech credential');
     }
+    // test create deepgram onprem
+    result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        vendor: 'deepgram',
+        use_for_stt: true,
+        deepgram_stt_uri: "127.0.0.1:50002",
+        deepgram_stt_use_tls: true
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully added speech credential for deepgram');
+    const dg_sid = result.body.sid;
+
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/${dg_sid}`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,   
+    });
+    //console.log(JSON.stringify(result));
+    t.ok(result.statusCode === 200, 'successfully get speech credential for deepgram');
+    t.ok(result.body.deepgram_stt_uri === '127.0.0.1:50002', "deepgram_stt_uri is correct for deepgram");
+    t.ok(result.body.deepgram_stt_use_tls === true, "deepgram_stt_use_tls is correct for deepgram");
+
+    result = await request.put(`/Accounts/${account_sid}/SpeechCredentials/${dg_sid}`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        vendor: 'deepgram',
+        use_for_stt: true,
+        deepgram_stt_uri: "127.0.0.2:50002",
+        deepgram_stt_use_tls: false
+      }
+    });
+    t.ok(result.statusCode === 204, 'successfully updated speech credential for deepgram onprem');
+
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/${dg_sid}`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,   
+    });
+    //console.log(JSON.stringify(result));
+    t.ok(result.statusCode === 200, 'successfully get speech credential for deepgram onprem');
+    t.ok(result.body.deepgram_stt_uri === '127.0.0.2:50002', "deepgram_stt_uri is correct for deepgram onprem");
+    t.ok(result.body.deepgram_stt_use_tls === false, "deepgram_stt_use_tls is correct for deepgram onprem");
+
+    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${dg_sid}`, {
+      auth: authUser,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 204, 'successfully deleted speech credential for deepgram onprem');
+
     /* add a credential for ibm tts */
     if (process.env.IBM_TTS_API_KEY && process.env.IBM_TTS_REGION) {
       result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
@@ -557,6 +611,132 @@ test('speech credentials tests', async(t) => {
       resolveWithFullResponse: true,
     });
     t.ok(result.statusCode === 204, 'successfully deleted speech credential');
+
+    /* Check google supportedLanguagesAndVoices */
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=google`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.body.tts.length !== 0, 'successfully get google supported languages and voices');
+    t.ok(result.body.stt.length !== 0, 'successfully get google supported languages and voices');
+
+    /* Check aws supportedLanguagesAndVoices */
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=aws`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.body.tts.length !== 0, 'successfully get aws supported languages and voices');
+    t.ok(result.body.stt.length !== 0, 'successfully get aws supported languages and voices');
+
+    /* Check microsoft supportedLanguagesAndVoices */
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=microsoft`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.body.tts.length !== 0, 'successfully get microsoft supported languages and voices');
+    t.ok(result.body.stt.length !== 0, 'successfully get microsoft supported languages and voices');
+
+    /* Check wellsaid supportedLanguagesAndVoices */
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=wellsaid`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.body.tts.length !== 0, 'successfully get wellsaid supported languages and voices');
+
+    /* Check nuance supportedLanguagesAndVoices */
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=nuance`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.body.tts.length !== 0, 'successfully get nuance supported languages and voices');
+    t.ok(result.body.stt.length !== 0, 'successfully get nuance supported languages and voices');
+
+     /* Check deepgram supportedLanguagesAndVoices */
+     result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=deepgram`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.body.stt.length !== 0, 'successfully get deepgram supported languages and voices');
+    t.ok(result.body.models.length !== 0, 'successfully get deepgram supported languages and voices');
+
+    /* Check ibm supportedLanguagesAndVoices */
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=ibm`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.body.tts.length !== 0, 'successfully get ibm supported languages and voices');
+    t.ok(result.body.stt.length !== 0, 'successfully get ibm supported languages and voices');
+
+    /* Check ibm supportedLanguagesAndVoices */
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=nvidia`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.body.tts.length !== 0, 'successfully get nvidia supported languages and voices');
+    t.ok(result.body.stt.length !== 0, 'successfully get nvidia supported languages and voices');
+
+    /* Check cobalt supportedLanguagesAndVoices */
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=cobalt`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.body.stt.length !== 0, 'successfully get cobalt supported languages and voices');
+
+    /* Check soniox supportedLanguagesAndVoices */
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=soniox`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.body.stt.length !== 0, 'successfully get soniox supported languages and voices');
+
+    /* Check elevenlabs supportedLanguagesAndVoices */
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=elevenlabs`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.body.tts.length !== 0, 'successfully get elevenlabs supported languages and voices');
+    t.ok(result.body.models.length !== 0, 'successfully get elevenlabs supported languages and voices');
+
+    /* Check assemblyai supportedLanguagesAndVoices */
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=assemblyai`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.body.stt.length !== 0, 'successfully get assemblyai supported languages and voices');
+
+    /* Check whisper supportedLanguagesAndVoices */
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=whisper`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.body.tts.length !== 0, 'successfully get whisper supported languages and voices');
+    t.ok(result.body.models.length !== 0, 'successfully get whisper supported languages and voices');
 
     await deleteObjectBySid(request, '/Accounts', account_sid);
     await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid);
