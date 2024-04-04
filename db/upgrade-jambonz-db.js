@@ -194,6 +194,7 @@ const sql = {
   ],
   8006: [
     'ALTER TABLE sip_gateways ADD COLUMN send_options_ping BOOLEAN NOT NULL DEFAULT 0',
+    'ALTER TABLE voip_carriers ADD COLUMN register_use_tls BOOLEAN NOT NULL DEFAULT 0',
   ]
 };
 
