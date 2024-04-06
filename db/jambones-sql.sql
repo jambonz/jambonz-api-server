@@ -162,7 +162,7 @@ regex VARCHAR(32) NOT NULL COMMENT 'regex-based pattern match against dialed num
 description VARCHAR(1024),
 priority INTEGER NOT NULL COMMENT 'lower priority routes are attempted first',
 PRIMARY KEY (lcr_route_sid)
-) COMMENT='An ordered list of  digit patterns in an LCR table.  The patterns are tested in sequence until one matches';
+) COMMENT='An ordered list of  digit patterns in an LCR table.  The pat';
 
 CREATE TABLE lcr
 (
@@ -173,7 +173,7 @@ default_carrier_set_entry_sid CHAR(36) COMMENT 'default carrier/route to use whe
 service_provider_sid CHAR(36),
 account_sid CHAR(36),
 PRIMARY KEY (lcr_sid)
-) COMMENT='An LCR (least cost routing) table that is used by a service provider or account to make decisions about routing outbound calls when multiple carriers are available.';
+) COMMENT='An LCR (least cost routing) table that is used by a service ';
 
 CREATE TABLE password_settings
 (
@@ -459,7 +459,6 @@ inbound BOOLEAN NOT NULL COMMENT 'if true, whitelist this IP to allow inbound ca
 outbound BOOLEAN NOT NULL COMMENT 'if true, include in least-cost routing when placing calls to the PSTN',
 voip_carrier_sid CHAR(36) NOT NULL,
 is_active BOOLEAN NOT NULL DEFAULT 1,
-send_options_ping BOOLEAN NOT NULL DEFAULT 0,
 pad_crypto BOOLEAN NOT NULL DEFAULT 0,
 protocol ENUM('udp','tcp','tls', 'tls/srtp') DEFAULT 'udp' COMMENT 'Outbound call protocol',
 PRIMARY KEY (sip_gateway_sid)
