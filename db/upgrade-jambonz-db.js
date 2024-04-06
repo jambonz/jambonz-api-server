@@ -190,15 +190,10 @@ const sql = {
     'ALTER TABLE google_custom_voices ADD FOREIGN KEY speech_credential_sid_idxfk (speech_credential_sid) REFERENCES speech_credentials (speech_credential_sid) ON DELETE CASCADE',
     'ALTER TABLE clients ADD COLUMN allow_direct_queue_calling BOOLEAN NOT NULL DEFAULT 1',
     'ALTER TABLE clients ADD COLUMN allow_direct_user_calling BOOLEAN NOT NULL DEFAULT 1',
-<<<<<<< HEAD
     'ALTER TABLE clients ADD COLUMN allow_direct_app_calling BOOLEAN NOT NULL DEFAULT 1',
   ],
   8006: [
     'ALTER TABLE sip_gateways ADD COLUMN send_options_ping BOOLEAN NOT NULL DEFAULT 0',
-    'ALTER TABLE voip_carriers ADD COLUMN register_use_tls BOOLEAN NOT NULL DEFAULT 0',
-=======
-    'ALTER TABLE clients ADD COLUMN allow_direct_app_calling BOOLEAN NOT NULL DEFAULT 1'
->>>>>>> parent of a4792a5 (feat send options ping for sip gateway (#273))
   ]
 };
 

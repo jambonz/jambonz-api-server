@@ -42,7 +42,6 @@ test('voip carrier tests', async(t) => {
       json: true,
     });
     t.ok(result.name === 'daveh' , 'successfully retrieved voip carrier by sid');
-    t.ok(result.register_use_tls === 0 , 'successfully create voip_carrier with register_use_tls is false');
 
     /* fail to query one voip carriers with invalid uuid */
     try {
@@ -62,7 +61,6 @@ test('voip carrier tests', async(t) => {
       body: {
         name: 'robb',
         requires_register: true,
-        register_use_tls: true,
         register_username: 'foo',
         register_sip_realm: 'bar',
         register_password: 'baz',
@@ -71,13 +69,6 @@ test('voip carrier tests', async(t) => {
       }
     });
     t.ok(result.statusCode === 204, 'successfully updated voip carrier');
-
-    /* query one voip carriers */
-    result = await request.get(`/VoipCarriers/${sid}`, {
-      auth: authAdmin,
-      json: true,
-    });
-    t.ok(result.register_use_tls === 1 , 'successfully updated voip_carrier with register_use_tls is true');
 
     /* provision a phone number for the voip carrier */
     result = await request.post('/PhoneNumbers', {
