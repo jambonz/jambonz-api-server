@@ -192,7 +192,7 @@ const sql = {
     'ALTER TABLE clients ADD COLUMN allow_direct_user_calling BOOLEAN NOT NULL DEFAULT 1',
     'ALTER TABLE clients ADD COLUMN allow_direct_app_calling BOOLEAN NOT NULL DEFAULT 1',
   ],
-  8006: [
+  9000: [
     'ALTER TABLE sip_gateways ADD COLUMN send_options_ping BOOLEAN NOT NULL DEFAULT 0',
   ]
 };
@@ -226,6 +226,7 @@ const doIt = async() => {
         if (val < 8003) upgrades.push(...sql['8003']);
         if (val < 8004) upgrades.push(...sql['8004']);
         if (val < 8005) upgrades.push(...sql['8005']);
+        if (val < 9000) upgrades.push(...sql['9000']);
 
         // perform all upgrades
         logger.info({upgrades}, 'applying schema upgrades..');
