@@ -194,6 +194,8 @@ const sql = {
   ],
   9000: [
     'ALTER TABLE sip_gateways ADD COLUMN send_options_ping BOOLEAN NOT NULL DEFAULT 0',
+    'ALTER TABLE applications MODIFY COLUMN speech_synthesis_voice VARCHAR(256)',
+    'ALTER TABLE applications MODIFY COLUMN fallback_speech_synthesis_voice VARCHAR(256)',
   ]
 };
 

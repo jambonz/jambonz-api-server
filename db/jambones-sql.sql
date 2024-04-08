@@ -162,7 +162,7 @@ regex VARCHAR(32) NOT NULL COMMENT 'regex-based pattern match against dialed num
 description VARCHAR(1024),
 priority INTEGER NOT NULL COMMENT 'lower priority routes are attempted first',
 PRIMARY KEY (lcr_route_sid)
-) COMMENT='An ordered list of  digit patterns in an LCR table.  The pat';
+) COMMENT='An ordered list of  digit patterns in an LCR table.  The patterns are tested in sequence until one matches';
 
 CREATE TABLE lcr
 (
@@ -173,7 +173,7 @@ default_carrier_set_entry_sid CHAR(36) COMMENT 'default carrier/route to use whe
 service_provider_sid CHAR(36),
 account_sid CHAR(36),
 PRIMARY KEY (lcr_sid)
-) COMMENT='An LCR (least cost routing) table that is used by a service ';
+) COMMENT='An LCR (least cost routing) table that is used by a service provider or account to make decisions about routing outbound calls when multiple carriers are available.';
 
 CREATE TABLE password_settings
 (
@@ -495,7 +495,7 @@ messaging_hook_sid CHAR(36) COMMENT 'webhook to call for inbound SMS/MMS ',
 app_json TEXT,
 speech_synthesis_vendor VARCHAR(64) NOT NULL DEFAULT 'google',
 speech_synthesis_language VARCHAR(12) NOT NULL DEFAULT 'en-US',
-speech_synthesis_voice VARCHAR(64),
+speech_synthesis_voice VARCHAR(256),
 speech_synthesis_label VARCHAR(64),
 speech_recognizer_vendor VARCHAR(64) NOT NULL DEFAULT 'google',
 speech_recognizer_language VARCHAR(64) NOT NULL DEFAULT 'en-US',
@@ -503,7 +503,7 @@ speech_recognizer_label VARCHAR(64),
 use_for_fallback_speech BOOLEAN DEFAULT false,
 fallback_speech_synthesis_vendor VARCHAR(64),
 fallback_speech_synthesis_language VARCHAR(12),
-fallback_speech_synthesis_voice VARCHAR(64),
+fallback_speech_synthesis_voice VARCHAR(256),
 fallback_speech_synthesis_label VARCHAR(64),
 fallback_speech_recognizer_vendor VARCHAR(64),
 fallback_speech_recognizer_language VARCHAR(64),
