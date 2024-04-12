@@ -570,6 +570,29 @@ test('speech credentials tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully deleted speech credential for playht');
 
+    /* add a credential for rimelabs */
+    result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        vendor: 'rimelabs',
+        use_for_stt: false,
+        use_for_tts: true,
+        api_key: 'asdasdasdasddsadasda',
+        model_id: 'mist',
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully added speech credential for rimelabs');
+    const rimelabs_sid = result.body.sid;
+
+    /* delete the credential */
+    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${rimelabs_sid}`, {
+      auth: authUser,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 204, 'successfully deleted speech credential for rimelabs');
+
 
     /* add a credential for custom voices google */
     result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
