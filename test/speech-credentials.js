@@ -170,6 +170,19 @@ test('speech credentials tests', async(t) => {
       //console.log(JSON.stringify(result));
       t.ok(result.statusCode === 200 && result.body.tts.status === 'ok', 'successfully tested speech credential for google tts');
       t.ok(result.statusCode === 200 && result.body.stt.status === 'ok', 'successfully tested speech credential for google stt');
+
+      result = await request.post(`/Accounts/${account_sid}/TtsCache/Synthesize`, {
+        resolveWithFullResponse: true,
+        auth: authUser,
+        body: {
+          speech_credential_sid: ms_sid,
+          text: "Hello How are you",
+          language: "en-US",
+          voice: "en-US-Standard-C"
+        }
+      });
+
+      t.ok(result.statusCode === 200 && result.body.tts.status === 'ok', 'successfully google tested synthesize');
     }
 
     /* add / test a credential for microsoft */
@@ -198,6 +211,19 @@ test('speech credentials tests', async(t) => {
       //console.log(JSON.stringify(result));
       t.ok(result.statusCode === 200 && result.body.tts.status === 'ok', 'successfully tested speech credential for microsoft tts');
       t.ok(result.statusCode === 200 && result.body.stt.status === 'ok', 'successfully tested speech credential for microsoft stt');
+
+      result = await request.post(`/Accounts/${account_sid}/TtsCache/Synthesize`, {
+        resolveWithFullResponse: true,
+        auth: authUser,
+        body: {
+          speech_credential_sid: ms_sid,
+          text: "Hello How are you",
+          language: "en-US",
+          voice: "en-US-AvaMultilingualNeural"
+        }
+      });
+
+      t.ok(result.statusCode === 200 && result.body.tts.status === 'ok', 'successfully microsoft tested synthesize');
     }
 
     /* add / test a credential for AWS */
@@ -227,6 +253,19 @@ test('speech credentials tests', async(t) => {
       //console.log(JSON.stringify(result));
       t.ok(result.statusCode === 200 && result.body.tts.status === 'ok', 'successfully tested speech credential for AWS tts');
       t.ok(result.statusCode === 200 && result.body.stt.status === 'ok', 'successfully tested speech credential for AWS stt');
+
+      result = await request.post(`/Accounts/${account_sid}/TtsCache/Synthesize`, {
+        resolveWithFullResponse: true,
+        auth: authUser,
+        body: {
+          speech_credential_sid: ms_sid,
+          text: "Hello How are you",
+          language: "en-US",
+          voice: "Joanna"
+        }
+      });
+
+      t.ok(result.statusCode === 200 && result.body.tts.status === 'ok', 'successfully AWS tested synthesize');
     }
 
     /* add a credential for wellsaid */
@@ -252,6 +291,19 @@ test('speech credentials tests', async(t) => {
       });
       //console.log(JSON.stringify(result));
       t.ok(result.statusCode === 200 && result.body.tts.status === 'ok', 'successfully tested speech credential for wellsaid');
+
+      result = await request.post(`/Accounts/${account_sid}/TtsCache/Synthesize`, {
+        resolveWithFullResponse: true,
+        auth: authUser,
+        body: {
+          speech_credential_sid: ms_sid,
+          text: "Hello How are you",
+          language: "en-US",
+          voice: "3"
+        }
+      });
+
+      t.ok(result.statusCode === 200 && result.body.tts.status === 'ok', 'successfully Wellsaid tested synthesize');
 
       /* delete the credential */
       result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${ms_sid}`, {
@@ -284,6 +336,19 @@ test('speech credentials tests', async(t) => {
       });
       //console.log(JSON.stringify(result));
       t.ok(result.statusCode === 200 && result.body.stt.status === 'ok', 'successfully tested speech credential for deepgram');
+
+      result = await request.post(`/Accounts/${account_sid}/TtsCache/Synthesize`, {
+        resolveWithFullResponse: true,
+        auth: authUser,
+        body: {
+          speech_credential_sid: ms_sid,
+          text: "Hello How are you",
+          language: "en-US",
+          voice: "aura-asteria-en"
+        }
+      });
+
+      t.ok(result.statusCode === 200 && result.body.tts.status === 'ok', 'successfully deepgram tested synthesize');
 
       /* delete the credential */
       result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${ms_sid}`, {
@@ -403,6 +468,19 @@ test('speech credentials tests', async(t) => {
       });
       //console.log(JSON.stringify(result));
       t.ok(result.statusCode === 200 && result.body.stt.status === 'ok', 'successfully tested speech credential for ibm stt');
+
+      result = await request.post(`/Accounts/${account_sid}/TtsCache/Synthesize`, {
+        resolveWithFullResponse: true,
+        auth: authUser,
+        body: {
+          speech_credential_sid: ms_sid,
+          text: "Hello How are you",
+          language: "en-US",
+          voice: "en-US_MichaelExpressive"
+        }
+      });
+
+      t.ok(result.statusCode === 200 && result.body.tts.status === 'ok', 'successfully IBM tested synthesize');
 
       /* delete the credential */
       result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${ms_sid}`, {
