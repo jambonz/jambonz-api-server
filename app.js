@@ -52,6 +52,7 @@ const {
   getTtsVoices,
   getTtsSize,
   purgeTtsCache,
+  getAwsAuthToken,
   synthAudio
 } = require('@jambonz/speech-utils')({}, logger);
 const {
@@ -95,6 +96,7 @@ app.locals = {
   deleteKey,
   getTtsVoices,
   getTtsSize,
+  getAwsAuthToken,
   purgeTtsCache,
   synthAudio,
   lookupAppBySid,
