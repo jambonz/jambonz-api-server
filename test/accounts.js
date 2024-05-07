@@ -14,7 +14,7 @@ const {
   createPhoneNumber, 
   deleteObjectBySid} = require('./utils');
 const logger = require('../lib/logger');
-const { addToSortedSet } = require('@jambonz/realtimedb-helpers')({
+const { addToSortedSet, createHash } = require('@jambonz/realtimedb-helpers')({
   host: process.env.JAMBONES_REDIS_HOST,
   port: process.env.JAMBONES_REDIS_PORT || 6379
 }, logger);
@@ -313,6 +313,19 @@ test('account tests', async(t) => {
       json: true,
     });
     t.ok(result.statusCode === 200 && result.body.length === 0, 'successfully queried account queue info with for an invalid account');
+
+    // query conferences
+    await createHash('conf:account-sid:conf1', 'url1');
+    await createHash('conf:account-sid:conf2', 'url2');
+    await createHash('conf:account-sid:conf3', 'url3');
+    await createHash('conf:account-sid:conf4', 'url4');
+
+    result = await request.get(`/Accounts/${sid}/Conferences`, {
+      auth: authAdmin,
+      resolveWithFullResponse: true,
+      json: true,
+    });
+    t.ok(result.statusCode === 200 && result.body.length === 4, 'successfully queried account conferences info for an account');
 
     /* delete account */
     result = await request.delete(`/Accounts/${sid}`, {
