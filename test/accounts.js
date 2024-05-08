@@ -315,10 +315,10 @@ test('account tests', async(t) => {
     t.ok(result.statusCode === 200 && result.body.length === 0, 'successfully queried account queue info with for an invalid account');
 
     // query conferences
-    await createHash('conf:account-sid:conf1', 'url1');
-    await createHash('conf:account-sid:conf2', 'url2');
-    await createHash('conf:account-sid:conf3', 'url3');
-    await createHash('conf:account-sid:conf4', 'url4');
+    await createHash(`conf:${sid}:conf1`, 'url1');
+    await createHash(`conf:${sid}:conf2`, 'url2');
+    await createHash(`conf:${sid}:conf3`, 'url3');
+    await createHash(`conf:${sid}:conf4`, 'url4');
 
     result = await request.get(`/Accounts/${sid}/Conferences`, {
       auth: authAdmin,
