@@ -551,7 +551,7 @@
         </location>
         <size>
             <width>293.00</width>
-            <height>560.00</height>
+            <height>540.00</height>
         </size>
         <zorder>6</zorder>
         <SQLField>
@@ -3111,11 +3111,11 @@
         <SourceSidebarWidth><![CDATA[312.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[870.000000]]></windowHeight>
-        <windowLocationX><![CDATA[-1164.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[1131.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{0.5, 0}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1512.000000]]></windowWidth>
+        <windowHeight><![CDATA[1027.000000]]></windowHeight>
+        <windowLocationX><![CDATA[1728.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[65.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{1, 0}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[1675.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>
