@@ -3882,6 +3882,34 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
         
   
+  /Accounts/{AccountSid}/Conferences:
+    get:
+      tags:
+       - Conferences
+      summary: list conferences
+      operationId: listConferences
+      parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: list of conferences for a specified account
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  
   /Accounts/{AccountSid}/Calls:
     post:
       tags:

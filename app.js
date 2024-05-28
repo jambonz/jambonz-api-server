@@ -46,7 +46,8 @@ const {
   addKey,
   retrieveKey,
   deleteKey,
-  incrKey
+  incrKey,
+  listConferences
 } = require('./lib/helpers/realtimedb-helpers');
 const {
   getTtsVoices,
@@ -88,6 +89,7 @@ app.locals = {
   deleteCall,
   listCalls,
   listSortedSets,
+  listConferences,
   purgeCalls,
   retrieveSet,
   addKey,
