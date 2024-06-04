@@ -750,7 +750,7 @@ test('speech credentials tests', async(t) => {
       json: true,
       body: {
         vendor: 'aws',
-        labe: 'aws_polly_with_arn',
+        label: 'aws_polly_with_arn',
         use_for_tts: true,
         use_for_stt: false,
         role_arn: 'Arn::aws::role',
@@ -762,6 +762,58 @@ test('speech credentials tests', async(t) => {
 
     /* delete the credential */
     result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${awsPollySid}`, {
+      auth: authUser,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 204, 'successfully deleted speech credential');
+
+    /* add a credential for verbio */
+    result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        vendor: 'verbio',
+        use_for_tts: true,
+        use_for_stt: true,
+        client_id: 'client:id',
+        client_secret: 'client:secret',
+        engine_version: 'V1'
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully added speech credential for Verbio');
+    const verbioSid = result.body.sid;
+
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/${verbioSid}`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.body.engine_version === "V1", 'successfully get verbio speech credential');
+
+    result = await request.put(`/Accounts/${account_sid}/SpeechCredentials/${verbioSid}`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        use_for_tts: true,
+        use_for_stt: true,
+        engine_version: 'V2'
+      }
+    });
+    t.ok(result.statusCode === 204, 'successfully updated speech credential for verbio');
+
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/${verbioSid}`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.body.engine_version === "V2", 'successfully Updated verbio speech credential');
+
+    /* delete the credential */
+    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${verbioSid}`, {
       auth: authUser,
       resolveWithFullResponse: true,
     });
