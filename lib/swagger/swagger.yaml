@@ -130,7 +130,62 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GeneralError'      
+                $ref: '#/components/schemas/GeneralError'
+  /Accounts/{AccountSid}/RecentCalls/{callSid}/record/{year}/{month}/{day}/mp3:
+    get:
+      tags:
+        - Call Records
+      summary: 'Retrieve an MP3 recording of a recent call'
+      description: 'Gets the MP3 recording of a recent call by specifying the account ID, call ID, and the date of the call.'
+      operationId: getMp3Recording
+      security:
+        - ApiKeyAuth: [ ]
+      parameters:
+        - name: accountSid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: callSid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: year
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: month
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: day
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successfully retrieved the MP3 file.
+          content:
+            audio/mp3:
+              schema:
+                type: string
+                format: binary
+        404:
+          description: Call record not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: System error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
   /Sbcs:
     post:
       tags:
