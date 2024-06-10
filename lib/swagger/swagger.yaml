@@ -131,13 +131,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-  /Accounts/{AccountSid}/RecentCalls/{callSid}/record/{year}/{month}/{day}/mp3:
+  /Accounts/{accountSid}/RecentCalls/{callSid}/record/{year}/{month}/{day}/{format}:
     get:
       tags:
         - Call Records
-      summary: 'Retrieve an MP3 recording of a recent call'
-      description: 'Gets the MP3 recording of a recent call by specifying the account ID, call ID, and the date of the call.'
-      operationId: getMp3Recording
+      summary: 'Retrieve a recording of a recent call in specified format'
+      description: 'Gets the recording of a recent call by specifying the account ID, call ID, the date of the call, and the format of the recording (e.g., MP3 or WAV).'
+      operationId: getRecordingByFormat
       security:
         - ApiKeyAuth: [ ]
       parameters:
@@ -166,11 +166,19 @@ paths:
           required: true
           schema:
             type: string
+        - name: format
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - mp3
+              - wav
       responses:
         200:
-          description: Successfully retrieved the MP3 file.
+          description: Successfully retrieved the recording file.
           content:
-            audio/mp3:
+            audio/*:
               schema:
                 type: string
                 format: binary
@@ -186,6 +194,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
+
   /Sbcs:
     post:
       tags:
