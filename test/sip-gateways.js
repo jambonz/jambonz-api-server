@@ -75,6 +75,44 @@ test('sip gateway tests', async(t) => {
     });
     //console.log(`result: ${JSON.stringify(result)}`);
     t.ok(result.statusCode === 204, 'successfully deleted sip gateway');
+
+    /* add a sip gateway */
+    result = await request.post('/SipGateways', {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+      body: {
+        voip_carrier_sid,
+        ipv4: '192.168.1.2',
+        netmask: 32,
+        inbound: true,
+        outbound: true,
+        protocol: 'tls',
+        use_sips_scheme: true
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully created sip gateway ');
+    const sipsSid = result.body.sid;
+
+    /* query one sip gateway */
+    result = await request.get(`/SipGateways/${sipsSid}`, {
+      auth: authAdmin,
+      json: true,
+    });
+    //console.log(`result: ${JSON.stringify(result)}`);
+    t.ok(result.ipv4 === '192.168.1.2' , 'successfully retrieved voip carrier by sid');
+    t.ok(result.protocol === 'tls' , 'successfully retrieved voip carrier by sid');
+    t.ok(result.use_sips_scheme, 'successfully retrieved voip carrier by sid');
+
+    /* delete sip gateways */
+    result = await request.delete(`/SipGateways/${sipsSid}`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      json: true,
+      auth: authAdmin
+    });
+    //console.log(`result: ${JSON.stringify(result)}`);
+    t.ok(result.statusCode === 204, 'successfully deleted sip gateway');
     
     await deleteObjectBySid(request, '/VoipCarriers', voip_carrier_sid);
 
