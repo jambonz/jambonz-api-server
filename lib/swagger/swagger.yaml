@@ -1097,6 +1097,8 @@ paths:
                 description:
                   type: string
                   example: my US sip trunking provider
+                service_provider_sid:
+                  type: string
                 account_sid:
                   type: string
                 application_sid:
