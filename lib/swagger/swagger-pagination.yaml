@@ -1,0 +1,5557 @@
+openapi: 3.0.0
+info:
+  title: jambonz REST API
+  description: jambonz REST API
+  contact:
+    email: daveh@drachtio.org
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 1.0.0
+servers:
+  - url: /v1
+    description: jambonz API server
+tags:
+  - name: Authentication
+    description: Authentication operations
+  - name: Accounts
+    description: Accounts operations
+  - name: Users
+    description: Users operations
+  - name: Applications
+    description: Applications operations
+  - name: Phone Numbers
+    description: Phone Numbers operations
+  - name: Api Keys
+    description: Api Keys operations
+  - name: Service Providers
+    description: Service Providers operations
+  - name: SBCs
+    description: SBCs operations
+  - name: Voip Carriers
+    description: Voip Carriers operations   
+  - name: Sip Gateways
+    description: Sip Gateways operations
+  - name: Smpp Gateways
+    description: Smpp Gateways operations   
+  - name: Webhooks
+    description: Webhooks operations
+  - name: Microsoft Teams Tenants
+    description: Microsoft Teams Tenants operations
+  - name: Lcrs
+    description: Least Cost Routing operations
+  - name: LcrRoutes
+    description: Least Cost Routing Routes operations
+  - name: LcrCarrierSetEntries
+    description: Least Cost Routing Carrier Set Entries operation
+paths:
+  /PredefinedCarriers:
+    get:
+      summary: get a list of predefined carriers
+      operationId: listPredefinedCarriers
+      responses:
+        200:
+          description: list of predefined carriers
+          content:
+            application/json:
+              schema:
+                type:
+                  array
+                items:
+                  $ref: '#/components/schemas/PredefinedCarrier'
+  /Accounts/{AccountSid}/PredefinedCarriers/{PredefinedCarrierSid}:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: PredefinedCarrierSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    post:
+      tags:
+       - Accounts
+      summary: add a VoiPCarrier to an account based on PredefinedCarrier template
+      operationId: createAccountVoipCarrierFromTemplate
+      responses:
+        201:
+          description:  voip carrier successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'      
+  /Sbcs:
+    post:
+      tags:
+        - SBCs
+      summary: add an SBC address
+      operationId: createSbc
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ipv4:
+                  type: string
+                port:
+                  type: number
+                service_provider_sid:
+                  type: string
+                  description: service provider scope for the generated api key
+              required:
+                - ipv4
+      responses:
+        201:
+          description:  sbc address successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - SBCs
+      summary: retrieve public IP addresses of the jambonz SBCs
+      operationId: listSbcs
+      parameters:
+        - in: query
+          name: service_provider_sid
+          required: false
+          schema:
+            type: string
+            description: return only the SBCs operated for the sole use of this service provider
+      responses:
+        200:
+          description: list of SBC addresses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    ipv4:
+                      type: string
+                      description: ip address of one of our Sbcs 
+                  required:
+                    - ipv4
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /Sbcs/{SbcSid}:
+      parameters:
+      - name: SbcSid
+        in: path
+        required: true
+        schema:
+          type: string
+      delete:
+        tags:
+          - SBCs
+        summary: delete SBC address
+        operationId: deleteSbcAddress      
+        responses:
+          200:
+            description: sbc address deleted
+          404:
+            description: sbc address not found
+  /Smpps:
+    get:
+      summary: retrieve public IP addresses of the jambonz smpp servers
+      operationId: listSmpps
+      parameters:
+        - in: query
+          name: service_provider_sid
+          required: false
+          schema:
+            type: string
+            description: return only the smpp servers operated for the sole use of this service provider
+      responses:
+        200:
+          description: list of smpp server addresses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    ipv4:
+                      type: string
+                      description: ip address of one of our Sbcs
+                    port:
+                      type: number
+                    use_tls:
+                      type: boolean
+                    is_primary:
+                      type: boolean
+                  required:
+                    - ipv4
+                    - port
+                    - use_tls
+                    - is_primary
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /ApiKeys:
+    post:
+      tags:
+        - Api Keys
+      summary: create an api key
+      operationId: createApikey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                service_provider_sid:
+                  type: string
+                  description: service provider scope for the generated api key
+                account_sid:
+                  type: string
+                  description: account scope for the generated api key
+                expiry_secs:
+                  type: number
+                  description: duration of key validity, in seconds
+      responses:
+        201:
+          description: api key successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulApiKeyAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+        500:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /ApiKeys/{ApiKeySid}:
+      parameters:
+      - name: ApiKeySid
+        in: path
+        required: true
+        schema:
+          type: string
+      delete:
+        tags:
+          - Api Keys
+        summary: delete api key
+        operationId: deleteApiKey          
+        responses:
+          200:
+            description: api key deleted
+          404:
+            description: api key or account not found
+  /logout:
+    post:
+      tags:
+        - Authentication
+      summary: log out and deactivate jwt
+      operationId: logoutUser
+      responses:
+        204:
+          description: user logged out
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /forgot-password:
+    post:
+      tags:
+        - Authentication
+      summary: send link to reset password
+      operationId: forgotPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+      responses:
+        204:
+          description: email sent
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+              example:
+                msg: service_provider_sid is missing
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /change-password:
+    post:
+      tags:
+        - Authentication
+      summary: changePassword
+      operationId: changePassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                old_password:
+                  type: string
+                new_password:
+                  type: string
+      responses:
+        204:
+          description: password changed
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+              example:
+                msg: service_provider_sid is missing
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /Users:
+    get:
+      tags:
+        - Users
+      summary: list all users
+      operationId: listUsers
+      parameters:
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: number
+            format: integer
+            description: page number of data to retrieve
+        - in: query
+          name: limit
+          required: true
+          schema:
+            type: number
+            format: integer
+            enum: [25, 50, 100]
+            description: number of rows to retrieve in each page set
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponsePaginatedUserProfile'
+        '403':
+          description: Unauthorized
+        '500':
+          description: System error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    post:
+      tags:
+        - Users
+      summary: Create a new user
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+      responses:
+        '201':
+          description: User created
+        '403':
+          description: User creation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        '500':
+          description: System error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /Users/{userSid}:
+    parameters:
+      - name: userSid
+        in: path
+        required: true
+        description: ID of the user to retrieve
+        schema:
+          type: string
+    get:
+      tags:
+        - Users
+      summary: Retrieve user information
+      operationId: getUser
+      responses:
+        '200':
+          description: User information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '403':
+          description: User information retrieval failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        '500':
+          description: System error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    put:
+      tags:
+        - Users
+      summary: Update user information
+      operationId: updateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '204':
+          description: User updated
+        '403':
+          description: User update failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        '500':
+          description: System error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    delete:
+      tags:
+        - Users
+      summary: Delete a user
+      operationId: deleteUser
+      responses:
+        '204':
+          description: User deleted
+        '404':
+          description: User not found
+        '403':
+          description: Unauthorized
+        '500':
+          description: System error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /Users/me:
+    get:
+      tags:
+        - Users
+      summary: Retrieve details about logged-in user and associated account
+      operationId: getMyDetails
+      responses:
+        '200':
+          description: Full-ish detail about the logged-in user and account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAndAccountDetail'
+        '500':
+          description: System error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /Availability:
+    get:
+      summary: check if a limited-availability entity such as a subdomain, email or phone number is already in use
+      operationId: checkAvailability
+      parameters:
+        - in: query
+          name: type
+          required: true
+          schema:
+            type: string
+            enum:
+              - email
+              - phone
+              - subdomain
+            example: subdomain
+        - in: query
+          name: value
+          required: true
+          schema:
+            type: string
+            example: mycorp.sip.jambonz.cloud
+      responses:
+        200:
+          description: indicates whether value is already in use
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  available:
+                    type: boolean
+                    description: true if value requested is available
+                required:
+                  - available
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /AccountTest/{ServiceProviderSid}:
+    parameters:
+    - name: ServiceProviderSid
+      in: path
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+    get:
+      summary: get test phone numbers and applications
+      operationId: getTestData
+      responses:
+        200:
+          description: test data for this service provider
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  phonenumbers:
+                    type: array
+                    items:
+                      type: string
+                  applications:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Application'
+        404:
+          description: Service Provider Not Found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+  /Webhooks/{WebhookSid}:
+    parameters:
+      - name: WebhookSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    get:
+      tags:
+        - Webhooks
+      summary: retrieve webhook
+      operationId: getWebhook
+      responses:
+        200:
+          description: webhook found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        404:
+          description: webhook not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+  /VoipCarriers:
+    post:
+      tags:
+        - Voip Carriers
+      summary: create voip carrier
+      operationId: createVoipCarrier
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: voip carrier name
+                  example: fastco
+                description:
+                  type: string
+                  example: my US sip trunking provider
+                account_sid:
+                  type: string
+                application_sid:
+                  type: string
+                e164_leading_plus:
+                  type: boolean
+                  description: whether a leading + is required on INVITEs to this provider
+                  example: true
+                requires_register:
+                  type: boolean
+                  description: wehther this provider requires us to send a REGISTER to them in order to receive calls
+                register_username:
+                  type: string
+                  description: sip username to authenticate with, if registration is required
+                  example: foo
+                register_sip_realm:
+                  type: string
+                  description: sip realm to authenticate with, if registration is required
+                  example: sip.fastco.com
+                register_password:
+                  type: string
+                  description: sip password to authenticate with, if registration is required
+                  example: bar
+                register_from_user:
+                  type: string
+                  description: optional username to apply in From header
+                register_from_domain:
+                  type: string
+                  description: optional domain to apply in From header
+                register_public_ip_in_contact:
+                  type: boolean
+                  description: if true, use our public ip in Contact header; otherwise, use sip realm
+                tech_prefix:
+                  type: string
+                  description: prefix to be applied to the called number for outbound call attempts
+                inbound_auth_username:
+                  type: string
+                  description: challenge inbound calls with this username/password if supplied
+                inbound_auth_password:
+                  type: string
+                  description: challenge inbound calls with this username/password if supplied
+                diversion:
+                  type: string
+                  description: Diversion header or phone number to apply to outbound calls
+              required: 
+                - name
+      responses:
+        201:
+          description: voip carrier successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - Voip Carriers
+      summary: list voip carriers
+      operationId: listVoipCarriers
+      parameters:
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: number
+            format: integer
+            description: page number of data to retrieve
+        - in: query
+          name: limit
+          required: true
+          schema:
+            type: number
+            format: integer
+            enum: [25, 50, 100]
+            description: number of rows to retrieve in each page set
+      responses:
+        200:
+          description: list of voip carriers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResponsePaginatedVoipCarrier'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /VoipCarriers/{VoipCarrierSid}:
+    parameters:
+      - name: VoipCarrierSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    delete:
+      tags:
+        - Voip Carriers
+      summary: delete a voip carrier
+      operationId: deleteVoipCarrier
+      responses:
+        204:
+          description: voip carrier successfully deleted
+        404:
+          description: voip carrier not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              example:
+                msg: a service provider with active accounts can not be deleted
+              schema:
+                $ref: '#/components/schemas/GeneralError'                
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - Voip Carriers
+      summary: retrieve voip carrier
+      operationId: getVoipCarrier
+      responses:
+        200:
+          description: voip carrier found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoipCarrier'
+        404:
+          description: voip carrier not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    put:
+      tags:
+        - Voip Carriers
+      summary: update voip carrier
+      operationId: updateVoipCarrier
+      parameters:
+      - name: VoipCarrierSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoipCarrier'
+      responses:
+        204:
+          description: voip carrier updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoipCarrier'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        404:
+          description: voip carrier not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+  /SipGateways:
+    post:
+      tags:
+        - Sip Gateways
+      summary: create sip gateway
+      operationId: createSipGateway
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                voip_carrier_sid:
+                  type: string
+                  description: voip carrier that provides this gateway
+                  format: uuid
+                ipv4:
+                  type: string
+                port:
+                  type: number
+                is_active:
+                  type: boolean
+                inbound:
+                  type: boolean
+                outbound:
+                  type: boolean
+              required: 
+                - voip_carrier_sid
+                - ipv4
+      responses:
+        201:
+          description: sip gateway successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - Sip Gateways
+      summary: list sip gateways
+      operationId: listSipGateways
+      parameters:
+        - in: query
+          name: voip_carrier_sid
+          required: true
+          schema:
+            type: string
+            description: return only the SipGateways operated for this VoipCarrier
+      responses:
+        200:
+          description: list of sip gateways
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SipGateway'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /SipGateways/{SipGatewaySid}:
+    parameters:
+      - name: SipGatewaySid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    delete:
+      tags:
+        - Sip Gateways
+      summary: delete a sip gateway
+      operationId: deleteSipGateway
+      responses:
+        204:
+          description: sip gateway successfully deleted
+        404:
+          description: sip gateway not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - Sip Gateways
+      summary: retrieve sip gateway
+      operationId: getSipGateway
+      responses:
+        200:
+          description: sip gateway found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SipGateway'
+        404:
+          description: sip gateway not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    put:
+      tags:
+        - Sip Gateways
+      summary: update sip gateway
+      operationId: updateSipGateway
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SipGateway'
+      responses:
+        204:
+          description: sip gateway updated
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        404:
+          description: sip gateway not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /SmppGateways:
+    post:
+      tags:
+        - Smpp Gateways
+      summary: create smpp gateway
+      operationId: createSmppGateway
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                voip_carrier_sid:
+                  type: string
+                  description: voip carrier that provides this gateway
+                  format: uuid
+                ipv4:
+                  type: string
+                port:
+                  type: number
+                netmask:
+                  type: number
+                inbound:
+                  type: boolean
+                outbound:
+                  type: boolean
+                is_primary:
+                  type: boolean
+                use_tls:
+                  type: boolean
+              required: 
+                - voip_carrier_sid
+                - ipv4
+      responses:
+        201:
+          description: smpp gateway successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - Smpp Gateways
+      summary: list smpp gateways
+      operationId: listSmppGateways
+      responses:
+        200:
+          description: list of smpp gateways
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SmppGateway'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /SmppGateways/{SmppGatewaySid}:
+    parameters:
+      - name: SmppGatewaySid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    delete:
+      tags:
+        - Smpp Gateways
+      summary: delete a smpp gateway
+      operationId: deleteSmppGateway
+      responses:
+        204:
+          description: smpp gateway successfully deleted
+        404:
+          description: smpp gateway not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - Smpp Gateways
+      summary: retrieve smpp gateway
+      operationId: getSmppGateway
+      responses:
+        200:
+          description: smpp gateway found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmppGateway'
+        404:
+          description: smpp gateway not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    put:
+      tags:
+        - Smpp Gateways
+      summary: update smpp gateway
+      operationId: updateSmppGateway
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmppGateway'
+      responses:
+        204:
+          description: smpp gateway updated
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        404:
+          description: smpp gateway not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError' 
+  /PhoneNumbers:
+    post:
+      tags:
+        - Phone Numbers
+      summary: provision a phone number into inventory from a Voip Carrier
+      operationId: provisionPhoneNumber
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                account_sid:
+                  type: string
+                  format: uuid
+                application_sid:
+                  type: string
+                  format: uuid
+                number:
+                  type: string
+                  description: telephone number
+                voip_carrier_sid:
+                  type: string
+                  format: uuid
+              required: 
+                - number
+                - voip_carrier_sid
+      responses:
+        201:
+          description: phone number successfully provisioned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+              example:
+                msg: invalid telephone number format
+        404:
+          description: voip carrier not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              example:
+                msg: the phone number provided already exists in inventory
+              schema:
+                $ref: '#/components/schemas/GeneralError'                
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - Phone Numbers
+      summary: list phone numbers
+      operationId: listProvisionedPhoneNumbers
+      parameters:
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: number
+            format: integer
+            description: page number of data to retrieve
+        - in: query
+          name: limit
+          required: true
+          schema:
+            type: number
+            format: integer
+            enum: [25, 50, 100]
+            description: number of rows to retrieve in each page set
+      responses:
+        200:
+          description: list of phone numbers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResponsePaginatedPhoneNumber'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /PhoneNumbers/{PhoneNumberSid}:
+    parameters:
+      - name: PhoneNumberSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    delete:
+      tags:
+        - Phone Numbers
+      summary: delete a phone number
+      operationId: deletePhoneNumber
+      responses:
+        204:
+          description: phone number successfully deleted
+        404:
+          description: phone number not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              example:
+                msg: phone number that is assigned to an account may not be deleted
+              schema:
+                $ref: '#/components/schemas/GeneralError'                
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - Phone Numbers
+      summary: retrieve phone number
+      operationId: getPhoneNumber
+      responses:
+        200:
+          description: phone number found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumber'
+        404:
+          description: phone number not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    put:
+      tags:
+        - Phone Numbers
+      summary: update phone number
+      operationId: updatePhoneNumber
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhoneNumber'
+      responses:
+        204:
+          description: phone number updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoipCarrier'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        404:
+          description: phone number not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  
+  /ServiceProviders:
+    post:
+      tags:
+        - Service Providers
+      summary: create service provider
+      operationId: createServiceProvider
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: service provider name
+                  example: fastcomms
+                description:
+                  type: string
+                root_domain:
+                  type: string
+                  description: root domain for group of accounts that share a registration hook
+                  example: example.com
+                registration_hook:
+                  $ref: '#/components/schemas/Webhook'
+                ms_teams_fqdn:
+                  type: string
+                  description: SBC domain name for Microsoft Teams
+                  example: contoso.com
+              required: 
+                - name
+      responses:
+        201:
+          description: service provider successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+    get:
+      tags:
+        - Service Providers
+      summary: list service providers
+      operationId: listServiceProviders
+      parameters:
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: number
+            format: integer
+            description: page number of data to retrieve
+        - in: query
+          name: limit
+          required: true
+          schema:
+            type: number
+            format: integer
+            enum: [25, 50, 100]
+            description: number of rows to retrieve in each page set
+      responses:
+        200:
+          description: list of service providers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResponsePaginatedServiceProvider'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+  /ServiceProviders/{ServiceProviderSid}:
+    parameters:
+    - name: ServiceProviderSid
+      in: path
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+    delete:
+      tags:
+        - Service Providers
+      summary: delete a service provider
+      operationId: deleteServiceProvider
+      responses:
+        204:
+          description: service provider successfully deleted
+        404:
+          description: service provider not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+    get:
+      tags:
+        - Service Providers
+      summary: retrieve service provider
+      operationId: getServiceProvider
+      responses:
+        200:
+          description: service provider found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceProvider'
+        404:
+          description: service provider not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+                
+    put:
+      tags:
+        - Service Providers
+      summary: update service provider
+      operationId: updateServiceProvider
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceProvider'
+      responses:
+        204:
+          description: service provider updated
+        404:
+          description: service provider not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+  /ServiceProviders/{ServiceProviderSid}/Accounts:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - Service Providers
+      summary: get all accounts for a service provider
+      operationId: getServiceProviderAccounts
+      parameters:
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: number
+            format: integer
+            description: page number of data to retrieve
+        - in: query
+          name: limit
+          required: true
+          schema:
+            type: number
+            format: integer
+            enum: [25, 50, 100]
+            description: number of rows to retrieve in each page set
+      responses:
+        200:
+          description: account listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResponsePaginatedAccount'
+        403:
+          description: unauthorized
+        404:
+          description: service provider not found
+
+  /ServiceProviders/{ServiceProviderSid}/VoipCarriers:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - Service Providers
+      summary: get all carriers for a service provider
+      operationId: getServiceProviderCarriers
+      parameters:
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: number
+            format: integer
+            description: page number of data to retrieve
+        - in: query
+          name: limit
+          required: true
+          schema:
+            type: number
+            format: integer
+            enum: [25, 50, 100]
+            description: number of rows to retrieve in each page set
+      responses:
+        200:
+          description: account listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResponsePaginatedVoipCarrier'
+        403:
+          description: unauthorized
+        404:
+          description: service provider not found
+    post:
+      tags:
+        - Service Providers
+      summary: create a carrier
+      operationId: createCarrierForServiceProvider
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoipCarrier'
+      responses:
+        201:
+          description: service provider successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        404:
+          description: service provider not found
+  /ServiceProviders/{ServiceProviderSid}/PredefinedCarriers/{PredefinedCarrierSid}:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: PredefinedCarrierSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    post:
+      tags:
+        - Service Providers
+      summary: add a VoiPCarrier to a service provider based on PredefinedCarrier template
+      operationId: createVoipCarrierFromTemplate
+      responses:
+        201:
+          description:  voip carrier successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+  /ServiceProviders/{ServiceProviderSid}/SpeechCredentials/:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    post:
+      tags:
+        - Service Providers
+      summary: create a speech credential for a service provider
+      operationId: addSpeechCredentialForSeerviceProvider
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpeechCredential'
+      responses:
+        201:
+          description: speech credential successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        404:
+          description: credential not found
+  /ServiceProviders/{ServiceProviderSid}/SpeechCredentials/{SpeechCredentialSid}:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: SpeechCredentialSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - Service Providers
+      summary: get a specific speech credential
+      operationId: getSpeechCredential
+      responses:
+        200:
+          description: retrieve speech credentials for a specified account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpeechCredential'
+        404:
+          description: credential not found
+    put:
+      tags:
+        - Service Providers
+      summary: update a speech credential
+      operationId: updateSpeechCredential
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpeechCredentialUpdate'
+      responses:
+        204:
+          description: credential successfully updated
+        404:
+          description: credential not found
+        422:
+          description: credential not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    delete:
+      tags:
+        - Service Providers
+      summary: delete a speech credential
+      operationId: deleteSpeechCredential
+      responses:
+        204:
+          description: credential successfully deleted
+        404:
+          description: credential not found
+  /ServiceProviders/{ServiceProviderSid}/SpeechCredentials/{SpeechCredentialSid}/test:
+    get:
+      tags:
+        - Service Providers
+      summary: test a speech credential
+      operationId: testSpeechCredential
+      parameters:
+        - name: ServiceProviderSid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: SpeechCredentialSid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: credential test results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tts:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        enum: 
+                            - success 
+                            - fail
+                            - not tested
+                      reason:
+                        type: string
+                  stt:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        enum: 
+                            - success 
+                            - fail
+                      reason:
+                        type: string
+        404:
+          description: credential not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /ServiceProviders/{ServiceProviderSid}/Limits:
+    post:
+      tags:
+        - Service Providers
+      summary: create a limit for a service provider
+      operationId: addLimitForServiceProvider
+      parameters:
+        - name: ServiceProviderSid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Limits'
+      responses:
+        201:
+          description: limit successfully created or updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        404:
+          description: service provider not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - Service Providers
+      summary: retrieve call capacity and other limits from the service provider
+      operationId: getServiceProviderLimits
+      parameters:
+        - name: ServiceProviderSid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: current_contract
+          in: query
+          description: Option to fetch only the current date.
+          required: false
+          schema:
+            type: boolean
+        - name: category
+          in: query
+          description: Category
+          required: false
+          schema:
+            type: string
+        - name: contract_start_date
+          in: query
+          description: Contract start date
+          required: false
+          schema:
+            type: string
+        - name: contract_end_date
+          in: query
+          description: Contract end date
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: service provider limits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Limits'
+        404:
+          description: service provider not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /ServiceProviders/{ServiceProviderSid}/Limits/{ServiceProviderLimitSid}:
+    put:
+      tags:
+        - Service Providers
+      summary: edit contract limits
+      operationId: putServiceProviderLimits
+      parameters:
+        - name: ServiceProviderSid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uui
+        - name: ServiceProviderLimitSid
+          in: path
+          description: The id of the limit to delete.
+          required: true
+          schema:
+            type: string
+            format: uui
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LimitsPut'
+      responses:
+        201:
+          description: limit successfully created or updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        404:
+          description: service provider not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    delete:
+      tags:
+        - Service Providers
+      summary: delete contract limits
+      operationId: deleteServiceProviderLimits
+      parameters:
+        - name: ServiceProviderSid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uui
+        - name: ServiceProviderLimitSid
+          in: path
+          description: The id of the limit to delete.
+          required: true
+          schema:
+            type: string
+            format: uui
+      responses:
+        204:
+          description: limit successfully created or updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        404:
+          description: service provider not found or limit not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /ServiceProviders/{ServiceProviderSid}/Lcrs:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - Service Providers
+      summary: get all Least Cost Routings for a service provider
+      operationId: getServiceProviderLcrs
+      responses:
+        200:
+          description: Least cost routing listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lcr'
+        403:
+          description: unauthorized
+        404:
+          description: service provider not found
+    post:
+      tags:
+        - Service Providers
+      summary: create a Lest cost routing
+      operationId: createLcrForServiceProvider
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: name or Least Cost Routing
+                  example: twilioLcr
+              required:
+                - name
+      responses:
+        201:
+          description: service provider Lcr successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        404:
+          description: service provider not found
+  /Accounts/{AccountSid}/Limits:
+    post:
+      tags:
+        - Accounts
+      summary: create a limit for an account
+      operationId: addLimitForAccount
+      parameters:
+        - name: AccountSid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Limits'
+      responses:
+        201:
+          description: limit successfully created or updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        404:
+          description: account not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - Accounts
+      summary: retrieve call capacity and other limits from the account
+      operationId: getAccountLimits
+      parameters:
+        - name: AccountSid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: current_contract
+          in: query
+          description: Option to fetch only the current date.
+          required: false
+          schema:
+            type: boolean
+        - name: category
+          in: query
+          description: Category
+          required: false
+          schema:
+            type: string
+        - name: contract_start_date
+          in: query
+          description: Contract start date
+          required: false
+          schema:
+            type: string
+        - name: contract_end_date
+          in: query
+          description: Contract end date
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: account limits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Limits'
+        404:
+          description: account not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /Accounts/{AccountSid}/Limits/{AccountLimitSid}:
+    put:
+      tags:
+        - Accounts
+      summary: edit a limit for an account
+      operationId: putLimitForAccount
+      parameters:
+        - name: AccountSid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: AccountLimitSid
+          in: path
+          description: The id of the limit to update.
+          required: true
+          schema:
+            type: string
+            format: uui
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LimitsPut'
+      responses:
+        201:
+          description: limit successfully created or updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        404:
+          description: account not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    delete:
+      tags:
+        - Accounts
+      summary: delete limit for an account
+      operationId: deleteLimitForAccount
+      parameters:
+        - name: AccountSid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: AccountLimitSid
+          in: path
+          description: The id of the limit to update.
+          required: true
+          schema:
+            type: string
+            format: uui
+      responses:
+        204:
+          description: limit successfully created or updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        404:
+          description: account not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /Accounts:
+    post:
+      tags:
+        - Accounts
+      summary: create an account
+      operationId: createAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: account name
+                  example: foobar
+                sip_realm:
+                  type: string
+                  description: sip realm for registration
+                  example: sip.mycompany.com
+                registration_hook:
+                  $ref: '#/components/schemas/Webhook'
+                queue_event_hook:
+                  $ref: '#/components/schemas/Webhook'
+                service_provider_sid:
+                  type: string
+                  format: uuid
+                  example: 85f9c036-ba61-4f28-b2f5-617c23fa68ff
+              required: 
+                - name
+                - service_provider_sid
+      responses:
+        201:
+          description: account successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+      callbacks:
+        onRegistrationAttempt:
+          '{$request.body#/registrationUrl}/auth':
+            post:
+              requestBody:
+                description: |
+                  provides details of the authentication request.  The receiving server is responsible for authenticating the 
+                  request as per [RFC 2617](https://tools.ietf.org/html/rfc2617)
+                content:
+                  application/json:
+                    schema:
+                      required:
+                        - method
+                        - realm
+                        - username
+                        - expires
+                        - nonce
+                        - uri
+                        - response
+                      type: object
+                      properties:
+                        method:
+                          type: string
+                          description: sip request method
+                          example: REGISTER
+                        realm:
+                          type: string
+                          description: sip realm
+                          example: mycompany.com
+                        username:
+                          type: string
+                          description: sip username provided
+                          example: daveh
+                        expires:
+                          type: number
+                          description: expiration requested, in seconds
+                          example: 3600
+                        scheme:
+                          type: string
+                          description: encryption protocol
+                          example: digest
+                        nonce:
+                          type: string
+                          description: nonce value
+                          example: InFriVGWVoKeCckYrTx7wg=="
+                        uri:
+                          type: string
+                          format: uri
+                          description: sip uri in request
+                          example: sip:mycompany.com
+                        algorithm:
+                          type: string
+                          description: encryption algorithm used, default to MD5 if not provided
+                          example: MD5
+                        qop:
+                          type: string
+                          description: qop value
+                          example: auth 
+                        cnonce:
+                          type: string
+                          description: cnonce value
+                          example: 6b8b4567
+                        nc:
+                          type: string
+                          description: nc value
+                          example: 00000001
+                        response:
+                          type: string
+                          description: digest value calculated by the client
+                          example: be641cf7951ff23ab04c57907d59f37d
+              responses:
+                '200':
+                  description: |
+                    Your callback should return this HTTP status code in all cases.
+                    if the request was authenticated and you wish to admit 
+                    the client to the network, this is indicated by setting the 'response' 
+                    attribute in the body to 'ok'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        required:
+                          - status
+                        properties:
+                          status:
+                            type: string
+                            description: indicates whether the request was successfully authenticated
+                            enum:
+                              - ok
+                              - fail
+                            example: ok
+                          message:
+                            type: string
+                            description: a human-readable message
+                            example: authentication granted
+                          call_hook:
+                            type: string
+                            format: url
+                            description: url of application to invoke when this device places a call
+                          expires:
+                            type: number
+                            description: |
+                              The expires value to grant to the requesting user.
+                              If not provided, the expires value in the request is observed.
+                              If provided, must be less than the requested expires value.
+                          blacklist:
+                            type: number
+                            description: |
+                              If provided, represents a period in seconds during which the source IP 
+                              address should be blacklisted by the platform (0 means forever).
+
+    get:
+      tags:
+        - Accounts
+      summary: list accounts
+      operationId: listAccounts
+      parameters:
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: number
+            format: integer
+            description: page number of data to retrieve
+        - in: query
+          name: limit
+          required: true
+          schema:
+            type: number
+            format: integer
+            enum: [25, 50, 100]
+            description: number of rows to retrieve in each page set
+      responses:
+        200:
+          description: list of accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResponsePaginatedAccount'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+  /Accounts/{AccountSid}:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    delete:
+      tags:
+        - Accounts
+      summary: delete an account
+      operationId: deleteAccount
+      responses:
+        204:
+          description: account successfully deleted
+        404:
+          description: account not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - Accounts
+      summary: retrieve account
+      operationId: getAccount
+      responses:
+        200:
+          description: account found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        404:
+          description: account not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+    put:
+      tags:
+        - Accounts
+      summary: update account
+      operationId: updateAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+      responses:
+        204:
+          description: account updated
+        404:
+          description: account not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /Accounts/{AccountSid}/WebhookSecret:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: regenerate
+        in: query
+        required: false
+        schema:
+          type: boolean
+    get:
+      tags:
+        - Accounts
+      summary: get webhook signing secret, regenerating if requested
+      operationId: getWebhookSecret
+      responses:
+        200:
+          description: secret
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  webhook_secret:
+                    type: string
+        404:
+          description: account not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+  /Accounts/{AccountSid}/ApiKeys:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - Accounts
+      summary: get all api keys for an account
+      operationId: getAccountApiKeys
+      parameters:
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: number
+            format: integer
+            description: page number of data to retrieve
+        - in: query
+          name: limit
+          required: true
+          schema:
+            type: number
+            format: integer
+            enum: [25, 50, 100]
+            description: number of rows to retrieve in each page set
+      responses:
+        200:
+          description: list of api keys
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResponsePaginatedApiKey'
+        404:
+          description: account not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+  /Accounts/{AccountSid}/SipRealms/{SipRealm}:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: SipRealm
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      tags:
+        - Accounts
+      summary: add or change the sip realm
+      operationId: createSipRealm
+      responses:
+        204:
+          description: sip_realm updated and DNS entries successfully created
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+  /Accounts/{AccountSid}/SpeechCredentials:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+
+    post:
+      tags:
+        - Accounts
+      summary: add a speech credential
+      operationId: createSpeechCredential
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpeechCredential'
+      responses:
+        201:
+          description: speech credential successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - Accounts
+      summary: retrieve all speech credentials for an account
+      operationId: listSpeechCredentials
+      responses:
+        200:
+          description: retrieve speech credentials for a specified account
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SpeechCredential'
+        404:
+          description: account not found
+  /Accounts/{AccountSid}/SpeechCredentials/{SpeechCredentialSid}:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: SpeechCredentialSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - Accounts
+      summary: get a specific speech credential
+      operationId: getAccountSpeechCredential
+      responses:
+        200:
+          description: retrieve speech credentials for a specified account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpeechCredential'
+        404:
+          description: credential not found
+    put:
+      tags:
+        - Accounts
+      summary: update a speech credential
+      operationId: updateAccountSpeechCredential
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpeechCredentialUpdate'
+      responses:
+        204:
+          description: credential successfully deleted
+        404:
+          description: credential not found
+        422:
+          description: credential not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    delete:
+      tags:
+        - Accounts
+      summary: delete a speech credential
+      operationId: deleteAccountSpeechCredential
+      responses:
+        204:
+          description: credential successfully deleted
+        404:
+          description: credential not found
+  /Accounts/{AccountSid}/SpeechCredentials/{SpeechCredentialSid}/test:
+    get:
+      tags:
+        - Accounts
+      summary: test a speech credential
+      operationId: testAccountSpeechCredential
+      parameters:
+        - name: AccountSid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: SpeechCredentialSid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: credential test results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tts:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        enum: 
+                            - success 
+                            - fail
+                            - not tested
+                      reason:
+                        type: string
+                  stt:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        enum: 
+                            - success 
+                            - fail
+                      reason:
+                        type: string
+        404:
+          description: credential not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /Accounts/{AccountSid}/RecentCalls:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: page
+        required: true
+        schema:
+          type: number
+          format: integer
+          description: page number of data to retrieve
+      - in: query
+        name: count
+        required: true
+        schema:
+          type: number
+          format: integer
+          description: number of rows to retrieve in each page set
+      - in: query
+        name: days
+        required: false
+        schema:
+          type: number
+          format: integer
+          description: number of days back to retrieve, must be ge 1 and le 30
+      - in: query
+        name: start
+        required: false
+        schema:
+          type: string
+          format: date-time
+          description: start date to retrieve
+      - in: query
+        name: end
+        required: false
+        schema:
+          type: string
+          format: date-time
+          description: end date to retrieve
+      - in: query
+        name: answered
+        required: false
+        schema:
+          type: string
+          enum:
+            - true
+            - false
+          description: retrieve only answered calls
+      - in: query
+        name: direction
+        required: false
+        schema:
+          type: string
+          enum:
+            - inbound
+            - outbound
+      - in: query
+        name: filter
+        required: false
+        schema:
+          type: string
+        description: Filter value can be caller ID, callee ID or call Sid
+    get:
+      tags:
+        - Accounts
+      summary: retrieve recent calls for an account
+      operationId: listAccountRecentCalls
+      responses:
+        200:
+          description: retrieve recent call records for a specified account
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: number
+                    format: integer
+                    description: total number of records in that database that match the filter criteria
+                  batch:
+                    type: number
+                    format: integer
+                    description: total number of records returned in this page set
+                  page:
+                    type: number
+                    format: integer
+                    description: page number that was requested, and is being returned
+                  data:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          account_sid:
+                            type: string
+                            format: uuid
+                          call_sid:
+                            type: string
+                            format: uuid
+                          from:
+                            type: string
+                          to: 
+                            type: string
+                          answered:
+                            type: boolean
+                          sip_call_id:
+                            type: string
+                          sip_status:
+                            type: number
+                            format: integer
+                          duration:
+                            type: number
+                            format: integer
+                          attempted_at:
+                            type: number
+                            format: integer
+                          answered_at:
+                            type: number
+                            format: integer
+                          terminated_at:
+                            type: number
+                            format: integer
+                          termination_reason:
+                            type: string
+                          host:
+                            type: string
+                          remote_host:
+                            type: string
+                          direction:
+                            type: string
+                            enum:
+                              - inbound
+                              - outbound
+                          trunk:
+                            type: string
+                        required:
+                          - account_sid
+                          - call_sid
+                          - attempted_at
+                          - terminated_at
+                          - answered
+                          - direction
+                          - from 
+                          - to
+                          - sip_status
+                          - duration
+        404:
+          description: account not found
+  /Accounts/{AccountSid}/RecentCalls/{CallId}:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: CallId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Accounts
+      summary: retrieve sip trace detail for a call
+      operationId: getRecentCallTrace
+      responses:
+        200:
+          description: retrieve sip trace data
+          content:
+            application/json:
+              schema:
+                type: object
+        404:
+          description: account or call not found
+  /ServiceProviders/{ServiceProviderSid}/RecentCalls/{CallId}/pcap:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: CallId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Service Providers
+      summary: retrieve pcap for a call
+      operationId: getRecentCallTracePcap
+      responses:
+        200:
+          description: retrieve sip trace data
+          content:
+            application/octet-stream:
+              schema:
+                type: object
+        404:
+          description: account or call not found
+  /ServiceProviders/{ServiceProviderSid}/RecentCalls:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: page
+        required: true
+        schema:
+          type: number
+          format: integer
+          description: page number of data to retrieve
+      - in: query
+        name: count
+        required: true
+        schema:
+          type: number
+          format: integer
+          description: number of rows to retrieve in each page set
+      - in: query
+        name: days
+        required: false
+        schema:
+          type: number
+          format: integer
+          description: number of days back to retrieve, must be ge 1 and le 30
+      - in: query
+        name: start
+        required: false
+        schema:
+          type: string
+          format: date-time
+          description: start date to retrieve
+      - in: query
+        name: end
+        required: false
+        schema:
+          type: string
+          format: date-time
+          description: end date to retrieve
+      - in: query
+        name: answered
+        required: false
+        schema:
+          type: string
+          enum:
+            - true
+            - false
+          description: retrieve only answered calls
+      - in: query
+        name: direction
+        required: false
+        schema:
+          type: string
+          enum:
+            - inbound
+            - outbound
+      - in: query
+        name: from
+        required: false
+        schema:
+          type: string
+        description: calling number to retrieve
+      - in: query
+        name: to
+        required: false
+        schema:
+          type: string
+        description: called number to retrieve
+    get:
+      tags:
+        - Service Providers
+      summary: retrieve recent calls for an account
+      operationId: listRecentCalls
+      responses:
+        200:
+          description: retrieve recent call records for a specified account
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: number
+                    format: integer
+                    description: total number of records in that database that match the filter criteria
+                  batch:
+                    type: number
+                    format: integer
+                    description: total number of records returned in this page set
+                  page:
+                    type: number
+                    format: integer
+                    description: page number that was requested, and is being returned
+                  data:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          service_provider_sid:
+                            type: string
+                            format: uuid
+                          account_sid:
+                            type: string
+                            format: uuid
+                          call_sid:
+                            type: string
+                            format: uuid
+                          from:
+                            type: string
+                          to: 
+                            type: string
+                          answered:
+                            type: boolean
+                          sip_call_id:
+                            type: string
+                          sip_status:
+                            type: number
+                            format: integer
+                          duration:
+                            type: number
+                            format: integer
+                          attempted_at:
+                            type: number
+                            format: integer
+                          answered_at:
+                            type: number
+                            format: integer
+                          terminated_at:
+                            type: number
+                            format: integer
+                          termination_reason:
+                            type: string
+                          host:
+                            type: string
+                          remote_host:
+                            type: string
+                          direction:
+                            type: string
+                            enum:
+                              - inbound
+                              - outbound
+                          trunk:
+                            type: string
+                        required:
+                          - account_sid
+                          - call_sid
+                          - attempted_at
+                          - terminated_at
+                          - answered
+                          - direction
+                          - from 
+                          - to
+                          - sip_status
+                          - duration
+        404:
+          description: account not found
+  /ServiceProviders/{ServiceProviderSid}/RecentCalls/{CallId}:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: CallId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Service Providers
+      summary: retrieve sip trace detail for a call
+      operationId: getRecentCallTraceCallId
+      responses:
+        200:
+          description: retrieve sip trace data
+          content:
+            application/json:
+              schema:
+                type: object
+        404:
+          description: service provider or call not found
+  /Accounts/{AccountSid}/RecentCalls/{CallId}/pcap:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: CallId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Accounts
+      summary: retrieve pcap for a call
+      operationId: getAccountRecentCallTracePcap
+      responses:
+        200:
+          description: retrieve sip trace data
+          content:
+            application/octet-stream:
+              schema:
+                type: object
+        404:
+          description: account or call not found
+  /ServiceProviders/{ServiceProviderSid}/Alerts:
+    parameters:
+      - name: ServiceProviderSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: page
+        required: true
+        schema:
+          type: number
+          format: integer
+          description: page number of data to retrieve
+      - in: query
+        name: count
+        required: true
+        schema:
+          type: number
+          format: integer
+          description: number of rows to retrieve in each page set
+      - in: query
+        name: days
+        required: false
+        schema:
+          type: number
+          format: integer
+          description: number of days back to retrieve, must be ge 1 and le 30
+      - in: query
+        name: start
+        required: false
+        schema:
+          type: string
+          format: date-time
+          description: start date to retrieve
+      - in: query
+        name: end
+        required: false
+        schema:
+          type: string
+          format: date-time
+          description: end date to retrieve
+      - in: query
+        name: alert_type
+        required: false
+        schema:
+          type: string
+          enum:
+            - webhook-failure
+            - webhook-connection-failure
+            - webhook-auth-failure
+            - no-tts
+            - no-stt
+            - tts-failure
+            - stt-failure
+            - no-carrier
+            - call-limit
+            - device-limit
+            - api-limit
+    get:
+      tags:
+        - Service Providers
+      summary: retrieve alerts for a service provider
+      operationId: listAlerts
+      responses:
+        200:
+          description: retrieve alerts for a specified account
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: number
+                    format: integer
+                    description: total number of records in that database that match the filter criteria
+                  batch:
+                    type: number
+                    format: integer
+                    description: total number of records returned in this page set
+                  page:
+                    type: number
+                    format: integer
+                    description: page number that was requested, and is being returned
+                  data:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          time:
+                            type: string
+                            format: date-time
+                          service_provider_sid:
+                            type: string
+                            format: uuid
+                          account_sid:
+                            type: string
+                            format: uuid
+                          alert_type:
+                            type: string
+                          message:
+                            type: string
+                          detail:
+                            type: string
+                        required:
+                          - time
+                          - account_sid
+                          - alert_type
+                          - message
+        404:
+          description: service provider not found
+  /Accounts/{AccountSid}/Alerts:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: page
+        required: true
+        schema:
+          type: number
+          format: integer
+          description: page number of data to retrieve
+      - in: query
+        name: count
+        required: true
+        schema:
+          type: number
+          format: integer
+          description: number of rows to retrieve in each page set
+      - in: query
+        name: days
+        required: false
+        schema:
+          type: number
+          format: integer
+          description: number of days back to retrieve, must be ge 1 and le 30
+      - in: query
+        name: start
+        required: false
+        schema:
+          type: string
+          format: date-time
+          description: start date to retrieve
+      - in: query
+        name: end
+        required: false
+        schema:
+          type: string
+          format: date-time
+          description: end date to retrieve
+      - in: query
+        name: alert_type
+        required: false
+        schema:
+          type: string
+          enum:
+            - webhook-failure
+            - webhook-connection-failure
+            - webhook-auth-failure
+            - no-tts
+            - no-stt
+            - tts-failure
+            - stt-failure
+            - no-carrier
+            - call-limit
+            - device-limit
+            - api-limit
+    get:
+      tags:
+       - Accounts
+      summary: retrieve alerts for an account
+      operationId: listAccountAlerts
+      responses:
+        200:
+          description: retrieve alerts for a specified account
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: number
+                    format: integer
+                    description: total number of records in that database that match the filter criteria
+                  batch:
+                    type: number
+                    format: integer
+                    description: total number of records returned in this page set
+                  page:
+                    type: number
+                    format: integer
+                    description: page number that was requested, and is being returned
+                  data:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          time:
+                            type: string
+                            format: date-time
+                          account_sid:
+                            type: string
+                            format: uuid
+                          alert_type:
+                            type: string
+                          message:
+                            type: string
+                          detail:
+                            type: string
+                        required:
+                          - time
+                          - account_sid
+                          - alert_type
+                          - message
+        404:
+          description: account not found
+  /Applications:
+    post:
+      tags:
+       - Applications
+      summary: create application
+      operationId: createApplication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: application name
+                account_sid:
+                  type: string
+                  format: uuid
+                call_hook:
+                  $ref: '#/components/schemas/Webhook'
+                call_status_hook:
+                  $ref: '#/components/schemas/Webhook'
+                messaging_hook:
+                  $ref: '#/components/schemas/Webhook'
+                app_json:
+                   type: string
+                   description: Voice Application Json, call_hook will not be invoked if app_json is provided
+                speech_synthesis_vendor:
+                  type: string
+                speech_synthesis_voice:
+                  type: string
+                speech_recognizer_vendor:
+                  type: string
+                speech_recognizer_language:
+                  type: string
+              required: 
+                - name
+                - account_sid
+                - call_hook
+                - call_status_hook
+      responses:
+        201:
+          description: application successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+       - Applications
+      summary: list applications
+      operationId: listApplications
+      parameters:
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: number
+            format: integer
+            description: page number of data to retrieve
+        - in: query
+          name: limit
+          required: true
+          schema:
+            type: number
+            format: integer
+            enum: [25, 50, 100]
+            description: number of rows to retrieve in each page set
+      responses:
+        200:
+          description: list of applications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResponsePaginatedApplication'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+  /Applications/{ApplicationSid}:
+    parameters:
+      - name: ApplicationSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    delete:
+      tags:
+       - Applications
+      summary: delete an application
+      operationId: deleteApplication
+      responses:
+        204:
+          description: application successfully deleted
+        404:
+          description: application not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+       - Applications
+      summary: retrieve an application
+      responses:
+        200:
+          description: application found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+        404:
+          description: application not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    put:
+      tags:
+       - Applications
+      summary: update application
+      operationId: updateApplication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Application'
+      responses:
+        204:
+          description: application updated
+        404:
+          description: application not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        
+  
+  /Accounts/{AccountSid}/Calls:
+    post:
+      tags:
+       - Accounts
+      summary: create a call
+      operationId: createCall
+      parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - from
+                - to
+              type: object
+              properties:
+                application_sid:
+                  type: string
+                  format: uuid
+                  description: The application to use to control this call.  Either applicationSid or url is required.
+                answerOnBridge:
+                  type: boolean
+                  description: If set to true, the inbound call will ring until the number that was dialed answers the call, and at that point a 200 OK will be sent on the inbound leg.  If false, the inbound call will be answered immediately as the outbound call is placed.
+                  example: false
+                call_hook:
+                  $ref: '#/components/schemas/Webhook'
+                  example: {"url": "https://acme.com/callhook", "method": "POST"}
+                call_status_hook:
+                  $ref: '#/components/schemas/Webhook'
+                  example: {"url": "https://acme.com/status", "method": "POST"}
+                from:
+                  type: string
+                  description: The calling party number
+                  example: "16172375089"
+                fromHost:
+                  type: string
+                  description: The hostname to put in the SIP From header of the INVITE
+                  example: "blf.finotel.com"
+                timeout:
+                  type: integer
+                  description: The number of seconds to wait for call to be answered.  Defaults to 60.
+                  example: 30
+                timeLimit:
+                  type: integer
+                  description: The max length of call in seconds
+                  example: 60
+                tag:
+                  type: object
+                  description: Initial set of customer-supplied metadata to associate with the call (see jambonz 'tag' verb)
+                  example: {"callCount": 10}
+                to:
+                  $ref: '#/components/schemas/Target'
+                  description: Destination for call
+                headers:
+                  type: object
+                  description: The customer SIP headers to associate with the call
+                  example: {"X-Custom-Header": "Hello"}
+      responses:
+        201:
+          description: call successfully created
+          content:
+            application/json:
+              schema:
+                required:
+                  - sid
+                properties:
+                  sid:
+                    type: string
+                    format: uuid
+                    example: 2531329f-fb09-4ef7-887e-84e648214436
+        400:
+          description: bad request
+    get:
+      tags:
+       - Accounts
+      summary: list calls
+      operationId: listCalls
+      parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: direction
+        required: false
+        schema:
+          type: string
+          enum:
+            - inbound
+            - outbound
+        description: call direction to retrieve
+      - in: query
+        name: from
+        required: false
+        schema:
+          type: string
+        description: calling number to retrieve
+      - in: query
+        name: to
+        required: false
+        schema:
+          type: string
+        description: called number to retrieve
+      - in: query
+        name: callStatus
+        required: false
+        schema:
+          type: string
+          enum:
+            - trying
+            - ringing
+            - early-media
+            - in-progress
+            - completed
+            - failed
+            - busy
+            - no-answer
+            - queued
+        description: call status to retrieve
+      responses:
+        200:
+          description: list of calls for a specified account
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Call'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /Accounts/{AccountSid}/Calls/{CallSid}:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: CallSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    delete:
+      tags:
+       - Accounts
+      summary: delete a call
+      operationId: deleteCall
+      responses:
+        204:
+          description: call successfully deleted
+        404:
+          description: call not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+       - Accounts
+      summary: retrieve a call
+      operationId: getCall
+      responses:
+        200:
+          description: call found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Call'
+        404:
+          description: call not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    post:
+      tags:
+       - Accounts
+      summary: update a call
+      operationId: updateCall
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                call_hook:
+                  $ref: '#/components/schemas/Webhook'
+                child_call_hook:
+                  $ref: '#/components/schemas/Webhook'
+                call_status:
+                  type: string
+                  enum:
+                    - completed
+                    - no-answer
+                conf_mute_status:
+                  type: string
+                  enum:
+                    - mute
+                    - unmute
+                conf_hold_status:
+                  type: string
+                  enum:
+                    - hold
+                    - unhold
+                listen_status:
+                  type: string
+                  enum:
+                    - pause
+                    - silence
+                    - resume
+                mute_status:
+                  type: string
+                  enum:
+                    - mute
+                    - unmute
+                whisper:
+                  $ref: '#/components/schemas/Webhook'
+                sip_request:
+                  type: object
+                  properties:
+                    method:
+                      type: string
+                    content_type:
+                      type: string
+                    content:
+                      type: string
+                    headers:
+                      type: object
+                record: 
+                  type: object
+                  properties:
+                    action:
+                      type: string
+                      enum:
+                      - startCallRecording
+                      - stopCallRecording
+                      - pauseCallRecording
+                      - resumeCallRecording
+                    recordingID:
+                      type: string 
+                    siprecServerURL:
+                      type: string
+      responses:
+        200:
+          description: Accepted
+        202:
+          description: Accepted
+        400:
+          description: bad request
+        404:
+          description: call not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'  
+
+  /Accounts/{AccountSid}/Queues:
+    parameters:
+      - name: AccountSid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: search
+        required: false
+        schema:
+          type: string
+          description: queue name of data to retrieve
+    get:
+      tags:
+        - Accounts
+      summary: retrieve active queues for an account
+      operationId: listQueues
+      responses:
+        200:
+          description: retrieve active queues records for a specified account
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    length:
+                      type: string
+  /Lcrs:
+    post:
+      tags:
+        - Lcrs
+      summary: create a Least Cost Routing
+      operationId: createLcr
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: name or Least Cost Routing
+                  example: twilioLcr
+              required:
+                - name
+      responses:
+        201:
+          description: Least Cost Routing successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - Lcrs
+      summary: list least cost routings
+      operationId: listLeastCostRoutings
+      responses:
+        200:
+          description: list of least cost routings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lcr'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /Lcrs/{LcrSid}:
+    parameters:
+      - name: LcrSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    delete:
+      tags:
+        - Lcrs
+      summary: delete a least cost routing
+      operationId: deleteLeastCostRouting
+      responses:
+        204:
+          description: least cost routing successfully deleted
+        404:
+          description: least cost routing not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              example:
+                msg: a service provider with active accounts can not be deleted
+              schema:
+                $ref: '#/components/schemas/GeneralError'                
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - Lcrs
+      summary: retrieve least cost routing
+      operationId: getLeastCostRouting
+      responses:
+        200:
+          description: least cost routing found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lcr'
+        404:
+          description: least cost routing not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    put:
+      tags:
+        - Lcrs
+      summary: update least cost routing
+      operationId: updateLeastCostRouting
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lcr'
+      responses:
+        204:
+          description: least cost routing updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lcr'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        404:
+          description: least cost routing not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /LcrRoutes:
+    post:
+      tags:
+        - LcrRoutes
+      summary: create a Least Cost Routing Routes
+      operationId: createLcrRoutes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/LcrRoute'
+              required:
+                - lcr_sid
+                - regex
+                - priority
+      responses:
+        201:
+          description: Least Cost Routing Route successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - LcrRoutes
+      summary: list least cost routings routes
+      operationId: listLeastCostRoutingRoutes
+      parameters:
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: number
+            format: integer
+            description: page number of data to retrieve
+        - in: query
+          name: limit
+          required: true
+          schema:
+            type: number
+            format: integer
+            enum: [25, 50, 100]
+            description: number of rows to retrieve in each page set
+      responses:
+        200:
+          description: list of least cost routing routes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResponsePaginatedLcrRoute'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /LcrRoutes/{LcrRouteSid}:
+    parameters:
+      - name: LcrRouteSid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    delete:
+      tags:
+        - LcrRoutes
+      summary: delete a least cost routing route
+      operationId: deleteLeastCostRoutingRoute
+      responses:
+        204:
+          description: least cost routing route successfully deleted
+        404:
+          description: least cost routing route not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              example:
+                msg: a service provider with active accounts can not be deleted
+              schema:
+                $ref: '#/components/schemas/GeneralError'                
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - LcrRoutes
+      summary: retrieve least cost routing route
+      operationId: getLeastCostRoutingRoute
+      responses:
+        200:
+          description: least cost routing route found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LcrRoute'
+        404:
+          description: least cost routing route not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    put:
+      tags:
+        - LcrRoutes
+      summary: update least cost routing route
+      operationId: updateLeastCostRoutingRoute
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LcrRoute'
+      responses:
+        204:
+          description: least cost routing route updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LcrRoute'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        404:
+          description: least cost routing route not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /LcrCarrierSetEntries:
+    post:
+      tags:
+        - LcrCarrierSetEntries
+      summary: create a Least Cost Routing Carrier Set Entry
+      operationId: createLcrCarrierSetEntry
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/LcrCarrierSetEntry'
+              required:
+                - lcr_route_sid
+                - voip_carrier_sid
+                - priority
+      responses:
+        201:
+          description: Least Cost Routing Carrier Set Entry successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulAdd'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - LcrCarrierSetEntries
+      summary: list least cost routings routes
+      operationId: listLeastCostRoutingCarrierSetEntries
+      responses:
+        200:
+          description: list of least cost routing carrier set entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LcrCarrierSetEntry'
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+  /LcrCarrierSetEntries/{LcrCarrierSetEntrySid}:
+    parameters:
+      - name: LcrCarrierSetEntrySid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+    delete:
+      tags:
+        - LcrCarrierSetEntries
+      summary: delete a least cost routing carrier set entry
+      operationId: deleteLeastCostRoutingCarrierSetEntry
+      responses:
+        204:
+          description: least cost routing carrier set entry successfully deleted
+        404:
+          description: least cost routing carrier set entry not found
+        422:
+          description: unprocessable entity
+          content:
+            application/json:
+              example:
+                msg: a service provider with active accounts can not be deleted
+              schema:
+                $ref: '#/components/schemas/GeneralError'                
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    get:
+      tags:
+        - LcrCarrierSetEntries
+      summary: retrieve least cost routing carrier set entry
+      operationId: getLeastCostRoutingCarrierSetEntry
+      responses:
+        200:
+          description: least cost routing carrier set entry found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LcrCarrierSetEntry'
+        404:
+          description: least cost routing carrier set entry not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+    put:
+      tags:
+        - LcrCarrierSetEntries
+      summary: update least cost routing carrier set entry
+      operationId: updateLeastCostRoutingCarrierSetEntry
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LcrCarrierSetEntry'
+      responses:
+        204:
+          description: least cost routing carrier set entry updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LcrCarrierSetEntry'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        404:
+          description: least cost routing carrier set entry not found
+        500:
+          description: system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token
+  schemas:
+    Login:
+      type: object
+      properties:
+        user_sid: 
+          type: string
+        api_token:
+          type: string
+        change_password:
+          type: boolean
+      required:
+        - user_sid
+    SuccessfulApiKeyAdd:
+      type: object
+      required:
+        - sid
+        - token
+      properties:
+        sid:
+          type: string
+        token:
+          type: string
+      example:
+        sid: 9d26a637-1679-471f-8da8-7150266e1254
+        token: 589cead6-de24-4689-8ac3-08ffaf102811
+    SuccessfulAdd:
+      type: object
+      required:
+        - sid
+      properties:
+        sid:
+          type: string
+      example:
+        sid: 9d26a637-1679-471f-8da8-7150266e1254
+    GeneralError:
+      type: object
+      required:
+        - msg
+      properties:
+        msg:
+          type: string
+      example:
+        msg: specific error detail will be provided here
+    ServiceProvider:
+      type: object
+      properties:
+        service_provider_sid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        root_domain:
+          type: string
+        registration_hook:
+          $ref: '#/components/schemas/Webhook'          
+        ms_teams_fqdn:
+          type: string
+        test_number:
+          type: string
+          description: used for inbound testing for accounts on free plan
+        test_application_name:
+          type: string
+          description: name of test application that can be used for new signups
+        test_application_sid:
+          type: string
+          description: identifies test application that can be used for new signups
+      required:
+        - service_provider_sid
+        - name    
+    ResponsePaginatedServiceProvider:
+      type: object
+      properties:
+        total_items:
+          type: number
+          format: integer
+          description: total number of records in that database that match the filter criteria
+          example: 26
+        total_pages:
+          type: number
+          format: integer
+          description: total number of available pages
+          example: 2
+        page:        
+          type: number
+          format: integer
+          description: page number that was requested, and is being returned
+          example: 1
+        data: 
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceProvider'
+    VoipCarrier:
+      type: object
+      properties:
+        voip_carrier_sid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        account_sid:
+          type: string
+          format: uuid
+        application_sid:
+          type: string
+          format: uuid          
+        e164_leading_plus:
+          type: boolean
+        requires_register:
+          type: boolean
+        register_username:
+          type: string
+        register_sip_realm:
+          type: string
+        register_password:
+          type: string
+        tech_prefix:
+          type: string
+        inbound_auth_username:
+          type: string
+        inbound_auth_password:
+          type: string
+        diversion:
+          type: string
+        is_active:
+          type: boolean
+        smpp_system_id:
+          type: string
+        smpp_password:
+          type: string
+        smpp_inbound_system_id:
+          type: string
+        smpp_inbound_password:
+          type: string
+        smpp_enquire_link_interval:
+          type: number
+          format: integer
+      required:
+        - voip_carrier_sid
+        - name
+    ResponsePaginatedVoipCarrier:
+      type: object
+      properties:
+        total_items:
+          type: number
+          format: integer
+          description: total number of records in that database that match the filter criteria
+          example: 26
+        total_pages:
+          type: number
+          format: integer
+          description: total number of available pages
+          example: 2
+        page:        
+          type: number
+          format: integer
+          description: page number that was requested, and is being returned
+          example: 1
+        data: 
+          type: array
+          items:
+            $ref: '#/components/schemas/VoipCarrier'
+    SipGateway:
+      type: object
+      properties:
+        sip_gateway_sid:
+          type: string
+          format: uuid
+        ipv4:
+          type: string
+        port:
+          type: number
+        netmask:
+          type: number
+        voip_carrier_sid:
+          type: string
+          format: uuid
+        inbound:
+          type: boolean
+        outbound:
+          type: boolean
+      required:
+        - sip_gateway_sid
+        - voip_carrier_sid
+        - ipv4
+        - port
+        - netmask
+    SmppGateway:
+      type: object
+      properties:
+        smpp_gateway_sid:
+          type: string
+          format: uuid
+        ipv4:
+          type: string
+        port:
+          type: number
+        netmask:
+          type: number
+        voip_carrier_sid:
+          type: string
+          format: uuid
+        is_primary:
+          type: boolean
+        use_tls:
+          type: boolean
+        inbound:
+          type: boolean
+        outbound:
+          type: boolean
+      required:
+        - smpp_gateway_sid
+        - voip_carrier_sid
+        - ipv4
+        - port
+        - netmask
+    Account:
+      type: object
+      properties:
+        account_sid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        sip_realm:
+          type: string
+        registration_hook:
+          $ref: '#/components/schemas/Webhook'          
+        device_calling_application_sid:
+          type: string
+          format: uuid
+        service_provider_sid:
+          type: string
+          format: uuid
+      required:
+        - account_sid
+        - name
+        - service_provider_sid
+    ResponsePaginatedAccount:
+      type: object
+      properties:
+        total_items:
+          type: number
+          format: integer
+          description: total number of records in that database that match the filter criteria
+          example: 26
+        total_pages:
+          type: number
+          format: integer
+          description: total number of available pages
+          example: 2
+        page:        
+          type: number
+          format: integer
+          description: page number that was requested, and is being returned
+          example: 1
+        data: 
+          type: array
+          items:
+            $ref: '#/components/schemas/Account'
+    Application:
+      type: object
+      properties:
+        application_sid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        account_sid:
+          type: string
+          format: uuid
+        call_hook:
+          $ref: '#/components/schemas/Webhook'
+          description: application webhook for inbound voice calls
+        call_status_hook:
+          $ref: '#/components/schemas/Webhook'
+          description: webhhok for reporting call status events
+        messaging_hook:
+          $ref: '#/components/schemas/Webhook'
+          description: application webhook for inbound SMS/MMS
+        speech_synthesis_vendor:
+          type: string
+        speech_synthesis_voice:
+          type: string
+        speech_recognizer_vendor:
+          type: string
+        speech_recognizer_language:
+          type: string
+      required:
+        - application_sid
+        - name
+        - account_sid
+    ResponsePaginatedApplication:
+      type: object
+      properties:
+        total_items:
+          type: number
+          format: integer
+          description: total number of records in that database that match the filter criteria
+          example: 26
+        total_pages:
+          type: number
+          format: integer
+          description: total number of available pages
+          example: 2
+        page:        
+          type: number
+          format: integer
+          description: page number that was requested, and is being returned
+          example: 1
+        data: 
+          type: array
+          items:
+            $ref: '#/components/schemas/Application'
+    ApiKey:
+      type: object
+      properties:
+        api_key_sid:
+          type: string
+          format: uuid
+        token:
+          type: string
+          format: uuid
+        account_sid:
+          type: string
+          format: uuid
+        service_provider_sid:
+          type: string
+          format: uuid
+        expires_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        last_used:
+          type: string
+          format: date-time
+      required:
+        - api_key_sid
+        - token
+    ResponsePaginatedApiKey:
+      type: object
+      properties:
+        total_items:
+          type: number
+          format: integer
+          description: total number of records in that database that match the filter criteria
+          example: 26
+        total_pages:
+          type: number
+          format: integer
+          description: total number of available pages
+          example: 2
+        page:        
+          type: number
+          format: integer
+          description: page number that was requested, and is being returned
+          example: 1
+        data: 
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKey'    
+    PhoneNumber:
+      type: object
+      properties:
+        phone_number_sid:
+          type: string
+          format: uuid
+        number:
+          type: string
+        voip_carrier_sid:
+          type: string
+          format: uuid
+        account_sid:
+          type: string
+          format: uuid
+        application_sid:
+          type: string
+          format: uuid
+      required:
+        - phone_number_sid
+        - number
+        - voip_carrier_sid
+    ResponsePaginatedPhoneNumber:
+      type: object
+      properties:
+        total_items:
+          type: number
+          format: integer
+          description: total number of records in that database that match the filter criteria
+          example: 26
+        total_pages:
+          type: number
+          format: integer
+          description: total number of available pages
+          example: 2
+        page:        
+          type: number
+          format: integer
+          description: page number that was requested, and is being returned
+          example: 1
+        data: 
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+    Registration:
+      type: object
+      properties:
+        registration_sid:
+          type: string
+          format: uuid
+        username:
+          type: string
+        domain:
+          type: string
+        sip_contact:
+          type: string
+        sip_user_agent:
+          type: string
+      required:
+        - registration_sid
+        - username
+        - domain
+        - sip_contact
+    Webhook:
+      type: object
+      description: authentication webhook for registration
+      properties:
+        webhook_sid:
+          type: string
+          format: uuid
+        url:
+          type: string
+          format: url
+        method:
+          type: string
+          enum:
+            - get
+            - post
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - url
+      example: {"url": "https://acme.com", "method": "POST"}
+    MsTeamsTenant:
+      type: object
+      properties:
+        service_provider_sid:
+          type: string
+          format: uuid
+        account_sid:
+          type: string
+          format: uuid
+        application_sid:
+          type: string
+          format: uuid
+        tenant_fqdn:
+          type: string
+      required:
+        - service_provider_sid
+        - tenant_fqdn
+    Call:
+      type: object
+      properties:
+        account_sid:
+          type: string
+          format: uuid
+        application_sid:
+          type: string
+          format: uuid
+        call_id:
+          type: string
+        call_sid:
+          type: string
+          format: uuid
+        call_status:
+          type: string
+          enum:
+            - trying
+            - ringing
+            - alerting
+            - in-progress
+            - completed
+            - busy
+            - no-answer
+            - failed
+            - queued
+        caller_name:
+          type: string
+        direction:
+          type: string
+          enum:
+            - inbound
+            - outbound 
+        duration:
+          type: integer
+        from:
+          type: string
+        originating_sip_trunk_name:
+          type: string
+        parent_call_sid:
+          type: string
+          format: uuid
+        service_url:
+          type: string
+        sip_status:
+          type: integer
+        to:
+          type: string
+      required:
+        - account_sid
+        - call_id
+        - call_sid
+        - call_status
+        - direction
+        - from
+        - service_url
+        - sip_status
+        - to
+    Target:
+      properties:
+        type:
+          type: string
+          enum:
+            - phone
+            - sip
+            - user
+            - teams
+        number:
+          type: string
+        sipUri:
+          type: string
+        tenant:
+          type: string
+          description: Microsoft Teams customer tenant domain name
+        trunk:
+          type: string
+        vmail:
+          type: boolean
+          description: Dial directly into user's voicemail to leave a message
+        overrideTo:
+          type: string
+        name:
+          type: string
+        auth:
+          type: object
+          properties:
+            username:
+              type: string
+            password:
+              type: string
+      required:
+        - type
+      example: {"type": "phone", "number": "+16172375080"}
+    Message:
+      properties:
+        provider:
+          type: string
+        from:
+          type: string
+        to:
+          type: string
+        text:
+          type: string
+        media:
+          type: string
+      required:
+        - from
+        - to
+      example: {"from": "13394445678", "to": "16173333456", "text": "please call when you can"}
+    SpeechCredential:
+      properties:
+        speech_credential_sid:
+          type: string
+          format: uuid
+        account_sid:
+          type: string
+          format: uuid
+        vendor:
+          type: string
+          enum:
+            - google
+            - aws
+        service_key:
+          type: string
+        access_key_id:
+          type: string
+        secret_access_key:
+          type: string
+        aws_region:
+          type: string
+        last_used:
+          type: string
+          format: date-time
+        last_tested:
+          type: string
+          format: date-time
+        use_for_tts:
+          type: boolean
+        use_for_stt:
+          type: boolean
+        tts_tested_ok:
+          type: boolean
+        stt_tested_ok:
+          type: boolean
+        riva_server_uri:
+          type: string
+    ResponsePaginatedSpeechCredential:
+      type: object
+      properties:
+        total_items:
+          type: number
+          format: integer
+          description: total number of records in that database that match the filter criteria
+          example: 26
+        total_pages:
+          type: number
+          format: integer
+          description: total number of available pages
+          example: 2
+        page:        
+          type: number
+          format: integer
+          description: page number that was requested, and is being returned
+          example: 1
+        data: 
+          type: array
+          items:
+            $ref: '#/components/schemas/SpeechCredential'
+    SpeechCredentialUpdate:
+      properties:
+        use_for_tts:
+          type: boolean
+        use_for_stt:
+          type: boolean
+    UserAndAccountDetail:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            user_sid:
+              type: string
+            name: 
+              type: string
+            email:
+              type: string
+            phone:
+              type: string
+            service_provider_sid:
+              type: string
+            force_change:
+              type: boolean
+            provider:
+              type: string
+            provider_userid:
+              type: string
+            scope:
+              type: string
+            email_validated:
+              type: boolean
+            phone_validated:
+              type: string
+        account:
+          type: object
+          properties:
+            account_sid:
+              type: string
+            sip_realm:
+              type: string
+            service_provider_sid:
+              type: string
+            registration_hook_sid:
+              type: string
+            queue_event_hook_sid:
+              type: string
+            device_calling_application_sid:
+              type: string
+            is_active:
+              type: boolean
+            created_at:
+              type: string
+              format: date-time
+        testapp:
+          type: object
+          properties:
+            application_sid:
+              type: string
+            name:
+              type: string
+            service_provider_sid:
+              type: string
+            account_sid:
+              type: string
+            call_hook_sid:
+              type: string
+            call_status_hook_sid:
+              type: string
+            messaging_hook_sid:
+              type: string
+            speech_synthesis_vendor:
+              type: string
+            speech_synthesis_language:
+              type: string
+            speech_synthesis_voice:
+              type: string
+            speech_recognizer_vendor:
+              type: string
+            speech_recognizer_language:
+              type: string
+        balance:
+          type: object
+          properties:
+            currency:
+              type: string
+              enum:
+                - USD 
+                - EUR
+            balance:
+              type: number
+            last_updated_at:
+              type: string
+              format: date-time
+            created_at:
+              type: string
+              format: date-time
+            last_transaction_id:
+              type: string
+        capacities:
+          type: object
+          properties:
+            effective_start_date:
+              type: string
+              format: date-time
+            effective_end_date:
+              type: string
+              format: date-time
+            limit_sessions:
+              type: integer
+            limit_registrations:
+              type: integer
+        api_keys:
+          type: array
+          items:
+            type: object
+            properties:
+              token:
+                type: string
+              last_used:
+                type: string
+                format: date-time
+              created_at:
+                type: string
+                format: date-time
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              description:
+                type: string
+              category:
+                type: string
+              quantity:
+                type: string
+              in_starter_set:
+                type: boolean
+              product_sid:
+                type: string
+              effective_start_date:
+                type: string
+                format: date-time
+              effective_end_date:
+                type: string
+                format: date-time
+    UserProfile:
+      type: object
+      properties:
+        user_sid: 
+          type: string
+          example: a5bce31e-a028-45cd-94c4-f121b72fec61
+        service_provider_sid:
+          type: string
+          example: a5bce31e-a028-45cd-94c4-f121b72fec61
+        account_sid:
+          type: string
+          example: a5bce31e-a028-45cd-94c4-f121b72fec61
+        is_active:
+          type: boolean
+          description: indicates whether account is active
+          example: true
+        name:
+          type: string
+          description: full user name
+          example: Dave Horton
+        email:
+          type: string
+          description: email associated with user
+          example: daveh@drachtio.org
+        phone:
+          type: string
+          description: phone associated with user
+        provider:
+          type: string
+          description: authentication provider
+          enum:
+            - github
+            - google
+            - local
+          example: github
+        scope:
+          type: string
+          description: scope of user permissions
+          enum:
+            - read-only
+            - read-write
+          example: read-write
+        email_validated:
+          type: boolean
+          description: indicates whether user has validated their email address
+          example: true
+        phone_validated:
+          type: boolean
+          description: indicates whether user has validated their mobile phone
+          example: true
+        tutorial_completion:
+          type: number
+          description: bitmask indicating which tutorials have been completed
+          example: 1
+        jwt:
+          type: string
+          description: json web token to be used as bearer token in API requests
+      required:
+        - user_sid
+        - provider
+        - name
+        - email
+        - scope
+        - account_validated
+        - pristine
+        - jwt
+        - is_active
+    ResponsePaginatedUserProfile:
+      type: object
+      properties:
+        total_items:
+          type: number
+          format: integer
+          description: total number of records in that database that match the filter criteria
+          example: 26
+        total_pages:
+          type: number
+          format: integer
+          description: total number of available pages
+          example: 2
+        page:        
+          type: number
+          format: integer
+          description: page number that was requested, and is being returned
+          example: 1
+        data: 
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfile'
+    UserCreate:
+      type: object
+      properties:
+        service_provider_sid:
+          type: string
+          example: a5bce31e-a028-45cd-94c4-f121b72fec61
+        account_sid:
+          type: string
+          example: a5bce31e-a028-45cd-94c4-f121b72fec61
+        is_active:
+          type: boolean
+          description: indicates whether account is active
+          example: true
+        name:
+          type: string
+          description: full user name
+          example: Dave Horton
+        email:
+          type: string
+          description: email associated with user
+          example: daveh@drachtio.org
+        phone:
+          type: string
+          description: phone associated with user
+        initial_password:
+          type: string
+          example: abc123!
+      required:
+        - name
+        - email
+        - is_active
+        - force_change
+        - initial_password
+    UserUpdate:
+      type: object
+      properties:
+        service_provider_sid:
+          type: string
+          example: a5bce31e-a028-45cd-94c4-f121b72fec61
+        account_sid:
+          type: string
+          example: a5bce31e-a028-45cd-94c4-f121b72fec61
+        is_active:
+          type: boolean
+          description: indicates whether account is active
+          example: true
+        name:
+          type: string
+          description: full user name
+          example: Dave Horton
+        email:
+          type: string
+          description: email associated with user
+          example: daveh@drachtio.org
+        phone:
+          type: string
+          description: phone associated with user
+        new_password:
+          type: string
+          example: abc123!
+    Charge:
+      type: object
+      properties:
+        charge_sid:
+          type: string
+          format: uuid
+        account_sid:
+          type: string
+          format: uuid
+        application_sid:
+          type: string
+          format: uuid
+        billed_at:
+          type: string
+          format: date-time
+        billed_activity:
+          type: string
+          enum:
+            - inbound-call
+            - outbound-call
+            - inbound-sms
+            - outbound-sms
+            - inbound-mms
+            - outbound-mms
+            - tts
+            - stt
+        call_billing_record_sid:
+          type: string
+          format: uuid
+        message_record_sid:
+          type: string
+          format: uuid
+        call_secs_billed:
+          type: number
+          format: integer
+        tts_chars_billed:
+          type: number
+          format: integer
+        stt_secs_billed:
+          type: number
+          format: integer
+        amount_charged:
+          type: number
+          format: double
+      required:
+        - account_sid
+        - billed_activity
+        - amount_charged
+    RecentCalls:
+      type: object
+      properties:
+        account_sid:
+          type: string
+          format: uuid
+        call_sid:
+          type: string
+          format: uuid
+        from:
+          type: string
+        to: 
+          type: string
+        answered:
+          type: boolean
+        sip_call_id:
+          type: string
+        sip_status:
+          type: number
+          format: integer
+        duration:
+          type: number
+          format: integer
+        attempted_at:
+          type: number
+          format: integer
+        answered_at:
+          type: number
+          format: integer
+        terminated_at:
+          type: number
+          format: integer
+        termination_reason:
+          type: string
+        host:
+          type: string
+        remote_host:
+          type: string
+        direction:
+          type: string
+          enum:
+            - inbound
+            - outbound
+        trunk:
+          type: string
+      required:
+        - account_sid
+        - call_sid
+        - attempted_at
+        - terminated_at
+        - answered
+        - direction
+        - from 
+        - to
+        - sip_status
+        - duration
+    Alert:
+      type: object
+      properties:
+        alert_sid:
+          type: string
+          format: uuid
+        call_sid:
+          type: string
+          format: uuid
+        account_sid:
+          type: string
+          format: uuid
+        application_sid:
+          type: string
+          format: uuid
+        occurred_at:
+          type: string
+          format: date-time
+        alert_type:
+          type: string
+          enum:
+          - webhook-failed
+          - bad-application-syntax
+          - speech-operation-failed
+          - limit-exceeded
+        details:
+          type: string
+      required:
+        - alert_sid
+        - account_sid
+        - occurred_at
+        - alert_type
+    Product:
+      type: object
+      properties:
+        product_sid:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        unit_label:
+          type: string
+        category:
+          type: string
+      required:
+        - product_sid
+        - name
+        - unit_label
+        - category
+    PredefinedCarrier:
+      type: object
+      properties:
+        predefined_carrier_sid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        requires_static_ip:
+          type: boolean
+        e164_leading_plus:
+          type: boolean
+        requires_register:
+          type: boolean
+        register_username:
+          type: string
+        register_sip_realm:
+          type: string
+        register_password:
+          type: string
+        register_from_user:
+          type: string
+        register_from_domain:
+          type: string
+        register_public_ip_in_contact:
+          type: boolean
+        tech_prefix:
+          type: string
+        inbound_auth_username:
+          type: string
+        inbound_auth_password:
+          type: string
+        diversion:
+          type: string
+      required:
+        - predefined_carrier_sid
+        - name
+        - requires_static_ip
+        - e164_leading_plus
+        - requires_register
+    Limits:
+      type: object
+      properties:
+        category:
+          type: string
+          enum:
+            - voice_call_session
+            - voice_call_minutes
+            - api_limit
+            - devices
+          example: voice_call_session
+        quantity:
+          type: number
+          example: 10
+        contract_quantity:
+          type: number
+          example: 5
+        contract_start_date:
+          type: string
+          example: '2023-01-01'
+        contract_end_date:
+          type: string
+          example: '2023-12-31'
+        contract_renew:
+          type: boolean
+          example: true
+    LimitsPut:
+      type: object
+      properties:
+        quantity:
+          type: number
+          example: 10
+        contract_quantity:
+          type: number
+          example: 5
+        contract_start_date:
+          type: string
+          example: '2023-01-01'
+        contract_end_date:
+          type: string
+          example: '2023-12-31'
+        contract_renew:
+          type: boolean
+          example: true
+    Lcr:
+      type: object
+      properties:
+        name:
+          type: string
+          example: twilioLcr
+        default_carrier_set_entry_sid:
+          type: string
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      required:
+        - name
+    LcrRoute:
+      type: object
+      properties:
+        lcr_sid:
+          type: string
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        regex:
+          type: string
+          description: out going call Phone number regex
+          example: 1*
+        priority:
+          type: number
+          example: 1
+        description:
+          type: string
+          example: this is example description
+      required:
+        - lcr_sid
+        - regex
+        - priority    
+    ResponsePaginatedLcrRoute:
+      type: object
+      properties:
+        total_items:
+          type: number
+          format: integer
+          description: total number of records in that database that match the filter criteria
+          example: 26
+        total_pages:
+          type: number
+          format: integer
+          description: total number of available pages
+          example: 2
+        page:        
+          type: number
+          format: integer
+          description: page number that was requested, and is being returned
+          example: 1
+        data: 
+          type: array
+          items:
+            $ref: '#/components/schemas/LcrRoute'
+    
+    LcrCarrierSetEntry:
+      type: object
+      properties:
+        workload:
+          type: number
+          example: 90
+          description: traffic distribution value
+        lcr_route_sid:
+          type: string
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        voip_carrier_sid:
+          type: string
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        priority:
+          type: number
+          example: 1
+      required:
+      - lcr_route_sid
+      - voip_carrier_sid
+      - priority
+
+security:
+  - bearerAuth: []
