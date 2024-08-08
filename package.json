@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.550.0",
-    "@aws-sdk/client-transcribe": "^3.549.0",
+    "@aws-sdk/client-transcribe": "^3.621.0",
     "@azure/storage-blob": "^12.17.0",
     "@deepgram/sdk": "^1.21.0",
     "@google-cloud/speech": "^6.5.0",
