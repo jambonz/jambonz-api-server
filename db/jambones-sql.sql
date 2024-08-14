@@ -359,7 +359,7 @@ CREATE TABLE system_information
 domain_name VARCHAR(255),
 sip_domain_name VARCHAR(255),
 monitoring_domain_name VARCHAR(255),
-private_network_cidr VARCHAR(255)
+private_network_cidr VARCHAR(8192)
 );
 
 CREATE TABLE users

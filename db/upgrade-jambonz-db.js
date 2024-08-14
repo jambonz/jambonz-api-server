@@ -199,7 +199,7 @@ const sql = {
     'ALTER TABLE sip_gateways ADD COLUMN use_sips_scheme BOOLEAN NOT NULL DEFAULT 0',
   ],
   9002: [
-    'ALTER TABLE system_information ADD COLUMN private_network_cidr VARCHAR(255)',
+    'ALTER TABLE system_information ADD COLUMN private_network_cidr VARCHAR(8192)',
   ]
 };
 

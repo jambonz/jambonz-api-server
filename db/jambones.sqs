@@ -2828,7 +2828,7 @@
         </SQLField>
         <SQLField>
             <name><![CDATA[private_network_cidr]]></name>
-            <type><![CDATA[VARCHAR(255)]]></type>
+            <type><![CDATA[VARCHAR(8192)]]></type>
             <uid><![CDATA[45A2CE92-0BA7-4156-AE05-750D63F386F3]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[3]]></labelWindowIndex>
