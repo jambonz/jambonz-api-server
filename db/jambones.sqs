@@ -2808,7 +2808,7 @@
         </location>
         <size>
             <width>266.00</width>
-            <height>80.00</height>
+            <height>100.00</height>
         </size>
         <zorder>35</zorder>
         <SQLField>
@@ -2825,6 +2825,11 @@
             <name><![CDATA[monitoring_domain_name]]></name>
             <type><![CDATA[VARCHAR(255)]]></type>
             <uid><![CDATA[0A8DB34E-76C9-4D40-9E31-786E0228DCEE]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[private_network_cidr]]></name>
+            <type><![CDATA[VARCHAR(255)]]></type>
+            <uid><![CDATA[45A2CE92-0BA7-4156-AE05-750D63F386F3]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[3]]></labelWindowIndex>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
@@ -3115,14 +3120,14 @@
         <RightSidebarWidth><![CDATA[1235.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
-        <SourceSidebarWidth><![CDATA[312.000000]]></SourceSidebarWidth>
+        <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[1079.000000]]></windowHeight>
+        <windowHeight><![CDATA[873.000000]]></windowHeight>
         <windowLocationX><![CDATA[0.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[0.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{1, 0}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1676.000000]]></windowWidth>
+        <windowLocationY><![CDATA[71.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{1674.5, 0}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[1512.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>
