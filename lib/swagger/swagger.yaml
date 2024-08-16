@@ -29,11 +29,11 @@ tags:
   - name: SBCs
     description: SBCs operations
   - name: Voip Carriers
-    description: Voip Carriers operations   
+    description: Voip Carriers operations
   - name: Sip Gateways
     description: Sip Gateways operations
   - name: Smpp Gateways
-    description: Smpp Gateways operations   
+    description: Smpp Gateways operations
   - name: Webhooks
     description: Webhooks operations
   - name: Microsoft Teams Tenants
@@ -130,7 +130,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GeneralError'      
+                $ref: '#/components/schemas/GeneralError'
   /Sbcs:
     post:
       tags:
@@ -195,7 +195,7 @@ paths:
                   properties:
                     ipv4:
                       type: string
-                      description: ip address of one of our Sbcs 
+                      description: ip address of one of our Sbcs
                   required:
                     - ipv4
         500:
@@ -215,7 +215,7 @@ paths:
         tags:
           - SBCs
         summary: delete SBC address
-        operationId: deleteSbcAddress      
+        operationId: deleteSbcAddress
         responses:
           200:
             description: sbc address deleted
@@ -280,7 +280,7 @@ paths:
           description: code successfully validated
         404:
           description: code not found
-        
+
   /ApiKeys:
     post:
       tags:
@@ -333,7 +333,7 @@ paths:
         tags:
           - Api Keys
         summary: delete api key
-        operationId: deleteApiKey          
+        operationId: deleteApiKey
         responses:
           200:
             description: api key deleted
@@ -399,7 +399,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessfulLogin' 
+                $ref: '#/components/schemas/SuccessfulLogin'
         500:
           description: system error
           content:
@@ -562,7 +562,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
               example:
-                msg: invalid service_provider_sid   
+                msg: invalid service_provider_sid
         403:
           description: invalid/expired oauth2 code
           content:
@@ -665,7 +665,7 @@ paths:
               properties:
                 name:
                   type: string
-                email: 
+                email:
                   type: string
                 email_activation_code:
                   type: string
@@ -713,7 +713,7 @@ paths:
               properties:
                 name:
                   type: string
-                email: 
+                email:
                   type: string
                 is_active:
                   type: boolean
@@ -844,7 +844,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  stripe_customer_id: 
+                  stripe_customer_id:
                     type: string
                 required:
                   - stripe_customer_id
@@ -892,7 +892,7 @@ paths:
                       product_sid:
                         type: string
                       price_id:
-                        type: string 
+                        type: string
                       quantity:
                         type: number
                         format: integer
@@ -927,7 +927,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-    
+
   /ActivationCode:
     post:
       tags:
@@ -1099,6 +1099,9 @@ paths:
                   example: my US sip trunking provider
                 account_sid:
                   type: string
+                service_provider_sid:
+                  type: string
+                  description:
                 application_sid:
                   type: string
                 e164_leading_plus:
@@ -1144,7 +1147,7 @@ paths:
                 diversion:
                   type: string
                   description: Diversion header or phone number to apply to outbound calls
-              required: 
+              required:
                 - name
       responses:
         201:
@@ -1310,7 +1313,7 @@ paths:
                   type: boolean
                 outbound:
                   type: boolean
-              required: 
+              required:
                 - voip_carrier_sid
                 - ipv4
       responses:
@@ -1467,7 +1470,7 @@ paths:
                   type: boolean
                 use_tls:
                   type: boolean
-              required: 
+              required:
                 - voip_carrier_sid
                 - ipv4
       responses:
@@ -1586,7 +1589,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GeneralError' 
+                $ref: '#/components/schemas/GeneralError'
   /PhoneNumbers:
     post:
       tags:
@@ -1611,7 +1614,7 @@ paths:
                 voip_carrier_sid:
                   type: string
                   format: uuid
-              required: 
+              required:
                 - number
                 - voip_carrier_sid
       responses:
@@ -1749,7 +1752,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-  
+
   /ServiceProviders:
     post:
       tags:
@@ -1779,7 +1782,7 @@ paths:
                   type: string
                   description: SBC domain name for Microsoft Teams
                   example: contoso.com
-              required: 
+              required:
                 - name
       responses:
         201:
@@ -1868,7 +1871,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-                
+
     put:
       tags:
         - Service Providers
@@ -2155,8 +2158,8 @@ paths:
                     properties:
                       status:
                         type: string
-                        enum: 
-                            - success 
+                        enum:
+                            - success
                             - fail
                             - not tested
                       reason:
@@ -2166,8 +2169,8 @@ paths:
                     properties:
                       status:
                         type: string
-                        enum: 
-                            - success 
+                        enum:
+                            - success
                             - fail
                       reason:
                         type: string
@@ -2357,7 +2360,7 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
   /MicrosoftTeamsTenants:
     post:
-      tags: 
+      tags:
         - Microsoft Teams Tenants
       summary: provision a customer tenant for MS Teams
       operationId: createMsTeamsTenant
@@ -2406,7 +2409,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
-      tags: 
+      tags:
         - Microsoft Teams Tenants
       summary: list MS Teams tenants
       operationId: listMsTeamsTenants
@@ -2434,7 +2437,7 @@ paths:
           type: string
           format: uuid
     delete:
-      tags: 
+      tags:
         - Microsoft Teams Tenants
       summary: delete an MS Teams tenant
       operationId: deleteTenant
@@ -2450,7 +2453,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
-      tags: 
+      tags:
         - Microsoft Teams Tenants
       summary: retrieve an MS Teams tenant
       operationId: getTenant
@@ -2471,7 +2474,7 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
 
     put:
-      tags: 
+      tags:
         - Microsoft Teams Tenants
       summary: update an MS Teams tenant
       operationId: putTenant
@@ -2529,7 +2532,7 @@ paths:
                   type: string
                   format: uuid
                   example: 85f9c036-ba61-4f28-b2f5-617c23fa68ff
-              required: 
+              required:
                 - name
                 - service_provider_sid
       responses:
@@ -2615,7 +2618,7 @@ paths:
                         qop:
                           type: string
                           description: qop value
-                          example: auth 
+                          example: auth
                         cnonce:
                           type: string
                           description: cnonce value
@@ -3050,8 +3053,8 @@ paths:
                     properties:
                       status:
                         type: string
-                        enum: 
-                            - success 
+                        enum:
+                            - success
                             - fail
                             - not tested
                       reason:
@@ -3061,8 +3064,8 @@ paths:
                     properties:
                       status:
                         type: string
-                        enum: 
-                            - success 
+                        enum:
+                            - success
                             - fail
                       reason:
                         type: string
@@ -3178,7 +3181,7 @@ paths:
                             format: uuid
                           from:
                             type: string
-                          to: 
+                          to:
                             type: string
                           answered:
                             type: boolean
@@ -3219,7 +3222,7 @@ paths:
                           - terminated_at
                           - answered
                           - direction
-                          - from 
+                          - from
                           - to
                           - sip_status
                           - duration
@@ -3392,7 +3395,7 @@ paths:
                             format: uuid
                           from:
                             type: string
-                          to: 
+                          to:
                             type: string
                           answered:
                             type: boolean
@@ -3433,7 +3436,7 @@ paths:
                           - terminated_at
                           - answered
                           - direction
-                          - from 
+                          - from
                           - to
                           - sip_status
                           - duration
@@ -3752,7 +3755,7 @@ paths:
                   type: string
                 speech_recognizer_language:
                   type: string
-              required: 
+              required:
                 - name
                 - account_sid
                 - call_hook
@@ -3880,8 +3883,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        
-  
+
+
   /Accounts/{AccountSid}/Conferences:
     get:
       tags:
@@ -3909,7 +3912,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-  
+
   /Accounts/{AccountSid}/Calls:
     post:
       tags:
@@ -4166,7 +4169,7 @@ paths:
                       type: string
                     headers:
                       type: object
-                record: 
+                record:
                   type: object
                   properties:
                     action:
@@ -4177,7 +4180,7 @@ paths:
                       - pauseCallRecording
                       - resumeCallRecording
                     recordingID:
-                      type: string 
+                      type: string
                     siprecServerURL:
                       type: string
                 conferenceParticipantAction:
@@ -5001,7 +5004,7 @@ paths:
           schema:
             type: string
             description: return only the google voice custom operated belong to this account_sid
-            
+
         - in: query
           name: speech_credential_sid
           required: false
@@ -5122,7 +5125,7 @@ components:
         - username
         - password
       properties:
-        token: 
+        token:
           type: string
         user_sid:
           type: string
@@ -5130,18 +5133,18 @@ components:
           type: string
         force_change:
           type: boolean
-    
+
     Login:
       type: object
       properties:
-        username: 
+        username:
           type: string
         password:
-          type: string        
+          type: string
       required:
         - username
         - password
-    
+
     SuccessfulApiKeyAdd:
       type: object
       required:
@@ -5217,7 +5220,7 @@ components:
           format: uuid
         application_sid:
           type: string
-          format: uuid          
+          format: uuid
         e164_leading_plus:
           type: boolean
         requires_register:
@@ -5498,7 +5501,7 @@ components:
           type: string
           enum:
             - inbound
-            - outbound 
+            - outbound
         duration:
           type: integer
         from:
@@ -5626,7 +5629,7 @@ components:
           properties:
             user_sid:
               type: string
-            name: 
+            name:
               type: string
             email:
               type: string
@@ -5699,7 +5702,7 @@ components:
             currency:
               type: string
               enum:
-                - USD 
+                - USD
                 - EUR
             balance:
               type: number
@@ -5763,7 +5766,7 @@ components:
     UserProfile:
       type: object
       properties:
-        user_sid: 
+        user_sid:
           type: string
           example: a5bce31e-a028-45cd-94c4-f121b72fec61
         account_sid:
@@ -5887,7 +5890,7 @@ components:
           format: uuid
         from:
           type: string
-        to: 
+        to:
           type: string
         answered:
           type: boolean
@@ -5928,7 +5931,7 @@ components:
         - terminated_at
         - answered
         - direction
-        - from 
+        - from
         - to
         - sip_status
         - duration
@@ -6180,7 +6183,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LanguageVoice'
-        
+
     SpeechLanguagesVoices:
       type: object
       properties:
@@ -6198,10 +6201,10 @@ components:
             $ref: '#/components/schemas/TtsModel'
     UserList:
       type: object
-      properties:      
+      properties:
         name:
           type: string
-        email: 
+        email:
           type: string
         is_active:
           type: boolean
