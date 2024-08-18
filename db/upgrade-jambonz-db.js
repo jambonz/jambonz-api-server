@@ -197,6 +197,9 @@ const sql = {
     'ALTER TABLE applications MODIFY COLUMN speech_synthesis_voice VARCHAR(256)',
     'ALTER TABLE applications MODIFY COLUMN fallback_speech_synthesis_voice VARCHAR(256)',
     'ALTER TABLE sip_gateways ADD COLUMN use_sips_scheme BOOLEAN NOT NULL DEFAULT 0',
+  ],
+  9002: [
+    'ALTER TABLE system_information ADD COLUMN private_network_cidr VARCHAR(8192)',
   ]
 };
 
@@ -230,6 +233,7 @@ const doIt = async() => {
         if (val < 8004) upgrades.push(...sql['8004']);
         if (val < 8005) upgrades.push(...sql['8005']);
         if (val < 9000) upgrades.push(...sql['9000']);
+        if (val < 9002) upgrades.push(...sql['9002']);
 
         // perform all upgrades
         logger.info({upgrades}, 'applying schema upgrades..');
