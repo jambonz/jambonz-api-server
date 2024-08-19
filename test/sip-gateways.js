@@ -17,6 +17,53 @@ test('sip gateway tests', async(t) => {
     let result;
     const voip_carrier_sid = await createVoipCarrier(request);
 
+    /* add a invalid sip gateway */
+    const STORED_JAMBONZ_MIN_GATEWAY_NETMASK = process.env.JAMBONZ_MIN_GATEWAY_NETMASK;
+    process.env.JAMBONZ_MIN_GATEWAY_NETMASK = 24;
+    
+    result = await request.post('/SipGateways', {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+      simple: false,
+      body: {
+        voip_carrier_sid,
+        ipv4: '1.2.3.4',
+        netmask: 1,
+        inbound: true,
+        outbound: true,
+        protocol: 'tcp'
+      }
+    });
+    t.ok(result.statusCode === 400, 'successfully created sip gateway ');
+
+    result = await request.post('/SipGateways', {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+      body: {
+        voip_carrier_sid,
+        ipv4: '1.2.3.4',
+        netmask: 24,
+        inbound: true,
+        outbound: true,
+        protocol: 'tcp'
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully created sip gateway ');
+
+    process.env.JAMBONZ_MIN_GATEWAY_NETMASK = STORED_JAMBONZ_MIN_GATEWAY_NETMASK;
+
+    /* delete sip gateways */
+    result = await request.delete(`/SipGateways/${result.body.sid}`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      json: true,
+      auth: authAdmin
+    });
+    //console.log(`result: ${JSON.stringify(result)}`);
+    t.ok(result.statusCode === 204, 'successfully deleted sip gateway');
+
     /* add a sip gateway */
     result = await request.post('/SipGateways', {
       resolveWithFullResponse: true,
