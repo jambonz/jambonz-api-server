@@ -16,7 +16,8 @@ test('system information test', async(t) => {
       body: {
         domain_name: 'test.com',
         sip_domain_name: 'sip.test.com',
-        monitoring_domain_name: 'monitor.test.com'
+        monitoring_domain_name: 'monitor.test.com',
+        private_network_cidr: '192.168.1.0/24, 10.10.100.1'
       }
     });
     t.ok(result.statusCode === 201, 'successfully created system information ');
@@ -24,6 +25,7 @@ test('system information test', async(t) => {
     t.ok(body.domain_name === 'test.com', 'added domain_name ok');
     t.ok(body.sip_domain_name === 'sip.test.com', 'added sip_domain_name ok');
     t.ok(body.monitoring_domain_name === 'monitor.test.com', 'added monitoring_domain_name ok');
+    t.ok(body.private_network_cidr === '192.168.1.0/24, 10.10.100.1', 'added private_network_cidr ok');
 
     result = await request.get('/SystemInformation', {
       auth: authAdmin,
@@ -32,6 +34,7 @@ test('system information test', async(t) => {
     t.ok(result.domain_name === 'test.com', 'get domain_name ok');
     t.ok(result.sip_domain_name === 'sip.test.com', 'get sip_domain_name ok');
     t.ok(result.monitoring_domain_name === 'monitor.test.com', 'get monitoring_domain_name ok');
+    t.ok(result.private_network_cidr === '192.168.1.0/24, 10.10.100.1', 'get private_network_cidr ok'); 
 
     result = await request.post('/SystemInformation', {
       resolveWithFullResponse: true,
@@ -40,7 +43,8 @@ test('system information test', async(t) => {
       body: {
         domain_name: 'test1.com',
         sip_domain_name: 'sip1.test.com',
-        monitoring_domain_name: 'monitor1.test.com'
+        monitoring_domain_name: 'monitor1.test.com',
+        private_network_cidr: ''
       }
     });
     t.ok(result.statusCode === 201, 'successfully updated system information ');
@@ -48,6 +52,7 @@ test('system information test', async(t) => {
     t.ok(body.domain_name === 'test1.com', 'updated domain_name ok');
     t.ok(body.sip_domain_name === 'sip1.test.com', 'updated sip_domain_name ok');
     t.ok(body.monitoring_domain_name === 'monitor1.test.com', 'updated monitoring_domain_name ok');
+    t.ok(body.private_network_cidr === '', 'updated private_network_cidr ok');
 
     result = await request.get('/SystemInformation', {
       auth: authAdmin,
