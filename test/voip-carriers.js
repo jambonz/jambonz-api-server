@@ -42,6 +42,7 @@ test('voip carrier tests', async(t) => {
       json: true,
     });
     t.ok(result.name === 'daveh' , 'successfully retrieved voip carrier by sid');
+    t.ok(result.pad_crypto === 0 , 'default pad_crypto is 0');
 
     /* fail to query one voip carriers with invalid uuid */
     try {
@@ -65,10 +66,17 @@ test('voip carrier tests', async(t) => {
         register_sip_realm: 'bar',
         register_password: 'baz',
         register_from_user: 'fromme',
-        register_from_domain: 'fromdomain'
+        register_from_domain: 'fromdomain',
+        pad_crypto: true
       }
     });
     t.ok(result.statusCode === 204, 'successfully updated voip carrier');
+
+    result = await request.get(`/VoipCarriers/${sid}`, {
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.pad_crypto === 1 , 'pad_crypto is updated 1');
 
     /* provision a phone number for the voip carrier */
     result = await request.post('/PhoneNumbers', {

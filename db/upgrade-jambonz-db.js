@@ -200,6 +200,7 @@ const sql = {
   ],
   9002: [
     'ALTER TABLE system_information ADD COLUMN private_network_cidr VARCHAR(8192)',
+    'ALTER TABLE voip_carriers ADD COLUMN pad_crypto BOOLEAN NOT NULL DEFAULT 0',
   ]
 };
 
