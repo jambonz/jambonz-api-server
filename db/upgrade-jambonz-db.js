@@ -200,6 +200,8 @@ const sql = {
   ],
   9002: [
     'ALTER TABLE system_information ADD COLUMN private_network_cidr VARCHAR(8192)',
+    'ALTER TABLE system_information ADD COLUMN log_level ENUM(\'info\', \'debug\') NOT NULL DEFAULT \'info\'',
+    'ALTER TABLE accounts ADD COLUMN enable_debug_log BOOLEAN NOT NULL DEFAULT false',
   ]
 };
 
