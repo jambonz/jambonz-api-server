@@ -152,7 +152,9 @@ test('account tests', async(t) => {
       auth: authAdmin,
       json: true,
     });
+    console.log(result);
     t.ok(result.name === 'daveh' , 'successfully retrieved account by sid');
+    t.ok(result.enable_debug_log  === 0 , 'enable_debug_log default value ok');
 
     /* update account with account level token */
     result = await request.put(`/Accounts/${sid}`, {
@@ -177,8 +179,8 @@ test('account tests', async(t) => {
           name: 'recordings',
           access_key_id: 'access_key_id',
           secret_access_key: 'secret access key'
-        }
-        
+        },
+        enable_debug_log: true
       }
     });
     t.ok(result.statusCode === 204, 'successfully updated account using account level token');
@@ -194,6 +196,7 @@ test('account tests', async(t) => {
     t.ok(result.bucket_credential.access_key_id === 'access_key_id', 'bucket_access_key_id was updated');
     t.ok(result.record_all_calls === 1, 'record_all_calls was updated');
     t.ok(result.record_format === 'wav', 'record_format was updated');
+    t.ok(result.enable_debug_log, 'enable_debug_log was updated');
 
     /* verify that account level api key last_used was updated*/
     result = await request.get(`/Accounts/${sid}/ApiKeys`, {
