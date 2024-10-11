@@ -52,6 +52,7 @@
     "passport-http-bearer": "^1.0.1",
     "pino": "^8.20.0",
     "short-uuid": "^4.2.2",
+    "speechmatics": "^4.0.0",
     "stream-buffers": "^3.0.2",
     "stripe": "^14.24.0",
     "swagger-ui-express": "^5.0.0",
