@@ -541,7 +541,8 @@ test('speech credentials tests', async(t) => {
         body: {
           vendor: 'speechmatics',
           use_for_stt: true,
-          api_key: process.env.SPEECHMATICS_API_KEY
+          api_key: process.env.SPEECHMATICS_API_KEY,
+          speechmatics_stt_uri: 'eu2.rt.speechmatics.com'
         }
       });
       t.ok(result.statusCode === 201, 'successfully added speech credential for speechmatics');
