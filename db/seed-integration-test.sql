@@ -17,8 +17,33 @@ insert into smpp_addresses (smpp_address_sid, ipv4, port, use_tls, is_primary)
 values('049078a0', '3.209.58.102', 3550, 1, 1);
 
 -- create one service provider and account
-insert into api_keys (api_key_sid, token) 
-values ('3f35518f-5a0d-4c2e-90a5-2407bb3b36f0', '38700987-c7a4-4685-a5bb-af378f9734de');
+insert into api_keys (api_key_sid, token, account_sid) 
+('3f35518f-5a0d-4c2e-90a5-2407bb3b36fa', '38700987-c7a4-4685-a5bb-af378f9734da', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('9a9f220e-1c64-4aa4-a94f-4221b8486f11', '32c687eb-f57e-476a-bbec-cd20ec1d840d', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('417110d1-ab8c-48f9-9f3a-be69eff2c6f8', '04868c2c-f187-4555-b847-19fe64507566', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('a89fd59b-f98b-4682-9d43-d78b6b5a2adb', 'd95188e7-fbda-4e92-86a9-dd7e90e6ba99', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('7e3f0f53-fff7-48f7-bd7f-07087e94b83b', '67484932-3207-4199-b172-5b25cab73912', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('cddaf2c0-e2a2-46ce-89b9-8e172b1a7f34', 'f8c44bf2-010d-4150-b198-98a10101eb1a', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('6a312d2e-cdbc-47f5-83ea-f2e704be43d8', '30067c66-c55b-4e1f-a4a3-7b5674bfa7fb', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('53a3aef1-ef93-4c5c-b89e-b45360ebd087', 'ce1cde34-0f83-4179-8e1f-11452376e12b', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('14aa8867-aa08-480b-b1d1-7dea30e63ffa', 'eef78786-0e4b-4ed5-aa6a-2d5ef836cb87', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('5be9494c-132a-48d2-b928-576ab0fbc144', 'a8ac120e-1178-40a4-990e-c173d8bf97ba', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('a8df3d6a-1f51-4efd-8a95-4925e9d00fa7', '841c2cff-5d6b-4776-9fc8-b87190bc0c9f', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('16c62198-5f1e-4aff-bda7-5a0121ce8cb0', '04be0f91-3772-47ae-a467-9c29da3a8a79', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('ca96f1cf-0158-4b20-bfcc-60b5a3b96461', '105dedda-fa3c-4146-b51e-5ca253bb6b88', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('1db27613-e5c3-49b3-970e-edfd15f97ab0', 'ee4b03b4-bdec-4b37-8d36-3cdd70e4a93b', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('d2482a65-2895-4131-9818-34331d9a512e', 'e6f1e1ef-9d66-4cab-b047-5dcdddcc5b4a', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('88851e5e-3241-4cdc-bede-8cf0740e8d4c', 'ee6f22bd-59e9-453a-8bb2-909ec1e7204c', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('787e7aec-163f-4b48-8bca-bd96c435a06e', 'f131067b-587e-456a-b432-ae389b6ded2c', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('d883ef06-582d-40cb-92da-63b1831dd170', 'c25699d5-7bc6-4892-b589-f744ae47b3dc', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('bed6d98b-2912-46d1-8830-fd1c0659b3b7', '1aef8599-6043-455c-b009-21b2266db7e4', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('6f4d5047-d1f0-4df0-b5c3-032dae1e784b', '08a3eac4-c399-43ce-855f-f268e58bee30', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('1d689103-f04b-4cc1-85d2-99e48e4d6b2c', 'd858643f-3cd7-4efb-992f-d293b791c623', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('9b67593f-29bc-4651-8412-2ad94c982115', '7c2e0eb8-7ebb-45bc-b5d0-2eb78eddd67a', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('7b377326-9c1b-44ae-b3af-0702689c9f8f', '5a887940-39c1-4ad4-92b4-1099e548a5bf', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('7f306b65-de74-4e17-8d1d-602908fc823a', '61f0bd74-71cd-4a12-85eb-9a2ce423749d', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('c3277d25-5c06-4ee1-bfda-102fb69785e4', 'ece4b921-440c-452d-9747-5ae7cc8268e5', '9351f46a-678c-43f5-b8a6-d4eb58d131af'),
+('62f3a6d7-b930-46e9-9687-eea65e80eb1e', '83378993-1dac-4880-9a42-a49da150c533', '9351f46a-678c-43f5-b8a6-d4eb58d131af');
 
 -- create one service provider and one account
 insert into service_providers (service_provider_sid, name, root_domain) 
