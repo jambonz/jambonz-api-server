@@ -46,6 +46,7 @@
     "jsonwebtoken": "^9.0.2",
     "mailgun.js": "^10.2.1",
     "microsoft-cognitiveservices-speech-sdk": "1.36.0",
+    "multer": "^1.4.5-lts.1",
     "mysql2": "^3.11.0",
     "nocache": "4.0.0",
     "passport": "^0.7.0",
