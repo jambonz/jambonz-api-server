@@ -204,6 +204,11 @@ const sql = {
     'ALTER TABLE accounts ADD COLUMN enable_debug_log BOOLEAN NOT NULL DEFAULT false',
     'ALTER TABLE google_custom_voices ADD COLUMN use_voice_cloning_key BOOLEAN DEFAULT false',
     'ALTER TABLE google_custom_voices ADD COLUMN voice_cloning_key MEDIUMTEXT',
+  ],
+  9003: [
+    'ALTER TABLE google_custom_voices ADD COLUMN voice_cloning_key MEDIUMTEXT',
+    'ALTER TABLE google_custom_voices use_voice_cloning_key BOOLEAN DEFAULT false',
+    'ALTER TABLE voip_carriers ADD COLUMN dtmf_type ENUM(\'rfc2833\',\'tones\',\'info\') NOT NULL DEFAULT \'rfc2833\'',
   ]
 };
 
@@ -238,6 +243,7 @@ const doIt = async() => {
         if (val < 8005) upgrades.push(...sql['8005']);
         if (val < 9000) upgrades.push(...sql['9000']);
         if (val < 9002) upgrades.push(...sql['9002']);
+        if (val < 9003) upgrades.push(...sql['9003']);
 
         // perform all upgrades
         logger.info({upgrades}, 'applying schema upgrades..');

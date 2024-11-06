@@ -551,7 +551,7 @@
         </location>
         <size>
             <width>293.00</width>
-            <height>540.00</height>
+            <height>560.00</height>
         </size>
         <zorder>6</zorder>
         <SQLField>
@@ -736,6 +736,13 @@
             <name><![CDATA[register_status]]></name>
             <type><![CDATA[VARCHAR(4096)]]></type>
             <uid><![CDATA[7C7DFE92-D7AC-4447-A1C2-E0F10C1EA26A]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[dtmf_type]]></name>
+            <type><![CDATA[ENUM('rfc2833','tones','info')]]></type>
+            <defaultValue><![CDATA[rfc2833]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[87355F68-CC01-4B7C-855A-976CE634634D]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[28]]></labelWindowIndex>
         <objectComment><![CDATA[A Carrier or customer PBX that can send or receive calls]]></objectComment>
@@ -1280,8 +1287,8 @@
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[a regex-based pattern match for call routing]]></comment>
         <location>
-            <x>31.00</x>
-            <y>983.00</y>
+            <x>25.00</x>
+            <y>997.00</y>
         </location>
         <size>
             <width>254.00</width>
@@ -3144,17 +3151,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1403.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1235.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
-        <SourceSidebarWidth><![CDATA[312.000000]]></SourceSidebarWidth>
+        <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[1079.000000]]></windowHeight>
-        <windowLocationX><![CDATA[48.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[0.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{969, 523}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1680.000000]]></windowWidth>
+        <windowHeight><![CDATA[871.000000]]></windowHeight>
+        <windowLocationX><![CDATA[-1516.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[1121.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{10, 338}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[1512.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>
