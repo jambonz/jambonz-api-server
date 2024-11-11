@@ -207,7 +207,7 @@ const sql = {
   ],
   9003: [
     'ALTER TABLE google_custom_voices ADD COLUMN voice_cloning_key MEDIUMTEXT',
-    'ALTER TABLE google_custom_voices use_voice_cloning_key BOOLEAN DEFAULT false',
+    'ALTER TABLE google_custom_voices ADD COLUMN use_voice_cloning_key BOOLEAN DEFAULT false',
     'ALTER TABLE voip_carriers ADD COLUMN dtmf_type ENUM(\'rfc2833\',\'tones\',\'info\') NOT NULL DEFAULT \'rfc2833\'',
   ]
 };
