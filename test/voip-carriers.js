@@ -207,7 +207,8 @@ test('voip carrier tests', async(t) => {
       json: true,
       body: {
         name: 'twilio',
-        e164_leading_plus: true
+        e164_leading_plus: true,
+        dtmf_type: 'tones'
       }
     });
     t.ok(result.statusCode === 201, 'successfully created voip carrier for a service provider');
@@ -221,6 +222,7 @@ test('voip carrier tests', async(t) => {
     });
     //console.log(result.body);
     t.ok(result.statusCode === 200, 'successfully retrieved voip carrier for a service provider');
+    //console.log(result.body);
     sid = result.body[0].voip_carrier_sid;
   
     await deleteObjectBySid(request, '/VoipCarriers', sid);
