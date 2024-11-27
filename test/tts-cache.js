@@ -24,16 +24,24 @@ function makeSynthKey({account_sid = '', vendor, language, voice, engine = '', t
 test('tts-cache', async(t) => {
   const app = require('../app');
   try {
+    // clear cache to start
+    let result = await request.delete('/TtsCache', {
+      auth: authAdmin,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 204, 'successfully purged cache for start of test');
+
     // create caches
     const minRecords = 8;
     for (const i in Array(minRecords).fill(0)) {
       await client.set(makeSynthKey({vendor: i, language: i, voice: i, engine: i, text: i}), i);
     }
 
-    let result = await request.get('/TtsCache', {
+    result = await request.get('/TtsCache', {
       auth: authAdmin,
       json: true,
     });
+    //console.log(result);
 
     t.ok(result.size === minRecords, 'get cache correctly');
 
@@ -41,7 +49,7 @@ test('tts-cache', async(t) => {
       auth: authAdmin,
       resolveWithFullResponse: true,
     });
-    t.ok(result.statusCode === 204, 'successfully deleted application after removing phone number');
+    t.ok(result.statusCode === 204, 'successfully purged cache');
 
     result = await request.get('/TtsCache', {
       auth: authAdmin,
