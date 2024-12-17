@@ -222,7 +222,7 @@ server.on('upgrade', (request, socket, head) => {
 
   /* complete the upgrade */
   wsServer.handleUpgrade(request, socket, head, (ws) => {
-    logger.info(`upgraded to websocket, url: ${request.url}`);
+    logger.debug(`upgraded to websocket, url: ${request.url}`);
     wsServer.emit('connection', ws, request.url);
   });
 });
