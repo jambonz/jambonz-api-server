@@ -121,6 +121,25 @@ test('application tests', async(t) => {
     let app_json = JSON.parse(result.app_json);
     t.ok(app_json[0].verb === 'play', 'successfully retrieved app_json from application')
 
+    /* query one application by name*/
+    result = await request.get(`/Applications`, {
+      qs : {
+        name: 'daveh'
+      },
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.length === 1 && result[0].name === 'daveh', 'successfully queried application by name');
+
+    /* query application with invalid name*/
+    result = await request.get(`/Applications`, {
+      qs : {
+        name: 'daveh-invalid'
+      },
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.length === 0, 'successfully queried application by invalid name, no results found');
 
     /* update applications */
     result = await request.put(`/Applications/${sid}`, {
