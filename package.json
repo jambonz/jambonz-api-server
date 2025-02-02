@@ -1,5 +1,6 @@
 {
   "name": "jambonz-api-server",
+  "version": "0.9.3",
   "description": "",
   "main": "app.js",
   "scripts": {
