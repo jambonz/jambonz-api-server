@@ -780,6 +780,27 @@ test('speech credentials tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully deleted speech credential');
 
+    /* add a credential for Voxist */
+    result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        vendor: 'voxist',
+        use_for_stt: true,
+        api_key: "APIKEY"
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully added speech credential for Voxist');
+    const voxistSid = result.body.sid;
+
+    /* delete the credential */
+    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${voxistSid}`, {
+      auth: authUser,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 204, 'successfully deleted speech credential');
+
     /* add a credential for aws polly by roleArn */
     result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
       resolveWithFullResponse: true,
@@ -971,6 +992,15 @@ test('speech credentials tests', async(t) => {
       json: true,
     });
     t.ok(result.body.stt.length !== 0, 'successfully get assemblyai supported languages and voices');
+
+    /* Check voxist supportedLanguagesAndVoices */
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=voxist`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.body.stt.length !== 0, 'successfully get voxist supported languages and voices');
 
     /* Check whisper supportedLanguagesAndVoices */
     result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=whisper`, {
