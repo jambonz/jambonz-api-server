@@ -551,7 +551,7 @@
         </location>
         <size>
             <width>293.00</width>
-            <height>560.00</height>
+            <height>580.00</height>
         </size>
         <zorder>6</zorder>
         <SQLField>
@@ -743,6 +743,11 @@
             <defaultValue><![CDATA[rfc2833]]></defaultValue>
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[87355F68-CC01-4B7C-855A-976CE634634D]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[sip_proxy]]></name>
+            <type><![CDATA[VARCHAR(255)]]></type>
+            <uid><![CDATA[556ABA45-BC63-444D-8CB1-973EFCCF9FE7]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[28]]></labelWindowIndex>
         <objectComment><![CDATA[A Carrier or customer PBX that can send or receive calls]]></objectComment>
@@ -1287,8 +1292,8 @@
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[a regex-based pattern match for call routing]]></comment>
         <location>
-            <x>25.00</x>
-            <y>997.00</y>
+            <x>16.00</x>
+            <y>1007.00</y>
         </location>
         <size>
             <width>254.00</width>
@@ -3151,17 +3156,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1235.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1483.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[871.000000]]></windowHeight>
-        <windowLocationX><![CDATA[-1516.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[1121.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{10, 338}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1512.000000]]></windowWidth>
+        <windowHeight><![CDATA[1055.000000]]></windowHeight>
+        <windowLocationX><![CDATA[1728.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[37.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{0, 259}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[1920.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>

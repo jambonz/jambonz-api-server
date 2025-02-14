@@ -162,7 +162,7 @@ regex VARCHAR(32) NOT NULL COMMENT 'regex-based pattern match against dialed num
 description VARCHAR(1024),
 priority INTEGER NOT NULL COMMENT 'lower priority routes are attempted first',
 PRIMARY KEY (lcr_route_sid)
-) COMMENT='An ordered list of  digit patterns in an LCR table.  The pat';
+) COMMENT='An ordered list of  digit patterns in an LCR table.  The patterns are tested in sequence until one matches';
 
 CREATE TABLE lcr
 (
@@ -173,7 +173,7 @@ default_carrier_set_entry_sid CHAR(36) COMMENT 'default carrier/route to use whe
 service_provider_sid CHAR(36),
 account_sid CHAR(36),
 PRIMARY KEY (lcr_sid)
-) COMMENT='An LCR (least cost routing) table that is used by a service ';
+) COMMENT='An LCR (least cost routing) table that is used by a service provider or account to make decisions about routing outbound calls when multiple carriers are available.';
 
 CREATE TABLE password_settings
 (
@@ -417,6 +417,7 @@ register_from_domain VARCHAR(255),
 register_public_ip_in_contact BOOLEAN NOT NULL DEFAULT false,
 register_status VARCHAR(4096),
 dtmf_type ENUM('rfc2833','tones','info') NOT NULL DEFAULT 'rfc2833',
+sip_proxy VARCHAR(255),
 PRIMARY KEY (voip_carrier_sid)
 ) COMMENT='A Carrier or customer PBX that can send or receive calls';
 
