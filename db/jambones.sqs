@@ -745,7 +745,7 @@
             <uid><![CDATA[87355F68-CC01-4B7C-855A-976CE634634D]]></uid>
         </SQLField>
         <SQLField>
-            <name><![CDATA[sip_proxy]]></name>
+            <name><![CDATA[outbound_sip_proxy]]></name>
             <type><![CDATA[VARCHAR(255)]]></type>
             <uid><![CDATA[556ABA45-BC63-444D-8CB1-973EFCCF9FE7]]></uid>
         </SQLField>
@@ -3156,17 +3156,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1483.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1393.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
         <windowHeight><![CDATA[1055.000000]]></windowHeight>
-        <windowLocationX><![CDATA[1728.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[37.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{0, 259}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1920.000000]]></windowWidth>
+        <windowLocationX><![CDATA[58.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[24.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{0, 278}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[1670.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>
