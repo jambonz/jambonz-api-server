@@ -7,6 +7,7 @@ const nocache = require('nocache');
 const rateLimit = require('express-rate-limit');
 const cors = require('cors');
 const passport = require('passport');
+const {verifyViewOnlyUser} = require('./lib/middleware');
 const routes = require('./lib/routes');
 const Registrar = require('@jambonz/mw-registrar');
 
@@ -172,6 +173,19 @@ app.use('/v1', unless(
     '/InviteCodes',
     '/PredefinedCarriers'
   ], passport.authenticate('bearer', {session: false})));
+app.use('/v1', unless(
+  [
+    '/register',
+    '/forgot-password',
+    '/signin',
+    '/login',
+    '/messaging',
+    '/outboundSMS',
+    '/AccountTest',
+    '/InviteCodes',
+    '/PredefinedCarriers',
+    '/logout'
+  ], verifyViewOnlyUser));
 app.use('/', routes);
 app.use((err, req, res, next) => {
   logger.error(err, 'burped error');
