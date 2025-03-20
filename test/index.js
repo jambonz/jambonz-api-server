@@ -13,6 +13,7 @@ require('./ms-teams');
 require('./speech-credentials');
 require('./recent-calls');
 require('./users');
+require('./users-view-only');
 require('./login');
 require('./webapp_tests');
 // require('./homer');
