@@ -15,6 +15,7 @@ test('voip carrier tests', async(t) => {
   let sid;
   try {
     let result;
+    const outbound_sip_proxy = 'foo.bar.com';
 
     /* add a voip carrier */
     result = await request.post('/VoipCarriers', {
@@ -23,7 +24,8 @@ test('voip carrier tests', async(t) => {
       json: true,
       body: {
         name: 'daveh',
-        e164_leading_plus: true
+        e164_leading_plus: true,
+        outbound_sip_proxy,
       }
     });
     t.ok(result.statusCode === 201, 'successfully created voip carrier');
@@ -35,6 +37,7 @@ test('voip carrier tests', async(t) => {
       json: true,
     });
     t.ok(result.length === 1 && result[0].e164_leading_plus, 'successfully queried all voip carriers');
+    t.ok(result.length === 1 && result[0].outbound_sip_proxy === outbound_sip_proxy, 'successfully queried all voip carriers');
 
     /* query one voip carriers */
     result = await request.get(`/VoipCarriers/${sid}`, {

@@ -1,5 +1,6 @@
 {
   "name": "jambonz-api-server",
+  "version": "0.9.3",
   "description": "",
   "main": "app.js",
   "scripts": {
@@ -19,6 +20,7 @@
     "url": "https://github.com/jambonz/jambonz-api-server.git"
   },
   "dependencies": {
+    "@aws-sdk/client-cloudwatch-logs": "^3.750.0",
     "@aws-sdk/client-s3": "^3.550.0",
     "@aws-sdk/client-transcribe": "^3.549.0",
     "@azure/storage-blob": "^12.17.0",
@@ -28,8 +30,8 @@
     "@jambonz/db-helpers": "^0.9.3",
     "@jambonz/lamejs": "^1.2.2",
     "@jambonz/mw-registrar": "^0.2.7",
-    "@jambonz/realtimedb-helpers": "^0.8.10",
-    "@jambonz/speech-utils": "^0.2.1",
+    "@jambonz/realtimedb-helpers": "^0.8.13",
+    "@jambonz/speech-utils": "^0.2.3",
     "@jambonz/time-series": "^0.2.8",
     "@jambonz/verb-specifications": "^0.0.72",
     "@soniox/soniox-node": "^1.2.2",
