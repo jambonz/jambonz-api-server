@@ -37,7 +37,6 @@
     "@soniox/soniox-node": "^1.2.2",
     "argon2": "^0.40.1",
     "assemblyai": "^4.3.4",
-    "bent": "^7.3.12",
     "cors": "^2.8.5",
     "debug": "^4.3.4",
     "express": "^4.19.2",
