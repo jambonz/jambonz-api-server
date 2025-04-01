@@ -24,7 +24,13 @@ test('seeding database for webapp tests', (t) => {
     t.end();
   });
 });
-
+test('prepare permissions', (t) => {
+  exec(`mysql -h 127.0.0.1 -u root  --protocol=tcp --port=3360 -D jambones_test < ${__dirname}/../db/prepare-permissions-test.sql`, (err, stdout, stderr) => {
+    if (err) return t.end(err);
+    t.pass('permissions prepared');
+    t.end();
+  });
+});
 test('webapp tests', async(t) => {
   const app = require('../app');
   let sid;
