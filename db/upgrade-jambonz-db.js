@@ -27,10 +27,10 @@ const rejectUnauthorized = process.env.JAMBONES_MYSQL_REJECT_UNAUTHORIZED;
 const ssl_ca_file = process.env.JAMBONES_MYSQL_SSL_CA_FILE;
 const ssl_cert_file = process.env.JAMBONES_MYSQL_SSL_CERT_FILE;
 const ssl_key_file = process.env.JAMBONES_MYSQL_SSL_KEY_FILE;
-if ((rejectUnauthorized !== undefined && rejectUnauthorized.toLowerCase() === 'false') ||
+if ((rejectUnauthorized !== undefined && rejectUnauthorized === '0') ||
   (ssl_ca_file && ssl_cert_file && ssl_key_file)) {
   opts.ssl = {
-    rejectUnauthorized: rejectUnauthorized === 'false' ? false : true,
+    rejectUnauthorized: rejectUnauthorized === '0' ? false : true,
     ...(ssl_ca_file && { ca: fs.readFileSync(ssl_ca_file) }),
     ...(ssl_cert_file && { cert: fs.readFileSync(ssl_cert_file) }),
     ...(ssl_key_file && { key: fs.readFileSync(ssl_key_file) })
