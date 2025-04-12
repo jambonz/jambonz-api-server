@@ -6,6 +6,7 @@ const {readFile} = require('fs/promises');
 const {execSync} = require('child_process');
 const {version:desiredVersion} = require('../package.json');
 const logger = require('pino')();
+const fs = require('fs');
 
 logger.info(`upgrade-jambonz-db: desired version ${desiredVersion}`);
 
@@ -22,6 +23,20 @@ const opts = {
   port: process.env.JAMBONES_MYSQL_PORT || 3306,
   multipleStatements: true
 };
+const rejectUnauthorized = process.env.JAMBONES_MYSQL_REJECT_UNAUTHORIZED;
+const ssl_ca_file = process.env.JAMBONES_MYSQL_SSL_CA_FILE;
+const ssl_cert_file = process.env.JAMBONES_MYSQL_SSL_CERT_FILE;
+const ssl_key_file = process.env.JAMBONES_MYSQL_SSL_KEY_FILE;
+if ((rejectUnauthorized !== undefined && rejectUnauthorized.toLowerCase() === 'false') ||
+  (ssl_ca_file && ssl_cert_file && ssl_key_file)) {
+  opts.ssl = {
+    rejectUnauthorized: rejectUnauthorized === 'false' ? false : true,
+    ...(ssl_ca_file && { ca: fs.readFileSync(ssl_ca_file) }),
+    ...(ssl_cert_file && { cert: fs.readFileSync(ssl_cert_file) }),
+    ...(ssl_key_file && { key: fs.readFileSync(ssl_key_file) })
+  };
+}
+
 
 const sql = {
   '7006': [
