@@ -1,5 +1,6 @@
 const test = require('tape');
-const request = require("request-promise-native").defaults({
+const { createClient } = require('./http-client');
+const request = createClient({
   baseUrl: "http://127.0.0.1:3000/v1",
 });
 

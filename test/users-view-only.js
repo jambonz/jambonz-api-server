@@ -1,10 +1,12 @@
 const test = require('tape') ;
 const jwt = require('jsonwebtoken');
-const request = require('request-promise-native').defaults({
+const { createClient } = require('./http-client');
+const request = createClient({
   baseUrl: 'http://127.0.0.1:3000/v1'
 });
 const exec = require('child_process').exec ;
 const {generateHashedPassword} = require('../lib/utils/password-utils');
+
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
 });

@@ -37,7 +37,6 @@
     "@soniox/soniox-node": "^1.2.2",
     "argon2": "^0.40.1",
     "assemblyai": "^4.3.4",
-    "bent": "^7.3.12",
     "cors": "^2.8.5",
     "debug": "^4.3.4",
     "express": "^4.19.2",
@@ -69,8 +68,6 @@
     "eslint-plugin-promise": "^6.1.1",
     "husky": "9.0.11",
     "nyc": "^15.1.0",
-    "request": "^2.88.2",
-    "request-promise-native": "^1.0.9",
     "tape": "^5.7.5"
   }
 }

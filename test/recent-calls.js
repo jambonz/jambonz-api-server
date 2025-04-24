@@ -3,7 +3,8 @@ const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const ADMIN_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734de';
 const authAdmin = {bearer: ADMIN_TOKEN};
-const request = require('request-promise-native').defaults({
+const { createClient } = require('./http-client');
+const request = createClient({
   baseUrl: 'http://127.0.0.1:3000/v1'
 });
 const consoleLogger = {debug: console.log, info: console.log, error: console.error}

@@ -1,7 +1,8 @@
 const test = require('tape') ;
 const exec = require('child_process').exec ;
 const Account = require('../lib/models/account');
-const request = require('request-promise-native').defaults({
+const { createClient } = require('./http-client');
+const request = createClient({
   baseUrl: 'http://127.0.0.1:3000/v1'
 });
 const theOneAndOnlyServiceProviderSid = '2708b1b3-2736-40ea-b502-c53d8396247f';
