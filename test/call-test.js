@@ -1,6 +1,7 @@
 const test = require('tape');
 const jwt = require('jsonwebtoken');
-const request = require('request-promise-native').defaults({
+const { createClient } = require('./http-client');
+const request = createClient({
   baseUrl: 'http://127.0.0.1:3000/v1'
 });
 const consoleLogger = { debug: console.log, info: console.log, error: console.error }
@@ -47,8 +48,7 @@ test('Create Call Success With Synthesizer in Payload', async (t) => {
   });
   // THEN
   t.ok(result.statusCode === 201, 'successfully created Call without Synthesizer && application_sid');
-  const fs_request = await getLastRequestFromFeatureServer('15083778299_createCall');
-  const obj = JSON.parse(fs_request);
+  const obj = await getLastRequestFromFeatureServer('15083778299_createCall');
   t.ok(obj.body.speech_synthesis_vendor == 'google', 'speech synthesizer successfully added')
   t.ok(obj.body.speech_recognizer_vendor == 'google', 'speech recognizer successfully added')
 });
@@ -82,7 +82,7 @@ test('Create Call Success Without Synthesizer in Payload', async (t) => {
       }
     }
   }).then(data => { t.ok(false, 'Create Call should not be success') })
-    .catch(error => { t.ok(error.response.statusCode === 400, 'Call failed for no synthesizer') });
+    .catch(error => { t.ok(error.statusCode === 400, 'Call failed for no synthesizer') });
 });
 
 test("Create call with application sid and app_json", async(t) => {
@@ -150,7 +150,6 @@ result = await request.post(`/Accounts/${account_sid}/Calls`, {
 });
 // THEN
 t.ok(result.statusCode === 201, 'successfully created Call without Synthesizer && application_sid');
-const fs_request = await getLastRequestFromFeatureServer('15083778299_createCall');
-const obj = JSON.parse(fs_request);
+const obj = await getLastRequestFromFeatureServer('15083778299_createCall');
 t.ok(obj.body.app_json == app_json, 'app_json successfully added')
 });

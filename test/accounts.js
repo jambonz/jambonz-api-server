@@ -1,11 +1,8 @@
 const test = require('tape') ;
 const ADMIN_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734de';
 const authAdmin = {bearer: ADMIN_TOKEN};
-const SP_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734ds';
-const authSP = {bearer: ADMIN_TOKEN};
-const ACC_TOKEN = '38700987-c7a4-4685-a5bb-af378f9734da';
-const authAcc = {bearer: ADMIN_TOKEN};
-const request = require('request-promise-native').defaults({
+const { createClient } = require('./http-client');
+const request = createClient({
   baseUrl: 'http://127.0.0.1:3000/v1'
 });
 const {
