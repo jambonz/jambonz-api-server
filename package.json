@@ -31,14 +31,13 @@
     "@jambonz/lamejs": "^1.2.2",
     "@jambonz/mw-registrar": "^0.2.7",
     "@jambonz/realtimedb-helpers": "^0.8.13",
-    "@jambonz/speech-utils": "^0.2.3",
+    "@jambonz/speech-utils": "^0.2.6",
     "@jambonz/time-series": "^0.2.8",
     "@jambonz/verb-specifications": "^0.0.72",
     "@soniox/soniox-node": "^1.2.2",
     "ajv": "^8.17.1",
     "argon2": "^0.40.1",
     "assemblyai": "^4.3.4",
-    "bent": "^7.3.12",
     "cors": "^2.8.5",
     "debug": "^4.3.4",
     "express": "^4.19.2",
@@ -46,6 +45,7 @@
     "form-data": "^4.0.0",
     "helmet": "^7.1.0",
     "ibm-watson": "^9.0.1",
+    "is-valid-hostname": "^1.0.2",
     "jsonwebtoken": "^9.0.2",
     "mailgun.js": "^10.2.1",
     "microsoft-cognitiveservices-speech-sdk": "1.36.0",
@@ -70,8 +70,6 @@
     "eslint-plugin-promise": "^6.1.1",
     "husky": "9.0.11",
     "nyc": "^15.1.0",
-    "request": "^2.88.2",
-    "request-promise-native": "^1.0.9",
     "tape": "^5.7.5"
   }
 }

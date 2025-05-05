@@ -1,6 +1,7 @@
 const { v4: uuid } = require('uuid');
 const fs = require('fs');
-const request_fs_mock = require('request-promise-native').defaults({
+const { createClient } = require('./http-client');
+const request_fs_mock = createClient({
   baseUrl: 'http://127.0.0.1:3100'
 });
 

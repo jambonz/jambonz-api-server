@@ -1,10 +1,12 @@
 const test = require('tape') ;
 const jwt = require('jsonwebtoken');
-const request = require('request-promise-native').defaults({
+const { createClient } = require('./http-client');
+const request = createClient({
   baseUrl: 'http://127.0.0.1:3000/v1'
 });
 const exec = require('child_process').exec ;
 const {generateHashedPassword} = require('../lib/utils/password-utils');
+
 
 
 process.on('unhandledRejection', (reason, p) => {
@@ -52,7 +54,7 @@ test('login tests', async(t) => {
                 password: 'adm',  
               }
             }).catch(error => {
-              t.ok(error.response.statusCode === 403, `Maximum login attempts reached. Please try again in ${attempTime} seconds.`)
+              t.ok(error.statusCode === 403, `Maximum login attempts reached. Please try again in ${attempTime} seconds.`)
           });
         } else if (index < maxAttempts) {
           attemptResult = await request.post('/login', {
@@ -62,7 +64,10 @@ test('login tests', async(t) => {
               username: 'admin',
               password: 'adm',  
             }
-          }).catch(error => t.ok(error.response.statusCode === 403));
+          }).catch(error => {
+            console.log(JSON.stringify(error));
+            t.ok(error.statusCode === 403);
+          });
         } else {
             attemptResult = await request.post('/login', {
                 resolveWithFullResponse: true,
@@ -71,7 +76,7 @@ test('login tests', async(t) => {
                   username: 'admin',
                   password: 'adm',  
                 }
-              }).catch(error => t.ok(error.response.statusCode === 403, 'Maximum login attempts reached. Please try again later or reset your password.'));
+              }).catch(error => t.ok(error.statusCode === 403, 'Maximum login attempts reached. Please try again later or reset your password.'));
         }
     }
 

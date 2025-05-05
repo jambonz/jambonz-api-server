@@ -1,9 +1,6 @@
-const bent = require('bent');
-const getJSON = bent('GET', 200);
-const request = require('request');
-
 const test = async() => {
-  request.get('https://api.github.com/user', {
+  fetch('https://api.github.com/user', {
+    method: 'GET',
     headers: {
       Authorization: `Bearer ${process.env.GH_CODE}`,
       Accept: 'application/json',
