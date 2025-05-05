@@ -227,7 +227,7 @@ const sql = {
     'ALTER TABLE voip_carriers ADD COLUMN outbound_sip_proxy VARCHAR(255)',
   ],
   9004: [
-    'ALTER TABLE applications ADD COLUMN env_vars BLOB',
+    'ALTER TABLE applications ADD COLUMN env_vars TEXT',
   ]
 };
 
