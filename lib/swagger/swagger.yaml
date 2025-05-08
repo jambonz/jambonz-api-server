@@ -130,7 +130,71 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GeneralError'      
+                $ref: '#/components/schemas/GeneralError'
+  /Accounts/{accountSid}/RecentCalls/{callSid}/record/{year}/{month}/{day}/{format}:
+    get:
+      tags:
+        - Call Records
+      summary: 'Retrieve a recording of a recent call in specified format'
+      description: 'Gets the recording of a recent call by specifying the account ID, call ID, the date of the call, and the format of the recording (e.g., MP3 or WAV).'
+      operationId: getRecordingByFormat
+      security:
+        - ApiKeyAuth: [ ]
+      parameters:
+        - name: accountSid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: callSid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: year
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: month
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: day
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: format
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - mp3
+              - wav
+      responses:
+        200:
+          description: Successfully retrieved the recording file.
+          content:
+            audio/*:
+              schema:
+                type: string
+                format: binary
+        404:
+          description: Call record not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+        500:
+          description: System error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
   /Sbcs:
     post:
       tags:
