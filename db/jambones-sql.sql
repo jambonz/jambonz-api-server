@@ -516,6 +516,7 @@ fallback_speech_synthesis_label VARCHAR(64),
 fallback_speech_recognizer_vendor VARCHAR(64),
 fallback_speech_recognizer_language VARCHAR(64),
 fallback_speech_recognizer_label VARCHAR(64),
+env_vars TEXT,
 created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 record_all_calls BOOLEAN NOT NULL DEFAULT false,
 PRIMARY KEY (application_sid)
