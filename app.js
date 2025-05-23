@@ -128,11 +128,27 @@ const unless = (paths, middleware) => {
   };
 };
 
+const RATE_LIMIT_BY = process.env.RATE_LIMIT_BY || 'system';
+
 const limiter = rateLimit({
   windowMs: (process.env.RATE_LIMIT_WINDOWS_MINS || 5) * 60 * 1000, // 5 minutes
   max: process.env.RATE_LIMIT_MAX_PER_WINDOW || 600, // Limit each IP to 600 requests per `window`
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  keyGenerator: (req, res) => {
+    switch (RATE_LIMIT_BY) {
+      case 'system':
+        return '127.0.0.1';
+      case 'apikey':
+        // uses shared limit for requests without an authorization header
+        const token = req.headers.authorization?.split(' ')[1] || '127.0.0.1';
+        return token;
+      case 'ip':
+        return req.headers['x-real-ip'];
+      default:
+        return '127.0.0.1';
+    }
+  }
 });
 
 // Setup websocket for recording audio
