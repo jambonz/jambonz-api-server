@@ -337,6 +337,13 @@ test('account tests', async(t) => {
     await deleteObjectBySid(request, '/VoipCarriers', voip_carrier_sid);
     await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid);
     //t.end();
+
+    /* invalid Account SID */
+    result = await request.get(`/Accounts/INVALID-ACCOUNT-SID/RecentCalls`, {
+      auth: authAdmin,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 400, 'successfully received error on invalid account SID');
   }
   catch (err) {
     console.error(err);
