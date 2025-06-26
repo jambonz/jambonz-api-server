@@ -266,6 +266,19 @@ test('account tests', async(t) => {
       t.ok(err.statusCode === 400, 'returns 400 bad request if account sid param is not a valid uuid');
     }
 
+     /* try to fetch Alerts with an invalid account SID */
+    try {
+      result = await request.get(`/Accounts/INVALID/Alerts?page=1&count=1`, {
+        auth: {bearer: accountLevelToken},
+        resolveWithFullResponse: true,
+        json: true
+      });
+      t.fail('Expected request to fail with invalid account SID');
+      console.log(result)
+    } catch (err) {
+      t.ok(err.statusCode === 400, 'returns 400 bad request if account sid param is not a valid uuid');
+    }
+
     /* query all limits for an account */
     result = await request.get(`/Accounts/${sid}/Limits`, {
       auth: authAdmin,
@@ -337,17 +350,6 @@ test('account tests', async(t) => {
     await deleteObjectBySid(request, '/VoipCarriers', voip_carrier_sid);
     await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid);
     //t.end();
-
-    /* invalid Account SID */
-    try {
-      result = await request.get(`/Accounts/INVALID-ACCOUNT-SID/RecentCalls?page=1&count=1`, {
-        auth: authAdmin,
-        resolveWithFullResponse: true,
-        json: true
-      });
-    } catch (err) {
-      t.ok(err.statusCode === 400, 'returns 400 bad request if account sid param is not a valid uuid');
-    }
 
   }
   catch (err) {
