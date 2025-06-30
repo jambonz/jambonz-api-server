@@ -228,6 +228,9 @@ const sql = {
   ],
   9004: [
     'ALTER TABLE applications ADD COLUMN env_vars TEXT',
+  ],
+  9005: [
+    'UPDATE applications SET speech_synthesis_voice = \'en-US-Standard-C\' WHERE speech_synthesis_voice IS NULL AND speech_synthesis_vendor = \'google\' AND speech_synthesis_language = \'en-US\''
   ]
 };
 
