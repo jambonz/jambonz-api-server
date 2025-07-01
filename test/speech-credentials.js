@@ -791,7 +791,8 @@ test('speech credentials tests', async(t) => {
       body: {
         vendor: 'assemblyai',
         use_for_stt: true,
-        api_key: "APIKEY"
+        api_key: "APIKEY",
+        service_version: 'v2'
       }
     });
     t.ok(result.statusCode === 201, 'successfully added speech credential for assemblyai');
