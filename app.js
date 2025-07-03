@@ -48,7 +48,8 @@ const {
   retrieveKey,
   deleteKey,
   incrKey,
-  listConferences
+  listConferences,
+  getCallCount
 } = require('./lib/helpers/realtimedb-helpers');
 const {
   getTtsVoices,
@@ -118,7 +119,8 @@ app.locals = {
   queryAlertsSP,
   writeCdrs,
   writeAlerts,
-  AlertType
+  AlertType,
+  getCallCount
 };
 
 const unless = (paths, middleware) => {
