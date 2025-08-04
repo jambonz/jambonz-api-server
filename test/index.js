@@ -11,6 +11,7 @@ require('./auth');
 require('./sbcs');
 require('./ms-teams');
 require('./speech-credentials');
+require('./llm-credentials');
 require('./recent-calls');
 require('./users');
 require('./users-view-only');

@@ -6,7 +6,7 @@ process.on('SIGINT', async() => {
   if (stopping) return;
   stopping = true;
   console.log('shutting down');
-  await stopDocker();
+  // await stopDocker();
   process.exit(0);
 });
 
