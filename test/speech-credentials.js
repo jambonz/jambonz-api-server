@@ -902,6 +902,28 @@ test('speech credentials tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully deleted speech credential');
 
+    /* add a credential for resemble */
+    result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        vendor: 'resemble',
+        use_for_tts: true,
+        use_for_stt: false,
+        api_key: 'api_key',
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully added speech credential for Resemble');
+    const resembleSid = result.body.sid;
+
+    /* delete the credential */
+    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${resembleSid}`, {
+      auth: authUser,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 204, 'successfully deleted speech credential for Resemble');
+
     /* add a credential for deepgram river */
     result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
       resolveWithFullResponse: true,
