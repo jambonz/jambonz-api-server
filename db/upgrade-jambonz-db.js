@@ -231,7 +231,10 @@ const sql = {
   ],
   9005: [
     'UPDATE applications SET speech_synthesis_voice = \'en-US-Standard-C\' WHERE speech_synthesis_voice IS NULL AND speech_synthesis_vendor = \'google\' AND speech_synthesis_language = \'en-US\'',
-    'ALTER TABLE applications MODIFY COLUMN speech_synthesis_voice VARCHAR(255) DEFAULT \'en-US-Standard-C\''
+    'ALTER TABLE applications MODIFY COLUMN speech_synthesis_voice VARCHAR(255) DEFAULT \'en-US-Standard-C\'',
+    'ALTER TABLE voip_carriers ADD COLUMN trunk_type ENUM(\'static-ip\',\'auth\',\'registration\') NOT NULL DEFAULT \'static-ip\'',
+    'ALTER TABLE clients ADD COLUMN voip_carrier_sid CHAR(36)',
+    'ALTER TABLE clients ADD FOREIGN KEY voip_carrier_sid_idxfk_4 (voip_carrier_sid) REFERENCES voip_carriers (voip_carrier_sid)',
   ]
 };
 
