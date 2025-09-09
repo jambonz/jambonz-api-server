@@ -2615,6 +2615,7 @@
         <SQLField>
             <name><![CDATA[speech_synthesis_voice]]></name>
             <type><![CDATA[VARCHAR(256)]]></type>
+            <defaultValue><![CDATA[en-US-Standard-C]]></defaultValue>
             <notNull><![CDATA[0]]></notNull>
             <uid><![CDATA[929D66F0-64B9-4D7C-AB4B-24F131E1178F]]></uid>
         </SQLField>
