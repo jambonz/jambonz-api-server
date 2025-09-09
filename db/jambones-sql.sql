@@ -1,6 +1,5 @@
 /* SQLEditor (MySQL (2))*/
 
-SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS account_static_ips;
 
@@ -418,6 +417,7 @@ register_public_ip_in_contact BOOLEAN NOT NULL DEFAULT false,
 register_status VARCHAR(4096),
 dtmf_type ENUM('rfc2833','tones','info') NOT NULL DEFAULT 'rfc2833',
 outbound_sip_proxy VARCHAR(255),
+trunk_type ENUM('static_ip','auth','reg') NOT NULL DEFAULT 'static_ip',
 PRIMARY KEY (voip_carrier_sid)
 ) COMMENT='A Carrier or customer PBX that can send or receive calls';
 
@@ -503,7 +503,7 @@ messaging_hook_sid CHAR(36) COMMENT 'webhook to call for inbound SMS/MMS ',
 app_json TEXT,
 speech_synthesis_vendor VARCHAR(64) NOT NULL DEFAULT 'google',
 speech_synthesis_language VARCHAR(12) NOT NULL DEFAULT 'en-US',
-speech_synthesis_voice VARCHAR(256) DEFAULT 'en-US-Standard-C',
+speech_synthesis_voice VARCHAR(256),
 speech_synthesis_label VARCHAR(64),
 speech_recognizer_vendor VARCHAR(64) NOT NULL DEFAULT 'google',
 speech_recognizer_language VARCHAR(64) NOT NULL DEFAULT 'en-US',
@@ -743,5 +743,3 @@ ALTER TABLE accounts ADD FOREIGN KEY queue_event_hook_sid_idxfk (queue_event_hoo
 ALTER TABLE accounts ADD FOREIGN KEY device_calling_application_sid_idxfk (device_calling_application_sid) REFERENCES applications (application_sid);
 
 ALTER TABLE accounts ADD FOREIGN KEY siprec_hook_sid_idxfk (siprec_hook_sid) REFERENCES applications (application_sid);
-
-SET FOREIGN_KEY_CHECKS=1;
