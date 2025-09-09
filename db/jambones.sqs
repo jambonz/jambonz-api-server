@@ -550,8 +550,8 @@
             <y>427.00</y>
         </location>
         <size>
-            <width>293.00</width>
-            <height>580.00</height>
+            <width>323.00</width>
+            <height>600.00</height>
         </size>
         <zorder>6</zorder>
         <SQLField>
@@ -748,6 +748,13 @@
             <name><![CDATA[outbound_sip_proxy]]></name>
             <type><![CDATA[VARCHAR(255)]]></type>
             <uid><![CDATA[556ABA45-BC63-444D-8CB1-973EFCCF9FE7]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[trunk_type]]></name>
+            <type><![CDATA[ENUM('static-ip','auth','registration')]]></type>
+            <defaultValue><![CDATA[static-ip]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[92C94F6A-2942-4D4B-891B-FE70478E80D2]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[28]]></labelWindowIndex>
         <objectComment><![CDATA[A Carrier or customer PBX that can send or receive calls]]></objectComment>
@@ -1292,8 +1299,8 @@
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[a regex-based pattern match for call routing]]></comment>
         <location>
-            <x>16.00</x>
-            <y>1007.00</y>
+            <x>15.00</x>
+            <y>1066.00</y>
         </location>
         <size>
             <width>254.00</width>
@@ -2284,7 +2291,7 @@
         </location>
         <size>
             <width>282.00</width>
-            <height>180.00</height>
+            <height>200.00</height>
         </size>
         <zorder>36</zorder>
         <SQLField>
@@ -2349,6 +2356,19 @@
             <defaultValue><![CDATA[1]]></defaultValue>
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[206E169C-E5F6-4774-8D4A-5BECF25E49A3]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[voip_carrier_sid]]></name>
+            <type><![CDATA[CHAR(36)]]></type>
+            <referencesField>voip_carrier_sid</referencesField>
+            <referencesTable>voip_carriers</referencesTable>
+            <referencesField><![CDATA[voip_carrier_sid]]></referencesField>
+            <referencesTable><![CDATA[voip_carriers]]></referencesTable>
+            <sourceCardinality>2</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[E34851EF-3C5F-4118-8425-F88EE16E38AA]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[3D3136A7-AFC0-4A70-AEC3-68577955CA2E]]></referencesTableUID>
+            <uid><![CDATA[1E6A6482-FC41-425F-99CE-5645BF1A3CD3]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[2]]></labelWindowIndex>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
@@ -3161,17 +3181,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1393.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1235.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[1055.000000]]></windowHeight>
-        <windowLocationX><![CDATA[1845.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[37.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{0, 544}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1670.000000]]></windowWidth>
+        <windowHeight><![CDATA[855.000000]]></windowHeight>
+        <windowLocationX><![CDATA[0.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[87.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{90, 862.5}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[1512.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>
