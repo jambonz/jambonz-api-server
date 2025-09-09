@@ -1,5 +1,4 @@
 /* SQLEditor (MySQL (2))*/
-
 SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS account_static_ips;
@@ -418,6 +417,7 @@ register_public_ip_in_contact BOOLEAN NOT NULL DEFAULT false,
 register_status VARCHAR(4096),
 dtmf_type ENUM('rfc2833','tones','info') NOT NULL DEFAULT 'rfc2833',
 outbound_sip_proxy VARCHAR(255),
+trunk_type ENUM('static_ip','auth','reg') NOT NULL DEFAULT 'static_ip',
 PRIMARY KEY (voip_carrier_sid)
 ) COMMENT='A Carrier or customer PBX that can send or receive calls';
 

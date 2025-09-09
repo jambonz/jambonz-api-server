@@ -546,12 +546,12 @@
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[A Carrier or customer PBX that can send or receive calls]]></comment>
         <location>
-            <x>16.00</x>
-            <y>427.00</y>
+            <x>20.00</x>
+            <y>418.00</y>
         </location>
         <size>
             <width>293.00</width>
-            <height>580.00</height>
+            <height>600.00</height>
         </size>
         <zorder>6</zorder>
         <SQLField>
@@ -748,6 +748,13 @@
             <name><![CDATA[outbound_sip_proxy]]></name>
             <type><![CDATA[VARCHAR(255)]]></type>
             <uid><![CDATA[556ABA45-BC63-444D-8CB1-973EFCCF9FE7]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[trunk_type]]></name>
+            <type><![CDATA[ENUM('static_ip','auth','reg')]]></type>
+            <defaultValue><![CDATA[static_ip]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[CCF1560C-349E-4DB9-91E5-120F1EDB7CDE]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[28]]></labelWindowIndex>
         <objectComment><![CDATA[A Carrier or customer PBX that can send or receive calls]]></objectComment>
@@ -1293,7 +1300,7 @@
         <comment><![CDATA[a regex-based pattern match for call routing]]></comment>
         <location>
             <x>16.00</x>
-            <y>1007.00</y>
+            <y>1039.00</y>
         </location>
         <size>
             <width>254.00</width>
@@ -2165,8 +2172,8 @@
         <schema><![CDATA[]]></schema>
         <comment><![CDATA[A phone number that has been assigned to an account]]></comment>
         <location>
-            <x>16.00</x>
-            <y>1128.00</y>
+            <x>11.00</x>
+            <y>1162.00</y>
         </location>
         <size>
             <width>522.00</width>
@@ -2608,6 +2615,7 @@
         <SQLField>
             <name><![CDATA[speech_synthesis_voice]]></name>
             <type><![CDATA[VARCHAR(256)]]></type>
+            <defaultValue><![CDATA[en-US-Standard-C]]></defaultValue>
             <notNull><![CDATA[0]]></notNull>
             <uid><![CDATA[929D66F0-64B9-4D7C-AB4B-24F131E1178F]]></uid>
         </SQLField>
@@ -3161,17 +3169,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1393.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1643.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
-        <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
+        <SourceSidebarWidth><![CDATA[312.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
         <windowHeight><![CDATA[1055.000000]]></windowHeight>
-        <windowLocationX><![CDATA[1845.000000]]></windowLocationX>
+        <windowLocationX><![CDATA[1728.000000]]></windowLocationX>
         <windowLocationY><![CDATA[37.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{0, 544}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1670.000000]]></windowWidth>
+        <windowScrollOrigin><![CDATA[{0, 376}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[1920.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>
