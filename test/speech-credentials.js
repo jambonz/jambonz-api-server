@@ -815,6 +815,7 @@ test('speech credentials tests', async(t) => {
         use_for_stt: true,
         client_key: "ClientKey",
         client_id: "ClientID",
+        user_id: "test_user"
       }
     });
     t.ok(result.statusCode === 201, 'successfully added speech credential for houndify');
