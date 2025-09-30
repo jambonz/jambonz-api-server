@@ -930,21 +930,21 @@ test('speech credentials tests', async(t) => {
       auth: authUser,
       json: true,
       body: {
-        vendor: 'deepgramriver',
+        vendor: 'deepgramflux',
         use_for_tts: false,
         use_for_stt: true,
         api_key: 'api_key',
       }
     });
     t.ok(result.statusCode === 201, 'successfully added speech credential for Verbio');
-    const deepgramriverSid = result.body.sid;
+    const deepgramfluxSid = result.body.sid;
 
     /* delete the credential */
-    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${deepgramriverSid}`, {
+    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${deepgramfluxSid}`, {
       auth: authUser,
       resolveWithFullResponse: true,
     });
-    t.ok(result.statusCode === 204, 'successfully deleted speech credential deepgramriver');
+    t.ok(result.statusCode === 204, 'successfully deleted speech credential deepgramflux');
 
     /* Check google supportedLanguagesAndVoices */
     result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=google`, {
