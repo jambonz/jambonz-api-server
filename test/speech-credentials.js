@@ -656,7 +656,8 @@ test('speech credentials tests', async(t) => {
         use_for_stt: true,
         use_for_tts: false,
         api_key: 'asdasdasdasddsadasda',
-        model_id: 'eleven_multilingual_v2'
+        model_id: 'eleven_multilingual_v2',
+        api_uri: 'api.elevenlabs.io'
       }
     });
     t.ok(result.statusCode === 201, 'successfully added speech credential for elevenlabs');
