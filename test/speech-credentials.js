@@ -806,6 +806,29 @@ test('speech credentials tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully deleted speech credential');
 
+    /* add a credential for houndify */
+    result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        vendor: 'houndify',
+        use_for_stt: true,
+        client_key: "ClientKey",
+        client_id: "ClientID",
+        user_id: "test_user"
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully added speech credential for houndify');
+    const houndifySid = result.body.sid;
+
+    /* delete the credential */
+    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${houndifySid}`, {
+      auth: authUser,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 204, 'successfully deleted speech credential');
+
     /* add a credential for Voxist */
     result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
       resolveWithFullResponse: true,
