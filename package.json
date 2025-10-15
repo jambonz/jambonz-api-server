@@ -25,6 +25,7 @@
     "@aws-sdk/client-transcribe": "^3.549.0",
     "@azure/storage-blob": "^12.17.0",
     "@deepgram/sdk": "^1.21.0",
+    "@gladiaio/sdk": "^0.5.2",
     "@google-cloud/speech": "^6.5.0",
     "@google-cloud/storage": "^7.9.0",
     "@jambonz/db-helpers": "^0.9.12",
