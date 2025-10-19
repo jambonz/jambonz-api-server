@@ -656,7 +656,8 @@ test('speech credentials tests', async(t) => {
         use_for_stt: true,
         use_for_tts: false,
         api_key: 'asdasdasdasddsadasda',
-        model_id: 'eleven_multilingual_v2'
+        model_id: 'eleven_multilingual_v2',
+        api_uri: 'api.elevenlabs.io'
       }
     });
     t.ok(result.statusCode === 201, 'successfully added speech credential for elevenlabs');
@@ -805,6 +806,29 @@ test('speech credentials tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully deleted speech credential');
 
+    /* add a credential for houndify */
+    result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        vendor: 'houndify',
+        use_for_stt: true,
+        client_key: "ClientKey",
+        client_id: "ClientID",
+        user_id: "test_user"
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully added speech credential for houndify');
+    const houndifySid = result.body.sid;
+
+    /* delete the credential */
+    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${houndifySid}`, {
+      auth: authUser,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 204, 'successfully deleted speech credential');
+
     /* add a credential for Voxist */
     result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
       resolveWithFullResponse: true,
@@ -930,21 +954,21 @@ test('speech credentials tests', async(t) => {
       auth: authUser,
       json: true,
       body: {
-        vendor: 'deepgramriver',
+        vendor: 'deepgramflux',
         use_for_tts: false,
         use_for_stt: true,
         api_key: 'api_key',
       }
     });
     t.ok(result.statusCode === 201, 'successfully added speech credential for Verbio');
-    const deepgramriverSid = result.body.sid;
+    const deepgramfluxSid = result.body.sid;
 
     /* delete the credential */
-    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${deepgramriverSid}`, {
+    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${deepgramfluxSid}`, {
       auth: authUser,
       resolveWithFullResponse: true,
     });
-    t.ok(result.statusCode === 204, 'successfully deleted speech credential deepgramriver');
+    t.ok(result.statusCode === 204, 'successfully deleted speech credential deepgramflux');
 
     /* Check google supportedLanguagesAndVoices */
     result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=google`, {
