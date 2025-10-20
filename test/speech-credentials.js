@@ -970,6 +970,28 @@ test('speech credentials tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully deleted speech credential deepgramflux');
 
+    /* add a credential for gladia */
+    result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        vendor: 'gladia',
+        use_for_tts: false,
+        use_for_stt: true,
+        api_key: 'api_key',
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully added speech credential for Gladia');
+    const gladiaSid = result.body.sid;
+
+    /* delete the credential */
+    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${gladiaSid}`, {
+      auth: authUser,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 204, 'successfully deleted speech credential for Gladia');
+
     /* Check google supportedLanguagesAndVoices */
     result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=google`, {
       resolveWithFullResponse: true,
@@ -1104,6 +1126,15 @@ test('speech credentials tests', async(t) => {
     });
     t.ok(result.body.tts.length !== 0, 'successfully get whisper supported languages and voices');
     t.ok(result.body.models.length !== 0, 'successfully get whisper supported languages and voices');
+
+    /* Check gladia supportedLanguagesAndVoices */
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=gladia`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.body.stt.length !== 0, 'successfully get gladia supported languages and voices');
 
     await deleteObjectBySid(request, '/Accounts', account_sid);
     await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid);
