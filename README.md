@@ -35,6 +35,7 @@ Configuration is provided via environment variables:
 |K8S_FEATURE_SERVER_SERVICE_PORT| feature server port(required for K8S) |no|
 |JAMBONZ_RECORD_WS_USERNAME| recording websocket username|no|
 |JAMBONZ_RECORD_WS_PASSWORD| recording websocket password|no|
+|DISABLE_RATE_LIMITS| disable rate limiting|no
 
 #### Database dependency
 A mysql database is used to store long-lived objects such as Accounts, Applications, etc. To create the database schema, use or review the scripts in the 'db' folder, particularly:
