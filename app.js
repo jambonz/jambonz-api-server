@@ -170,7 +170,12 @@ if (process.env.JAMBONES_TRUST_PROXY) {
     });
   }
 }
-app.use(limiter);
+
+const disableRateLimit = process.env.DISABLE_RATE_LIMITS === 'true' || process.env.DISABLE_RATE_LIMITS === '1';
+
+if (!disableRateLimit) {
+  app.use(limiter);
+}
 app.use(helmet());
 app.use(helmet.hidePoweredBy());
 app.use(nocache());
