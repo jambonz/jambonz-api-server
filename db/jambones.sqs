@@ -1887,7 +1887,7 @@
         </location>
         <size>
             <width>302.00</width>
-            <height>260.00</height>
+            <height>280.00</height>
         </size>
         <zorder>20</zorder>
         <SQLField>
@@ -1965,6 +1965,13 @@
             <name><![CDATA[diversion]]></name>
             <type><![CDATA[VARCHAR(32)]]></type>
             <uid><![CDATA[CE2015BC-8538-4FB0-B4D9-454436FAB1D9]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[trunk_type]]></name>
+            <type><![CDATA[ENUM('static_ip','auth','reg')]]></type>
+            <defaultValue><![CDATA[static_ip]]></defaultValue>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[F50906E5-2CA5-47D0-BF7B-6CB75EFD83B8]]></uid>
         </SQLField>
         <labelWindowIndex><![CDATA[17]]></labelWindowIndex>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
@@ -2370,8 +2377,8 @@
             <y>17.00</y>
         </location>
         <size>
-            <width>281.00</width>
-            <height>280.00</height>
+            <width>391.00</width>
+            <height>300.00</height>
         </size>
         <zorder>7</zorder>
         <SQLField>
@@ -2460,6 +2467,13 @@
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[C5C0043B-100A-4476-BF01-BE0777AE27C0]]></uid>
         </SQLField>
+        <SQLField>
+            <name><![CDATA[protocol]]></name>
+            <type><![CDATA[ENUM('udp','tcp','tls', 'tls/srtp')]]></type>
+            <defaultValue><![CDATA[udp]]></defaultValue>
+            <objectComment><![CDATA[Outbound call protocol]]></objectComment>
+            <uid><![CDATA[30661D66-96EC-4B02-995C-5E7EB8A3BD70]]></uid>
+        </SQLField>
         <SQLIndex>
             <name><![CDATA[sip_gateway_idx_hostport]]></name>
             <fieldName><![CDATA[ipv4]]></fieldName>
@@ -2477,13 +2491,23 @@
             <indexNamePrefix><![CDATA[sip_gateway]]></indexNamePrefix>
             <uid><![CDATA[1C744DE3-39BD-4EC6-B427-7EB2DD258771]]></uid>
         </SQLIndex>
-        <SQLField>
-            <name><![CDATA[protocol]]></name>
-            <type><![CDATA[ENUM('udp','tcp','tls', 'tls/srtp')]]></type>
-            <defaultValue><![CDATA[udp]]></defaultValue>
-            <objectComment><![CDATA[Outbound call protocol]]></objectComment>
-            <uid><![CDATA[30661D66-96EC-4B02-995C-5E7EB8A3BD70]]></uid>
-        </SQLField>
+        <SQLIndex>
+            <name><![CDATA[idx_sip_gateways_inbound_carrier]]></name>
+            <fieldName><![CDATA[inbound]]></fieldName>
+            <fieldName><![CDATA[voip_carrier_sid]]></fieldName>
+            <SQLIndexEntry>
+                <name><![CDATA[inbound]]></name>
+                <prefixSize><![CDATA[]]></prefixSize>
+                <fieldUid><![CDATA[CDE029DC-0C7C-400C-85E9-5005C53B7460]]></fieldUid>
+            </SQLIndexEntry>
+            <SQLIndexEntry>
+                <name><![CDATA[voip_carrier_sid]]></name>
+                <prefixSize><![CDATA[]]></prefixSize>
+                <fieldUid><![CDATA[BC25D27E-54E4-4D14-B53D-D1C6254D1D72]]></fieldUid>
+            </SQLIndexEntry>
+            <indexNamePrefix><![CDATA[sip_gateways]]></indexNamePrefix>
+            <uid><![CDATA[BCE047C6-F70E-42AD-9201-FECF1BAD6BEA]]></uid>
+        </SQLIndex>
         <labelWindowIndex><![CDATA[31]]></labelWindowIndex>
         <objectComment><![CDATA[A whitelisted sip gateway used for origination/termination]]></objectComment>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
@@ -3169,17 +3193,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1643.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[1235.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
-        <SourceSidebarWidth><![CDATA[312.000000]]></SourceSidebarWidth>
+        <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[1055.000000]]></windowHeight>
-        <windowLocationX><![CDATA[1728.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[37.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{0, 376}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1920.000000]]></windowWidth>
+        <windowHeight><![CDATA[876.000000]]></windowHeight>
+        <windowLocationX><![CDATA[-1164.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[1161.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{0, 0}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[1512.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>
