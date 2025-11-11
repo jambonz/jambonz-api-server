@@ -1,4 +1,5 @@
 /* SQLEditor (MySQL (2))*/
+
 SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS account_static_ips;
@@ -161,7 +162,7 @@ regex VARCHAR(32) NOT NULL COMMENT 'regex-based pattern match against dialed num
 description VARCHAR(1024),
 priority INTEGER NOT NULL COMMENT 'lower priority routes are attempted first',
 PRIMARY KEY (lcr_route_sid)
-) COMMENT='An ordered list of  digit patterns in an LCR table.  The patterns are tested in sequence until one matches';
+) COMMENT='An ordered list of  digit patterns in an LCR table.  The pat';
 
 CREATE TABLE lcr
 (
@@ -172,7 +173,7 @@ default_carrier_set_entry_sid CHAR(36) COMMENT 'default carrier/route to use whe
 service_provider_sid CHAR(36),
 account_sid CHAR(36),
 PRIMARY KEY (lcr_sid)
-) COMMENT='An LCR (least cost routing) table that is used by a service provider or account to make decisions about routing outbound calls when multiple carriers are available.';
+) COMMENT='An LCR (least cost routing) table that is used by a service ';
 
 CREATE TABLE password_settings
 (
@@ -203,6 +204,7 @@ tech_prefix VARCHAR(16) COMMENT 'tech prefix to prepend to outbound calls to thi
 inbound_auth_username VARCHAR(64),
 inbound_auth_password VARCHAR(64),
 diversion VARCHAR(32),
+trunk_type ENUM('static_ip','auth','reg') NOT NULL DEFAULT 'static_ip',
 PRIMARY KEY (predefined_carrier_sid)
 );
 
@@ -703,6 +705,8 @@ ALTER TABLE phone_numbers ADD FOREIGN KEY service_provider_sid_idxfk_8 (service_
 
 CREATE INDEX sip_gateway_idx_hostport ON sip_gateways (ipv4,port);
 
+CREATE INDEX idx_sip_gateways_inbound_carrier ON sip_gateways (inbound,voip_carrier_sid);
+
 CREATE INDEX voip_carrier_sid_idx ON sip_gateways (voip_carrier_sid);
 ALTER TABLE sip_gateways ADD FOREIGN KEY voip_carrier_sid_idxfk_2 (voip_carrier_sid) REFERENCES voip_carriers (voip_carrier_sid);
 
@@ -744,4 +748,4 @@ ALTER TABLE accounts ADD FOREIGN KEY device_calling_application_sid_idxfk (devic
 
 ALTER TABLE accounts ADD FOREIGN KEY siprec_hook_sid_idxfk (siprec_hook_sid) REFERENCES applications (application_sid);
 
-SET FOREIGN_KEY_CHECKS=1;
+SET FOREIGN_KEY_CHECKS=0;
