@@ -657,6 +657,7 @@ test('speech credentials tests', async(t) => {
         use_for_tts: false,
         api_key: 'asdasdasdasddsadasda',
         model_id: 'eleven_multilingual_v2',
+        stt_model_id: 'scribe_v1',
         api_uri: 'api.elevenlabs.io'
       }
     });
