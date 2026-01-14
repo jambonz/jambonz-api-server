@@ -235,6 +235,10 @@ const sql = {
     'ALTER TABLE voip_carriers ADD COLUMN trunk_type ENUM(\'static_ip\',\'auth\',\'reg\') NOT NULL DEFAULT \'static_ip\'',
     'ALTER TABLE predefined_carriers ADD COLUMN trunk_type ENUM(\'static_ip\',\'auth\',\'reg\') NOT NULL DEFAULT \'static_ip\'',
     'CREATE INDEX idx_sip_gateways_inbound_carrier ON sip_gateways (inbound,voip_carrier_sid)',
+  ],
+  9006: [
+    'ALTER TABLE sip_gateways ADD COLUMN remove_ice BOOLEAN NOT NULL DEFAULT 0',
+    'ALTER TABLE sip_gateways ADD COLUMN dtls_off BOOLEAN NOT NULL DEFAULT 0',
   ]
 };
 
@@ -272,6 +276,7 @@ const doIt = async() => {
         if (val < 9003) upgrades.push(...sql['9003']);
         if (val < 9004) upgrades.push(...sql['9004']);
         if (val < 9005) upgrades.push(...sql['9005']);
+        if (val < 9006) upgrades.push(...sql['9006']);
 
         // perform all upgrades
         logger.info({upgrades}, 'applying schema upgrades..');
