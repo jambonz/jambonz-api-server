@@ -707,6 +707,10 @@ CREATE INDEX sip_gateway_idx_hostport ON sip_gateways (ipv4,port);
 
 CREATE INDEX idx_sip_gateways_inbound_carrier ON sip_gateways (inbound,voip_carrier_sid);
 
+CREATE INDEX idx_sip_gateways_inbound_lookup ON sip_gateways (inbound,netmask,ipv4);
+
+CREATE INDEX idx_sip_gateways_inbound_netmask ON sip_gateways (inbound,netmask);
+
 CREATE INDEX voip_carrier_sid_idx ON sip_gateways (voip_carrier_sid);
 ALTER TABLE sip_gateways ADD FOREIGN KEY voip_carrier_sid_idxfk_2 (voip_carrier_sid) REFERENCES voip_carriers (voip_carrier_sid);
 
