@@ -285,3 +285,177 @@ test('application tests', async(t) => {
   }
 });
 
+test('application query optimization tests', async(t) => {
+  const app = require('../app');
+  try {
+    let result;
+
+    /* Create multiple service providers and accounts to test filtering */
+    const voip_carrier_sid = await createVoipCarrier(request, 'test-carrier-apps');
+
+    const service_provider_sid_1 = await createServiceProvider(request, 'test-sp-1');
+    const service_provider_sid_2 = await createServiceProvider(request, 'test-sp-2');
+
+    const account_sid_1 = await createAccount(request, service_provider_sid_1, 'test-account-1');
+    const account_sid_2 = await createAccount(request, service_provider_sid_2, 'test-account-2');
+
+    /* Create applications for different accounts */
+    const app1_result = await request.post('/Applications', {
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'test-app-account-1',
+        account_sid: account_sid_1,
+        call_hook: { url: 'http://example.com/app1' },
+        call_status_hook: { url: 'http://example.com/app1/status' }
+      }
+    });
+    const app1_sid = app1_result.sid;
+
+    const app2_result = await request.post('/Applications', {
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'test-app-account-2',
+        account_sid: account_sid_2,
+        call_hook: { url: 'http://example.com/app2' },
+        call_status_hook: { url: 'http://example.com/app2/status' }
+      }
+    });
+    const app2_sid = app2_result.sid;
+
+    const app3_result = await request.post('/Applications', {
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'another-app-account-1',
+        account_sid: account_sid_1,
+        call_hook: { url: 'http://example.com/app3' },
+        call_status_hook: { url: 'http://example.com/app3/status' }
+      }
+    });
+    const app3_sid = app3_result.sid;
+
+    /* Test 1: Query all applications as admin (no filter) - tests WHERE 1=1 fallback */
+    result = await request.get('/Applications', {
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.length >= 3, 'admin can see all applications using WHERE 1=1');
+    const ourApps = result.filter(app =>
+      [app1_sid, app2_sid, app3_sid].includes(app.application_sid)
+    );
+    t.ok(ourApps.length === 3, 'all three test applications are included in results');
+
+    /* Test 2: Query applications with name filter (LIKE query) - tests WHERE name LIKE optimization */
+    result = await request.get('/Applications', {
+      qs: { name: 'test-app' },
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.length === 2, 'successfully filtered applications by name prefix');
+    t.ok(result.every(app => app.name.includes('test-app')), 'all results match name filter');
+
+    /* Test 3: Query applications with exact name match - tests WHERE optimization */
+    result = await request.get('/Applications', {
+      qs: { name: 'test-app-account-1' },
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.length === 1, 'successfully filtered applications by exact name');
+    t.ok(result[0].name === 'test-app-account-1', 'exact name match works correctly');
+
+    /* Test 4: Query with name filter that matches nothing */
+    result = await request.get('/Applications', {
+      qs: { name: 'nonexistent-app-12345' },
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.length === 0, 'non-matching name filter returns empty array');
+
+    /* Test 5: Query with pagination and name filter - tests countAll optimization */
+    result = await request.get('/Applications', {
+      qs: {
+        name: 'test-app',
+        page: 1,
+        page_size: 10
+      },
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.data.length === 2, 'pagination with name filter returns correct count');
+    t.ok(result.total === 2, 'countAll with name filter returns correct total');
+    t.ok(result.page === 1, 'pagination returns correct page number');
+    t.ok(result.page_size === 10, 'pagination returns correct page size');
+
+    /* Test 6: Query with pagination and no filter - tests WHERE 1=1 fallback */
+    result = await request.get('/Applications', {
+      qs: {
+        page: 1,
+        page_size: 2
+      },
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.data.length === 2, 'pagination without filter returns page_size results');
+    t.ok(result.total >= 3, 'pagination without filter uses WHERE 1=1 and returns all');
+
+    /* Test 7: Create SP-scoped token and verify WHERE service_provider_sid optimization */
+    const sp1_token_result = await request.post('/ApiKeys', {
+      auth: authAdmin,
+      json: true,
+      body: {
+        service_provider_sid: service_provider_sid_1
+      }
+    });
+    const sp1_token = sp1_token_result.token;
+    const sp1_token_sid = sp1_token_result.sid;
+
+    result = await request.get('/Applications', {
+      auth: {bearer: sp1_token},
+      json: true,
+    });
+    t.ok(result.length === 2, 'SP-scoped token sees only their applications via WHERE service_provider_sid');
+    t.ok(result.every(app => app.account_sid === account_sid_1), 'all apps belong to SP1 accounts');
+
+    /* Test 8: SP-scoped token with name filter - tests combined WHERE clause */
+    result = await request.get('/Applications', {
+      qs: { name: 'test-app' },
+      auth: {bearer: sp1_token},
+      json: true,
+    });
+    t.ok(result.length === 1, 'SP-scoped token with name filter combines filters correctly');
+    t.ok(result[0].name === 'test-app-account-1', 'combined filter returns correct app');
+
+    /* Test 9: SP-scoped token with pagination - tests countAll with service_provider_sid */
+    result = await request.get('/Applications', {
+      qs: {
+        page: 1,
+        page_size: 10
+      },
+      auth: {bearer: sp1_token},
+      json: true,
+    });
+    t.ok(result.data.length === 2, 'SP-scoped pagination returns correct count');
+    t.ok(result.total === 2, 'countAll with service_provider_sid returns correct total');
+
+    /* Cleanup tokens */
+    await deleteObjectBySid(request, '/ApiKeys', sp1_token_sid);
+
+    /* Cleanup */
+    await deleteObjectBySid(request, '/Applications', app1_sid);
+    await deleteObjectBySid(request, '/Applications', app2_sid);
+    await deleteObjectBySid(request, '/Applications', app3_sid);
+    await deleteObjectBySid(request, '/Accounts', account_sid_1);
+    await deleteObjectBySid(request, '/Accounts', account_sid_2);
+    await deleteObjectBySid(request, '/VoipCarriers', voip_carrier_sid);
+    await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid_1);
+    await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid_2);
+
+    //t.end();
+  }
+  catch (err) {
+    t.end(err);
+  }
+});
+
