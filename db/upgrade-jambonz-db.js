@@ -235,9 +235,10 @@ const sql = {
     'ALTER TABLE voip_carriers ADD COLUMN trunk_type ENUM(\'static_ip\',\'auth\',\'reg\') NOT NULL DEFAULT \'static_ip\'',
     'ALTER TABLE predefined_carriers ADD COLUMN trunk_type ENUM(\'static_ip\',\'auth\',\'reg\') NOT NULL DEFAULT \'static_ip\'',
     'CREATE INDEX idx_sip_gateways_inbound_carrier ON sip_gateways (inbound,voip_carrier_sid)',
-  ]
+    'CREATE INDEX idx_sip_gateways_inbound_lookup ON sip_gateways (inbound,netmask,ipv4)',
+    'CREATE INDEX idx_sip_gateways_inbound_netmask ON sip_gateways (inbound,netmask)'
+  ],
 };
-
 const doIt = async() => {
   let connection;
   try {
