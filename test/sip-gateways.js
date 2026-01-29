@@ -161,7 +161,62 @@ test('sip gateway tests', async(t) => {
     });
     //console.log(`result: ${JSON.stringify(result)}`);
     t.ok(result.statusCode === 204, 'successfully deleted sip gateway');
-    
+
+    /* add a sip gateway with remove_ice and dtls_off */
+    result = await request.post('/SipGateways', {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+      body: {
+        voip_carrier_sid,
+        ipv4: '192.168.1.3',
+        netmask: 32,
+        inbound: true,
+        outbound: true,
+        remove_ice: true,
+        dtls_off: true
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully created sip gateway with remove_ice and dtls_off');
+    const iceDtlsSid = result.body.sid;
+
+    /* query sip gateway with remove_ice and dtls_off */
+    result = await request.get(`/SipGateways/${iceDtlsSid}`, {
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.ipv4 === '192.168.1.3', 'successfully retrieved sip gateway by sid');
+    t.ok(result.remove_ice === 1, 'remove_ice is set correctly');
+    t.ok(result.dtls_off === 1, 'dtls_off is set correctly');
+
+    /* update sip gateway to disable remove_ice */
+    result = await request.put(`/SipGateways/${iceDtlsSid}`, {
+      auth: authAdmin,
+      json: true,
+      resolveWithFullResponse: true,
+      body: {
+        remove_ice: false
+      }
+    });
+    t.ok(result.statusCode === 204, 'successfully updated sip gateway remove_ice');
+
+    /* verify update */
+    result = await request.get(`/SipGateways/${iceDtlsSid}`, {
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.remove_ice === 0, 'remove_ice was updated correctly');
+    t.ok(result.dtls_off === 1, 'dtls_off remains unchanged');
+
+    /* delete sip gateway */
+    result = await request.delete(`/SipGateways/${iceDtlsSid}`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      json: true,
+      auth: authAdmin
+    });
+    t.ok(result.statusCode === 204, 'successfully deleted sip gateway with ice/dtls flags');
+
     await deleteObjectBySid(request, '/VoipCarriers', voip_carrier_sid);
 
     t.end();
