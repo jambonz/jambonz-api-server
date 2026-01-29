@@ -470,6 +470,8 @@ send_options_ping BOOLEAN NOT NULL DEFAULT 0,
 use_sips_scheme BOOLEAN NOT NULL DEFAULT 0,
 pad_crypto BOOLEAN NOT NULL DEFAULT 0,
 protocol ENUM('udp','tcp','tls', 'tls/srtp') DEFAULT 'udp' COMMENT 'Outbound call protocol',
+remove_ice BOOLEAN NOT NULL DEFAULT 0,
+dtls_off BOOLEAN NOT NULL DEFAULT 0,
 PRIMARY KEY (sip_gateway_sid)
 ) COMMENT='A whitelisted sip gateway used for origination/termination';
 
