@@ -239,9 +239,10 @@ const sql = {
   9006: [
     'ALTER TABLE sip_gateways ADD COLUMN remove_ice BOOLEAN NOT NULL DEFAULT 0',
     'ALTER TABLE sip_gateways ADD COLUMN dtls_off BOOLEAN NOT NULL DEFAULT 0',
+    'CREATE INDEX idx_sip_gateways_inbound_lookup ON sip_gateways (inbound,netmask,ipv4)',
+    'CREATE INDEX idx_sip_gateways_inbound_netmask ON sip_gateways (inbound,netmask)'
   ]
 };
-
 const doIt = async() => {
   let connection;
   try {
