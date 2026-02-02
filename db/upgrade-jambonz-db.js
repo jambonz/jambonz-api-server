@@ -240,7 +240,14 @@ const sql = {
     'ALTER TABLE sip_gateways ADD COLUMN remove_ice BOOLEAN NOT NULL DEFAULT 0',
     'ALTER TABLE sip_gateways ADD COLUMN dtls_off BOOLEAN NOT NULL DEFAULT 0',
     'CREATE INDEX idx_sip_gateways_inbound_lookup ON sip_gateways (inbound,netmask,ipv4)',
-    'CREATE INDEX idx_sip_gateways_inbound_netmask ON sip_gateways (inbound,netmask)'
+    'CREATE INDEX idx_sip_gateways_inbound_netmask ON sip_gateways (inbound,netmask)',
+    'ALTER TABLE predefined_carriers ADD COLUMN trunk_type ENUM(\'static_ip\',\'auth\',\'reg\') NOT NULL DEFAULT \'static_ip\'',
+    'ALTER TABLE predefined_sip_gateways ADD COLUMN send_options_ping BOOLEAN NOT NULL DEFAULT 0',
+    'ALTER TABLE predefined_sip_gateways ADD COLUMN use_sips_scheme BOOLEAN NOT NULL DEFAULT 0',
+    'ALTER TABLE predefined_sip_gateways ADD COLUMN pad_crypto BOOLEAN NOT NULL DEFAULT 0',
+    'ALTER TABLE predefined_sip_gateways ADD COLUMN remove_ice BOOLEAN NOT NULL DEFAULT 0',
+    'ALTER TABLE predefined_sip_gateways ADD COLUMN dtls_off BOOLEAN NOT NULL DEFAULT 0',
+    'ALTER TABLE predefined_sip_gateways ADD COLUMN protocol ENUM(\'udp\',\'tcp\',\'tls\', \'tls/srtp\') NOT NULL DEFAULT \'udp\'',
   ]
 };
 const doIt = async() => {
