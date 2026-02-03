@@ -20,7 +20,7 @@
     "url": "https://github.com/jambonz/jambonz-api-server.git"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudwatch-logs": "^3.750.0",
+    "@aws-sdk/client-cloudwatch-logs": "^3.894.0",
     "@aws-sdk/client-s3": "^3.550.0",
     "@aws-sdk/client-transcribe": "^3.549.0",
     "@azure/storage-blob": "^12.17.0",
