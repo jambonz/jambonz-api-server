@@ -42,12 +42,13 @@ values
 -- create predefined carriers
 insert into predefined_carriers (predefined_carrier_sid, name, requires_static_ip, e164_leading_plus, 
 requires_register, register_username, register_password, 
-register_sip_realm, tech_prefix, inbound_auth_username, inbound_auth_password, diversion)
+register_sip_realm, tech_prefix, inbound_auth_username, inbound_auth_password, diversion, trunk_type)
 VALUES
-('17479288-bb9f-421a-89d1-f4ac57af1dca', 'TelecomsXChange', 0, 0, 0, NULL, NULL, NULL, 'your-tech-prefix', NULL, NULL, NULL),
-('7d509a18-bbff-4c5d-b21e-b99bf8f8c49a', 'Twilio', 0, 1, 0, '<your-twilio-credential-username>', '<your-twilio-credential-password>', NULL, NULL, NULL, NULL, NULL),
-('032d90d5-39e8-41c0-b807-9c88cffba65c', 'Voxbone', 0, 1, 0, '<your-voxbone-outbound-username>', '<your-voxbone-outbound-password>', NULL, NULL, NULL, NULL, '<your-voxbone-DID>'),
-('e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', 'Simwood', 0, 1, 0, '<your-simwood-auth-trunk-username>',  '<your-simwood-auth-trunk-password>', NULL, NULL, NULL, NULL, NULL);
+('17479288-bb9f-421a-89d1-f4ac57af1dca', 'TelecomsXChange', 0, 0, 0, NULL, NULL, NULL, 'your-tech-prefix', NULL, NULL, NULL, 'static_ip'),
+('7d509a18-bbff-4c5d-b21e-b99bf8f8c49a', 'Twilio', 0, 1, 0, '<your-twilio-credential-username>', '<your-twilio-credential-password>', NULL, NULL, NULL, NULL, NULL, 'static_ip'),
+('032d90d5-39e8-41c0-b807-9c88cffba65c', 'Voxbone', 0, 1, 0, '<your-voxbone-outbound-username>', '<your-voxbone-outbound-password>', NULL, NULL, NULL, NULL, '<your-voxbone-DID>', 'static_ip'),
+('e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', 'Simwood', 0, 1, 0, '<your-simwood-auth-trunk-username>',  '<your-simwood-auth-trunk-password>', NULL, NULL, NULL, NULL, NULL, 'static_ip'),
+('541ef8ec-0524-4a1d-b9c4-2a672764992e', 'Retell', 0, 1, 0, NULL, NULL, NULL, NULL, '<your-retell-auth-username>',  '<your-retell-auth-password>', NULL, 'auth');
 
 -- TelecomXchange gateways
 insert into predefined_sip_gateways (predefined_sip_gateway_sid, predefined_carrier_sid, ipv4, netmask, port, inbound, outbound)
@@ -95,5 +96,10 @@ VALUES
 ('38d8520a-527f-4f8e-8456-f9dfca742561', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '172.86.225.77', 32, 5060, 1, 0),
 ('834f8b0c-d4c2-4f3e-93d9-cf307995eedd', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', '172.86.225.88', 32, 5060, 1, 0),
 ('5f431d42-48e4-44ce-a311-d946f0b475b6', 'e6fb301a-1af0-4fb8-a1f6-f65530c6e1c6', 'out.simwood.com', 32, 5060, 0, 1);
+
+-- retell gateways
+insert into predefined_sip_gateways (predefined_sip_gateway_sid, predefined_carrier_sid, ipv4, netmask, port, inbound, outbound)
+VALUES
+('ac527058-9d65-46b6-b5dd-b0f007c3a686', '541ef8ec-0524-4a1d-b9c4-2a672764992e', 'sip.retellai.com', 32, 5060, 0, 1);
 
 SET FOREIGN_KEY_CHECKS=1;
