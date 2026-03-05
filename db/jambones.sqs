@@ -2378,7 +2378,7 @@
         </location>
         <size>
             <width>391.00</width>
-            <height>300.00</height>
+            <height>340.00</height>
         </size>
         <zorder>7</zorder>
         <SQLField>
@@ -2507,6 +2507,46 @@
             </SQLIndexEntry>
             <indexNamePrefix><![CDATA[sip_gateways]]></indexNamePrefix>
             <uid><![CDATA[BCE047C6-F70E-42AD-9201-FECF1BAD6BEA]]></uid>
+        </SQLIndex>
+        <SQLIndex>
+            <name><![CDATA[idx_sip_gateways_inbound_lookup]]></name>
+            <fieldName><![CDATA[inbound]]></fieldName>
+            <fieldName><![CDATA[netmask]]></fieldName>
+            <fieldName><![CDATA[ipv4]]></fieldName>
+            <SQLIndexEntry>
+                <name><![CDATA[inbound]]></name>
+                <prefixSize><![CDATA[]]></prefixSize>
+                <fieldUid><![CDATA[CDE029DC-0C7C-400C-85E9-5005C53B7460]]></fieldUid>
+            </SQLIndexEntry>
+            <SQLIndexEntry>
+                <name><![CDATA[netmask]]></name>
+                <prefixSize><![CDATA[]]></prefixSize>
+                <fieldUid><![CDATA[717ACB37-EF84-48DC-94E4-2AAC066C0A33]]></fieldUid>
+            </SQLIndexEntry>
+            <SQLIndexEntry>
+                <name><![CDATA[ipv4]]></name>
+                <prefixSize><![CDATA[]]></prefixSize>
+                <fieldUid><![CDATA[F18DB7D4-F902-4863-870C-CB07032AE17C]]></fieldUid>
+            </SQLIndexEntry>
+            <indexNamePrefix><![CDATA[sip_gateways]]></indexNamePrefix>
+            <uid><![CDATA[83F405A9-2AE5-415C-9B5E-5E9B92A32F57]]></uid>
+        </SQLIndex>
+        <SQLIndex>
+            <name><![CDATA[idx_sip_gateways_inbound_netmask]]></name>
+            <fieldName><![CDATA[inbound]]></fieldName>
+            <fieldName><![CDATA[netmask]]></fieldName>
+            <SQLIndexEntry>
+                <name><![CDATA[inbound]]></name>
+                <prefixSize><![CDATA[]]></prefixSize>
+                <fieldUid><![CDATA[CDE029DC-0C7C-400C-85E9-5005C53B7460]]></fieldUid>
+            </SQLIndexEntry>
+            <SQLIndexEntry>
+                <name><![CDATA[netmask]]></name>
+                <prefixSize><![CDATA[]]></prefixSize>
+                <fieldUid><![CDATA[717ACB37-EF84-48DC-94E4-2AAC066C0A33]]></fieldUid>
+            </SQLIndexEntry>
+            <indexNamePrefix><![CDATA[sip_gateways]]></indexNamePrefix>
+            <uid><![CDATA[8322B9B7-DC3A-4B0D-85A8-2D15E4C51340]]></uid>
         </SQLIndex>
         <labelWindowIndex><![CDATA[31]]></labelWindowIndex>
         <objectComment><![CDATA[A whitelisted sip gateway used for origination/termination]]></objectComment>
@@ -3193,17 +3233,17 @@
         <overviewPanelHidden><![CDATA[0]]></overviewPanelHidden>
         <pageBoundariesVisible><![CDATA[0]]></pageBoundariesVisible>
         <PageGridVisible><![CDATA[0]]></PageGridVisible>
-        <RightSidebarWidth><![CDATA[1235.000000]]></RightSidebarWidth>
+        <RightSidebarWidth><![CDATA[2944.000000]]></RightSidebarWidth>
         <sidebarIndex><![CDATA[2]]></sidebarIndex>
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[0.000000]]></SourceSidebarWidth>
         <SQLEditorFileFormatVersion><![CDATA[4]]></SQLEditorFileFormatVersion>
         <uid><![CDATA[58C99A00-06C9-478C-A667-C63842E088F3]]></uid>
-        <windowHeight><![CDATA[876.000000]]></windowHeight>
-        <windowLocationX><![CDATA[-1164.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[1161.000000]]></windowLocationY>
+        <windowHeight><![CDATA[965.000000]]></windowHeight>
+        <windowLocationX><![CDATA[-1886.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[1072.000000]]></windowLocationY>
         <windowScrollOrigin><![CDATA[{0, 0}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1512.000000]]></windowWidth>
+        <windowWidth><![CDATA[3221.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <defaultLabelExpanded><![CDATA[1]]></defaultLabelExpanded>

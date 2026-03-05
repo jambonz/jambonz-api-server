@@ -1136,6 +1136,115 @@ test('speech credentials tests', async(t) => {
     });
     t.ok(result.body.stt.length !== 0, 'successfully get gladia supported languages and voices');
 
+    /* add a credential for google with model_id */
+    result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        vendor: 'google',
+        label: 'google_gemini_tts',
+        service_key: jsonKey,
+        use_for_tts: true,
+        use_for_stt: true,
+        model_id: 'gemini-2.0-flash-exp'
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully added speech credential for google with model_id');
+    const google_gemini_sid = result.body.sid;
+
+    /* query the credential and verify model_id are stored */
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/${google_gemini_sid}`, {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.statusCode === 200, 'successfully retrieved google gemini speech credential');
+    t.ok(result.body.vendor === 'google', 'vendor is google');
+    t.ok(result.body.label === 'google_gemini_tts', 'label is correct');
+    t.ok(result.body.model_id === 'gemini-2.0-flash-exp', 'model_id is correct');
+
+    /* update the credential to change model_id */
+    result = await request.put(`/Accounts/${account_sid}/SpeechCredentials/${google_gemini_sid}`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        use_for_tts: true,
+        use_for_stt: true,
+        model_id: 'gemini-2.5-flash-preview-native-audio'
+      }
+    });
+    t.ok(result.statusCode === 204, 'successfully updated google gemini speech credential');
+
+    /* verify the update */
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/${google_gemini_sid}`, {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.statusCode === 200, 'successfully retrieved updated google gemini speech credential');
+    t.ok(result.body.model_id === 'gemini-2.5-flash-preview-native-audio', 'model_id is updated correctly');
+
+    /* update the credential to disable gemini tts */
+    result = await request.put(`/Accounts/${account_sid}/SpeechCredentials/${google_gemini_sid}`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        use_for_tts: true,
+        use_for_stt: true,
+        model_id: null
+      }
+    });
+    t.ok(result.statusCode === 204, 'successfully updated google speech credential to disable gemini tts');
+
+    /* verify the update to disable gemini tts */
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/${google_gemini_sid}`, {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.statusCode === 200, 'successfully retrieved google speech credential after disabling gemini');
+    t.ok(!result.body.model_id, 'model_id is now null');
+
+    /* delete the google gemini credential */
+    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${google_gemini_sid}`, {
+      auth: authUser,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 204, 'successfully deleted google gemini speech credential');
+
+    /* add a credential for google at service provider level with gemini tts */
+    result = await request.post(`/ServiceProviders/${service_provider_sid}/SpeechCredentials`, {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+      body: {
+        vendor: 'google',
+        service_key: jsonKey,
+        use_for_tts: true,
+        use_for_stt: true,
+        model_id: 'gemini-2.0-flash-exp'
+      }
+    });
+    t.ok(result.statusCode === 201, 'successfully added google gemini speech credential to service provider');
+    const sp_google_gemini_sid = result.body.sid;
+
+    /* query the service provider credential */
+    result = await request.get(`/ServiceProviders/${service_provider_sid}/SpeechCredentials`, {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+    });
+    t.ok(result.statusCode === 200, 'successfully queried service provider speech credentials');
+    const spCred = result.body.find(c => c.speech_credential_sid === sp_google_gemini_sid);
+    t.ok(spCred, 'found google gemini credential in service provider credentials');
+    t.ok(spCred.model_id === 'gemini-2.0-flash-exp', 'model_id is correct for SP credential');
+
+    /* delete the service provider google gemini credential */
+    await deleteObjectBySid(request, `/ServiceProviders/${service_provider_sid}/SpeechCredentials`, sp_google_gemini_sid);
+
     await deleteObjectBySid(request, '/Accounts', account_sid);
     await deleteObjectBySid(request, '/ServiceProviders', service_provider_sid);
     t.end();

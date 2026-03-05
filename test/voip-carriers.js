@@ -67,10 +67,10 @@ test('voip carrier tests', async(t) => {
         name: 'robb',
         requires_register: true,
         register_username: 'foo',
-        register_sip_realm: 'bar',
+        register_sip_realm: 'sip.bar.com',
         register_password: 'baz',
         register_from_user: 'fromme',
-        register_from_domain: 'fromdomain'
+        register_from_domain: 'from.domain.com'
       }
     });
     t.ok(result.statusCode === 204, 'successfully updated voip carrier');
@@ -239,6 +239,193 @@ test('voip carrier tests', async(t) => {
     //t.end();
   }
   catch (err) {
+    console.error(err);
+    t.end(err);
+  }
+});
+
+test('voip carrier registration field validation', async(t) => {
+  const app = require('../app');
+  let sid;
+  try {
+    let result;
+
+    /* Test: register_username required when requires_register is true */
+    result = await request.post('/VoipCarriers', {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'test carrier',
+        requires_register: true,
+        register_password: 'password123',
+        register_sip_realm: 'sip.example.com'
+      }
+    });
+    t.ok(result.statusCode === 400 && result.body.msg.includes('register_username is required'),
+      'returns 400 if requires_register=true but no register_username');
+
+    /* Test: register_password required when requires_register is true */
+    result = await request.post('/VoipCarriers', {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'test carrier',
+        requires_register: true,
+        register_username: 'testuser',
+        register_sip_realm: 'sip.example.com'
+      }
+    });
+    t.ok(result.statusCode === 400 && result.body.msg.includes('register_password is required'),
+      'returns 400 if requires_register=true but no register_password');
+
+    /* Test: register_username must not contain whitespace */
+    result = await request.post('/VoipCarriers', {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'test carrier',
+        requires_register: true,
+        register_username: 'my trunk',
+        register_password: 'password123'
+      }
+    });
+    t.ok(result.statusCode === 400 && result.body.msg.includes('must not contain whitespace'),
+      'returns 400 if register_username contains spaces');
+
+    /* Test: register_sip_realm must not have sip: prefix */
+    result = await request.post('/VoipCarriers', {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'test carrier',
+        requires_register: true,
+        register_username: 'user',
+        register_password: 'pass',
+        register_sip_realm: 'sip:example.com'
+      }
+    });
+    t.ok(result.statusCode === 400 && result.body.msg.includes('no sip: prefix'),
+      'returns 400 if register_sip_realm starts with sip:');
+
+    /* Test: register_sip_realm must be valid domain format (contain a dot) */
+    result = await request.post('/VoipCarriers', {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'test carrier',
+        requires_register: true,
+        register_username: 'user',
+        register_password: 'pass',
+        register_sip_realm: 'Switch'
+      }
+    });
+    t.ok(result.statusCode === 400 && result.body.msg.includes('valid domain or IP'),
+      'returns 400 if register_sip_realm is not a valid domain');
+
+    /* Test: register_sip_realm must not be empty string */
+    result = await request.post('/VoipCarriers', {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'test carrier',
+        requires_register: true,
+        register_username: 'user',
+        register_password: 'pass',
+        register_sip_realm: ''
+      }
+    });
+    t.ok(result.statusCode === 400 && result.body.msg.includes('must not be empty string'),
+      'returns 400 if register_sip_realm is empty string');
+
+    /* Test: register_sip_realm can be null (falls back to gateway IP) */
+    result = await request.post('/VoipCarriers', {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'test carrier null realm',
+        requires_register: true,
+        register_username: 'user',
+        register_password: 'pass',
+        register_sip_realm: null
+      }
+    });
+    t.ok(result.statusCode === 201, 'succeeds if register_sip_realm is null');
+    sid = result.body.sid;
+    await deleteObjectBySid(request, '/VoipCarriers', sid);
+
+    /* Test: Valid IPv4 address is accepted as register_sip_realm */
+    result = await request.post('/VoipCarriers', {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'test carrier ipv4',
+        requires_register: true,
+        register_username: 'user',
+        register_password: 'pass',
+        register_sip_realm: '192.168.1.100'
+      }
+    });
+    t.ok(result.statusCode === 201, 'succeeds if register_sip_realm is valid IPv4');
+    sid = result.body.sid;
+    await deleteObjectBySid(request, '/VoipCarriers', sid);
+
+    /* Test: Valid domain is accepted as register_sip_realm */
+    result = await request.post('/VoipCarriers', {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'test carrier domain',
+        requires_register: true,
+        register_username: 'user',
+        register_password: 'pass',
+        register_sip_realm: 'sip.example.com'
+      }
+    });
+    t.ok(result.statusCode === 201, 'succeeds if register_sip_realm is valid domain');
+    sid = result.body.sid;
+
+    /* Test: Update to enable requires_register without credentials fails */
+    const sid2Result = await request.post('/VoipCarriers', {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'test carrier no reg'
+      }
+    });
+    const sid2 = sid2Result.body.sid;
+
+    result = await request.put(`/VoipCarriers/${sid2}`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+      body: {
+        requires_register: true
+      }
+    });
+    t.ok(result.statusCode === 400 && result.body.msg.includes('register_username is required'),
+      'returns 400 when enabling requires_register without credentials');
+
+    await deleteObjectBySid(request, '/VoipCarriers', sid);
+    await deleteObjectBySid(request, '/VoipCarriers', sid2);
+
+  } catch (err) {
     console.error(err);
     t.end(err);
   }

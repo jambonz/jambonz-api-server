@@ -470,6 +470,8 @@ send_options_ping BOOLEAN NOT NULL DEFAULT 0,
 use_sips_scheme BOOLEAN NOT NULL DEFAULT 0,
 pad_crypto BOOLEAN NOT NULL DEFAULT 0,
 protocol ENUM('udp','tcp','tls', 'tls/srtp') DEFAULT 'udp' COMMENT 'Outbound call protocol',
+remove_ice BOOLEAN NOT NULL DEFAULT 0,
+dtls_off BOOLEAN NOT NULL DEFAULT 0,
 PRIMARY KEY (sip_gateway_sid)
 ) COMMENT='A whitelisted sip gateway used for origination/termination';
 
@@ -707,6 +709,10 @@ CREATE INDEX sip_gateway_idx_hostport ON sip_gateways (ipv4,port);
 
 CREATE INDEX idx_sip_gateways_inbound_carrier ON sip_gateways (inbound,voip_carrier_sid);
 
+CREATE INDEX idx_sip_gateways_inbound_lookup ON sip_gateways (inbound,netmask,ipv4);
+
+CREATE INDEX idx_sip_gateways_inbound_netmask ON sip_gateways (inbound,netmask);
+
 CREATE INDEX voip_carrier_sid_idx ON sip_gateways (voip_carrier_sid);
 ALTER TABLE sip_gateways ADD FOREIGN KEY voip_carrier_sid_idxfk_2 (voip_carrier_sid) REFERENCES voip_carriers (voip_carrier_sid);
 
@@ -748,4 +754,4 @@ ALTER TABLE accounts ADD FOREIGN KEY device_calling_application_sid_idxfk (devic
 
 ALTER TABLE accounts ADD FOREIGN KEY siprec_hook_sid_idxfk (siprec_hook_sid) REFERENCES applications (application_sid);
 
-SET FOREIGN_KEY_CHECKS=0;
+SET FOREIGN_KEY_CHECKS=1;

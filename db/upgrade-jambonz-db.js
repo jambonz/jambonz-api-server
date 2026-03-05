@@ -235,9 +235,21 @@ const sql = {
     'ALTER TABLE voip_carriers ADD COLUMN trunk_type ENUM(\'static_ip\',\'auth\',\'reg\') NOT NULL DEFAULT \'static_ip\'',
     'ALTER TABLE predefined_carriers ADD COLUMN trunk_type ENUM(\'static_ip\',\'auth\',\'reg\') NOT NULL DEFAULT \'static_ip\'',
     'CREATE INDEX idx_sip_gateways_inbound_carrier ON sip_gateways (inbound,voip_carrier_sid)',
+  ],
+  9006: [
+    'ALTER TABLE sip_gateways ADD COLUMN remove_ice BOOLEAN NOT NULL DEFAULT 0',
+    'ALTER TABLE sip_gateways ADD COLUMN dtls_off BOOLEAN NOT NULL DEFAULT 0',
+    'CREATE INDEX idx_sip_gateways_inbound_lookup ON sip_gateways (inbound,netmask,ipv4)',
+    'CREATE INDEX idx_sip_gateways_inbound_netmask ON sip_gateways (inbound,netmask)',
+    'ALTER TABLE predefined_carriers ADD COLUMN trunk_type ENUM(\'static_ip\',\'auth\',\'reg\') NOT NULL DEFAULT \'static_ip\'',
+    'ALTER TABLE predefined_sip_gateways ADD COLUMN send_options_ping BOOLEAN NOT NULL DEFAULT 0',
+    'ALTER TABLE predefined_sip_gateways ADD COLUMN use_sips_scheme BOOLEAN NOT NULL DEFAULT 0',
+    'ALTER TABLE predefined_sip_gateways ADD COLUMN pad_crypto BOOLEAN NOT NULL DEFAULT 0',
+    'ALTER TABLE predefined_sip_gateways ADD COLUMN remove_ice BOOLEAN NOT NULL DEFAULT 0',
+    'ALTER TABLE predefined_sip_gateways ADD COLUMN dtls_off BOOLEAN NOT NULL DEFAULT 0',
+    'ALTER TABLE predefined_sip_gateways ADD COLUMN protocol ENUM(\'udp\',\'tcp\',\'tls\', \'tls/srtp\') NOT NULL DEFAULT \'udp\'',
   ]
 };
-
 const doIt = async() => {
   let connection;
   try {
@@ -272,6 +284,7 @@ const doIt = async() => {
         if (val < 9003) upgrades.push(...sql['9003']);
         if (val < 9004) upgrades.push(...sql['9004']);
         if (val < 9005) upgrades.push(...sql['9005']);
+        if (val < 9006) upgrades.push(...sql['9006']);
 
         // perform all upgrades
         logger.info({upgrades}, 'applying schema upgrades..');
