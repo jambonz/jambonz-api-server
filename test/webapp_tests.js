@@ -11,7 +11,7 @@ const {createApiKey} = require('./utils');
 const sleepFor = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 test('re-creating schema', (t) => {
-  exec(`mysql -h 127.0.0.1 -u root --protocol=tcp --port=3360 -D jambones_test < ${__dirname}/../db/jambones-sql.sql`, (err, stdout, stderr) => {
+  exec(`docker exec -i mysql-jambonz-test mysql -u root -D jambones_test < ${__dirname}/../db/jambones-sql.sql`, (err, stdout, stderr) => {
     if (err) return t.end(err);
     t.pass('schema successfully created');
     t.end();
@@ -19,14 +19,14 @@ test('re-creating schema', (t) => {
 });
 
 test('seeding database for webapp tests', (t) => {
-  exec(`mysql -h 127.0.0.1 -u root  --protocol=tcp --port=3360 -D jambones_test < ${__dirname}/../db/webapp-tests.sql`, (err, stdout, stderr) => {
+  exec(`docker exec -i mysql-jambonz-test mysql -u root -D jambones_test < ${__dirname}/../db/webapp-tests.sql`, (err, stdout, stderr) => {
     if (err) return t.end(err);
     t.pass('successfully re-seeded database');
     t.end();
   });
 });
 test('prepare permissions', (t) => {
-  exec(`mysql -h 127.0.0.1 -u root  --protocol=tcp --port=3360 -D jambones_test < ${__dirname}/../db/prepare-permissions-test.sql`, (err, stdout, stderr) => {
+  exec(`docker exec -i mysql-jambonz-test mysql -u root -D jambones_test < ${__dirname}/../db/prepare-permissions-test.sql`, (err, stdout, stderr) => {
     if (err) return t.end(err);
     t.pass('permissions prepared');
     t.end();

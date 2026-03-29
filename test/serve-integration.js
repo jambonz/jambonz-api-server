@@ -13,7 +13,7 @@ process.on('SIGINT', async() => {
 const startDocker = () => {
   return new Promise((resolve, reject) => {
     console.log('starting dockerized mysql and redis..')
-    exec(`docker-compose -f ${__dirname}/docker-compose-testbed.yaml up -d`, (err) => {
+    exec(`docker compose -f ${__dirname}/docker-compose-testbed.yaml up -d`, (err) => {
       if (err) return reject(err);
       setTimeout(() => {
         console.log('mysql is running');
@@ -26,7 +26,7 @@ const startDocker = () => {
 const createDb = () => {
   return new Promise((resolve, reject) => {
     console.log('creating database..')
-    exec(`mysql -h 127.0.0.1 -u root --protocol=tcp --port=3360 < ${__dirname}/../db/create_test_db.sql`, (err) => {
+    exec(`docker exec -i mysql-jambonz-test mysql -u root < ${__dirname}/../db/create_test_db.sql`, (err) => {
       if (err) return reject(err);
       resolve();
     });
@@ -36,7 +36,7 @@ const createDb = () => {
 const createSchema = () => {
   return new Promise((resolve, reject) => {
     console.log('creating schema..')
-  exec(`mysql -h 127.0.0.1 -u root  --protocol=tcp --port=3360 -D jambones_test < ${__dirname}/../db/jambones-sql.sql`, (err, stdout, stderr) => {
+  exec(`docker exec -i mysql-jambonz-test mysql -u root -D jambones_test < ${__dirname}/../db/jambones-sql.sql`, (err, stdout, stderr) => {
       if (err) return reject(err);
       resolve();
     });
@@ -46,7 +46,7 @@ const createSchema = () => {
 const seedDb = () => {
   return new Promise((resolve, reject) => {
     console.log('seeding database..')
-    exec(`mysql -h 127.0.0.1 -u root --protocol=tcp --port=3360 -D jambones_test < ${__dirname}/../db/seed-integration-test.sql`, (err) => {
+    exec(`docker exec -i mysql-jambonz-test mysql -u root -D jambones_test < ${__dirname}/../db/seed-integration-test.sql`, (err) => {
       if (err) return reject(err);
       resolve();
     });
@@ -78,7 +78,7 @@ const generateSipTrace = async() => {
 const stopDocker = () => {
   return new Promise((resolve, reject) => {
     console.log('stopping docker network..')
-    exec(`docker-compose -f ${__dirname}/docker-compose-testbed.yaml down`, (err) => {
+    exec(`docker compose -f ${__dirname}/docker-compose-testbed.yaml down`, (err) => {
       if (err) return reject(err);
       resolve();
     });

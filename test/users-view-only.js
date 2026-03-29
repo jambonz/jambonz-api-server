@@ -22,7 +22,7 @@ test('add an admin user', (t) => {
 
 
 test('prepare permissions', (t) => {
-  exec(`mysql -h 127.0.0.1 -u root  --protocol=tcp --port=3360 -D jambones_test < ${__dirname}/../db/prepare-permissions-test.sql`, (err, stdout, stderr) => {
+  exec(`docker exec -i mysql-jambonz-test mysql -u root -D jambones_test < ${__dirname}/../db/prepare-permissions-test.sql`, (err, stdout, stderr) => {
     if (err) return t.end(err);
     t.pass('permissions prepared');
     t.end();
