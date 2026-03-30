@@ -1,5 +1,3 @@
-version: '3'
-
 networks:
   jambonz-api:
     driver: bridge
@@ -10,11 +8,11 @@ networks:
 
 services:  
   mysql:
-    # platform: linux/x86_64
+    container_name: mysql-jambonz-test
     image: mysql:5.7
     ports:
       - "3360:3306"
-    environment: 
+    environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "127.0.0.1", "--protocol", "tcp"]

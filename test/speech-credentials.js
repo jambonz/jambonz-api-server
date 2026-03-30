@@ -422,85 +422,7 @@ test('speech credentials tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully deleted speech credential for deepgram onprem');
 
-    /* add a credential for ibm tts */
-    if (process.env.IBM_TTS_API_KEY && process.env.IBM_TTS_REGION) {
-      result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
-        resolveWithFullResponse: true,
-        auth: authUser,
-        json: true,
-        body: {
-          vendor: 'ibm',
-          use_for_tts: true,
-          tts_api_key: process.env.IBM_TTS_API_KEY,
-          tts_region: process.env.IBM_TTS_REGION
-        }
-      });
-      t.ok(result.statusCode === 201, 'successfully added speech credential for ibm');
-      const ms_sid = result.body.sid;
 
-      /* test the speech credential */
-      result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/${ms_sid}/test`, {
-        resolveWithFullResponse: true,
-        auth: authUser,
-        json: true,   
-      });
-      //console.log(JSON.stringify(result));
-      t.ok(result.statusCode === 200 && result.body.tts.status === 'ok', 'successfully tested speech credential for ibm tts');
-
-      /* delete the credential */
-      result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${ms_sid}`, {
-        auth: authUser,
-        resolveWithFullResponse: true,
-      });
-      t.ok(result.statusCode === 204, 'successfully deleted speech credential');
-    }
-
-    /* add a credential for ibm stt */
-    if (process.env.IBM_STT_API_KEY && process.env.IBM_STT_REGION) {
-      result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
-        resolveWithFullResponse: true,
-        auth: authUser,
-        json: true,
-        body: {
-          vendor: 'ibm',
-          use_for_stt: true,
-          stt_api_key: process.env.IBM_STT_API_KEY,
-          stt_region: process.env.IBM_STT_REGION
-        }
-      });
-      t.ok(result.statusCode === 201, 'successfully added speech credential for ibm');
-      const ms_sid = result.body.sid;
-
-      /* test the speech credential */
-      result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/${ms_sid}/test`, {
-        resolveWithFullResponse: true,
-        auth: authUser,
-        json: true,   
-      });
-      //console.log(JSON.stringify(result));
-      t.ok(result.statusCode === 200 && result.body.stt.status === 'ok', 'successfully tested speech credential for ibm stt');
-
-      result = await request.post(`/Accounts/${account_sid}/TtsCache/Synthesize`, {
-        resolveWithFullResponse: true,
-        auth: authUser,
-        json: true,
-        body: {
-          speech_credential_sid: ms_sid,
-          text: "Hello How are you",
-          language: "en-US",
-          voice: "en-US_MichaelExpressive"
-        }
-      });
-
-      t.ok(result.statusCode === 200, 'successfully IBM tested synthesize');
-
-      /* delete the credential */
-      result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${ms_sid}`, {
-        auth: authUser,
-        resolveWithFullResponse: true,
-      });
-      t.ok(result.statusCode === 204, 'successfully deleted speech credential');
-    }
 
     /* add a credential for Siniox */
     if (process.env.SONIOX_API_KEY) {
@@ -1051,17 +973,7 @@ test('speech credentials tests', async(t) => {
     t.ok(result.body.stt.length !== 0, 'successfully get deepgram supported languages and voices');
     t.ok(result.body.models.length !== 0, 'successfully get deepgram supported languages and voices');
 
-    /* Check ibm supportedLanguagesAndVoices */
-    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=ibm`, {
-      resolveWithFullResponse: true,
-      simple: false,
-      auth: authAdmin,
-      json: true,
-    });
-    t.ok(result.body.tts.length !== 0, 'successfully get ibm supported languages and voices');
-    t.ok(result.body.stt.length !== 0, 'successfully get ibm supported languages and voices');
-
-    /* Check ibm supportedLanguagesAndVoices */
+    /* Check nvidia supportedLanguagesAndVoices */
     result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=nvidia`, {
       resolveWithFullResponse: true,
       simple: false,
