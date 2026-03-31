@@ -1,7 +1,9 @@
 {
   "name": "jambonz-api-server",
   "version": "0.9.6",
-  "description": "",
+  "engines": {
+    "node": ">= 20.0.0"
+  },
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
