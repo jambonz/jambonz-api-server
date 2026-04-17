@@ -3976,6 +3976,10 @@ paths:
                   type: string
                   description: The sip indialog hook to receive session messages
                   example: '/customHook'
+                srtp:
+                  type: boolean
+                  description: If true, use SRTP (SDES) for encrypted media. SDP will use RTP/SAVP with a=crypto lines.
+                  example: true
       responses:
         201:
           description: call successfully created
