@@ -29,11 +29,11 @@ tags:
   - name: SBCs
     description: SBCs operations
   - name: Voip Carriers
-    description: Voip Carriers operations   
+    description: Voip Carriers operations
   - name: Sip Gateways
     description: Sip Gateways operations
   - name: Smpp Gateways
-    description: Smpp Gateways operations   
+    description: Smpp Gateways operations
   - name: Webhooks
     description: Webhooks operations
   - name: Microsoft Teams Tenants
@@ -61,7 +61,7 @@ paths:
                   type: number
                   format: integer
       responses:
-        200:
+        '200':
           description: invite codes successfully generated
           content:
             application/json:
@@ -79,7 +79,7 @@ paths:
                 required:
                   - status
                   - added
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -90,7 +90,7 @@ paths:
       summary: get a list of predefined carriers
       operationId: listPredefinedCarriers
       responses:
-        200:
+        '200':
           description: list of predefined carriers
           content:
             application/json:
@@ -119,18 +119,18 @@ paths:
       summary: add a VoiPCarrier to an account based on PredefinedCarrier template
       operationId: createVoipCarrierFromTemplate
       responses:
-        201:
+        '201':
           description:  voip carrier successfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GeneralError'      
+                $ref: '#/components/schemas/GeneralError'
   /Sbcs:
     post:
       tags:
@@ -153,20 +153,20 @@ paths:
               required:
                 - ipv4
       responses:
-        201:
+        '201':
           description:  sbc address successfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
 
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -185,7 +185,7 @@ paths:
             type: string
             description: return only the SBCs operated for the sole use of this service provider
       responses:
-        200:
+        '200':
           description: list of SBC addresses
           content:
             application/json:
@@ -195,10 +195,10 @@ paths:
                   properties:
                     ipv4:
                       type: string
-                      description: ip address of one of our Sbcs 
+                      description: ip address of one of our Sbcs
                   required:
                     - ipv4
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -215,11 +215,11 @@ paths:
         tags:
           - SBCs
         summary: delete SBC address
-        operationId: deleteSbcAddress      
+        operationId: deleteSbcAddress
         responses:
-          200:
+          '200':
             description: sbc address deleted
-          404:
+          '404':
             description: sbc address not found
   /Smpps:
     get:
@@ -233,7 +233,7 @@ paths:
             type: string
             description: return only the smpp servers operated for the sole use of this service provider
       responses:
-        200:
+        '200':
           description: list of smpp server addresses
           content:
             application/json:
@@ -255,7 +255,7 @@ paths:
                     - port
                     - use_tls
                     - is_primary
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -276,11 +276,11 @@ paths:
               required:
                 - code
       responses:
-        204:
+        '204':
           description: code successfully validated
-        404:
+        '404':
           description: code not found
-        
+
   /ApiKeys:
     post:
       tags:
@@ -303,20 +303,20 @@ paths:
                   type: number
                   description: duration of key validity, in seconds
       responses:
-        201:
+        '201':
           description: api key successfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulApiKeyAdd'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
 
-        500:
+        '500':
           description: bad request
           content:
             application/json:
@@ -333,11 +333,11 @@ paths:
         tags:
           - Api Keys
         summary: delete api key
-        operationId: deleteApiKey          
+        operationId: deleteApiKey
         responses:
-          200:
+          '200':
             description: api key deleted
-          404:
+          '404':
             description: api key or account not found
   /signin:
     post:
@@ -356,7 +356,7 @@ paths:
                 password:
                   type: string
       responses:
-        200:
+        '200':
           description: successfully signed in
           content:
             application/json:
@@ -369,14 +369,16 @@ paths:
                 email: daveh@drachtio.org
                 provider: github
                 provider_userid: davehorton
+                is_active: true
                 pristine: true
                 account_validated: true
                 scope: read-write
-        403:
+                jwt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.example
+        '403':
           description: Invalid password
-        404:
+        '404':
           description: email not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -394,13 +396,13 @@ paths:
             schema:
               $ref: '#/components/schemas/Login'
       responses:
-        200:
+        '200':
           description: user logged in
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessfulLogin' 
-        500:
+                $ref: '#/components/schemas/SuccessfulLogin'
+        '500':
           description: system error
           content:
             application/json:
@@ -413,9 +415,9 @@ paths:
       summary: log out and deactivate the JWT
       operationId: logoutUser
       responses:
-        204:
+        '204':
           description: user logged out
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -436,9 +438,9 @@ paths:
                 email:
                   type: string
       responses:
-        204:
+        '204':
           description: email sent
-        400:
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -446,7 +448,7 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
               example:
                 msg: service_provider_sid is missing
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -469,9 +471,9 @@ paths:
                 new_password:
                   type: string
       responses:
-        204:
+        '204':
           description: password changed
-        400:
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -479,7 +481,7 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
               example:
                 msg: service_provider_sid is missing
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -530,7 +532,7 @@ paths:
                 - service_provider_sid
                 - provider
       responses:
-        200:
+        '200':
           description: user and account created
           content:
             application/json:
@@ -543,11 +545,13 @@ paths:
                 email: daveh@drachtio.org
                 provider: github
                 provider_userid: davehorton
+                is_active: true
                 pristine: true
                 account_validated: true
                 scope: read-write
+                jwt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.example
 
-        400:
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -555,15 +559,15 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
               example:
                 msg: service_provider_sid is missing
-        422:
+        '422':
           description: User exists
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
               example:
-                msg: invalid service_provider_sid   
-        403:
+                msg: invalid service_provider_sid
+        '403':
           description: invalid/expired oauth2 code
           content:
             application/json:
@@ -571,7 +575,7 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
               example:
                 msg: code is expired or invalid
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -582,15 +586,15 @@ paths:
       summary: retrieve upcoming invoice for customer
       operationId: retrieveInvoice
       responses:
-        200:
+        '200':
           description: upcoming invoice
           content:
             application/json:
               schema:
                 type: object
-        404:
+        '404':
           description: Not Found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -603,7 +607,7 @@ paths:
       summary: list all users
       operationId: listUsers
       responses:
-        200:
+        '200':
           description: list of users
           content:
             application/json:
@@ -611,9 +615,9 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/UserList'
-        403:
+        '403':
           description: unauthorized
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -634,19 +638,19 @@ paths:
       summary: retrieve user information
       operationId: getUser
       responses:
-        200:
+        '200':
           description: user information
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserProfile'
-        403:
+        '403':
           description: user information
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -665,7 +669,7 @@ paths:
               properties:
                 name:
                   type: string
-                email: 
+                email:
                   type: string
                 email_activation_code:
                   type: string
@@ -686,15 +690,15 @@ paths:
                   items:
                     type: string
       responses:
-        204:
+        '204':
           description: user updated
-        403:
+        '403':
           description: user update failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -713,7 +717,7 @@ paths:
               properties:
                 name:
                   type: string
-                email: 
+                email:
                   type: string
                 is_active:
                   type: boolean
@@ -729,15 +733,15 @@ paths:
                   type: string
                   description: existing password, which is to be replaced
       responses:
-        204:
+        '204':
           description: user created
-        403:
+        '403':
           description: user creation failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -749,13 +753,13 @@ paths:
       summary: delete a user
       operationId: deleteUser
       responses:
-        204:
+        '204':
           description: user deleted
-        404:
+        '404':
           description: user not found
-        403:
+        '403':
           description: unauthorized
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -768,13 +772,13 @@ paths:
       summary: retrieve details about logged-in user and associated account
       operationId: getMyDetails
       responses:
-        200:
+        '200':
           description: full-ish detail about the logged-in user and account
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserAndAccountDetail'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -803,7 +807,7 @@ paths:
             type: string
             example: mycorp.sip.jambonz.cloud
       responses:
-        200:
+        '200':
           description: indicates whether value is already in use
           content:
             application/json:
@@ -815,7 +819,7 @@ paths:
                     description: true if value requested is available
                 required:
                   - available
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -826,7 +830,7 @@ paths:
       summary: list all prices
       operationId: listPrices
       responses:
-        200:
+        '200':
           description: price listing
           content:
             application/json:
@@ -837,18 +841,18 @@ paths:
       summary: retrieve stripe customer id for an account, creating if necessary
       operationId: getStripeCustomerId
       responses:
-        200:
+        '200':
           description: customer successfully provisioned or retrieved
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  stripe_customer_id: 
+                  stripe_customer_id:
                     type: string
                 required:
                   - stripe_customer_id
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -859,7 +863,7 @@ paths:
       summary: get subscription details from stripe
       operationId: getSubscription
       responses:
-        200:
+        '200':
           description: stripe subscription entity
           content:
             application/json:
@@ -892,14 +896,14 @@ paths:
                       product_sid:
                         type: string
                       price_id:
-                        type: string 
+                        type: string
                       quantity:
                         type: number
                         format: integer
               required:
                 - action
       responses:
-        201:
+        '201':
           description: subscription successfully created
           content:
             application/json:
@@ -919,15 +923,15 @@ paths:
                 required:
                   - status
                   - customer_id
-        400:
+        '400':
           description: bad request
-        500:
+        '500':
           description: system error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-    
+
   /ActivationCode:
     post:
       tags:
@@ -957,11 +961,11 @@ paths:
                   type: string
                   description: the new email or phone number to be activated
       responses:
-        204:
+        '204':
           description: activation code successfully sent
-        404:
+        '404':
           description: User Not Found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -997,15 +1001,15 @@ paths:
                   - email
                   - phone
       responses:
-        204:
+        '204':
           description: activation code validated
-        404:
+        '404':
           description: User or activation code Not Found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1024,7 +1028,7 @@ paths:
       summary: get test phone numbers and applications
       operationId: getTestData
       responses:
-        200:
+        '200':
           description: test data for this service provider
           content:
             application/json:
@@ -1039,9 +1043,9 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Application'
-        404:
+        '404':
           description: Service Provider Not Found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1063,15 +1067,15 @@ paths:
       summary: retrieve webhook
       operationId: getWebhook
       responses:
-        200:
+        '200':
           description: webhook found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Webhook'
-        404:
+        '404':
           description: webhook not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1107,10 +1111,10 @@ paths:
                   example: true
                 requires_register:
                   type: boolean
-                  description: wehther this provider requires us to send a REGISTER to them in order to receive calls
+                  description: whether this provider requires us to send a REGISTER to them in order to receive calls
                 register_use_tls:
                   type: boolean
-                  description: wehther this provider requires us to send a REGISTER use TLS protocol
+                  description: whether this provider requires us to send a REGISTER use TLS protocol
                 register_username:
                   type: string
                   description: sip username to authenticate with, if registration is required
@@ -1144,28 +1148,28 @@ paths:
                 diversion:
                   type: string
                   description: Diversion header or phone number to apply to outbound calls
-              required: 
+              required:
                 - name
       responses:
-        201:
+        '201':
           description: voip carrier successfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1177,7 +1181,7 @@ paths:
       summary: list voip carriers
       operationId: listVoipCarriers
       responses:
-        200:
+        '200':
           description: list of voip carriers
           content:
             application/json:
@@ -1185,7 +1189,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/VoipCarrier'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1206,19 +1210,20 @@ paths:
       summary: delete a voip carrier
       operationId: deleteVoipCarrier
       responses:
-        204:
+        '204':
           description: voip carrier successfully deleted
-        404:
+        '404':
           description: voip carrier not found
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GeneralError'
+                allOf:
+                  - $ref: '#/components/schemas/GeneralError'
                 example:
                   msg: a service provider with active accounts can not be deleted
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1230,15 +1235,15 @@ paths:
       summary: retrieve voip carrier
       operationId: getVoipCarrier
       responses:
-        200:
+        '200':
           description: voip carrier found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/VoipCarrier'
-        404:
+        '404':
           description: voip carrier not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1263,21 +1268,21 @@ paths:
             schema:
               $ref: '#/components/schemas/VoipCarrier'
       responses:
-        204:
+        '204':
           description: voip carrier updated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/VoipCarrier'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        404:
+        '404':
           description: voip carrier not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1310,29 +1315,29 @@ paths:
                   type: boolean
                 outbound:
                   type: boolean
-              required: 
+              required:
                 - voip_carrier_sid
                 - ipv4
       responses:
-        201:
+        '201':
           description: sip gateway successfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1351,7 +1356,7 @@ paths:
             type: string
             description: return only the SipGateways operated for this VoipCarrier
       responses:
-        200:
+        '200':
           description: list of sip gateways
           content:
             application/json:
@@ -1359,7 +1364,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SipGateway'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1380,11 +1385,11 @@ paths:
       summary: delete a sip gateway
       operationId: deleteSipGateway
       responses:
-        204:
+        '204':
           description: sip gateway successfully deleted
-        404:
+        '404':
           description: sip gateway not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1396,15 +1401,15 @@ paths:
       summary: retrieve sip gateway
       operationId: getSipGateway
       responses:
-        200:
+        '200':
           description: sip gateway found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SipGateway'
-        404:
+        '404':
           description: sip gateway not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1421,17 +1426,17 @@ paths:
             schema:
               $ref: '#/components/schemas/SipGateway'
       responses:
-        204:
+        '204':
           description: sip gateway updated
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        404:
+        '404':
           description: sip gateway not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1467,29 +1472,29 @@ paths:
                   type: boolean
                 use_tls:
                   type: boolean
-              required: 
+              required:
                 - voip_carrier_sid
                 - ipv4
       responses:
-        201:
+        '201':
           description: smpp gateway successfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1501,7 +1506,7 @@ paths:
       summary: list smpp gateways
       operationId: listSmppGateways
       responses:
-        200:
+        '200':
           description: list of smpp gateways
           content:
             application/json:
@@ -1509,7 +1514,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SmppGateway'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1530,11 +1535,11 @@ paths:
       summary: delete a smpp gateway
       operationId: deleteSmppGateway
       responses:
-        204:
+        '204':
           description: smpp gateway successfully deleted
-        404:
+        '404':
           description: smpp gateway not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1546,15 +1551,15 @@ paths:
       summary: retrieve smpp gateway
       operationId: getSmppGateway
       responses:
-        200:
+        '200':
           description: smpp gateway found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SmppGateway'
-        404:
+        '404':
           description: smpp gateway not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1571,22 +1576,22 @@ paths:
             schema:
               $ref: '#/components/schemas/SmppGateway'
       responses:
-        204:
+        '204':
           description: smpp gateway updated
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        404:
+        '404':
           description: smpp gateway not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GeneralError' 
+                $ref: '#/components/schemas/GeneralError'
   /PhoneNumbers:
     post:
       tags:
@@ -1611,17 +1616,17 @@ paths:
                 voip_carrier_sid:
                   type: string
                   format: uuid
-              required: 
+              required:
                 - number
                 - voip_carrier_sid
       responses:
-        201:
+        '201':
           description: phone number successfully provisioned
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
@@ -1629,17 +1634,18 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
               example:
                 msg: invalid telephone number format
-        404:
+        '404':
           description: voip carrier not found
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GeneralError'
+                allOf:
+                  - $ref: '#/components/schemas/GeneralError'
                 example:
                   msg: the phone number provided already exists in inventory
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1651,7 +1657,7 @@ paths:
       summary: list phone numbers
       operationId: listProvisionedPhoneNumbers
       responses:
-        200:
+        '200':
           description: list of phone numbers
           content:
             application/json:
@@ -1659,7 +1665,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PhoneNumber'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1680,19 +1686,20 @@ paths:
       summary: delete a phone number
       operationId: deletePhoneNumber
       responses:
-        204:
+        '204':
           description: phone number successfully deleted
-        404:
+        '404':
           description: phone number not found
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GeneralError'
+                allOf:
+                  - $ref: '#/components/schemas/GeneralError'
                 example:
                   msg: phone number that is assigned to an account may not be deleted
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1704,15 +1711,15 @@ paths:
       summary: retrieve phone number
       operationId: getPhoneNumber
       responses:
-        200:
+        '200':
           description: phone number found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PhoneNumber'
-        404:
+        '404':
           description: phone number not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1729,27 +1736,27 @@ paths:
             schema:
               $ref: '#/components/schemas/PhoneNumber'
       responses:
-        204:
+        '204':
           description: phone number updated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/VoipCarrier'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        404:
+        '404':
           description: phone number not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-  
+
   /ServiceProviders:
     post:
       tags:
@@ -1773,22 +1780,23 @@ paths:
                   description: root domain for group of accounts that share a registration hook
                   example: example.com
                 registration_hook:
-                  $ref: '#/components/schemas/Webhook'
+                  allOf:
+                    - $ref: '#/components/schemas/Webhook'
                   description: authentication webhook for registration
                 ms_teams_fqdn:
                   type: string
                   description: SBC domain name for Microsoft Teams
                   example: contoso.com
-              required: 
+              required:
                 - name
       responses:
-        201:
+        '201':
           description: service provider successfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
@@ -1801,7 +1809,7 @@ paths:
       summary: list service providers
       operationId: listServiceProviders
       responses:
-        200:
+        '200':
           description: list of service providers
           content:
             application/json:
@@ -1809,7 +1817,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ServiceProvider'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1831,17 +1839,17 @@ paths:
       summary: delete a service provider
       operationId: deleteServiceProvider
       responses:
-        204:
+        '204':
           description: service provider successfully deleted
-        404:
+        '404':
           description: service provider not found
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1854,21 +1862,21 @@ paths:
       summary: retrieve service provider
       operationId: getServiceProvider
       responses:
-        200:
+        '200':
           description: service provider found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceProvider'
-        404:
+        '404':
           description: service provider not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-                
+
     put:
       tags:
         - Service Providers
@@ -1880,17 +1888,17 @@ paths:
             schema:
               $ref: '#/components/schemas/ServiceProvider'
       responses:
-        204:
+        '204':
           description: service provider updated
-        404:
+        '404':
           description: service provider not found
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -1911,7 +1919,7 @@ paths:
       summary: get all accounts for a service provider
       operationId: getServiceProviderAccounts
       responses:
-        200:
+        '200':
           description: account listing
           content:
             application/json:
@@ -1919,9 +1927,9 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Account'
-        403:
+        '403':
           description: unauthorized
-        404:
+        '404':
           description: service provider not found
 
   /ServiceProviders/{ServiceProviderSid}/VoipCarriers:
@@ -1938,7 +1946,7 @@ paths:
       summary: get all carriers for a service provider
       operationId: getServiceProviderCarriers
       responses:
-        200:
+        '200':
           description: account listing
           content:
             application/json:
@@ -1946,9 +1954,9 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/VoipCarrier'
-        403:
+        '403':
           description: unauthorized
-        404:
+        '404':
           description: service provider not found
     post:
       tags:
@@ -1961,13 +1969,13 @@ paths:
             schema:
               $ref: '#/components/schemas/VoipCarrier'
       responses:
-        201:
+        '201':
           description: service provider successfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        404:
+        '404':
           description: service provider not found
   /ServiceProviders/{ServiceProviderSid}/PredefinedCarriers/{PredefinedCarrierSid}:
     parameters:
@@ -1989,20 +1997,20 @@ paths:
       summary: add a VoiPCarrier to a service provider based on PredefinedCarrier template
       operationId: createVoipCarrierFromTemplateBySP
       responses:
-        201:
+        '201':
           description:  voip carrier successfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
 
-  /ServiceProviders/{ServiceProviderSid}/SpeechCredentials/:
+  /ServiceProviders/{ServiceProviderSid}/SpeechCredentials:
     parameters:
       - name: ServiceProviderSid
         in: path
@@ -2021,13 +2029,13 @@ paths:
             schema:
               $ref: '#/components/schemas/SpeechCredential'
       responses:
-        201:
+        '201':
           description: speech credential successfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        404:
+        '404':
           description: credential not found
   /ServiceProviders/{ServiceProviderSid}/SpeechCredentials/{SpeechCredentialSid}:
     parameters:
@@ -2049,13 +2057,13 @@ paths:
       summary: get a specific speech credential
       operationId: getSpeechCredential
       responses:
-        200:
+        '200':
           description: retrieve speech credentials for a specified account
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SpeechCredential'
-        404:
+        '404':
           description: credential not found
     put:
       tags:
@@ -2068,11 +2076,11 @@ paths:
             schema:
               $ref: '#/components/schemas/SpeechCredentialUpdate'
       responses:
-        204:
+        '204':
           description: credential successfully updated
-        404:
+        '404':
           description: credential not found
-        422:
+        '422':
           description: credential not found
           content:
             application/json:
@@ -2084,9 +2092,9 @@ paths:
       summary: delete a speech credential
       operationId: deleteSpeechCredential
       responses:
-        204:
+        '204':
           description: credential successfully deleted
-        404:
+        '404':
           description: credential not found
   /ServiceProviders/{ServiceProviderSid}/SpeechCredentials/speech/supportedLanguagesAndVoices:
     get:
@@ -2111,13 +2119,13 @@ paths:
           schema:
             type: string
       responses:
-        200:
+        '200':
           description: get supported languages, voices and models
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SpeechLanguagesVoices'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -2143,7 +2151,7 @@ paths:
             type: string
             format: uuid
       responses:
-        200:
+        '200':
           description: credential test results
           content:
             application/json:
@@ -2155,8 +2163,8 @@ paths:
                     properties:
                       status:
                         type: string
-                        enum: 
-                            - success 
+                        enum:
+                            - success
                             - fail
                             - not tested
                       reason:
@@ -2166,14 +2174,14 @@ paths:
                     properties:
                       status:
                         type: string
-                        enum: 
-                            - success 
+                        enum:
+                            - success
                             - fail
                       reason:
                         type: string
-        404:
+        '404':
           description: credential not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -2198,15 +2206,15 @@ paths:
             schema:
               $ref: '#/components/schemas/Limits'
       responses:
-        201:
+        '201':
           description: limit successfully created or updated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        404:
+        '404':
           description: service provider not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -2225,7 +2233,7 @@ paths:
             type: string
             format: uuid
       responses:
-        200:
+        '200':
           description: service provider limits
           content:
             application/json:
@@ -2233,9 +2241,9 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Limits'
-        404:
+        '404':
           description: service provider not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -2255,7 +2263,7 @@ paths:
       summary: get all Least Cost Routings for a service provider
       operationId: getServiceProviderLcrs
       responses:
-        200:
+        '200':
           description: Least cost routing listing
           content:
             application/json:
@@ -2263,9 +2271,9 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Lcr'
-        403:
+        '403':
           description: unauthorized
-        404:
+        '404':
           description: service provider not found
     post:
       tags:
@@ -2285,13 +2293,13 @@ paths:
               required:
                 - name
       responses:
-        201:
+        '201':
           description: service provider Lcr successfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        404:
+        '404':
           description: service provider not found
   /Accounts/{AccountSid}/Limits:
     post:
@@ -2312,15 +2320,15 @@ paths:
             schema:
               $ref: '#/components/schemas/Limits'
       responses:
-        201:
+        '201':
           description: limit successfully created or updated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        404:
+        '404':
           description: account not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -2339,7 +2347,7 @@ paths:
             type: string
             format: uuid
       responses:
-        200:
+        '200':
           description: account limits
           content:
             application/json:
@@ -2347,9 +2355,9 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Limits'
-        404:
+        '404':
           description: account not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -2357,7 +2365,7 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
   /MicrosoftTeamsTenants:
     post:
-      tags: 
+      tags:
         - Microsoft Teams Tenants
       summary: provision a customer tenant for MS Teams
       operationId: createMsTeamsTenant
@@ -2387,31 +2395,31 @@ paths:
                 - account
                 - tenant_fqdn
       responses:
-        201:
+        '201':
           description: tenant successfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
-      tags: 
+      tags:
         - Microsoft Teams Tenants
       summary: list MS Teams tenants
       operationId: listMsTeamsTenants
       responses:
-        200:
+        '200':
           description: list of tenants
           content:
             application/json:
@@ -2419,7 +2427,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/MsTeamsTenant'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -2434,36 +2442,36 @@ paths:
           type: string
           format: uuid
     delete:
-      tags: 
+      tags:
         - Microsoft Teams Tenants
       summary: delete an MS Teams tenant
       operationId: deleteTenant
       responses:
-        204:
+        '204':
           description: tenant successfully deleted
-        404:
+        '404':
           description: tenant not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
     get:
-      tags: 
+      tags:
         - Microsoft Teams Tenants
       summary: retrieve an MS Teams tenant
       operationId: getTenant
       responses:
-        200:
+        '200':
           description: tenant found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/MsTeamsTenant'
-        404:
+        '404':
           description: account not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -2471,7 +2479,7 @@ paths:
                 $ref: '#/components/schemas/GeneralError'
 
     put:
-      tags: 
+      tags:
         - Microsoft Teams Tenants
       summary: update an MS Teams tenant
       operationId: putTenant
@@ -2481,17 +2489,17 @@ paths:
             schema:
               $ref: '#/components/schemas/MsTeamsTenant'
       responses:
-        204:
+        '204':
           description: tenant updated
-        404:
+        '404':
           description: tenant not found
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -2520,38 +2528,40 @@ paths:
                   description: sip realm for registration
                   example: sip.mycompany.com
                 registration_hook:
-                  $ref: '#/components/schemas/Webhook'
+                  allOf:
+                    - $ref: '#/components/schemas/Webhook'
                   description: authentication webhook for registration
                 queue_event_hook:
-                  $ref: '#/components/schemas/Webhook'
+                  allOf:
+                    - $ref: '#/components/schemas/Webhook'
                   description: webhook called when members join or leave a queue
                 service_provider_sid:
                   type: string
                   format: uuid
                   example: 85f9c036-ba61-4f28-b2f5-617c23fa68ff
-              required: 
+              required:
                 - name
                 - service_provider_sid
       responses:
-        201:
+        '201':
           description: account successfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -2564,7 +2574,7 @@ paths:
             post:
               requestBody:
                 description: |
-                  provides details of the authentication request.  The receiving server is responsible for authenticating the 
+                  provides details of the authentication request.  The receiving server is responsible for authenticating the
                   request as per [RFC 2617](https://tools.ietf.org/html/rfc2617)
                 content:
                   application/json:
@@ -2615,7 +2625,7 @@ paths:
                         qop:
                           type: string
                           description: qop value
-                          example: auth 
+                          example: auth
                         cnonce:
                           type: string
                           description: cnonce value
@@ -2623,7 +2633,7 @@ paths:
                         nc:
                           type: string
                           description: nc value
-                          example: 00000001
+                          example: '00000001'
                         response:
                           type: string
                           description: digest value calculated by the client
@@ -2632,8 +2642,8 @@ paths:
                 '200':
                   description: |
                     Your callback should return this HTTP status code in all cases.
-                    if the request was authenticated and you wish to admit 
-                    the client to the network, this is indicated by setting the 'response' 
+                    if the request was authenticated and you wish to admit
+                    the client to the network, this is indicated by setting the 'response'
                     attribute in the body to 'ok'
                   content:
                     application/json:
@@ -2666,7 +2676,7 @@ paths:
                           blacklist:
                             type: number
                             description: |
-                              If provided, represents a period in seconds during which the source IP 
+                              If provided, represents a period in seconds during which the source IP
                               address should be blacklisted by the platform (0 means forever).
 
     get:
@@ -2675,7 +2685,7 @@ paths:
       summary: list accounts
       operationId: listAccounts
       responses:
-        200:
+        '200':
           description: list of accounts
           content:
             application/json:
@@ -2683,7 +2693,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Account'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -2704,17 +2714,17 @@ paths:
       summary: delete an account
       operationId: deleteAccount
       responses:
-        204:
+        '204':
           description: account successfully deleted
-        404:
+        '404':
           description: account not found
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -2726,15 +2736,15 @@ paths:
       summary: retrieve account
       operationId: getAccount
       responses:
-        200:
+        '200':
           description: account found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Account'
-        404:
+        '404':
           description: account not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -2752,17 +2762,17 @@ paths:
             schema:
               $ref: '#/components/schemas/Account'
       responses:
-        204:
+        '204':
           description: account updated
-        404:
+        '404':
           description: account not found
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -2787,7 +2797,7 @@ paths:
       summary: get webhook signing secret, regenerating if requested
       operationId: getWebhookSecret
       responses:
-        200:
+        '200':
           description: secret
           content:
             application/json:
@@ -2796,9 +2806,9 @@ paths:
                 properties:
                   webhook_secret:
                     type: string
-        404:
+        '404':
           description: account not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -2819,7 +2829,7 @@ paths:
       summary: get all api keys for an account
       operationId: getAccountApiKeys
       responses:
-        200:
+        '200':
           description: list of api keys
           content:
             application/json:
@@ -2827,9 +2837,9 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ApiKey'
-        404:
+        '404':
           description: account not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -2855,15 +2865,15 @@ paths:
       summary: add or change the sip realm
       operationId: createSipRealm
       responses:
-        204:
+        '204':
           description: sip_realm updated and DNS entries successfully created
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -2890,19 +2900,19 @@ paths:
             schema:
               $ref: '#/components/schemas/SpeechCredential'
       responses:
-        201:
+        '201':
           description: speech credential successfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -2914,7 +2924,7 @@ paths:
       summary: retrieve all speech credentials for an account
       operationId: listSpeechCredentials
       responses:
-        200:
+        '200':
           description: retrieve speech credentials for a specified account
           content:
             application/json:
@@ -2922,7 +2932,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SpeechCredential'
-        404:
+        '404':
           description: account not found
   /Accounts/{AccountSid}/SpeechCredentials/{SpeechCredentialSid}:
     parameters:
@@ -2944,13 +2954,13 @@ paths:
       summary: get a specific speech credential
       operationId: getSpeechCredentialByAccount
       responses:
-        200:
+        '200':
           description: retrieve speech credentials for a specified account
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SpeechCredential'
-        404:
+        '404':
           description: credential not found
     put:
       tags:
@@ -2963,11 +2973,11 @@ paths:
             schema:
               $ref: '#/components/schemas/SpeechCredentialUpdate'
       responses:
-        204:
+        '204':
           description: credential successfully deleted
-        404:
+        '404':
           description: credential not found
-        422:
+        '422':
           description: credential not found
           content:
             application/json:
@@ -2979,9 +2989,9 @@ paths:
       summary: delete a speech credential
       operationId: deleteSpeechCredentialByAccount
       responses:
-        204:
+        '204':
           description: credential successfully deleted
-        404:
+        '404':
           description: credential not found
   /Accounts/{AccountSid}/SpeechCredentials/speech/supportedLanguagesAndVoices:
     get:
@@ -3006,13 +3016,13 @@ paths:
           schema:
             type: string
       responses:
-        200:
+        '200':
           description: get supported languages, voices and models
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SpeechLanguagesVoices'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -3038,7 +3048,7 @@ paths:
             type: string
             format: uuid
       responses:
-        200:
+        '200':
           description: credential test results
           content:
             application/json:
@@ -3050,8 +3060,8 @@ paths:
                     properties:
                       status:
                         type: string
-                        enum: 
-                            - success 
+                        enum:
+                            - success
                             - fail
                             - not tested
                       reason:
@@ -3061,14 +3071,14 @@ paths:
                     properties:
                       status:
                         type: string
-                        enum: 
-                            - success 
+                        enum:
+                            - success
                             - fail
                       reason:
                         type: string
-        404:
+        '404':
           description: credential not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -3121,10 +3131,7 @@ paths:
         name: answered
         required: false
         schema:
-          type: string
-          enum:
-            - true
-            - false
+          type: boolean
           description: retrieve only answered calls
       - in: query
         name: direction
@@ -3146,7 +3153,7 @@ paths:
       summary: retrieve recent calls for an account
       operationId: listRecentCalls
       responses:
-        200:
+        '200':
           description: retrieve recent call records for a specified account
           content:
             application/json:
@@ -3178,7 +3185,7 @@ paths:
                             format: uuid
                           from:
                             type: string
-                          to: 
+                          to:
                             type: string
                           answered:
                             type: boolean
@@ -3219,11 +3226,11 @@ paths:
                           - terminated_at
                           - answered
                           - direction
-                          - from 
+                          - from
                           - to
                           - sip_status
                           - duration
-        404:
+        '404':
           description: account not found
   /Accounts/{AccountSid}/RecentCalls/{CallId}:
     parameters:
@@ -3244,13 +3251,13 @@ paths:
       summary: retrieve sip trace detail for a call
       operationId: getRecentCallTrace
       responses:
-        200:
+        '200':
           description: retrieve sip trace data
           content:
             application/json:
               schema:
                 type: object
-        404:
+        '404':
           description: account or call not found
   /ServiceProviders/{ServiceProviderSid}/RecentCalls/{CallId}/pcap:
     parameters:
@@ -3271,13 +3278,13 @@ paths:
       summary: retrieve pcap for a call
       operationId: getRecentCallTraceBySP
       responses:
-        200:
+        '200':
           description: retrieve sip trace data
           content:
             application/octet-stream:
               schema:
                 type: object
-        404:
+        '404':
           description: account or call not found
   /ServiceProviders/{ServiceProviderSid}/RecentCalls:
     parameters:
@@ -3326,10 +3333,7 @@ paths:
         name: answered
         required: false
         schema:
-          type: string
-          enum:
-            - true
-            - false
+          type: boolean
           description: retrieve only answered calls
       - in: query
         name: direction
@@ -3357,7 +3361,7 @@ paths:
       summary: retrieve recent calls for an account
       operationId: listRecentCallsBySP
       responses:
-        200:
+        '200':
           description: retrieve recent call records for a specified account
           content:
             application/json:
@@ -3392,7 +3396,7 @@ paths:
                             format: uuid
                           from:
                             type: string
-                          to: 
+                          to:
                             type: string
                           answered:
                             type: boolean
@@ -3433,11 +3437,11 @@ paths:
                           - terminated_at
                           - answered
                           - direction
-                          - from 
+                          - from
                           - to
                           - sip_status
                           - duration
-        404:
+        '404':
           description: account not found
   /ServiceProviders/{ServiceProviderSid}/RecentCalls/{CallId}:
     parameters:
@@ -3458,13 +3462,13 @@ paths:
       summary: retrieve sip trace detail for a call
       operationId: getRecentCallTraceByCallId
       responses:
-        200:
+        '200':
           description: retrieve sip trace data
           content:
             application/json:
               schema:
                 type: object
-        404:
+        '404':
           description: service provider or call not found
   /Accounts/{AccountSid}/RecentCalls/{CallId}/pcap:
     parameters:
@@ -3485,13 +3489,13 @@ paths:
       summary: retrieve pcap for a call
       operationId: getRecentCallTraceByAccount
       responses:
-        200:
+        '200':
           description: retrieve sip trace data
           content:
             application/octet-stream:
               schema:
                 type: object
-        404:
+        '404':
           description: account or call not found
   /ServiceProviders/{ServiceProviderSid}/Alerts:
     parameters:
@@ -3559,7 +3563,7 @@ paths:
       summary: retrieve alerts for a service provider
       operationId: listAlerts
       responses:
-        200:
+        '200':
           description: retrieve alerts for a specified account
           content:
             application/json:
@@ -3603,7 +3607,7 @@ paths:
                           - account_sid
                           - alert_type
                           - message
-        404:
+        '404':
           description: service provider not found
   /Accounts/{AccountSid}/Alerts:
     parameters:
@@ -3671,7 +3675,7 @@ paths:
       summary: retrieve alerts for an account
       operationId: listAlertsByAccount
       responses:
-        200:
+        '200':
           description: retrieve alerts for a specified account
           content:
             application/json:
@@ -3712,7 +3716,7 @@ paths:
                           - account_sid
                           - alert_type
                           - message
-        404:
+        '404':
           description: account not found
   /Applications:
     post:
@@ -3733,13 +3737,16 @@ paths:
                   type: string
                   format: uuid
                 call_hook:
-                  $ref: '#/components/schemas/Webhook'
+                  allOf:
+                    - $ref: '#/components/schemas/Webhook'
                   description: application webhook to handle inbound voice calls
                 call_status_hook:
-                  $ref: '#/components/schemas/Webhook'
+                  allOf:
+                    - $ref: '#/components/schemas/Webhook'
                   description: webhook to report call status events
                 messaging_hook:
-                  $ref: '#/components/schemas/Webhook'
+                  allOf:
+                    - $ref: '#/components/schemas/Webhook'
                   description: application webhook to handle inbound SMS/MMS messages
                 app_json:
                    type: string
@@ -3752,31 +3759,31 @@ paths:
                   type: string
                 speech_recognizer_language:
                   type: string
-              required: 
+              required:
                 - name
                 - account_sid
                 - call_hook
                 - call_status_hook
       responses:
-        201:
+        '201':
           description: application successfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -3788,7 +3795,7 @@ paths:
       summary: list applications
       operationId: listApplications
       responses:
-        200:
+        '200':
           description: list of applications
           content:
             application/json:
@@ -3796,7 +3803,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Application'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -3818,17 +3825,17 @@ paths:
       summary: delete an application
       operationId: deleteApplication
       responses:
-        204:
+        '204':
           description: application successfully deleted
-        404:
+        '404':
           description: application not found
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -3838,16 +3845,17 @@ paths:
       tags:
        - Applications
       summary: retrieve an application
+      operationId: getApplication
       responses:
-        200:
+        '200':
           description: application found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Application'
-        404:
+        '404':
           description: application not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -3864,24 +3872,24 @@ paths:
             schema:
               $ref: '#/components/schemas/Application'
       responses:
-        204:
+        '204':
           description: application updated
-        404:
+        '404':
           description: application not found
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        
-  
+
+
   /Accounts/{AccountSid}/Conferences:
     get:
       tags:
@@ -3895,7 +3903,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        '200':
           description: list of conferences for a specified account
           content:
             application/json:
@@ -3903,13 +3911,13 @@ paths:
                 type: array
                 items:
                   type: string
-        500:
+        '500':
           description: system error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-  
+
   /Accounts/{AccountSid}/Calls:
     post:
       tags:
@@ -3940,10 +3948,12 @@ paths:
                   description: If set to true, the inbound call will ring until the number that was dialed answers the call, and at that point a 200 OK will be sent on the inbound leg.  If false, the inbound call will be answered immediately as the outbound call is placed.
                   example: false
                 call_hook:
-                  $ref: '#/components/schemas/Webhook'
+                  allOf:
+                    - $ref: '#/components/schemas/Webhook'
                   example: {"url": "https://acme.com/callhook", "method": "POST"}
                 call_status_hook:
-                  $ref: '#/components/schemas/Webhook'
+                  allOf:
+                    - $ref: '#/components/schemas/Webhook'
                   example: {"url": "https://acme.com/status", "method": "POST"}
                 from:
                   type: string
@@ -3966,7 +3976,8 @@ paths:
                   description: Initial set of customer-supplied metadata to associate with the call (see jambonz 'tag' verb)
                   example: {"callCount": 10}
                 to:
-                  $ref: '#/components/schemas/Target'
+                  allOf:
+                    - $ref: '#/components/schemas/Target'
                   description: Destination for call
                 headers:
                   type: object
@@ -3977,7 +3988,7 @@ paths:
                   description: The sip indialog hook to receive session messages
                   example: '/customHook'
       responses:
-        201:
+        '201':
           description: call successfully created
           content:
             application/json:
@@ -3989,7 +4000,7 @@ paths:
                     type: string
                     format: uuid
                     example: 2531329f-fb09-4ef7-887e-84e648214436
-        400:
+        '400':
           description: bad request
     get:
       tags:
@@ -4040,7 +4051,7 @@ paths:
             - queued
         description: call status to retrieve
       responses:
-        200:
+        '200':
           description: list of calls for a specified account
           content:
             application/json:
@@ -4048,7 +4059,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Call'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4076,17 +4087,17 @@ paths:
       summary: delete a call
       operationId: deleteCall
       responses:
-        204:
+        '204':
           description: call successfully deleted
-        404:
+        '404':
           description: call not found
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4098,15 +4109,15 @@ paths:
       summary: retrieve a call
       operationId: getCall
       responses:
-        200:
+        '200':
           description: call found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Call'
-        404:
+        '404':
           description: call not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4166,7 +4177,7 @@ paths:
                       type: string
                     headers:
                       type: object
-                record: 
+                record:
                   type: object
                   properties:
                     action:
@@ -4177,7 +4188,7 @@ paths:
                       - pauseCallRecording
                       - resumeCallRecording
                     recordingID:
-                      type: string 
+                      type: string
                     siprecServerURL:
                       type: string
                 conferenceParticipantAction:
@@ -4197,21 +4208,21 @@ paths:
                     tag:
                       type: string
       responses:
-        200:
+        '200':
           description: Accepted
-        202:
+        '202':
           description: Accepted
-        400:
+        '400':
           description: bad request
-        404:
+        '404':
           description: call not found
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4235,7 +4246,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Message'
       responses:
-        201:
+        '201':
           description: call successfully created
           content:
             application/json:
@@ -4249,7 +4260,7 @@ paths:
                     example: 2531329f-fb09-4ef7-887e-84e648214436
                   providerResponse:
                     type: string
-        480:
+        '480':
           description: temporary failure
           content:
             application/json:
@@ -4265,7 +4276,7 @@ paths:
                     type: string
                   smpp_err_code:
                     type: string
-        400:
+        '400':
           description: bad request
   /Accounts/{AccountSid}/Queues:
     parameters:
@@ -4287,7 +4298,7 @@ paths:
       summary: retrieve active queues for an account
       operationId: listQueues
       responses:
-        200:
+        '200':
           description: retrieve active queues records for a specified account
           content:
             application/json:
@@ -4314,7 +4325,7 @@ paths:
       summary: retrieve online sip users for an account
       operationId: listRegisteredSipUsers
       responses:
-        200:
+        '200':
           description: retrieve online sip users for an account
           content:
             application/json:
@@ -4335,7 +4346,7 @@ paths:
               items:
                 type: string
       responses:
-        200:
+        '200':
           description: retrieve online sip users for an account
           content:
             application/json:
@@ -4364,7 +4375,7 @@ paths:
       summary: retrieve registered client registration
       operationId: getRegisteredClient
       responses:
-        200:
+        '200':
           description: registered client found
           content:
             application/json:
@@ -4415,26 +4426,26 @@ paths:
                 - language
                 - voice
       responses:
-        200:
+        '200':
           description: Audio is created
           content:
             audio/mpeg:
               schema:
                 type: string
                 format: binary
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4459,25 +4470,25 @@ paths:
               required:
                 - name
       responses:
-        201:
+        '201':
           description: Least Cost Routing successfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4489,7 +4500,7 @@ paths:
       summary: list least cost routings
       operationId: listLeastCostRoutings
       responses:
-        200:
+        '200':
           description: list of least cost routings
           content:
             application/json:
@@ -4497,7 +4508,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Lcr'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4518,19 +4529,20 @@ paths:
       summary: delete a least cost routing
       operationId: deleteLeastCostRouting
       responses:
-        204:
+        '204':
           description: least cost routing successfully deleted
-        404:
+        '404':
           description: least cost routing not found
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GeneralError'
+                allOf:
+                  - $ref: '#/components/schemas/GeneralError'
                 example:
                   msg: a service provider with active accounts can not be deleted
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4542,15 +4554,15 @@ paths:
       summary: retrieve least cost routing
       operationId: getLeastCostRouting
       responses:
-        200:
+        '200':
           description: least cost routing found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Lcr'
-        404:
+        '404':
           description: least cost routing not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4567,21 +4579,21 @@ paths:
             schema:
               $ref: '#/components/schemas/Lcr'
       responses:
-        204:
+        '204':
           description: least cost routing updated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Lcr'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        404:
+        '404':
           description: least cost routing not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4607,17 +4619,17 @@ paths:
             schema:
               $ref: '#/components/schemas/LcrRoutes'
       responses:
-        204:
+        '204':
           description: least cost routing routes and carrier set entries created
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        404:
+        '404':
           description: least cost routing not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4634,17 +4646,17 @@ paths:
             schema:
               $ref: '#/components/schemas/LcrRoutes'
       responses:
-        204:
+        '204':
           description: least cost routing ruoutes and carrier entries updated
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        404:
+        '404':
           description: least cost routing not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4668,25 +4680,25 @@ paths:
                 - regex
                 - priority
       responses:
-        201:
+        '201':
           description: Least Cost Routing Route successfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4698,7 +4710,7 @@ paths:
       summary: list least cost routings routes
       operationId: listLeastCostRoutingRoutes
       responses:
-        200:
+        '200':
           description: list of least cost routing routes
           content:
             application/json:
@@ -4706,7 +4718,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/LcrRoute'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4727,19 +4739,20 @@ paths:
       summary: delete a least cost routing route
       operationId: deleteLeastCostRoutingRoute
       responses:
-        204:
+        '204':
           description: least cost routing route successfully deleted
-        404:
+        '404':
           description: least cost routing route not found
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GeneralError'
+                allOf:
+                  - $ref: '#/components/schemas/GeneralError'
                 example:
                   msg: a service provider with active accounts can not be deleted
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4751,15 +4764,15 @@ paths:
       summary: retrieve least cost routing route
       operationId: getLeastCostRoutingRoute
       responses:
-        200:
+        '200':
           description: least cost routing route found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/LcrRoute'
-        404:
+        '404':
           description: least cost routing route not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4776,21 +4789,21 @@ paths:
             schema:
               $ref: '#/components/schemas/LcrRoute'
       responses:
-        204:
+        '204':
           description: least cost routing route updated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/LcrRoute'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        404:
+        '404':
           description: least cost routing route not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4814,25 +4827,25 @@ paths:
                 - voip_carrier_sid
                 - priority
       responses:
-        201:
+        '201':
           description: Least Cost Routing Carrier Set Entry successfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4844,7 +4857,7 @@ paths:
       summary: list least cost routings routes
       operationId: listLeastCostRoutingCarrierSetEntries
       responses:
-        200:
+        '200':
           description: list of least cost routing carrier set entries
           content:
             application/json:
@@ -4852,7 +4865,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/LcrCarrierSetEntry'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4873,19 +4886,20 @@ paths:
       summary: delete a least cost routing carrier set entry
       operationId: deleteLeastCostRoutingCarrierSetEntry
       responses:
-        204:
+        '204':
           description: least cost routing carrier set entry successfully deleted
-        404:
+        '404':
           description: least cost routing carrier set entry not found
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GeneralError'
+                allOf:
+                  - $ref: '#/components/schemas/GeneralError'
                 example:
                   msg: a service provider with active accounts can not be deleted
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4897,15 +4911,15 @@ paths:
       summary: retrieve least cost routing carrier set entry
       operationId: getLeastCostRoutingCarrierSetEntry
       responses:
-        200:
+        '200':
           description: least cost routing carrier set entry found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/LcrCarrierSetEntry'
-        404:
+        '404':
           description: least cost routing carrier set entry not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4922,21 +4936,21 @@ paths:
             schema:
               $ref: '#/components/schemas/LcrCarrierSetEntry'
       responses:
-        204:
+        '204':
           description: least cost routing carrier set entry updated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/LcrCarrierSetEntry'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        404:
+        '404':
           description: least cost routing carrier set entry not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -4961,25 +4975,25 @@ paths:
                 - reported_usage
                 - model
       responses:
-        201:
+        '201':
           description: Least Cost Routing Carrier Set Entry successfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessfulAdd'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -5001,7 +5015,7 @@ paths:
           schema:
             type: string
             description: return only the google voice custom operated belong to this account_sid
-            
+
         - in: query
           name: speech_credential_sid
           required: false
@@ -5011,7 +5025,7 @@ paths:
       summary: list google custom voices
       operationId: listGoogleCustomVoices
       responses:
-        200:
+        '200':
           description: list oflist google custom voices
           content:
             application/json:
@@ -5019,7 +5033,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/GoogleCustomVoice'
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -5040,19 +5054,20 @@ paths:
       summary: delete a google custom voice
       operationId: deleteGoogleCustomVoice
       responses:
-        204:
+        '204':
           description: google custom voice successfully deleted
-        404:
+        '404':
           description: google custom voice not found
-        422:
+        '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GeneralError'
+                allOf:
+                  - $ref: '#/components/schemas/GeneralError'
                 example:
                   msg: a service provider with active accounts can not be deleted
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -5064,15 +5079,15 @@ paths:
       summary: retrieve google custom voice
       operationId: getGoogleCustomVoice
       responses:
-        200:
+        '200':
           description: google custom voice found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GoogleCustomVoice'
-        404:
+        '404':
           description: google custom voice not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -5089,21 +5104,21 @@ paths:
             schema:
               $ref: '#/components/schemas/GoogleCustomVoice'
       responses:
-        204:
+        '204':
           description: google custom voice updated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GoogleCustomVoice'
-        400:
+        '400':
           description: bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-        404:
+        '404':
           description: least cost routing carrier set entry not found
-        500:
+        '500':
           description: system error
           content:
             application/json:
@@ -5122,7 +5137,7 @@ components:
         - username
         - password
       properties:
-        token: 
+        token:
           type: string
         user_sid:
           type: string
@@ -5130,18 +5145,18 @@ components:
           type: string
         force_change:
           type: boolean
-    
+
     Login:
       type: object
       properties:
-        username: 
+        username:
           type: string
         password:
-          type: string        
+          type: string
       required:
         - username
         - password
-    
+
     SuccessfulApiKeyAdd:
       type: object
       required:
@@ -5186,7 +5201,8 @@ components:
         root_domain:
           type: string
         registration_hook:
-          $ref: '#/components/schemas/Webhook'
+          allOf:
+            - $ref: '#/components/schemas/Webhook'
           description: authentication webhook for registration
         ms_teams_fqdn:
           type: string
@@ -5217,7 +5233,7 @@ components:
           format: uuid
         application_sid:
           type: string
-          format: uuid          
+          format: uuid
         e164_leading_plus:
           type: boolean
         requires_register:
@@ -5317,7 +5333,8 @@ components:
         sip_realm:
           type: string
         registration_hook:
-          $ref: '#/components/schemas/Webhook'
+          allOf:
+            - $ref: '#/components/schemas/Webhook'
           description: authentication webhook for registration
         device_calling_application_sid:
           type: string
@@ -5341,13 +5358,16 @@ components:
           type: string
           format: uuid
         call_hook:
-          $ref: '#/components/schemas/Webhook'
+          allOf:
+            - $ref: '#/components/schemas/Webhook'
           description: application webhook for inbound voice calls
         call_status_hook:
-          $ref: '#/components/schemas/Webhook'
-          description: webhhok for reporting call status events
+          allOf:
+            - $ref: '#/components/schemas/Webhook'
+          description: webhook for reporting call status events
         messaging_hook:
-          $ref: '#/components/schemas/Webhook'
+          allOf:
+            - $ref: '#/components/schemas/Webhook'
           description: application webhook for inbound SMS/MMS
         speech_synthesis_vendor:
           type: string
@@ -5409,25 +5429,6 @@ components:
         - phone_number_sid
         - number
         - voip_carrier_sid
-    Registration:
-      type: object
-      properties:
-        registration_sid:
-          type: string
-          format: uuid
-        username:
-          type: string
-        domain:
-          type: string
-        sip_contact:
-          type: string
-        sip_user_agent:
-          type: string
-      required:
-        - registration_sid
-        - username
-        - domain
-        - sip_contact
     Webhook:
       type: object
       properties:
@@ -5448,7 +5449,7 @@ components:
           type: string
       required:
         - url
-      example: {"url": "https://acme.com", "method": "POST"}
+      example: {"url": "https://acme.com", "method": "post"}
     MsTeamsTenant:
       type: object
       properties:
@@ -5498,7 +5499,7 @@ components:
           type: string
           enum:
             - inbound
-            - outbound 
+            - outbound
         duration:
           type: integer
         from:
@@ -5626,7 +5627,7 @@ components:
           properties:
             user_sid:
               type: string
-            name: 
+            name:
               type: string
             email:
               type: string
@@ -5699,7 +5700,7 @@ components:
             currency:
               type: string
               enum:
-                - USD 
+                - USD
                 - EUR
             balance:
               type: number
@@ -5763,7 +5764,7 @@ components:
     UserProfile:
       type: object
       properties:
-        user_sid: 
+        user_sid:
           type: string
           example: a5bce31e-a028-45cd-94c4-f121b72fec61
         account_sid:
@@ -5828,142 +5829,6 @@ components:
         - pristine
         - jwt
         - is_active
-    Charge:
-      type: object
-      properties:
-        charge_sid:
-          type: string
-          format: uuid
-        account_sid:
-          type: string
-          format: uuid
-        application_sid:
-          type: string
-          format: uuid
-        billed_at:
-          type: string
-          format: date-time
-        billed_activity:
-          type: string
-          enum:
-            - inbound-call
-            - outbound-call
-            - inbound-sms
-            - outbound-sms
-            - inbound-mms
-            - outbound-mms
-            - tts
-            - stt
-        call_billing_record_sid:
-          type: string
-          format: uuid
-        message_record_sid:
-          type: string
-          format: uuid
-        call_secs_billed:
-          type: number
-          format: integer
-        tts_chars_billed:
-          type: number
-          format: integer
-        stt_secs_billed:
-          type: number
-          format: integer
-        amount_charged:
-          type: number
-          format: double
-      required:
-        - account_sid
-        - billed_activity
-        - amount_charged
-    RecentCalls:
-      type: object
-      properties:
-        account_sid:
-          type: string
-          format: uuid
-        call_sid:
-          type: string
-          format: uuid
-        from:
-          type: string
-        to: 
-          type: string
-        answered:
-          type: boolean
-        sip_call_id:
-          type: string
-        sip_status:
-          type: number
-          format: integer
-        duration:
-          type: number
-          format: integer
-        attempted_at:
-          type: number
-          format: integer
-        answered_at:
-          type: number
-          format: integer
-        terminated_at:
-          type: number
-          format: integer
-        termination_reason:
-          type: string
-        host:
-          type: string
-        remote_host:
-          type: string
-        direction:
-          type: string
-          enum:
-            - inbound
-            - outbound
-        trunk:
-          type: string
-      required:
-        - account_sid
-        - call_sid
-        - attempted_at
-        - terminated_at
-        - answered
-        - direction
-        - from 
-        - to
-        - sip_status
-        - duration
-    Alert:
-      type: object
-      properties:
-        alert_sid:
-          type: string
-          format: uuid
-        call_sid:
-          type: string
-          format: uuid
-        account_sid:
-          type: string
-          format: uuid
-        application_sid:
-          type: string
-          format: uuid
-        occurred_at:
-          type: string
-          format: date-time
-        alert_type:
-          type: string
-          enum:
-          - webhook-failed
-          - bad-application-syntax
-          - speech-operation-failed
-          - limit-exceeded
-        details:
-          type: string
-      required:
-        - alert_sid
-        - account_sid
-        - occurred_at
-        - alert_type
     Product:
       type: object
       properties:
@@ -6180,7 +6045,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LanguageVoice'
-        
+
     SpeechLanguagesVoices:
       type: object
       properties:
@@ -6198,10 +6063,10 @@ components:
             $ref: '#/components/schemas/TtsModel'
     UserList:
       type: object
-      properties:      
+      properties:
         name:
           type: string
-        email: 
+        email:
           type: string
         is_active:
           type: boolean
