@@ -18,10 +18,58 @@ test('sip gateway tests', async(t) => {
     let result;
     const voip_carrier_sid = await createVoipCarrier(request);
 
-    /* add a invalid sip gateway */
+    /* reject 0.0.0.0 as gateway address */
+    result = await request.post('/SipGateways', {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+      simple: false,
+      body: {
+        voip_carrier_sid,
+        ipv4: '0.0.0.0',
+        netmask: 32,
+        inbound: true,
+        outbound: true,
+      }
+    });
+    t.ok(result.statusCode === 400, 'rejects 0.0.0.0 as gateway address');
+
+    /* reject netmask of 0 */
+    result = await request.post('/SipGateways', {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+      simple: false,
+      body: {
+        voip_carrier_sid,
+        ipv4: '1.2.3.4',
+        netmask: 0,
+        inbound: true,
+        outbound: true,
+      }
+    });
+    t.ok(result.statusCode === 400, 'rejects netmask of 0');
+
+    /* reject netmask greater than 32 */
+    result = await request.post('/SipGateways', {
+      resolveWithFullResponse: true,
+      auth: authAdmin,
+      json: true,
+      simple: false,
+      body: {
+        voip_carrier_sid,
+        ipv4: '1.2.3.4',
+        netmask: 33,
+        inbound: true,
+        outbound: true,
+      }
+    });
+    t.ok(result.statusCode === 400, 'rejects netmask greater than 32');
+
+    /* add a invalid sip gateway - env var min netmask */
     const STORED_JAMBONZ_MIN_GATEWAY_NETMASK = process.env.JAMBONZ_MIN_GATEWAY_NETMASK;
     process.env.JAMBONZ_MIN_GATEWAY_NETMASK = 24;
-    
+
     result = await request.post('/SipGateways', {
       resolveWithFullResponse: true,
       auth: authAdmin,
@@ -36,7 +84,7 @@ test('sip gateway tests', async(t) => {
         protocol: 'tcp'
       }
     });
-    t.ok(result.statusCode === 400, 'successfully created sip gateway ');
+    t.ok(result.statusCode === 400, 'rejects netmask below JAMBONZ_MIN_GATEWAY_NETMASK');
 
     result = await request.post('/SipGateways', {
       resolveWithFullResponse: true,
@@ -51,7 +99,7 @@ test('sip gateway tests', async(t) => {
         protocol: 'tcp'
       }
     });
-    t.ok(result.statusCode === 201, 'successfully created sip gateway ');
+    t.ok(result.statusCode === 201, 'successfully created sip gateway with valid netmask');
 
     process.env.JAMBONZ_MIN_GATEWAY_NETMASK = STORED_JAMBONZ_MIN_GATEWAY_NETMASK;
 
