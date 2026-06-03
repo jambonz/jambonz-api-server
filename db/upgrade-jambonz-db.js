@@ -37,6 +37,12 @@ if (rejectUnauthorized !== undefined || sslFilesProvided) {
   };
 }
 
+/* The mapping of version numbers to schema ints here is a little broken its find for 0.x.x releasees but has been changes in the 10.x branch, so take note of the differece.
+The schema version is created by taking the minor number and multiplying it by 100 then concatenating the patch verison so 0.5.6 becomes 5006, major is asumed to always be zero for this line
+This should be followed even if a 0.10.x release was ever made as that would then become 1000x 
+This will also break if the patch version is greater than 9 eg 0.9.10 would become 90010, preventing a 0.10.x
+If we ever get to 0.9.9 and have more schema changes this needs some careful though.
+*/
 
 const sql = {
   '7006': [
