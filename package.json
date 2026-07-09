@@ -1,6 +1,6 @@
 {
   "name": "jambonz-api-server",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "engines": {
     "node": ">= 20.0.0"
   },
