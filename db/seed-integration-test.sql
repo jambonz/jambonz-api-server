@@ -11,10 +11,6 @@ insert into sbc_addresses (sbc_address_sid, ipv4, port)
 values('f6567ae1-bf97-49af-8931-ca014b689995', '52.55.111.178', 5060);
 insert into sbc_addresses (sbc_address_sid, ipv4, port) 
 values('de5ed2f1-bccd-4600-a95e-cef46e9a3a4f', '3.34.102.122', 5060);
-insert into smpp_addresses (smpp_address_sid, ipv4, port, use_tls, is_primary) 
-values('de5ed2f1-bccd-4600-a95e-cef46e9a3a4f', '34.197.99.29', 2775, 0, 1);
-insert into smpp_addresses (smpp_address_sid, ipv4, port, use_tls, is_primary) 
-values('049078a0', '3.209.58.102', 3550, 1, 1);
 
 -- create one service provider and account
 insert into api_keys (api_key_sid, token) 
@@ -69,12 +65,6 @@ insert into predefined_sip_gateways (predefined_sip_gateway_sid, predefined_carr
 VALUES
 ('c9c3643e-9a83-4b78-b172-9c09d911bef5', '17479288-bb9f-421a-89d1-f4ac57af1dca', '174.136.44.213', 32, 5060, 1, 0),
 ('3b5b7fa5-4e61-4423-b921-05c3283b2101', '17479288-bb9f-421a-89d1-f4ac57af1dca', 'sip01.TelecomsXChange.com', 32, 5060, 0, 1);
-
-insert into predefined_smpp_gateways (predefined_smpp_gateway_sid, predefined_carrier_sid, ipv4, netmask, port, inbound, outbound)
-VALUES
-('9b72467a-cfe3-491f-80bf-652c38e666b9', '17479288-bb9f-421a-89d1-f4ac57af1dca', 'smpp01.telecomsxchange.com', 32, 2776, 0, 1),
-('d22883b9-f124-4a89-bab2-4487cf783f64', '17479288-bb9f-421a-89d1-f4ac57af1dca', '174.136.44.11', 32, 2775, 1, 0),
-('fdcf7f1e-1f5f-487b-afb3-c0f75ed0aa3d', '17479288-bb9f-421a-89d1-f4ac57af1dca', '174.136.44.213', 32, 2775, 1, 0);
 
 -- twilio gateways
 insert into predefined_sip_gateways (predefined_sip_gateway_sid, predefined_carrier_sid, ipv4, netmask, port, inbound, outbound)

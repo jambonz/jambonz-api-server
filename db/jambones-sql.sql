@@ -32,8 +32,6 @@ DROP TABLE IF EXISTS permissions;
 
 DROP TABLE IF EXISTS predefined_sip_gateways;
 
-DROP TABLE IF EXISTS predefined_smpp_gateways;
-
 DROP TABLE IF EXISTS predefined_carriers;
 
 DROP TABLE IF EXISTS account_offers;
@@ -52,8 +50,6 @@ DROP TABLE IF EXISTS service_provider_limits;
 
 DROP TABLE IF EXISTS signup_history;
 
-DROP TABLE IF EXISTS smpp_addresses;
-
 DROP TABLE IF EXISTS google_custom_voices;
 
 DROP TABLE IF EXISTS speech_credentials;
@@ -61,8 +57,6 @@ DROP TABLE IF EXISTS speech_credentials;
 DROP TABLE IF EXISTS system_information;
 
 DROP TABLE IF EXISTS users;
-
-DROP TABLE IF EXISTS smpp_gateways;
 
 DROP TABLE IF EXISTS phone_numbers;
 
@@ -220,20 +214,6 @@ predefined_carrier_sid CHAR(36) NOT NULL,
 PRIMARY KEY (predefined_sip_gateway_sid)
 );
 
-CREATE TABLE predefined_smpp_gateways
-(
-predefined_smpp_gateway_sid CHAR(36) NOT NULL UNIQUE ,
-ipv4 VARCHAR(128) NOT NULL COMMENT 'ip address or DNS name of the gateway. ',
-port INTEGER NOT NULL DEFAULT 2775 COMMENT 'smpp signaling port',
-inbound BOOLEAN NOT NULL COMMENT 'if true, whitelist this IP to allow inbound SMS from the gateway',
-outbound BOOLEAN NOT NULL COMMENT 'i',
-netmask INTEGER NOT NULL DEFAULT 32,
-is_primary BOOLEAN NOT NULL DEFAULT 1,
-use_tls BOOLEAN DEFAULT 0,
-predefined_carrier_sid CHAR(36) NOT NULL,
-PRIMARY KEY (predefined_smpp_gateway_sid)
-);
-
 CREATE TABLE products
 (
 product_sid CHAR(36) NOT NULL UNIQUE ,
@@ -314,17 +294,6 @@ email VARCHAR(255) NOT NULL,
 name VARCHAR(255),
 signed_up_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (email)
-);
-
-CREATE TABLE smpp_addresses
-(
-smpp_address_sid CHAR(36) NOT NULL UNIQUE ,
-ipv4 VARCHAR(255) NOT NULL,
-port INTEGER NOT NULL DEFAULT 5060,
-use_tls BOOLEAN NOT NULL DEFAULT 0,
-is_primary BOOLEAN NOT NULL DEFAULT 1,
-service_provider_sid CHAR(36),
-PRIMARY KEY (smpp_address_sid)
 );
 
 CREATE TABLE speech_credentials
@@ -408,11 +377,6 @@ inbound_auth_password VARCHAR(64),
 diversion VARCHAR(32),
 is_active BOOLEAN NOT NULL DEFAULT true,
 created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-smpp_system_id VARCHAR(255),
-smpp_password VARCHAR(64),
-smpp_enquire_link_interval INTEGER DEFAULT 0,
-smpp_inbound_system_id VARCHAR(255),
-smpp_inbound_password VARCHAR(64),
 register_from_user VARCHAR(128),
 register_from_domain VARCHAR(255),
 register_public_ip_in_contact BOOLEAN NOT NULL DEFAULT false,
@@ -429,20 +393,6 @@ user_permissions_sid CHAR(36) NOT NULL UNIQUE ,
 user_sid CHAR(36) NOT NULL,
 permission_sid CHAR(36) NOT NULL,
 PRIMARY KEY (user_permissions_sid)
-);
-
-CREATE TABLE smpp_gateways
-(
-smpp_gateway_sid CHAR(36) NOT NULL UNIQUE ,
-ipv4 VARCHAR(128) NOT NULL,
-port INTEGER NOT NULL DEFAULT 2775,
-netmask INTEGER NOT NULL DEFAULT 32,
-is_primary BOOLEAN NOT NULL DEFAULT 1,
-inbound BOOLEAN NOT NULL DEFAULT 0 COMMENT 'if true, whitelist this IP to allow inbound calls from the gateway',
-outbound BOOLEAN NOT NULL DEFAULT 1 COMMENT 'if true, include in least-cost routing when placing calls to the PSTN',
-use_tls BOOLEAN DEFAULT 0,
-voip_carrier_sid CHAR(36) NOT NULL,
-PRIMARY KEY (smpp_gateway_sid)
 );
 
 CREATE TABLE phone_numbers
@@ -503,7 +453,6 @@ service_provider_sid CHAR(36) COMMENT 'if non-null, this application is a test a
 account_sid CHAR(36) COMMENT 'account that this application belongs to (if null, this is a service provider test application)',
 call_hook_sid CHAR(36) COMMENT 'webhook to call for inbound calls ',
 call_status_hook_sid CHAR(36) COMMENT 'webhook to call for call status events',
-messaging_hook_sid CHAR(36) COMMENT 'webhook to call for inbound SMS/MMS ',
 app_json TEXT,
 speech_synthesis_vendor VARCHAR(64) NOT NULL DEFAULT 'google',
 speech_synthesis_language VARCHAR(12) NOT NULL DEFAULT 'en-US',
@@ -604,10 +553,6 @@ CREATE INDEX predefined_sip_gateway_sid_idx ON predefined_sip_gateways (predefin
 CREATE INDEX predefined_carrier_sid_idx ON predefined_sip_gateways (predefined_carrier_sid);
 ALTER TABLE predefined_sip_gateways ADD FOREIGN KEY predefined_carrier_sid_idxfk (predefined_carrier_sid) REFERENCES predefined_carriers (predefined_carrier_sid);
 
-CREATE INDEX predefined_smpp_gateway_sid_idx ON predefined_smpp_gateways (predefined_smpp_gateway_sid);
-CREATE INDEX predefined_carrier_sid_idx ON predefined_smpp_gateways (predefined_carrier_sid);
-ALTER TABLE predefined_smpp_gateways ADD FOREIGN KEY predefined_carrier_sid_idxfk_1 (predefined_carrier_sid) REFERENCES predefined_carriers (predefined_carrier_sid);
-
 CREATE INDEX product_sid_idx ON products (product_sid);
 CREATE INDEX account_product_sid_idx ON account_products (account_product_sid);
 CREATE INDEX account_subscription_sid_idx ON account_products (account_subscription_sid);
@@ -647,9 +592,6 @@ CREATE INDEX service_provider_sid_idx ON service_provider_limits (service_provid
 ALTER TABLE service_provider_limits ADD FOREIGN KEY service_provider_sid_idxfk_3 (service_provider_sid) REFERENCES service_providers (service_provider_sid) ON DELETE CASCADE;
 
 CREATE INDEX email_idx ON signup_history (email);
-CREATE INDEX smpp_address_sid_idx ON smpp_addresses (smpp_address_sid);
-CREATE INDEX service_provider_sid_idx ON smpp_addresses (service_provider_sid);
-ALTER TABLE smpp_addresses ADD FOREIGN KEY service_provider_sid_idxfk_4 (service_provider_sid) REFERENCES service_providers (service_provider_sid);
 
 CREATE INDEX speech_credential_sid_idx ON speech_credentials (speech_credential_sid);
 CREATE INDEX service_provider_sid_idx ON speech_credentials (service_provider_sid);
@@ -686,10 +628,6 @@ CREATE INDEX user_sid_idx ON user_permissions (user_sid);
 ALTER TABLE user_permissions ADD FOREIGN KEY user_sid_idxfk (user_sid) REFERENCES users (user_sid) ON DELETE CASCADE;
 
 ALTER TABLE user_permissions ADD FOREIGN KEY permission_sid_idxfk (permission_sid) REFERENCES permissions (permission_sid);
-
-CREATE INDEX smpp_gateway_sid_idx ON smpp_gateways (smpp_gateway_sid);
-CREATE INDEX voip_carrier_sid_idx ON smpp_gateways (voip_carrier_sid);
-ALTER TABLE smpp_gateways ADD FOREIGN KEY voip_carrier_sid_idxfk (voip_carrier_sid) REFERENCES voip_carriers (voip_carrier_sid);
 
 CREATE UNIQUE INDEX phone_numbers_unique_idx_voip_carrier_number ON phone_numbers (number,voip_carrier_sid);
 
@@ -733,8 +671,6 @@ ALTER TABLE applications ADD FOREIGN KEY account_sid_idxfk_12 (account_sid) REFE
 ALTER TABLE applications ADD FOREIGN KEY call_hook_sid_idxfk (call_hook_sid) REFERENCES webhooks (webhook_sid);
 
 ALTER TABLE applications ADD FOREIGN KEY call_status_hook_sid_idxfk (call_status_hook_sid) REFERENCES webhooks (webhook_sid);
-
-ALTER TABLE applications ADD FOREIGN KEY messaging_hook_sid_idxfk (messaging_hook_sid) REFERENCES webhooks (webhook_sid);
 
 CREATE INDEX service_provider_sid_idx ON service_providers (service_provider_sid);
 CREATE INDEX name_idx ON service_providers (name);

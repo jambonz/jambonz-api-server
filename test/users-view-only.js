@@ -180,9 +180,6 @@ test('view-only user tests', async(t) => {
             url: 'http://example.com/status',
             method: 'POST'
           },
-          messaging_hook: {
-            url: 'http://example.com/sms'
-          },
           app_json : '[\
               {\
                 "verb": "play",\
@@ -240,9 +237,6 @@ test('view-only user tests', async(t) => {
         call_status_hook: {
           url: 'http://example.com/status',
           method: 'POST'
-        },
-        messaging_hook: {
-          url: 'http://example.com/sms'
         },
         app_json : '[\
             {\

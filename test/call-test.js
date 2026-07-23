@@ -125,9 +125,6 @@ let result = await request.post('/Applications', {
       url: 'http://example.com/status',
       method: 'POST'
     },
-    messaging_hook: {
-      url: 'http://example.com/sms'
-    },
     app_json
   }
 });
