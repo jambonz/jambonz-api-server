@@ -9,10 +9,6 @@ values ('3f35518f-5a0d-4c2e-90a5-2407bb3b36f0', '38700987-c7a4-4685-a5bb-af378f9
 -- one sbc
 insert into sbc_addresses (sbc_address_sid, service_provider_sid, ipv4, port) values ('8d6d0fda-4550-41ab-8e2f-60761d81fe7d', null, '3.39.45.30', '5060');
 
--- two smpp server
-insert into smpp_addresses (smpp_address_sid, service_provider_sid, ipv4, port, use_tls, is_primary) values ('e5e8345b-d533-4c29-940b-57aaccc59f8b', null, '3.39.45.30', '2775', false, true);
-insert into smpp_addresses (smpp_address_sid, service_provider_sid, ipv4, port, use_tls, is_primary) values ('ae060ef3-d5a4-4842-b331-426ec9329fbe', null, '3.39.45.30', '3550', true, true);
-
 -- one voip carrier with one gateway
 insert into voip_carriers (voip_carrier_sid, name) values ('5145b436-2f38-4029-8d4c-fd8c67831c7a', 'my test carrier');
 insert into sip_gateways (sip_gateway_sid, voip_carrier_sid, ipv4, port, inbound, outbound, is_active)

@@ -41,9 +41,6 @@ test('application tests', async(t) => {
           url: 'http://example.com/status',
           method: 'POST'
         },
-        messaging_hook: {
-          url: 'http://example.com/sms'
-        },
         app_json : '[\
             {\
               "verb": "play",\
@@ -70,9 +67,6 @@ test('application tests', async(t) => {
         call_status_hook: {
           url: 'http://example.com/status',
           method: 'POST'
-        },
-        messaging_hook: {
-          url: 'http://example.com/sms'
         },
         app_json : '[\
             {\
@@ -110,7 +104,6 @@ test('application tests', async(t) => {
       json: true,
     });
     t.ok(result.name === 'daveh' , 'successfully retrieved application by sid');
-    t.ok(result.messaging_hook.url === 'http://example.com/sms' , 'successfully retrieved messaging_hook from application');
     t.ok(result.use_for_fallback_speech === 1, 'successfully create use_for_fallback_speech');
     t.ok(result.fallback_speech_synthesis_vendor === 'google', 'successfully create fallback_speech_synthesis_vendor');
     t.ok(result.fallback_speech_synthesis_language === 'en-US', 'successfully create fallback_speech_synthesis_language');
@@ -151,9 +144,6 @@ test('application tests', async(t) => {
         call_hook: {
           url: 'http://example2.com'
         },
-        messaging_hook: {
-          url: 'http://example2.com/mms'
-        },
         app_json : '[\
           {\
             "verb": "hangup",\
@@ -175,12 +165,11 @@ test('application tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully updated application');
 
-    /* validate messaging hook was updated */
+    /* validate application was updated */
     result = await request.get(`/Applications/${sid}`, {
       auth: authAdmin,
       json: true,
     });
-    t.ok(result.messaging_hook.url === 'http://example2.com/mms' , 'successfully updated messaging_hook');
     app_json = JSON.parse(result.app_json);
     t.ok(app_json[0].verb === 'hangup', 'successfully updated app_json from application')
     t.ok(result.record_all_calls === 1, 'successfully updated record_all_calls from application')
@@ -202,15 +191,12 @@ test('application tests', async(t) => {
         call_hook: {
           url: 'http://example2.com'
         },
-        messaging_hook: {
-          url: 'http://example2.com/mms'
-        },
         app_json : null
       }
     });
     t.ok(result.statusCode === 204, 'successfully updated application');
 
-    /* validate messaging hook was updated */
+    /* validate app_json was removed */
     result = await request.get(`/Applications/${sid}`, {
       auth: authAdmin,
       json: true,
@@ -226,9 +212,6 @@ test('application tests', async(t) => {
       body: {
         call_hook: {
           url: 'http://example2.com'
-        },
-        messaging_hook: {
-          url: 'http://example2.com/mms'
         },
         app_json : '[\
           {\
