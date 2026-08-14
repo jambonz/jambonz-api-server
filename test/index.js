@@ -10,6 +10,7 @@ require('./auth');
 require('./sbcs');
 require('./ms-teams');
 require('./speech-credentials');
+require('./speechmatics-url');
 require('./recent-calls');
 require('./users');
 require('./users-view-only');
