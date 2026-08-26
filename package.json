@@ -57,6 +57,7 @@
     "nocache": "4.0.0",
     "passport": "^0.7.0",
     "passport-http-bearer": "^1.0.1",
+    "pg": "^8.22.0",
     "pino": "^8.20.0",
     "short-uuid": "^4.2.2",
     "speechmatics": "^4.0.0",
