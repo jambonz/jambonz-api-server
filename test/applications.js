@@ -52,7 +52,34 @@ test('application tests', async(t) => {
       }
     });
     t.ok(result.statusCode === 400, 'Cant create application with invalid app_json');
-    
+
+    /* messaging_hook was removed with smpp; older clients that still send it must not fail */
+    result = await request.post('/Applications', {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authAdmin,
+      json: true,
+      body: {
+        name: 'legacy-client',
+        account_sid,
+        call_hook: {
+          url: 'http://example.com'
+        },
+        call_status_hook: {
+          url: 'http://example.com/status'
+        },
+        messaging_hook: {
+          url: 'http://example.com/sms'
+        }
+      }
+    });
+    t.ok(result.statusCode === 201, 'messaging_hook is ignored when creating an application');
+    result = await request.delete(`/Applications/${result.body.sid}`, {
+      auth: authAdmin,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 204, 'deleted application created with messaging_hook');
+
     /* add an application */
     result = await request.post('/Applications', {
       resolveWithFullResponse: true,
@@ -195,6 +222,21 @@ test('application tests', async(t) => {
       }
     });
     t.ok(result.statusCode === 204, 'successfully updated application');
+
+    /* messaging_hook is ignored on update too */
+    result = await request.put(`/Applications/${sid}`, {
+      auth: authAdmin,
+      json: true,
+      resolveWithFullResponse: true,
+      simple: false,
+      body: {
+        name: 'daveh',
+        messaging_hook: {
+          url: 'http://example.com/sms'
+        }
+      }
+    });
+    t.ok(result.statusCode === 204, 'messaging_hook is ignored when updating an application');
 
     /* validate app_json was removed */
     result = await request.get(`/Applications/${sid}`, {
