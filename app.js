@@ -144,7 +144,8 @@ const limiter = rateLimit({
         const token = req.headers.authorization?.split(' ')[1] || '127.0.0.1';
         return token;
       case 'ip':
-        return req.headers['x-real-ip'];
+        // req.ip (not a raw header) so this respects trust proxy and cannot be spoofed by the client
+        return req.ip;
       default:
         return '127.0.0.1';
     }
