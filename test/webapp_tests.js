@@ -241,14 +241,13 @@ test('webapp tests', async(t) => {
       t.ok(result.statusCode === 200 && result.body.available === false, 'indicates when subdomain is not available');
     }
 
-    /* retrieve test number and app for a service provider */
+    /* the removed AccountTest route must not be reachable without a credential */
     result = await request.get(`/AccountTest/${theOneAndOnlyServiceProviderSid}`, {
       resolveWithFullResponse: true,
+      simple: false,
       json: true,
     });
-    //console.log(JSON.stringify(result.body));
-    t.ok(result.statusCode === 200 && 
-      result.body.phonenumbers.length === 1 && result.body.applications.length === 1, 'retrieves test number and application');
+    t.ok(result.statusCode === 401, 'AccountTest is not served without authentication');
 
     /* try to update user name passing an invalid uuid */
     try {
