@@ -592,6 +592,79 @@ test('speech credentials tests', async(t) => {
     });
     t.ok(result.statusCode === 204, 'successfully deleted speech credential for elevenlabs');
 
+    /* viadialog: username/password login, password obscured, PUT without password keeps it */
+    result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {
+        vendor: 'viadialog',
+        label: 'vd',
+        use_for_stt: true,
+        use_for_tts: true,
+        username: 'vd-user',
+        password: 'vd-secret-password',
+        slug: 'vd-slug',
+        stt_uri: 'wss://stt.example.com/v1',
+        model_id: 'viadialog-viaspeech-6.3'
+      }
+    });
+    t.ok(result.statusCode === 201, 'added viadialog speech credential');
+    const viadialogSid = result.body.sid;
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/${viadialogSid}`, {auth: authUser, json: true});
+    t.ok(result.username === 'vd-user' && result.slug === 'vd-slug' && result.stt_uri === 'wss://stt.example.com/v1',
+      'viadialog fields are returned');
+    t.ok(result.password === undefined, 'viadialog password is not returned');
+    result = await request.put(`/Accounts/${account_sid}/SpeechCredentials/${viadialogSid}`, {
+      resolveWithFullResponse: true,
+      simple: false,
+      auth: authUser,
+      json: true,
+      body: {vendor: 'viadialog', use_for_stt: true, use_for_tts: true, username: 'vd-user2', tts_uri: 'wss://tts.example.com/x'}
+    });
+    t.ok(result.statusCode === 400, 'a new endpoint without the password is refused');
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/${viadialogSid}`, {auth: authUser, json: true});
+    t.ok(result.username === 'vd-user' && !result.tts_uri, 'a refused update changes nothing');
+    result = await request.put(`/Accounts/${account_sid}/SpeechCredentials/${viadialogSid}`, {
+      resolveWithFullResponse: true,
+      auth: authUser,
+      json: true,
+      body: {vendor: 'viadialog', use_for_stt: true, use_for_tts: true, username: 'vd-user2',
+        stt_uri: 'wss://stt.example.com/v1', tts_uri: 'wss://tts.example.com/x', password: 'vd-secret-password'}
+    });
+    t.ok(result.statusCode === 204, 'updated viadialog speech credential');
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/${viadialogSid}`, {auth: authUser, json: true});
+    t.ok(result.username === 'vd-user2' && result.tts_uri === 'wss://tts.example.com/x' &&
+      result.stt_uri === 'wss://stt.example.com/v1' && result.slug === 'vd-slug', 'viadialog update merged fields');
+    t.ok(result.password === undefined, 'viadialog password still not returned after update');
+    result = await request.get(`/Accounts/${account_sid}/SpeechCredentials/speech/supportedLanguagesAndVoices?vendor=viadialog&create_new=true`, {
+      auth: authUser,
+      json: true,
+    });
+    t.ok(result.tts.some((l) => l.value === 'fr-FR') && result.sttModels.length > 0, 'viadialog languages and voices');
+    result = await request.delete(`/Accounts/${account_sid}/SpeechCredentials/${viadialogSid}`, {
+      auth: authUser,
+      resolveWithFullResponse: true,
+    });
+    t.ok(result.statusCode === 204, 'deleted viadialog speech credential');
+
+    for (const [body, what] of [
+      [{password: undefined}, 'missing password'],
+      [{stt_uri: 'https://stt.example.com/v1'}, 'non-websocket stt_uri'],
+      [{tts_uri: 'wss://h.example,api_uri=https://evil.example/x'}, 'a comma in tts_uri'],
+      [{tts_model_id: 'm}spoken'}, 'a brace in tts_model_id']
+    ]) {
+      result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
+        resolveWithFullResponse: true,
+        simple: false,
+        auth: authUser,
+        json: true,
+        body: {vendor: 'viadialog', use_for_stt: true, username: 'u', password: 'p', slug: 's', ...body}
+      });
+      // credential asserts surface as 500, as for every vendor
+      t.ok(result.statusCode === 500, `rejected viadialog credential with ${what}`);
+    }
+
     /* add a credential for playht */
     result = await request.post(`/Accounts/${account_sid}/SpeechCredentials`, {
       resolveWithFullResponse: true,
