@@ -189,7 +189,6 @@ app.use('/v1', unless(
     '/forgot-password',
     '/signin',
     '/login',
-    '/AccountTest',
     '/InviteCodes',
     '/PredefinedCarriers'
   ], passport.authenticate('bearer', {session: false})));
@@ -199,7 +198,6 @@ app.use('/v1', unless(
     '/forgot-password',
     '/signin',
     '/login',
-    '/AccountTest',
     '/InviteCodes',
     '/PredefinedCarriers',
     '/logout'

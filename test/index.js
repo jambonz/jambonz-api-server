@@ -24,6 +24,7 @@ require('./system-information');
 require('./lcr-carriers-set-entries');
 require('./lcr-routes');
 require('./lcrs');
+require('./user-scope-escalation');
 require('./tts-cache');
 require('./clients');
 require('./docker_stop');

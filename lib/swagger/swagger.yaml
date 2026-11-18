@@ -969,43 +969,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GeneralError'
-  /AccountTest/{ServiceProviderSid}:
-    parameters:
-    - name: ServiceProviderSid
-      in: path
-      required: true
-      style: simple
-      explode: false
-      schema:
-        type: string
-    get:
-      summary: get test phone numbers and applications
-      operationId: getTestData
-      responses:
-        200:
-          description: test data for this service provider
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  phonenumbers:
-                    type: array
-                    items:
-                      type: string
-                  applications:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Application'
-        404:
-          description: Service Provider Not Found
-        500:
-          description: system error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GeneralError'
-
   /Webhooks/{WebhookSid}:
     parameters:
       - name: WebhookSid
